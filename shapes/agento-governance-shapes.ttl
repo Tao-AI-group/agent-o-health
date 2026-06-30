@@ -1,0 +1,131 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+report:ClinicalDecisionSupportGovernanceShape
+  a sh:NodeShape ;
+  sh:targetClass health:ClinicalDecisionSupportAgent ;
+  sh:property [
+    sh:path gov:hasAccountabilityRole ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Clinical decision-support agents should declare an accountability role."@en
+  ] ;
+  sh:property [
+    sh:path gov:hasAutomationLevel ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Clinical decision-support agents should declare the allowed automation level."@en
+  ] ;
+  sh:property [
+    sh:path gov:hasRisk ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Clinical decision-support agents should identify at least one governance risk."@en
+  ] ;
+  sh:property [
+    sh:path gov:monitoredBy ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Clinical decision-support agents should declare a post-deployment monitoring rule."@en
+  ] ;
+  sh:sparql [
+    sh:severity sh:Warning ;
+    sh:message "Clinical decision-support agents should declare either human review for generated actions or an override mechanism."@en ;
+    sh:select """
+      PREFIX core: <https://w3id.org/agent-o/core#>
+      PREFIX gov: <https://w3id.org/agent-o/gov#>
+      SELECT $this WHERE {
+        FILTER NOT EXISTS {
+          $this core:generates ?action .
+          ?action gov:requiresReview ?review .
+        }
+        FILTER NOT EXISTS {
+          ?policy gov:constrains $this ;
+                  gov:enablesOverride ?override .
+        }
+      }
+    """
+  ] .
+
+report:PatientFacingGovernanceShape
+  a sh:NodeShape ;
+  sh:targetClass health:PatientFacingAgent ;
+  sh:property [
+    sh:path report:hasIntendedUser ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Patient-facing agents should declare the intended audience."@en
+  ] ;
+  sh:sparql [
+    sh:severity sh:Warning ;
+    sh:message "Patient-facing agents should generate at least one patient-facing output with a declared output category."@en ;
+    sh:select """
+      PREFIX core: <https://w3id.org/agent-o/core#>
+      PREFIX health: <https://w3id.org/agent-o/health#>
+      SELECT $this WHERE {
+        FILTER NOT EXISTS {
+          $this core:generates ?output .
+          ?output health:hasOutputCategory ?category .
+        }
+      }
+    """
+  ] .
+
+report:HealthPHIGovernanceShape
+  a sh:NodeShape ;
+  sh:targetClass health:HealthAgent ;
+  sh:sparql [
+    sh:severity sh:Warning ;
+    sh:message "Health agents whose privacy constraint contains PHI should declare a compliance requirement."@en ;
+    sh:select """
+      PREFIX gov: <https://w3id.org/agent-o/gov#>
+      SELECT $this WHERE {
+        $this gov:hasPrivacyConstraint ?privacyConstraint .
+        ?privacyConstraint gov:containsPHI true .
+        FILTER NOT EXISTS {
+          $this gov:requiresCompliance ?complianceRequirement .
+        }
+      }
+    """
+  ] .
+
+report:HighRiskGovernanceShape
+  a sh:NodeShape ;
+  sh:targetClass core:Agent ;
+  sh:sparql [
+    sh:severity sh:Warning ;
+    sh:message "High-risk agents should have a constraining policy with both fallback and escalation."@en ;
+    sh:select """
+      PREFIX gov: <https://w3id.org/agent-o/gov#>
+      SELECT $this WHERE {
+        $this gov:hasRisk ?risk .
+        ?risk gov:hasSeverity ?severity .
+        FILTER regex(lcase(str(?severity)), "high|critical")
+        FILTER NOT EXISTS {
+          ?policy gov:constrains $this ;
+                  gov:hasFallbackStrategy ?fallbackStrategy ;
+                  gov:triggersEscalation ?escalationEvent .
+        }
+      }
+    """
+  ] .
+
+report:GovernanceProfileShape
+  a sh:NodeShape ;
+  sh:targetClass report:GovernanceProfile ;
+  sh:property [
+    sh:path gov:hasEthicalPrinciple ;
+    sh:minCount 3 ;
+    sh:severity sh:Warning ;
+    sh:message "Governance profiles should include multiple ethical or governance principles."@en
+  ] ;
+  sh:property [
+    sh:path report:alignsWithGuideline ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Governance profiles should identify their external guideline references."@en
+  ] .

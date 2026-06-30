@@ -1,0 +1,543 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusEvaluation> a eval:EvaluationStudy ;
+    core:hasName "Consensus matrix system benchmark evaluation" ;
+    eval:evaluates <https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixSystem> ;
+    eval:producesResult <https://w3id.org/agent-o/examples/eval-demo#ConsensusAverageAccuracyResult>,
+        <https://w3id.org/agent-o/examples/eval-demo#ConsensusExpertRatingResult>,
+        <https://w3id.org/agent-o/examples/eval-demo#ConsensusKendallWResult>,
+        <https://w3id.org/agent-o/examples/eval-demo#ConsensusRateResult> ;
+    eval:usesDataset <https://w3id.org/agent-o/examples/eval-demo#DDXPlusDataset>,
+        <https://w3id.org/agent-o/examples/eval-demo#MedBulletsDataset>,
+        <https://w3id.org/agent-o/examples/eval-demo#MedQADataset>,
+        <https://w3id.org/agent-o/examples/eval-demo#PubMedQADataset>,
+        <https://w3id.org/agent-o/examples/eval-demo#SymCatDataset> .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusSafetyPolicy> a gov:Policy ;
+    core:hasName "Human oversight and privacy compliance policy" ;
+    gov:constrains <https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixSystem> ;
+    gov:definesAutomationLevel <https://w3id.org/agent-o/examples/eval-demo#HumanInTheLoopOperation> ;
+    gov:triggersEscalation <https://w3id.org/agent-o/examples/eval-demo#ConsensusEscalation> .
+
+<https://w3id.org/agent-o/examples/eval-demo#F1Metric> a eval:Metric ;
+    core:hasName "F1 score" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProEvaluation> a eval:EvaluationStudy ;
+    core:hasName "MedAgent-Pro multimodal diagnosis evaluation" ;
+    eval:evaluates <https://w3id.org/agent-o/examples/eval-demo#MedAgentPro> ;
+    eval:producesResult <https://w3id.org/agent-o/examples/eval-demo#MedAgentProGlaucomaBalancedAccuracy>,
+        <https://w3id.org/agent-o/examples/eval-demo#MedAgentProMIMICBalancedAccuracy>,
+        <https://w3id.org/agent-o/examples/eval-demo#MedAgentProNEJMAccuracy> ;
+    eval:usesDataset <https://w3id.org/agent-o/examples/eval-demo#MIMICDataset>,
+        <https://w3id.org/agent-o/examples/eval-demo#MITEADataset>,
+        <https://w3id.org/agent-o/examples/eval-demo#NEJMDataset>,
+        <https://w3id.org/agent-o/examples/eval-demo#REFUGE2Dataset> .
+
+<https://w3id.org/agent-o/examples/eval-demo#AnalyticDatasetCompositionSkill> a core:Skill ;
+    core:hasName "Analytic dataset composition" .
+
+<https://w3id.org/agent-o/examples/eval-demo#AzureOpenAIEndpoint> a core:Tool ;
+    core:hasName "Azure OpenAI endpoint via Apigee" .
+
+<https://w3id.org/agent-o/examples/eval-demo#BaseCohortGenerationSkill> a core:Skill ;
+    core:hasName "Base cohort SQL generation" ;
+    core:implementedBy <https://w3id.org/agent-o/examples/eval-demo#BaseCohortModule> .
+
+<https://w3id.org/agent-o/examples/eval-demo#BaseCohortModule> a core:ExecutionUnit ;
+    core:produces <https://w3id.org/agent-o/examples/eval-demo#BaseCohortSQLAction> .
+
+<https://w3id.org/agent-o/examples/eval-demo#CareComplexityAssessmentSkill> a core:Skill ;
+    core:hasName "Care complexity assessment" .
+
+<https://w3id.org/agent-o/examples/eval-demo#CodingModuleTool> a core:Tool ;
+    core:hasName "Coding module tool" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusAverageAccuracyResult> a eval:MetricResult ;
+    eval:forMetric <https://w3id.org/agent-o/examples/eval-demo#AccuracyMetric> ;
+    eval:hasUnit "percent" ;
+    eval:hasValue 87.5 .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusComplexCaseTrigger> a gov:TriggerCondition ;
+    core:hasName "Low consensus, rare disease, conflicting evidence, ethical dilemma, or resource conflict" ;
+    gov:conditionExpression "KendallW <= 0.7 OR rare_disease OR conflicting_evidence OR ethical_dilemma OR resource_conflict" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusComplianceRequirement> a gov:ComplianceRequirement ;
+    core:hasName "HIPAA/GDPR compliance requirement" ;
+    gov:complianceFramework "HIPAA/GDPR" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusDecisionTrace> a doc:LineageTrace ;
+    core:hasDescription "Final recommendations are supported by agent reasoning, confidence-weighted treatment preferences, Kendall's W agreement, guideline/literature evidence chains, and GRADE evidence assessment." .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusEscalation> a gov:EscalationEvent ;
+    core:hasName "Escalation for non-consensus oncology recommendation" ;
+    gov:escalatesTo <https://w3id.org/agent-o/examples/eval-demo#OncologistAgent> ;
+    gov:triggeredBy <https://w3id.org/agent-o/examples/eval-demo#ConsensusComplexCaseTrigger> .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusExpertRatingResult> a eval:MetricResult ;
+    eval:forMetric <https://w3id.org/agent-o/examples/eval-demo#ExpertRatingMetric> ;
+    eval:hasUnit "score_out_of_10" ;
+    eval:hasValue 8.9 .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusFormationSkill> a core:Skill ;
+    core:hasName "Consensus matrix formation" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusKendallWResult> a eval:MetricResult ;
+    eval:forMetric <https://w3id.org/agent-o/examples/eval-demo#KendallWMetric> ;
+    eval:hasUnit "coefficient" ;
+    eval:hasValue 0.823 .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusKendallWScore> a gov:ConfidenceScore ;
+    core:hasName "Mean Kendall's W consensus coefficient" ;
+    gov:confidenceValue 0.823 .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixEngine> a core:Tool ;
+    core:hasName "Consensus matrix computation engine" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixPaper> a doc:Reference ;
+    core:hasName "Multi-Agent Medical Decision Consensus Matrix System: An Intelligent Collaborative Framework for Oncology MDT Consultations" ;
+    doc:sourceURI "paper_extraction_parsing/paper_list/extracted_content/Multi-Agent Medical Decision Consensus Matrix System An Intelligent Collaborative Framework for/vlm/Multi-Agent Medical Decision Consensus Matrix System An Intelligent Collaborative Framework for.md"^^xsd:anyURI .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixTrace> a doc:LineageTrace ;
+    core:hasDescription "Seven role-specialized agents retrieve role-conditioned evidence, generate preference vectors, update a consensus matrix, compute Kendall's W, identify discordant agents, and refine recommendations over at most three rounds." .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusPrivacyConstraint> a gov:PrivacyConstraint ;
+    core:hasName "De-identification and access control for clinical cases" ;
+    gov:containsPHI true .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusRateMetric> a eval:Metric ;
+    core:hasName "Consensus achievement rate" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusRateResult> a eval:MetricResult ;
+    eval:forMetric <https://w3id.org/agent-o/examples/eval-demo#ConsensusRateMetric> ;
+    eval:hasUnit "percent" ;
+    eval:hasValue 89.3 .
+
+<https://w3id.org/agent-o/examples/eval-demo#CriteriaDecompositionModule> a core:ExecutionUnit ;
+    core:produces <https://w3id.org/agent-o/examples/eval-demo#CriteriaListAction> .
+
+<https://w3id.org/agent-o/examples/eval-demo#CriteriaDecompositionSkill> a core:Skill ;
+    core:hasName "Criteria decomposition" ;
+    core:implementedBy <https://w3id.org/agent-o/examples/eval-demo#CriteriaDecompositionModule> .
+
+<https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagConstructionSkill> a core:Skill ;
+    core:hasName "Criteria flag construction" ;
+    core:implementedBy <https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagModule> .
+
+<https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagModule> a core:ExecutionUnit ;
+    core:produces <https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagSQLAction> .
+
+<https://w3id.org/agent-o/examples/eval-demo#DDXPlusDataset> a eval:Dataset ;
+    core:hasName "DDXPlus" .
+
+<https://w3id.org/agent-o/examples/eval-demo#DiseaseLevelPlanningSkill> a core:Skill ;
+    core:hasName "Disease-level standardized plan generation" .
+
+<https://w3id.org/agent-o/examples/eval-demo#DiseaseSpecificDiagnosticPlanner> a core:Planner ;
+    core:hasName "Disease-specific diagnostic planner" ;
+    core:selects <https://w3id.org/agent-o/examples/eval-demo#EvidenceBasedReasoningSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#QuantitativeAnalysisSkill> .
+
+<https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisModule> a core:ExecutionUnit ;
+    core:produces <https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisAction> .
+
+<https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisSkill> a core:Skill ;
+    core:hasName "Endpoint analysis" ;
+    core:implementedBy <https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisModule> .
+
+<https://w3id.org/agent-o/examples/eval-demo#EvidenceRetrievalModule> a core:Tool ;
+    core:hasName "Evidence retrieval module" .
+
+<https://w3id.org/agent-o/examples/eval-demo#EvidenceTraceabilitySkill> a core:Skill ;
+    core:hasName "Evidence-chain traceability" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ExpertRatingMetric> a eval:Metric ;
+    core:hasName "Clinical expert rating" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ExplanationGenerationSystem> a core:Tool ;
+    core:hasName "Explanation generation system" .
+
+<https://w3id.org/agent-o/examples/eval-demo#FlywheelEventLog> a core:MemoryModule ;
+    core:hasName "Flywheel event log" .
+
+<https://w3id.org/agent-o/examples/eval-demo#FullyAutonomousOperation> a gov:FullAutomation ;
+    core:hasName "Fully autonomous operation" .
+
+<https://w3id.org/agent-o/examples/eval-demo#GuidelineRetrievalSkill> a core:Skill ;
+    core:hasName "Medical guideline retrieval" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ImagingInterpretationSkill> a core:Skill ;
+    core:hasName "Imaging interpretation" .
+
+<https://w3id.org/agent-o/examples/eval-demo#KendallWMetric> a eval:Metric ;
+    core:hasName "Kendall's W" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MCPBigQueryEnvironment> a core:ExecutionEnvironment ;
+    core:hasName "Mayo Clinic Platform BigQuery environment" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MCPSchemaLibrary> a core:Tool ;
+    core:hasName "mcp_schema library" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MITEADataset> a eval:Dataset ;
+    core:hasName "MITEA" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentPro> a core:Agent ;
+    core:generates <https://w3id.org/agent-o/examples/eval-demo#MedAgentProDiagnosisAction> ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#DiseaseLevelPlanningSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#EvidenceBasedReasoningSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#PatientLevelReasoningSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#QuantitativeAnalysisSkill> ;
+    core:hasDescription "Evidence-based multimodal medical diagnosis workflow with disease-level planning and patient-level reasoning." ;
+    core:hasName "MedAgent-Pro" ;
+    core:invokesAgent <https://w3id.org/agent-o/examples/eval-demo#MedAgentProRAGAgent> ;
+    core:usesPlanner <https://w3id.org/agent-o/examples/eval-demo#DiseaseSpecificDiagnosticPlanner> ;
+    core:usesReasoner <https://w3id.org/agent-o/examples/eval-demo#VLMReasoner> ;
+    core:usesTool <https://w3id.org/agent-o/examples/eval-demo#CodingModuleTool>,
+        <https://w3id.org/agent-o/examples/eval-demo#SegmentationTool>,
+        <https://w3id.org/agent-o/examples/eval-demo#VisualModelTool> ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#MedAgentProTrace> ;
+    doc:hasReference <https://w3id.org/agent-o/examples/eval-demo#MedAgentProPaper> ;
+    gov:hasAutomationLevel <https://w3id.org/agent-o/examples/eval-demo#FullyAutonomousOperation> .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProDiagnosisAction> a core:ProposedAction ;
+    core:hasName "Evidence-based diagnosis recommendation" ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#MedAgentProGlaucomaDecisionTrace> ;
+    gov:hasConfidenceScore <https://w3id.org/agent-o/examples/eval-demo#MedAgentProGlaucomaRiskScore> ;
+    gov:hasUncertainty <https://w3id.org/agent-o/examples/eval-demo#MedAgentProDiscHemorrhageUncertainty> ;
+    gov:requiresReview <https://w3id.org/agent-o/examples/eval-demo#ClinicalExpertReviewRequirement> .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProDiscHemorrhageUncertainty> a gov:Uncertainty ;
+    core:hasName "Uncertainty for optic disc hemorrhage observation" ;
+    gov:uncertaintyValue 0.35 .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProGlaucomaBalancedAccuracy> a eval:MetricResult ;
+    eval:appliesToDataset <https://w3id.org/agent-o/examples/eval-demo#REFUGE2Dataset> ;
+    eval:forMetric <https://w3id.org/agent-o/examples/eval-demo#BalancedAccuracyMetric> ;
+    eval:hasUnit "percent" ;
+    eval:hasValue 90.4 .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProGlaucomaDecisionTrace> a doc:LineageTrace ;
+    core:hasDescription "For glaucoma, retrieved guidelines define indicators; segmentation tools produce optic cup/disc masks; coding computes vertical cup-to-disc ratio; VLM observes peripapillary atrophy and uncertain disc hemorrhage; weighted score 0.65 exceeds threshold 0.4." .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProGlaucomaRiskScore> a gov:ConfidenceScore ;
+    core:hasName "Glaucoma final risk score" ;
+    gov:confidenceValue 0.65 .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProMIMICBalancedAccuracy> a eval:MetricResult ;
+    eval:appliesToDataset <https://w3id.org/agent-o/examples/eval-demo#MIMICDataset> ;
+    eval:forMetric <https://w3id.org/agent-o/examples/eval-demo#BalancedAccuracyMetric> ;
+    eval:hasUnit "percent" ;
+    eval:hasValue 72.0 .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProNEJMAccuracy> a eval:MetricResult ;
+    eval:appliesToDataset <https://w3id.org/agent-o/examples/eval-demo#NEJMDataset> ;
+    eval:forMetric <https://w3id.org/agent-o/examples/eval-demo#AccuracyMetric> ;
+    eval:hasUnit "percent" ;
+    eval:hasValue 81.7 .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProRAGAgent> a core:Agent ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#GuidelineRetrievalSkill> ;
+    core:hasName "MedAgent-Pro RAG agent" ;
+    core:usesResource <https://w3id.org/agent-o/examples/eval-demo#MedlinePlusKnowledgeBase> ;
+    doc:hasReference <https://w3id.org/agent-o/examples/eval-demo#MedAgentProPaper> .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProTrace> a doc:LineageTrace ;
+    core:hasDescription "Disease query retrieves guideline chunks, VLM creates a diagnostic plan, available patient data selects executable steps, visual/coding tools compute indicators, VLM assesses reliability, and weighted risk score supports the final diagnosis." .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedBulletsDataset> a eval:Dataset ;
+    core:hasName "MedBullets" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedQADataset> a eval:Dataset ;
+    core:hasName "MedQA" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedlinePlusKnowledgeBase> a core:Resource ;
+    core:hasName "MedlinePlus knowledge base" .
+
+<https://w3id.org/agent-o/examples/eval-demo#NutritionalAssessmentSkill> a core:Skill ;
+    core:hasName "Nutritional assessment" .
+
+<https://w3id.org/agent-o/examples/eval-demo#OncologyTreatmentPreferenceSkill> a core:Skill ;
+    core:hasName "Oncology treatment preference scoring" .
+
+<https://w3id.org/agent-o/examples/eval-demo#OncologyTreatmentRecommendationAction> a core:ProposedAction ;
+    core:hasName "Oncology treatment recommendation" ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#ConsensusDecisionTrace> ;
+    gov:hasConfidenceScore <https://w3id.org/agent-o/examples/eval-demo#ConsensusKendallWScore> ;
+    gov:requiresReview <https://w3id.org/agent-o/examples/eval-demo#ClinicalExpertReviewRequirement> .
+
+<https://w3id.org/agent-o/examples/eval-demo#OntoCodexFramework> a core:Tool ;
+    core:hasName "OntoCodex Framework" .
+
+<https://w3id.org/agent-o/examples/eval-demo#PatientLevelReasoningSkill> a core:Skill ;
+    core:hasName "Patient-level personalized reasoning" .
+
+<https://w3id.org/agent-o/examples/eval-demo#PatientValueAlignmentSkill> a core:Skill ;
+    core:hasName "Patient value alignment" .
+
+<https://w3id.org/agent-o/examples/eval-demo#PsychologicalImpactAssessmentSkill> a core:Skill ;
+    core:hasName "Psychological impact assessment" .
+
+<https://w3id.org/agent-o/examples/eval-demo#PubMedQADataset> a eval:Dataset ;
+    core:hasName "PubMedQA" .
+
+<https://w3id.org/agent-o/examples/eval-demo#RLConsensusOptimizationSkill> a core:Skill ;
+    core:hasName "Reinforcement learning consensus optimization" .
+
+<https://w3id.org/agent-o/examples/eval-demo#RLOptimizer> a core:Tool ;
+    core:hasName "Q-Learning/PPO/DQN optimizer" .
+
+<https://w3id.org/agent-o/examples/eval-demo#RehabilitationFeasibilitySkill> a core:Skill ;
+    core:hasName "Rehabilitation feasibility assessment" .
+
+<https://w3id.org/agent-o/examples/eval-demo#RetrievalMappingModule> a core:ExecutionUnit ;
+    core:produces <https://w3id.org/agent-o/examples/eval-demo#RetrievalSpecAction> .
+
+<https://w3id.org/agent-o/examples/eval-demo#RetrievalMappingSkill> a core:Skill ;
+    core:hasName "Retrieval mapping" ;
+    core:implementedBy <https://w3id.org/agent-o/examples/eval-demo#RetrievalMappingModule> .
+
+<https://w3id.org/agent-o/examples/eval-demo#RoleSpecializedCollaborationSkill> a core:Skill ;
+    core:hasName "Role-specialized collaboration" .
+
+<https://w3id.org/agent-o/examples/eval-demo#SQLLinter> a core:Tool ;
+    core:hasName "sql_linter module" .
+
+<https://w3id.org/agent-o/examples/eval-demo#SegmentationTool> a core:Tool ;
+    core:hasName "Segmentation model tool" .
+
+<https://w3id.org/agent-o/examples/eval-demo#StudyIntakeSkill> a core:Skill ;
+    core:hasName "Study intake" .
+
+<https://w3id.org/agent-o/examples/eval-demo#StudyIntakeStep> a core:WorkflowStep ;
+    core:hasName "Study Intake" ;
+    core:precedesStep <https://w3id.org/agent-o/examples/eval-demo#CriteriaDecompositionStep> .
+
+<https://w3id.org/agent-o/examples/eval-demo#SymCatDataset> a eval:Dataset ;
+    core:hasName "SymCat" .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialAgentDoc> a doc:Reference ;
+    core:hasName "Trial Simulation Assistance Tool v1.7 internal documentation" ;
+    doc:sourceURI "trial_agent/agent.md"^^xsd:anyURI .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialAgentProvenance> a doc:ProvenanceRecord ;
+    core:hasDescription "Derived from trial_agent/agent.md sections 2.1-2.9." ;
+    doc:sourceURI "trial_agent/agent.md"^^xsd:anyURI .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialAgentTrace> a doc:LineageTrace ;
+    core:hasDescription "Study intake workbook, criteria decomposition, retrieval mapping, SQL generation, linting, user edits, and flywheel event logs form an audit trail for reproducing cohort construction." .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialCriteriaTrace> a doc:LineageTrace ;
+    core:hasDescription "Eligibility text is parsed into atomic inclusion/exclusion/common/intervention/comparator criteria and reviewed by the user before confirmation." .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialEndpointTrace> a doc:LineageTrace ;
+    core:hasDescription "Endpoint definitions are decomposed, mapped to data domains, and converted into analytic dataset and inferential analysis specifications." .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialRetrievalTrace> a doc:LineageTrace ;
+    core:hasDescription "Atomic criteria are mapped to MCP tables, fields, ICD-10-CM, CPT, HCPCS, RxNorm, LOINC codes, and keywords; ambiguous mappings become review issues." .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialSimulationWorkflow> a core:Workflow ;
+    core:hasName "Trial simulation workflow" ;
+    core:hasStep <https://w3id.org/agent-o/examples/eval-demo#AnalyticDatasetStep>,
+        <https://w3id.org/agent-o/examples/eval-demo#BaseCohortStep>,
+        <https://w3id.org/agent-o/examples/eval-demo#CriteriaDecompositionStep>,
+        <https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagStep>,
+        <https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisStep>,
+        <https://w3id.org/agent-o/examples/eval-demo#RetrievalMappingStep>,
+        <https://w3id.org/agent-o/examples/eval-demo#StudyIntakeStep> .
+
+<https://w3id.org/agent-o/examples/eval-demo#VLMReasoner> a core:Reasoner ;
+    core:hasName "Vision-language reasoner" .
+
+<https://w3id.org/agent-o/examples/eval-demo#VisualModelTool> a core:Tool ;
+    core:hasName "Visual model tool" .
+
+<https://w3id.org/agent-o/examples/eval-demo#AccuracyMetric> a eval:Metric ;
+    core:hasName "Accuracy" .
+
+<https://w3id.org/agent-o/examples/eval-demo#AnalyticDatasetStep> a core:WorkflowStep ;
+    core:assignedToAgent <https://w3id.org/agent-o/examples/eval-demo#TrialSimulationAgent> ;
+    core:hasName "Analytic Dataset Composition" .
+
+<https://w3id.org/agent-o/examples/eval-demo#BalancedAccuracyMetric> a eval:Metric ;
+    core:hasName "Balanced accuracy" .
+
+<https://w3id.org/agent-o/examples/eval-demo#BaseCohortSQLAction> a core:ProposedAction ;
+    core:hasName "Base cohort SQL code" ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#TrialSQLTrace> ;
+    gov:requiresReview <https://w3id.org/agent-o/examples/eval-demo#AmbiguityReviewRequirement> .
+
+<https://w3id.org/agent-o/examples/eval-demo#BaseCohortStep> a core:WorkflowStep ;
+    core:assignedToAgent <https://w3id.org/agent-o/examples/eval-demo#TrialSimulationAgent> ;
+    core:hasName "Base Cohort Generation" ;
+    core:precedesStep <https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagStep> .
+
+<https://w3id.org/agent-o/examples/eval-demo#ClinicalExpertReviewRequirement> a gov:HumanReviewRequirement ;
+    core:hasDescription "Human review is required before using generated clinical or treatment recommendations in practice." ;
+    core:hasName "Clinical expert review requirement" .
+
+<https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixSystem> a core:Agent ;
+    core:coordinatesWith <https://w3id.org/agent-o/examples/eval-demo#NurseAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#NutritionistAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#OncologistAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#PatientAdvocateAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#PsychologistAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#RadiologistAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#RehabilitationTherapistAgent> ;
+    core:generates <https://w3id.org/agent-o/examples/eval-demo#OncologyTreatmentRecommendationAction> ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#ConsensusFormationSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#EvidenceTraceabilitySkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#RLConsensusOptimizationSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#RoleSpecializedCollaborationSkill> ;
+    core:hasDescription "Seven-agent oncology MDT simulation with consensus matrix, reinforcement learning optimization, and evidence-chain explainability." ;
+    core:hasName "Multi-Agent Medical Decision Consensus Matrix System" ;
+    core:invokesAgent <https://w3id.org/agent-o/examples/eval-demo#NurseAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#NutritionistAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#OncologistAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#PatientAdvocateAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#PsychologistAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#RadiologistAgent>,
+        <https://w3id.org/agent-o/examples/eval-demo#RehabilitationTherapistAgent> ;
+    core:usesTool <https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixEngine>,
+        <https://w3id.org/agent-o/examples/eval-demo#EvidenceRetrievalModule>,
+        <https://w3id.org/agent-o/examples/eval-demo#ExplanationGenerationSystem>,
+        <https://w3id.org/agent-o/examples/eval-demo#RLOptimizer> ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixTrace> ;
+    doc:hasReference <https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixPaper> ;
+    gov:hasAutomationLevel <https://w3id.org/agent-o/examples/eval-demo#HumanInTheLoopOperation> ;
+    gov:hasPrivacyConstraint <https://w3id.org/agent-o/examples/eval-demo#ConsensusPrivacyConstraint> ;
+    gov:requiresCompliance <https://w3id.org/agent-o/examples/eval-demo#ConsensusComplianceRequirement> .
+
+<https://w3id.org/agent-o/examples/eval-demo#CriteriaDecompositionStep> a core:WorkflowStep ;
+    core:assignedToAgent <https://w3id.org/agent-o/examples/eval-demo#TrialSimulationAgent> ;
+    core:hasName "Criteria Decomposition" ;
+    core:precedesStep <https://w3id.org/agent-o/examples/eval-demo#RetrievalMappingStep> .
+
+<https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagSQLAction> a core:ProposedAction ;
+    core:hasName "Criteria flag SQL code" ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#TrialSQLTrace> ;
+    gov:requiresReview <https://w3id.org/agent-o/examples/eval-demo#AmbiguityReviewRequirement> .
+
+<https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagStep> a core:WorkflowStep ;
+    core:assignedToAgent <https://w3id.org/agent-o/examples/eval-demo#TrialSimulationAgent> ;
+    core:hasName "Criteria Flag Construction" ;
+    core:precedesStep <https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisStep> .
+
+<https://w3id.org/agent-o/examples/eval-demo#CriteriaListAction> a core:ProposedAction ;
+    core:hasName "Structured atomic criteria list" ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#TrialCriteriaTrace> ;
+    gov:requiresReview <https://w3id.org/agent-o/examples/eval-demo#AmbiguityReviewRequirement> .
+
+<https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisAction> a core:ProposedAction ;
+    core:hasName "Endpoint analysis and analytic dataset specification" ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#TrialEndpointTrace> ;
+    gov:requiresReview <https://w3id.org/agent-o/examples/eval-demo#AmbiguityReviewRequirement> .
+
+<https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisStep> a core:WorkflowStep ;
+    core:assignedToAgent <https://w3id.org/agent-o/examples/eval-demo#TrialSimulationAgent> ;
+    core:hasName "Endpoint Analysis" ;
+    core:precedesStep <https://w3id.org/agent-o/examples/eval-demo#AnalyticDatasetStep> .
+
+<https://w3id.org/agent-o/examples/eval-demo#EvidenceBasedReasoningSkill> a core:Skill ;
+    core:hasName "Evidence-based step reliability assessment" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MIMICDataset> a eval:Dataset ;
+    core:hasName "MIMIC chest X-ray sample" .
+
+<https://w3id.org/agent-o/examples/eval-demo#MedAgentProPaper> a doc:Reference ;
+    core:hasName "MedAgent-Pro: Towards Evidence-based Multi-modal Medical Diagnosis via Reasoning Agenic Workflow" ;
+    doc:sourceURI "paper_extraction_parsing/paper_list/extracted_content/MedAgent-Pro Towards Evidence-based Multi-modal Medical Diagnosis via Reasoning Agenic Workflow/vlm/MedAgent-Pro Towards Evidence-based Multi-modal Medical Diagnosis via Reasoning Agenic Workflow.md"^^xsd:anyURI .
+
+<https://w3id.org/agent-o/examples/eval-demo#NEJMDataset> a eval:Dataset ;
+    core:hasName "NEJM diagnostic cases" .
+
+<https://w3id.org/agent-o/examples/eval-demo#NurseAgent> a core:Agent,
+        core:HumanAgent ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#CareComplexityAssessmentSkill> ;
+    core:hasName "Nurse agent" .
+
+<https://w3id.org/agent-o/examples/eval-demo#NutritionistAgent> a core:Agent,
+        core:HumanAgent ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#NutritionalAssessmentSkill> ;
+    core:hasName "Nutritionist agent" .
+
+<https://w3id.org/agent-o/examples/eval-demo#PatientAdvocateAgent> a core:Agent,
+        core:HumanAgent ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#PatientValueAlignmentSkill> ;
+    core:hasName "Patient advocate agent" .
+
+<https://w3id.org/agent-o/examples/eval-demo#PsychologistAgent> a core:Agent,
+        core:HumanAgent ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#PsychologicalImpactAssessmentSkill> ;
+    core:hasName "Psychologist agent" .
+
+<https://w3id.org/agent-o/examples/eval-demo#QuantitativeAnalysisSkill> a core:Skill ;
+    core:hasName "Quantitative clinical indicator analysis" .
+
+<https://w3id.org/agent-o/examples/eval-demo#REFUGE2Dataset> a eval:Dataset ;
+    core:hasName "REFUGE2" .
+
+<https://w3id.org/agent-o/examples/eval-demo#RadiologistAgent> a core:Agent,
+        core:HumanAgent ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#ImagingInterpretationSkill> ;
+    core:hasName "Radiologist agent" .
+
+<https://w3id.org/agent-o/examples/eval-demo#RehabilitationTherapistAgent> a core:Agent,
+        core:HumanAgent ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#RehabilitationFeasibilitySkill> ;
+    core:hasName "Rehabilitation therapist agent" .
+
+<https://w3id.org/agent-o/examples/eval-demo#RetrievalMappingStep> a core:WorkflowStep ;
+    core:assignedToAgent <https://w3id.org/agent-o/examples/eval-demo#TrialSimulationAgent> ;
+    core:hasName "Retrieval Mapping" ;
+    core:precedesStep <https://w3id.org/agent-o/examples/eval-demo#BaseCohortStep> .
+
+<https://w3id.org/agent-o/examples/eval-demo#RetrievalSpecAction> a core:ProposedAction ;
+    core:hasName "Criterion-to-data retrieval specification" ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#TrialRetrievalTrace> ;
+    gov:requiresReview <https://w3id.org/agent-o/examples/eval-demo#AmbiguityReviewRequirement> .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialSQLTrace> a doc:LineageTrace ;
+    core:hasDescription "SQL blocks are generated from MCP schema templates and domain skill documents, then checked by sql_linter for syntax, anti-patterns, and schema compliance." .
+
+<https://w3id.org/agent-o/examples/eval-demo#HumanInTheLoopOperation> a gov:SharedControl ;
+    core:hasName "Human-in-the-loop operation" .
+
+<https://w3id.org/agent-o/examples/eval-demo#OncologistAgent> a core:Agent,
+        core:HumanAgent ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#OncologyTreatmentPreferenceSkill> ;
+    core:hasName "Oncologist agent" .
+
+<https://w3id.org/agent-o/examples/eval-demo#AmbiguityReviewRequirement> a gov:HumanReviewRequirement ;
+    core:hasDescription "Human review is required for ambiguous, unmapped, high-risk, or ethically sensitive cases." ;
+    core:hasName "Ambiguity review requirement" .
+
+<https://w3id.org/agent-o/examples/eval-demo#TrialSimulationAgent> a core:Agent ;
+    core:generates <https://w3id.org/agent-o/examples/eval-demo#BaseCohortSQLAction>,
+        <https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagSQLAction>,
+        <https://w3id.org/agent-o/examples/eval-demo#CriteriaListAction>,
+        <https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisAction>,
+        <https://w3id.org/agent-o/examples/eval-demo#RetrievalSpecAction> ;
+    core:hasCapability <https://w3id.org/agent-o/examples/eval-demo#AnalyticDatasetCompositionSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#BaseCohortGenerationSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#CriteriaDecompositionSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#CriteriaFlagConstructionSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#EndpointAnalysisSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#RetrievalMappingSkill>,
+        <https://w3id.org/agent-o/examples/eval-demo#StudyIntakeSkill> ;
+    core:hasDescription "LLM-augmented web application for trial emulation cohort construction from study intake to analytic dataset composition." ;
+    core:hasName "Trial Simulation Assistance Tool" ;
+    core:hasWorkflow <https://w3id.org/agent-o/examples/eval-demo#TrialSimulationWorkflow> ;
+    core:operatesIn <https://w3id.org/agent-o/examples/eval-demo#MCPBigQueryEnvironment> ;
+    core:usesMemory <https://w3id.org/agent-o/examples/eval-demo#FlywheelEventLog> ;
+    core:usesTool <https://w3id.org/agent-o/examples/eval-demo#AzureOpenAIEndpoint>,
+        <https://w3id.org/agent-o/examples/eval-demo#MCPSchemaLibrary>,
+        <https://w3id.org/agent-o/examples/eval-demo#OntoCodexFramework>,
+        <https://w3id.org/agent-o/examples/eval-demo#SQLLinter> ;
+    doc:hasLineageTrace <https://w3id.org/agent-o/examples/eval-demo#TrialAgentTrace> ;
+    doc:hasProvenanceRecord <https://w3id.org/agent-o/examples/eval-demo#TrialAgentProvenance> ;
+    doc:hasReference <https://w3id.org/agent-o/examples/eval-demo#TrialAgentDoc> ;
+    gov:hasAutomationLevel <https://w3id.org/agent-o/examples/eval-demo#HumanInTheLoopOperation> .
+

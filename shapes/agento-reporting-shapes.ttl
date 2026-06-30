@@ -1,0 +1,117 @@
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+report:AgentSystemReportShape
+  a sh:NodeShape ;
+  sh:targetClass report:AgentSystemReport ;
+  sh:property [
+    sh:path report:documentsAgentSystem ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Agent-system reports must identify the agent system they document."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Agent-system reports must include at least one reporting section."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:qualifiedValueShape [ sh:class report:RuntimeArchitectureSection ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should include a runtime architecture section."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:qualifiedValueShape [ sh:class report:EvaluationReportingSection ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should include an evaluation reporting section."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:qualifiedValueShape [ sh:class report:GovernanceReportingSection ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should include a governance reporting section."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:qualifiedValueShape [ sh:class report:HumanReviewSection ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should include a human-review section."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:qualifiedValueShape [ sh:class report:ReproducibilitySection ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should include a reproducibility section."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:qualifiedValueShape [ sh:class report:RiskUncertaintySection ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should include a risk and uncertainty section."@en
+  ] .
+
+report:ReportingProfileShape
+  a sh:NodeShape ;
+  sh:targetClass report:ReportingProfile ;
+  sh:property [
+    sh:path report:requiresReportingSection ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Reporting profiles must declare at least one required reporting section."@en
+  ] ;
+  sh:property [
+    sh:path report:alignsWithGuideline ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reporting profiles should cite external guideline references."@en
+  ] .
+
+report:ReportingCompletenessAssessmentShape
+  a sh:NodeShape ;
+  sh:targetClass report:ReportingCompletenessAssessment ;
+  sh:property [
+    sh:path report:assessesReport ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Completeness assessments must identify the report being assessed."@en
+  ] ;
+  sh:property [
+    sh:path report:assessesSection ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Completeness assessments must identify the reporting section being assessed."@en
+  ] ;
+  sh:property [
+    sh:path report:hasCompletenessLabel ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Completeness assessments must use a present, partial, missing, or not-applicable label."@en
+  ] ;
+  sh:property [
+    sh:path report:hasEvidenceQuote ;
+    sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Completeness assessments should include a short source evidence quote."@en
+  ] ;
+  sh:sparql [
+    sh:severity sh:Warning ;
+    sh:message "Partial or missing assessments should include a gap explanation or recommended fix."@en ;
+    sh:select """
+      PREFIX report: <https://w3id.org/agent-o/reporting#>
+      SELECT $this WHERE {
+        $this report:hasCompletenessLabel ?label .
+        FILTER (?label = report:Partial || ?label = report:Missing)
+        FILTER NOT EXISTS { $this report:hasGapExplanation ?gapExplanation . }
+        FILTER NOT EXISTS { $this report:hasRecommendedFix ?recommendedFix . }
+      }
+    """
+  ] .

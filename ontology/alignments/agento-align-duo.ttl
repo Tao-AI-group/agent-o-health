@@ -1,0 +1,23 @@
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/agent-o/alignments/duo>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O to DUO alignment"@en ;
+  rdfs:comment "Mappings from AGENT-O data-use governance concepts to the Data Use Ontology. AGENT-O keeps dataset-use context and evaluation workflow links locally while aligning permissions and restrictions to DUO."@en .
+
+gov:DataUseCondition skos:relatedMatch obo:DUO_0000001, obo:DUO_0000017 .
+gov:DataUsePermission skos:closeMatch obo:DUO_0000001 .
+gov:DataUseRestriction skos:closeMatch obo:DUO_0000017 .
+gov:ConsentConstraint skos:relatedMatch obo:DUO_0000027 .
+
+eval:DatasetUseContext skos:relatedMatch obo:DUO_0000001 .
+eval:hasDataUseCondition skos:relatedMatch obo:DUO_0000001, obo:DUO_0000017 .
+eval:hasDataUsePermission skos:relatedMatch obo:DUO_0000001 .
+eval:hasDataUseRestriction skos:relatedMatch obo:DUO_0000017 .
+gov:constrainsDataUse skos:relatedMatch obo:DUO_0000017 .
+

@@ -1,0 +1,23 @@
+AGENT-O Health uses a dual-license structure.
+
+Code is licensed under the MIT License. This applies to files under:
+
+- scripts/
+- tests/
+- pyproject.toml
+
+Ontology, documentation, examples, manifests, tables, and aggregate outputs are
+licensed under the Creative Commons Attribution 4.0 International License
+(CC BY 4.0). This applies to files under:
+
+- ontology/
+- shapes/
+- queries/
+- data/
+- docs/
+- outputs/
+- tables/
+- README.md
+- PUBLIC_RELEASE_NOTES.md
+
+See LICENSE-CODE-MIT and LICENSE-CONTENT-CC-BY-4.0 for details.

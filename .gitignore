@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+.env
+*.log
+data/external/
+outputs/**/raw_*.jsonl
+outputs/**/judge_requests.jsonl
+paper/
+paper_extraction_parsing/

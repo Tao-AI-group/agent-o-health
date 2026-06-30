@@ -1,0 +1,39 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/agent-o/alignments/iao>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O to IAO alignment"@en ;
+  rdfs:comment "Mappings from AGENT-O documentation, report, and information artifact concepts to the Information Artifact Ontology. Runtime artifacts are mapped conservatively because not all runtime artifacts are information artifacts."@en .
+
+doc:Reference rdfs:subClassOf obo:IAO_0000030 .
+doc:Citation rdfs:subClassOf obo:IAO_0000030 .
+doc:Template rdfs:subClassOf obo:IAO_0000030 .
+doc:Asset skos:relatedMatch obo:IAO_0000030 .
+doc:ProvenanceRecord rdfs:subClassOf obo:IAO_0000030 .
+doc:LineageTrace rdfs:subClassOf obo:IAO_0000030 .
+
+report:AgentSystemReport rdfs:subClassOf obo:IAO_0000310 .
+report:AgentCard rdfs:subClassOf obo:IAO_0000310 .
+report:AgentSystemDocumentation rdfs:subClassOf obo:IAO_0000310 .
+report:ReportingSection rdfs:subClassOf obo:IAO_0000314 .
+report:RuntimeArchitectureSection rdfs:subClassOf obo:IAO_0000314 .
+report:WorkflowSection rdfs:subClassOf obo:IAO_0000314 .
+report:ToolUseSection rdfs:subClassOf obo:IAO_0000314 .
+report:MemorySection rdfs:subClassOf obo:IAO_0000314 .
+report:PlanningReasoningSection rdfs:subClassOf obo:IAO_0000314 .
+report:EvaluationReportingSection rdfs:subClassOf obo:IAO_0000314 .
+report:GovernanceReportingSection rdfs:subClassOf obo:IAO_0000314 .
+report:HumanReviewSection rdfs:subClassOf obo:IAO_0000314 .
+report:DataUseSection rdfs:subClassOf obo:IAO_0000314 .
+report:DeploymentContextSection rdfs:subClassOf obo:IAO_0000314 .
+report:ReproducibilitySection rdfs:subClassOf obo:IAO_0000314 .
+report:ModelCardReference rdfs:subClassOf obo:IAO_0000310 .
+
+core:Artifact skos:relatedMatch obo:IAO_0000030 .
+

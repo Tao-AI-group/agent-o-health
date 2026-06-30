@@ -1,0 +1,382 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/gov> a owl:Ontology ;
+    rdfs:label "AGENT-O Governance Ontology"@en ;
+    rdfs:comment "Governance layer: risk, uncertainty, limitations, policies, automation levels, escalation, human review, security, privacy, compliance, and overrides."@en .
+
+gov:AccountabilityRequirement a owl:Class ;
+    rdfs:label "AccountabilityRequirement"@en ;
+    rdfs:comment "A requirement assigning responsibility and accountability for agentic system behavior."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:Augmentation a owl:Class ;
+    rdfs:label "Augmentation"@en ;
+    rdfs:subClassOf gov:AutomationLevel .
+
+gov:ConsentConstraint a owl:Class ;
+    rdfs:label "ConsentConstraint"@en ;
+    rdfs:comment "A data use condition derived from consent, authorization, or participant preference."@en ;
+    rdfs:subClassOf gov:DataUseRestriction .
+
+gov:DataUsePermission a owl:Class ;
+    rdfs:label "DataUsePermission"@en ;
+    rdfs:comment "A permission describing an allowed data use."@en ;
+    rdfs:subClassOf gov:DataUseCondition .
+
+gov:Delegation a owl:Class ;
+    rdfs:label "Delegation"@en ;
+    rdfs:subClassOf gov:AutomationLevel .
+
+gov:EquityRequirement a owl:Class ;
+    rdfs:label "EquityRequirement"@en ;
+    rdfs:comment "A requirement addressing fairness, inclusion, accessibility, or equity in agentic health AI."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:ExplainabilityRequirement a owl:Class ;
+    rdfs:label "ExplainabilityRequirement"@en ;
+    rdfs:comment "A requirement that an agentic system provide understandable explanations or decision support rationale."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:FullAutomation a owl:Class ;
+    rdfs:label "FullAutomation"@en ;
+    rdfs:subClassOf gov:AutomationLevel .
+
+gov:HumanAutonomyRequirement a owl:Class ;
+    rdfs:label "HumanAutonomyRequirement"@en ;
+    rdfs:comment "A requirement preserving human agency, autonomy, or meaningful human control."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:PrivacyRequirement a owl:Class ;
+    rdfs:label "PrivacyRequirement"@en ;
+    rdfs:comment "A requirement addressing privacy, confidentiality, data protection, or sensitive-data handling."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:SafetyRequirement a owl:Class ;
+    rdfs:label "SafetyRequirement"@en ;
+    rdfs:comment "A requirement addressing safety, harm prevention, or clinical risk mitigation."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:SharedControl a owl:Class ;
+    rdfs:label "SharedControl"@en ;
+    rdfs:subClassOf gov:AutomationLevel .
+
+gov:Threshold a owl:Class ;
+    rdfs:label "Threshold"@en .
+
+gov:TransparencyRequirement a owl:Class ;
+    rdfs:label "TransparencyRequirement"@en ;
+    rdfs:comment "A requirement for transparency about an agentic system, its purpose, limitations, or outputs."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:accessControlRequirement a owl:DatatypeProperty ;
+    rdfs:label "accessControlRequirement"@en ;
+    rdfs:domain gov:SecurityConstraint ;
+    rdfs:range xsd:string .
+
+gov:complianceFramework a owl:DatatypeProperty ;
+    rdfs:label "complianceFramework"@en ;
+    rdfs:domain gov:ComplianceRequirement ;
+    rdfs:range xsd:string .
+
+gov:conditionExpression a owl:DatatypeProperty ;
+    rdfs:label "conditionExpression"@en ;
+    rdfs:domain gov:TriggerCondition ;
+    rdfs:range xsd:string .
+
+gov:confidenceValue a owl:DatatypeProperty ;
+    rdfs:label "confidenceValue"@en ;
+    rdfs:domain gov:ConfidenceScore ;
+    rdfs:range xsd:decimal .
+
+gov:constrains a owl:ObjectProperty ;
+    rdfs:label "constrains"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range core:Agent ;
+    owl:inverseOf gov:constrainedBy .
+
+gov:constrainsDataUse a owl:ObjectProperty ;
+    rdfs:label "constrainsDataUse"@en ;
+    rdfs:comment "Links a governance policy or data use condition to the dataset whose use it constrains."@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range eval:Dataset .
+
+gov:containsPHI a owl:DatatypeProperty ;
+    rdfs:label "containsPHI"@en ;
+    rdfs:domain gov:PrivacyConstraint ;
+    rdfs:range xsd:boolean .
+
+gov:definesAutomationLevel a owl:ObjectProperty ;
+    rdfs:label "definesAutomationLevel"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:AutomationLevel .
+
+gov:enablesOverride a owl:ObjectProperty ;
+    rdfs:label "enablesOverride"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:OverrideAction .
+
+gov:escalatesTo a owl:ObjectProperty ;
+    rdfs:label "escalatesTo"@en ;
+    rdfs:domain gov:EscalationEvent ;
+    rdfs:range core:HumanAgent .
+
+gov:hasAccountabilityRole a owl:ObjectProperty ;
+    rdfs:label "hasAccountabilityRole"@en ;
+    rdfs:comment "Links an agent, report, policy, or evaluation to an accountability role."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:AccountabilityRole .
+
+gov:hasAutomationLevel a owl:ObjectProperty ;
+    rdfs:label "hasAutomationLevel"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:AutomationLevel .
+
+gov:hasConfidenceScore a owl:ObjectProperty ;
+    rdfs:label "hasConfidenceScore"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:ConfidenceScore .
+
+gov:hasCriterion a owl:ObjectProperty ;
+    rdfs:label "hasCriterion"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:DecisionCriterion .
+
+gov:hasDeploymentStatus a owl:ObjectProperty ;
+    rdfs:label "hasDeploymentStatus"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:DeploymentStatus .
+
+gov:hasEthicalConcern a owl:ObjectProperty ;
+    rdfs:label "hasEthicalConcern"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:EthicalConcern .
+
+gov:hasEthicalPrinciple a owl:ObjectProperty ;
+    rdfs:label "hasEthicalPrinciple"@en ;
+    rdfs:comment "Links an agent, report, policy, or governance profile to an ethical principle or governance requirement."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:EthicalPrinciple .
+
+gov:hasFallbackStrategy a owl:ObjectProperty ;
+    rdfs:label "hasFallbackStrategy"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:FallbackStrategy .
+
+gov:hasLimitation a owl:ObjectProperty ;
+    rdfs:label "hasLimitation"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:Limitation .
+
+gov:hasMitigationStrategy a owl:DatatypeProperty ;
+    rdfs:label "hasMitigationStrategy"@en ;
+    rdfs:domain gov:Risk ;
+    rdfs:range xsd:string .
+
+gov:hasPrivacyConstraint a owl:ObjectProperty ;
+    rdfs:label "hasPrivacyConstraint"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:PrivacyConstraint .
+
+gov:hasRegulatoryStatus a owl:ObjectProperty ;
+    rdfs:label "hasRegulatoryStatus"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:RegulatoryStatus .
+
+gov:hasRisk a owl:ObjectProperty ;
+    rdfs:label "hasRisk"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:Risk .
+
+gov:hasSecurityConstraint a owl:ObjectProperty ;
+    rdfs:label "hasSecurityConstraint"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:SecurityConstraint .
+
+gov:hasSeverity a owl:DatatypeProperty ;
+    rdfs:label "hasSeverity"@en ;
+    rdfs:domain gov:Risk ;
+    rdfs:range xsd:string .
+
+gov:hasUncertainty a owl:ObjectProperty ;
+    rdfs:label "hasUncertainty"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:Uncertainty .
+
+gov:influencesMetric a owl:ObjectProperty ;
+    rdfs:label "influencesMetric"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range eval:Metric .
+
+gov:mitigatesRisk a owl:ObjectProperty ;
+    rdfs:label "mitigatesRisk"@en ;
+    rdfs:comment "Links a policy, fallback strategy, monitoring rule, or requirement to a risk it mitigates."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:Risk .
+
+gov:monitoredBy a owl:ObjectProperty ;
+    rdfs:label "monitoredBy"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:MonitoringRule .
+
+gov:overridesAction a owl:ObjectProperty ;
+    rdfs:label "overridesAction"@en ;
+    rdfs:domain gov:OverrideAction ;
+    rdfs:range core:ProposedAction .
+
+gov:policyVariantUsedIn a owl:ObjectProperty ;
+    rdfs:label "policyVariantUsedIn"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range eval:EvaluationStudy .
+
+gov:recordedAs a owl:ObjectProperty ;
+    rdfs:label "recordedAs"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range gov:AuditEvent .
+
+gov:requiredForPattern a owl:ObjectProperty ;
+    rdfs:label "requiredForPattern"@en ;
+    rdfs:domain gov:HumanReviewRequirement ;
+    rdfs:range core:WorkflowPattern .
+
+gov:requiresCompliance a owl:ObjectProperty ;
+    rdfs:label "requiresCompliance"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:ComplianceRequirement .
+
+gov:requiresReview a owl:ObjectProperty ;
+    rdfs:label "requiresReview"@en ;
+    rdfs:domain core:ProposedAction ;
+    rdfs:range gov:HumanReviewRequirement .
+
+gov:satisfiedByReviewEvent a owl:ObjectProperty ;
+    rdfs:label "satisfiedByReviewEvent"@en ;
+    rdfs:domain gov:HumanReviewRequirement ;
+    rdfs:range core:ReviewEvent .
+
+gov:triggeredBy a owl:ObjectProperty ;
+    rdfs:label "triggeredBy"@en ;
+    rdfs:domain gov:EscalationEvent ;
+    rdfs:range gov:TriggerCondition ;
+    owl:equivalentProperty gov:hasTriggerCondition .
+
+gov:triggersEscalation a owl:ObjectProperty ;
+    rdfs:label "triggersEscalation"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:EscalationEvent .
+
+gov:triggersIncident a owl:ObjectProperty ;
+    rdfs:label "triggersIncident"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range gov:Incident .
+
+gov:uncertaintyValue a owl:DatatypeProperty ;
+    rdfs:label "uncertaintyValue"@en ;
+    rdfs:domain gov:Uncertainty ;
+    rdfs:range xsd:decimal .
+
+gov:AccountabilityRole a owl:Class ;
+    rdfs:label "AccountabilityRole"@en ;
+    rdfs:comment "Human or organizational role accountable for agent behavior, review, or governance outcomes."@en .
+
+gov:AuditEvent a owl:Class ;
+    rdfs:label "AuditEvent"@en ;
+    rdfs:comment "Recorded governance or operational event used for auditability and retrospective review."@en .
+
+gov:DataUseRestriction a owl:Class ;
+    rdfs:label "DataUseRestriction"@en ;
+    rdfs:comment "A restriction describing a constrained or prohibited data use."@en ;
+    rdfs:subClassOf gov:DataUseCondition .
+
+gov:DecisionCriterion a owl:Class ;
+    rdfs:label "DecisionCriterion"@en ;
+    rdfs:comment "Criterion used by a policy, review requirement, or governance rule to guide decisions."@en .
+
+gov:DeploymentStatus a owl:Class ;
+    rdfs:label "DeploymentStatus"@en .
+
+gov:EthicalConcern a owl:Class ;
+    rdfs:label "EthicalConcern"@en .
+
+gov:FallbackStrategy a owl:Class ;
+    rdfs:label "FallbackStrategy"@en ;
+    rdfs:comment "Fallback behavior to use when normal autonomous execution is unsafe, unreliable, or non-compliant."@en .
+
+gov:Incident a owl:Class ;
+    rdfs:label "Incident"@en ;
+    rdfs:comment "Safety, reliability, policy, privacy, or operational incident triggered during agent execution."@en .
+
+gov:Limitation a owl:Class ;
+    rdfs:label "Limitation"@en .
+
+gov:MonitoringRule a owl:Class ;
+    rdfs:label "MonitoringRule"@en ;
+    rdfs:comment "Rule used to monitor agent behavior, execution runs, policy compliance, or safety signals."@en .
+
+gov:RegulatoryStatus a owl:Class ;
+    rdfs:label "RegulatoryStatus"@en .
+
+gov:constrainedBy a owl:ObjectProperty ;
+    rdfs:label "constrainedBy"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:Policy .
+
+gov:hasTriggerCondition a owl:ObjectProperty ;
+    rdfs:label "hasTriggerCondition"@en ;
+    rdfs:domain gov:EscalationEvent ;
+    rdfs:range gov:TriggerCondition .
+
+gov:ComplianceRequirement a owl:Class ;
+    rdfs:label "ComplianceRequirement"@en ;
+    rdfs:subClassOf gov:Policy .
+
+gov:ConfidenceScore a owl:Class ;
+    rdfs:label "ConfidenceScore"@en .
+
+gov:DataUseCondition a owl:Class ;
+    rdfs:label "DataUseCondition"@en ;
+    rdfs:comment "A governance condition constraining dataset access, use, sharing, or reuse."@en ;
+    rdfs:subClassOf gov:Policy .
+
+gov:OverrideAction a owl:Class ;
+    rdfs:label "OverrideAction"@en .
+
+gov:PrivacyConstraint a owl:Class ;
+    rdfs:label "PrivacyConstraint"@en ;
+    rdfs:subClassOf gov:SecurityConstraint .
+
+gov:Uncertainty a owl:Class ;
+    rdfs:label "Uncertainty"@en .
+
+gov:HumanReviewRequirement a owl:Class ;
+    rdfs:label "HumanReviewRequirement"@en ;
+    rdfs:comment "Requirement specifying when human review, approval, or oversight is needed."@en .
+
+gov:SecurityConstraint a owl:Class ;
+    rdfs:label "SecurityConstraint"@en ;
+    rdfs:subClassOf gov:Policy .
+
+gov:TriggerCondition a owl:Class ;
+    rdfs:label "TriggerCondition"@en .
+
+gov:EscalationEvent a owl:Class ;
+    rdfs:label "EscalationEvent"@en .
+
+gov:Risk a owl:Class ;
+    rdfs:label "Risk"@en .
+
+gov:AutomationLevel a owl:Class ;
+    rdfs:label "AutomationLevel"@en .
+
+gov:EthicalPrinciple a owl:Class ;
+    rdfs:label "EthicalPrinciple"@en ;
+    rdfs:comment "A health AI ethical principle or governance principle."@en ;
+    rdfs:subClassOf gov:Policy .
+
+gov:Policy a owl:Class ;
+    rdfs:label "Policy"@en .
+

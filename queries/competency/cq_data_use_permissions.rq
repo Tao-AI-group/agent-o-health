@@ -1,0 +1,16 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+PREFIX eval: <https://w3id.org/agent-o/eval#>
+PREFIX gov: <https://w3id.org/agent-o/gov#>
+
+SELECT ?dataset ?datasetName ?condition ?permission ?restriction ?policy
+WHERE {
+  ?dataset a eval:Dataset .
+  OPTIONAL { ?dataset core:hasName ?datasetName . }
+  OPTIONAL { ?dataset eval:hasDataUseCondition ?condition . }
+  OPTIONAL { ?dataset eval:hasDataUsePermission ?permission . }
+  OPTIONAL { ?dataset eval:hasDataUseRestriction ?restriction . }
+  OPTIONAL { ?policy gov:constrainsDataUse ?dataset . }
+  FILTER(BOUND(?condition) || BOUND(?permission) || BOUND(?restriction) || BOUND(?policy))
+}
+ORDER BY ?dataset
+

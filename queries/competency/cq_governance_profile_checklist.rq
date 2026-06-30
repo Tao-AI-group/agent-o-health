@@ -1,0 +1,35 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+PREFIX gov: <https://w3id.org/agent-o/gov#>
+PREFIX health: <https://w3id.org/agent-o/health#>
+
+SELECT DISTINCT
+  ?agent
+  ?agentName
+  ?automationLevel
+  ?accountabilityRole
+  ?policy
+  ?risk
+  ?reviewRequirement
+  ?fallbackStrategy
+  ?escalationEvent
+  ?monitoringRule
+  ?complianceRequirement
+WHERE {
+  ?agent a health:ClinicalDecisionSupportAgent .
+  OPTIONAL { ?agent core:hasName ?agentName . }
+  OPTIONAL { ?agent gov:hasAutomationLevel ?automationLevel . }
+  OPTIONAL { ?agent gov:hasAccountabilityRole ?accountabilityRole . }
+  OPTIONAL {
+    ?policy gov:constrains ?agent .
+    OPTIONAL { ?policy gov:hasFallbackStrategy ?fallbackStrategy . }
+    OPTIONAL { ?policy gov:triggersEscalation ?escalationEvent . }
+  }
+  OPTIONAL { ?agent gov:hasRisk ?risk . }
+  OPTIONAL {
+    ?agent core:generates ?generatedAction .
+    ?generatedAction gov:requiresReview ?reviewRequirement .
+  }
+  OPTIONAL { ?agent gov:monitoredBy ?monitoringRule . }
+  OPTIONAL { ?agent gov:requiresCompliance ?complianceRequirement . }
+}
+ORDER BY ?agent ?policy ?risk

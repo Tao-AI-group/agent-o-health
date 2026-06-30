@@ -1,0 +1,68 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/agent-o/alignments/nist-ai-rmf>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O NIST AI RMF profile alignment"@en ;
+  rdfs:comment "NIST AI RMF is represented as a governance profile and SKOS concept scheme rather than as a hard ontology import."@en .
+
+gov:NISTAIRMFConceptScheme
+  a skos:ConceptScheme ;
+  rdfs:label "NIST AI RMF Concept Scheme"@en ;
+  skos:prefLabel "NIST AI RMF Concept Scheme"@en .
+
+gov:NISTGovern
+  a skos:Concept ;
+  skos:inScheme gov:NISTAIRMFConceptScheme ;
+  skos:prefLabel "Govern"@en ;
+  skos:exactMatch <https://airc.nist.gov/airmf-resources/airmf/5-sec-core/#govern> .
+
+gov:NISTMap
+  a skos:Concept ;
+  skos:inScheme gov:NISTAIRMFConceptScheme ;
+  skos:prefLabel "Map"@en ;
+  skos:exactMatch <https://airc.nist.gov/airmf-resources/airmf/5-sec-core/#map> .
+
+gov:NISTMeasure
+  a skos:Concept ;
+  skos:inScheme gov:NISTAIRMFConceptScheme ;
+  skos:prefLabel "Measure"@en ;
+  skos:exactMatch <https://airc.nist.gov/airmf-resources/airmf/5-sec-core/#measure> .
+
+gov:NISTManage
+  a skos:Concept ;
+  skos:inScheme gov:NISTAIRMFConceptScheme ;
+  skos:prefLabel "Manage"@en ;
+  skos:exactMatch <https://airc.nist.gov/airmf-resources/airmf/5-sec-core/#manage> .
+
+gov:Policy skos:relatedMatch gov:NISTGovern .
+gov:AccountabilityRole skos:relatedMatch gov:NISTGovern .
+gov:AuditEvent skos:relatedMatch gov:NISTGovern .
+gov:HumanReviewRequirement skos:relatedMatch gov:NISTGovern .
+gov:AutomationLevel skos:relatedMatch gov:NISTGovern .
+
+health:ClinicalSetting skos:relatedMatch gov:NISTMap .
+report:IntendedUse skos:relatedMatch gov:NISTMap .
+health:PatientPopulation skos:relatedMatch gov:NISTMap .
+health:HealthDataSource skos:relatedMatch gov:NISTMap .
+gov:Risk skos:relatedMatch gov:NISTMap .
+
+eval:EvaluationStudy skos:relatedMatch gov:NISTMeasure .
+eval:Metric skos:relatedMatch gov:NISTMeasure .
+eval:MetricResult skos:relatedMatch gov:NISTMeasure .
+eval:SafetyMetric skos:relatedMatch gov:NISTMeasure .
+eval:FailureCase skos:relatedMatch gov:NISTMeasure .
+eval:BiasAssessment skos:relatedMatch gov:NISTMeasure .
+
+gov:EscalationEvent skos:relatedMatch gov:NISTManage .
+gov:FallbackStrategy skos:relatedMatch gov:NISTManage .
+gov:MonitoringRule skos:relatedMatch gov:NISTManage .
+gov:Incident skos:relatedMatch gov:NISTManage .
+gov:OverrideAction skos:relatedMatch gov:NISTManage .
+

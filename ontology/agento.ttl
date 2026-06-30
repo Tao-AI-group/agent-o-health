@@ -1,0 +1,1735 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o> a owl:Ontology ;
+    rdfs:label "AGENT-O Ontology"@en ;
+    rdfs:comment "Self-contained AGENT-O ontology covering agent runtime, documentation, evaluation, governance, health, reporting, provenance, and cross-cutting agent lifecycle concepts."@en .
+
+<https://w3id.org/agent-o/core> a owl:Ontology ;
+    rdfs:label "AGENT-O Core Ontology"@en ;
+    rdfs:comment "Core layer: agent runtime concepts across context/support and core capability execution, including Agent, Skill, ExecutionUnit, ToolInvocation, memory, planning, reasoning, resources, and environment."@en .
+
+core:Approval a owl:Class ;
+    rdfs:label "Approval"@en ;
+    rdfs:subClassOf core:ReviewOutcome .
+
+core:Communication a owl:Class ;
+    rdfs:label "Communication"@en ;
+    rdfs:subClassOf core:AgentInteraction .
+
+core:Coordination a owl:Class ;
+    rdfs:label "Coordination"@en ;
+    rdfs:subClassOf core:AgentInteraction .
+
+core:Delegation a owl:Class ;
+    rdfs:label "Delegation"@en ;
+    rdfs:subClassOf core:AgentInteraction .
+
+core:EmbeddingModel a owl:Class ;
+    rdfs:label "EmbeddingModel"@en ;
+    rdfs:comment "An embedding model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:Environment a owl:Class ;
+    rdfs:label "Environment"@en ;
+    owl:equivalentClass core:ExecutionEnvironment .
+
+core:FineTunedModel a owl:Class ;
+    rdfs:label "FineTunedModel"@en ;
+    rdfs:comment "A fine-tuned model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:FoundationModel a owl:Class ;
+    rdfs:label "FoundationModel"@en ;
+    rdfs:comment "A foundation model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:InvocationFailure a owl:Class ;
+    rdfs:label "InvocationFailure"@en ;
+    rdfs:subClassOf core:InvocationStatus .
+
+core:InvocationSuccess a owl:Class ;
+    rdfs:label "InvocationSuccess"@en ;
+    rdfs:subClassOf core:InvocationStatus .
+
+core:LanguageModel a owl:Class ;
+    rdfs:label "LanguageModel"@en ;
+    rdfs:comment "A language model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:Memory a owl:Class ;
+    rdfs:label "Memory"@en ;
+    owl:equivalentClass core:MemoryModule .
+
+core:Modification a owl:Class ;
+    rdfs:label "Modification"@en ;
+    rdfs:subClassOf core:ReviewOutcome .
+
+core:MultimodalModel a owl:Class ;
+    rdfs:label "MultimodalModel"@en ;
+    rdfs:comment "A multimodal model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:Rejection a owl:Class ;
+    rdfs:label "Rejection"@en ;
+    rdfs:subClassOf core:ReviewOutcome .
+
+core:Script a owl:Class ;
+    rdfs:label "Script"@en ;
+    rdfs:subClassOf core:ExecutionUnit .
+
+core:State a owl:Class ;
+    rdfs:label "State"@en ;
+    rdfs:subClassOf core:Context .
+
+core:StepCompleted a owl:Class ;
+    rdfs:label "StepCompleted"@en ;
+    rdfs:subClassOf core:ExecutionStatus .
+
+core:StepFailed a owl:Class ;
+    rdfs:label "StepFailed"@en ;
+    rdfs:subClassOf core:ExecutionStatus .
+
+core:StepPending a owl:Class ;
+    rdfs:label "StepPending"@en ;
+    rdfs:subClassOf core:ExecutionStatus .
+
+core:StepRunning a owl:Class ;
+    rdfs:label "StepRunning"@en ;
+    rdfs:subClassOf core:ExecutionStatus .
+
+core:VisionModel a owl:Class ;
+    rdfs:label "VisionModel"@en ;
+    rdfs:comment "A vision model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:assignedToAgent a owl:ObjectProperty ;
+    rdfs:label "assignedToAgent"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:Agent .
+
+core:causedByInvocation a owl:ObjectProperty ;
+    rdfs:label "causedByInvocation"@en ;
+    rdfs:domain core:FailureEvent ;
+    rdfs:range core:ToolInvocation .
+
+core:communicatesWith a owl:ObjectProperty ;
+    rdfs:label "communicatesWith"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Agent .
+
+core:consumesArtifact a owl:ObjectProperty ;
+    rdfs:label "consumesArtifact"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:Artifact .
+
+core:coordinatesWith a owl:ObjectProperty ;
+    rdfs:label "coordinatesWith"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Agent .
+
+core:delegatesTo a owl:ObjectProperty ;
+    rdfs:label "delegatesTo"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Agent .
+
+core:dependsOn a owl:ObjectProperty ;
+    rdfs:label "dependsOn"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Context .
+
+core:endedAt a owl:DatatypeProperty ;
+    rdfs:label "endedAt"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range xsd:dateTime .
+
+core:errorMessage a owl:DatatypeProperty ;
+    rdfs:label "errorMessage"@en ;
+    rdfs:domain core:RuntimeError ;
+    rdfs:range xsd:string .
+
+core:executedInRun a owl:ObjectProperty ;
+    rdfs:label "executedInRun"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:ExecutionRun .
+
+core:failsWith a owl:ObjectProperty ;
+    rdfs:label "failsWith"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:FailureEvent .
+
+core:generates a owl:ObjectProperty ;
+    rdfs:label "generates"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ProposedAction ;
+    owl:equivalentProperty core:producesProposedAction .
+
+core:generatesObservation a owl:ObjectProperty ;
+    rdfs:label "generatesObservation"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Observation .
+
+core:hasCapability a owl:ObjectProperty ;
+    rdfs:label "hasCapability"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Skill .
+
+core:hasConfiguration a owl:ObjectProperty ;
+    rdfs:label "hasConfiguration"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:AgentConfiguration .
+
+core:hasContext a owl:ObjectProperty ;
+    rdfs:label "hasContext"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:Context .
+
+core:hasDescription a owl:DatatypeProperty ;
+    rdfs:label "hasDescription"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+core:hasExecutionRun a owl:ObjectProperty ;
+    rdfs:label "hasExecutionRun"@en ;
+    rdfs:domain core:Session ;
+    rdfs:range core:ExecutionRun ;
+    owl:inverseOf core:partOfSession .
+
+core:hasExecutionStatus a owl:ObjectProperty ;
+    rdfs:label "hasExecutionStatus"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:ExecutionStatus .
+
+core:hasGoal a owl:ObjectProperty ;
+    rdfs:label "hasGoal"@en ;
+    rdfs:domain core:Task ;
+    rdfs:range core:Goal .
+
+core:hasInputType a owl:ObjectProperty ;
+    rdfs:label "hasInputType"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:InputType .
+
+core:hasInteraction a owl:ObjectProperty ;
+    rdfs:label "hasInteraction"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:AgentInteraction .
+
+core:hasInvocationInput a owl:ObjectProperty ;
+    rdfs:label "hasInvocationInput"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:Artifact .
+
+core:hasInvocationOutput a owl:ObjectProperty ;
+    rdfs:label "hasInvocationOutput"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:Artifact .
+
+core:hasInvocationStatus a owl:ObjectProperty ;
+    rdfs:label "hasInvocationStatus"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:InvocationStatus .
+
+core:hasName a owl:DatatypeProperty ;
+    rdfs:label "hasName"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+core:hasOutputType a owl:ObjectProperty ;
+    rdfs:label "hasOutputType"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:OutputType .
+
+core:hasReviewOutcome a owl:ObjectProperty ;
+    rdfs:label "hasReviewOutcome"@en ;
+    rdfs:domain core:ReviewEvent ;
+    rdfs:range core:ReviewOutcome .
+
+core:hasRole a owl:ObjectProperty ;
+    rdfs:label "hasRole"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Role .
+
+core:hasRuntimeError a owl:ObjectProperty ;
+    rdfs:label "hasRuntimeError"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:RuntimeError .
+
+core:hasStep a owl:ObjectProperty ;
+    rdfs:label "hasStep"@en ;
+    rdfs:domain core:Workflow ;
+    rdfs:range core:WorkflowStep .
+
+core:hasStepType a owl:ObjectProperty ;
+    rdfs:label "hasStepType"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:StepType .
+
+core:hasToolInvocation a owl:ObjectProperty ;
+    rdfs:label "hasToolInvocation"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ToolInvocation .
+
+core:hasVersion a owl:DatatypeProperty ;
+    rdfs:label "hasVersion"@en ;
+    rdfs:comment "Records a version string for a software tool, model component, execution unit, dataset, or report."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+core:hasWorkflow a owl:ObjectProperty ;
+    rdfs:label "hasWorkflow"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Workflow .
+
+core:implementedBy a owl:ObjectProperty ;
+    rdfs:label "implementedBy"@en ;
+    rdfs:domain core:Skill ;
+    rdfs:range core:ExecutionUnit .
+
+core:instantiatesPattern a owl:ObjectProperty ;
+    rdfs:label "instantiatesPattern"@en ;
+    rdfs:domain core:Workflow ;
+    rdfs:range core:WorkflowPattern .
+
+core:invokedBy a owl:ObjectProperty ;
+    rdfs:label "invokedBy"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:Agent .
+
+core:invokesAgent a owl:ObjectProperty ;
+    rdfs:label "invokesAgent"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Agent .
+
+core:invokesTool a owl:ObjectProperty ;
+    rdfs:label "invokesTool"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:Tool .
+
+core:operatesIn a owl:ObjectProperty ;
+    rdfs:label "operatesIn"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ExecutionEnvironment ;
+    owl:equivalentProperty core:hasExecutionEnvironment .
+
+core:partOfStep a owl:ObjectProperty ;
+    rdfs:label "partOfStep"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:WorkflowStep .
+
+core:performedBy a owl:ObjectProperty ;
+    rdfs:label "performedBy"@en ;
+    rdfs:domain core:ReviewEvent ;
+    rdfs:range core:HumanAgent .
+
+core:performsTask a owl:ObjectProperty ;
+    rdfs:label "performsTask"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Task .
+
+core:precedesStep a owl:ObjectProperty ;
+    rdfs:label "precedesStep"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:WorkflowStep .
+
+core:produces a owl:ObjectProperty ;
+    rdfs:label "produces"@en ;
+    rdfs:domain core:ExecutionUnit ;
+    rdfs:range core:ProposedAction .
+
+core:producesArtifact a owl:ObjectProperty ;
+    rdfs:label "producesArtifact"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:Artifact .
+
+core:realizesTask a owl:ObjectProperty ;
+    rdfs:label "realizesTask"@en ;
+    rdfs:domain core:Workflow ;
+    rdfs:range core:Task .
+
+core:requiresSkill a owl:ObjectProperty ;
+    rdfs:label "requiresSkill"@en ;
+    rdfs:domain core:Skill ;
+    rdfs:range core:Skill .
+
+core:resultsIn a owl:ObjectProperty ;
+    rdfs:label "resultsIn"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:Outcome .
+
+core:reviews a owl:ObjectProperty ;
+    rdfs:label "reviews"@en ;
+    rdfs:domain core:ReviewEvent ;
+    rdfs:range core:ProposedAction ;
+    owl:equivalentProperty core:reviewsAction .
+
+core:selects a owl:ObjectProperty ;
+    rdfs:label "selects"@en ;
+    rdfs:domain core:Planner ;
+    rdfs:range core:Skill .
+
+core:startedAt a owl:DatatypeProperty ;
+    rdfs:label "startedAt"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range xsd:dateTime .
+
+core:statusCode a owl:DatatypeProperty ;
+    rdfs:label "statusCode"@en ;
+    rdfs:domain core:InvocationStatus ;
+    rdfs:range xsd:string .
+
+core:usesMemory a owl:ObjectProperty ;
+    rdfs:label "usesMemory"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:MemoryModule ;
+    rdfs:subPropertyOf core:uses ;
+    owl:equivalentProperty core:hasMemoryModule .
+
+core:usesModel a owl:ObjectProperty ;
+    rdfs:label "usesModel"@en ;
+    rdfs:comment "Links an agent to a model component it uses."@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Model,
+        core:ModelComponent .
+
+core:usesPlanner a owl:ObjectProperty ;
+    rdfs:label "usesPlanner"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Planner .
+
+core:usesReasoner a owl:ObjectProperty ;
+    rdfs:label "usesReasoner"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Reasoner .
+
+core:usesResource a owl:ObjectProperty ;
+    rdfs:label "usesResource"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range core:Resource ;
+    rdfs:subPropertyOf core:uses .
+
+core:usesTool a owl:ObjectProperty ;
+    rdfs:label "usesTool"@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:Skill ) ] ;
+    rdfs:range core:Tool ;
+    rdfs:subPropertyOf core:uses .
+
+<https://w3id.org/agent-o/doc> a owl:Ontology ;
+    rdfs:label "AGENT-O Documentation Ontology"@en ;
+    rdfs:comment "Documentation/meta-data layer: citations, owners, licenses, versions, references, templates, provenance records, and lineage traces."@en .
+
+doc:citationText a owl:DatatypeProperty ;
+    rdfs:label "citationText"@en ;
+    rdfs:domain doc:Citation ;
+    rdfs:range xsd:string .
+
+doc:contact a owl:DatatypeProperty ;
+    rdfs:label "contact"@en ;
+    rdfs:domain doc:Owner ;
+    rdfs:range xsd:string .
+
+doc:derivedFrom a owl:ObjectProperty ;
+    rdfs:label "derivedFrom"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+doc:hasAsset a owl:ObjectProperty ;
+    rdfs:label "hasAsset"@en ;
+    rdfs:domain core:Skill ;
+    rdfs:range doc:Asset .
+
+doc:hasCitation a owl:ObjectProperty ;
+    rdfs:label "hasCitation"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:Citation .
+
+doc:hasLicense a owl:ObjectProperty ;
+    rdfs:label "hasLicense"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:License .
+
+doc:hasLineageTrace a owl:ObjectProperty ;
+    rdfs:label "hasLineageTrace"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range doc:LineageTrace .
+
+doc:hasOwner a owl:ObjectProperty ;
+    rdfs:label "hasOwner"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:Owner .
+
+doc:hasProvenanceRecord a owl:ObjectProperty ;
+    rdfs:label "hasProvenanceRecord"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range doc:ProvenanceRecord .
+
+doc:hasReference a owl:ObjectProperty ;
+    rdfs:label "hasReference"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:Reference .
+
+doc:hasTemplate a owl:ObjectProperty ;
+    rdfs:label "hasTemplate"@en ;
+    rdfs:domain core:Skill ;
+    rdfs:range doc:Template .
+
+doc:hasVersionInfo a owl:ObjectProperty ;
+    rdfs:label "hasVersionInfo"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:VersionInfo .
+
+doc:identifier a owl:DatatypeProperty ;
+    rdfs:label "identifier"@en ;
+    rdfs:domain doc:License ;
+    rdfs:range xsd:string .
+
+doc:recordedAt a owl:DatatypeProperty ;
+    rdfs:label "recordedAt"@en ;
+    rdfs:domain doc:ProvenanceRecord ;
+    rdfs:range xsd:dateTime .
+
+doc:releaseDate a owl:DatatypeProperty ;
+    rdfs:label "releaseDate"@en ;
+    rdfs:domain doc:VersionInfo ;
+    rdfs:range xsd:date .
+
+doc:sourceURI a owl:DatatypeProperty ;
+    rdfs:label "sourceURI"@en ;
+    rdfs:domain doc:ProvenanceRecord ;
+    rdfs:range xsd:anyURI .
+
+doc:versionString a owl:DatatypeProperty ;
+    rdfs:label "versionString"@en ;
+    rdfs:domain doc:VersionInfo ;
+    rdfs:range xsd:string .
+
+<https://w3id.org/agent-o/eval> a owl:Ontology ;
+    rdfs:label "AGENT-O Evaluation Ontology"@en ;
+    rdfs:comment "Evaluation layer: EvaluationStudy uses Dataset and produces MetricResult and Interpretation for an Agent."@en .
+
+eval:BiasAssessment a owl:Class ;
+    rdfs:label "BiasAssessment"@en ;
+    rdfs:comment "An evaluation activity or result assessing bias in an agentic system."@en ;
+    rdfs:subClassOf eval:EvaluationStudy .
+
+eval:CostMetric a owl:Class ;
+    rdfs:label "CostMetric"@en ;
+    rdfs:comment "Metric that measures financial, compute, operational, or resource cost."@en ;
+    rdfs:subClassOf eval:Metric .
+
+eval:DatasetUseContext a owl:Class ;
+    rdfs:label "DatasetUseContext"@en ;
+    rdfs:comment "The use context under which a dataset is accessed, evaluated, or reused."@en .
+
+eval:EvaluableEntity a owl:Class ;
+    rdfs:label "EvaluableEntity"@en .
+
+eval:FairnessMetric a owl:Class ;
+    rdfs:label "FairnessMetric"@en ;
+    rdfs:comment "A metric used to evaluate fairness properties of an agentic system."@en ;
+    rdfs:subClassOf eval:EquityMetric .
+
+eval:LatencyMetric a owl:Class ;
+    rdfs:label "LatencyMetric"@en ;
+    rdfs:comment "Metric that measures response time, execution time, or processing delay."@en ;
+    rdfs:subClassOf eval:Metric .
+
+eval:SafetyMetric a owl:Class ;
+    rdfs:label "SafetyMetric"@en ;
+    rdfs:comment "Metric that measures safety, harm avoidance, risk, or clinical appropriateness."@en ;
+    rdfs:subClassOf eval:Metric .
+
+eval:aboutEntity a owl:ObjectProperty ;
+    rdfs:label "aboutEntity"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range owl:Thing .
+
+eval:appliesToDataset a owl:ObjectProperty ;
+    rdfs:label "appliesToDataset"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range eval:Dataset .
+
+eval:appliesToSubpopulation a owl:ObjectProperty ;
+    rdfs:label "appliesToSubpopulation"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range eval:Subpopulation .
+
+eval:comparesAgainst a owl:ObjectProperty ;
+    rdfs:label "comparesAgainst"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range eval:Baseline .
+
+eval:derivedFromRun a owl:ObjectProperty ;
+    rdfs:label "derivedFromRun"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range core:ExecutionRun .
+
+eval:evaluatedBy a owl:ObjectProperty ;
+    rdfs:label "evaluatedBy"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range eval:Evaluator .
+
+eval:evaluates a owl:ObjectProperty ;
+    rdfs:label "evaluates"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range core:Agent .
+
+eval:evaluatesConfiguration a owl:ObjectProperty ;
+    rdfs:label "evaluatesConfiguration"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range core:AgentConfiguration .
+
+eval:forMetric a owl:ObjectProperty ;
+    rdfs:label "forMetric"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range eval:Metric .
+
+eval:hasDataUseCondition a owl:ObjectProperty ;
+    rdfs:label "hasDataUseCondition"@en ;
+    rdfs:comment "Links a dataset or dataset use context to a data use condition."@en ;
+    rdfs:domain eval:Dataset ;
+    rdfs:range gov:DataUseCondition .
+
+eval:hasDataUsePermission a owl:ObjectProperty ;
+    rdfs:label "hasDataUsePermission"@en ;
+    rdfs:comment "Links a dataset or dataset use context to a data use permission."@en ;
+    rdfs:domain eval:Dataset ;
+    rdfs:range gov:DataUsePermission .
+
+eval:hasDataUseRestriction a owl:ObjectProperty ;
+    rdfs:label "hasDataUseRestriction"@en ;
+    rdfs:comment "Links a dataset or dataset use context to a data use restriction."@en ;
+    rdfs:domain eval:Dataset ;
+    rdfs:range gov:DataUseRestriction .
+
+eval:hasErrorType a owl:ObjectProperty ;
+    rdfs:label "hasErrorType"@en ;
+    rdfs:domain eval:FailureCase ;
+    rdfs:range eval:ErrorType .
+
+eval:hasRank a owl:DatatypeProperty ;
+    rdfs:label "hasRank"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range xsd:integer .
+
+eval:hasTimestamp a owl:DatatypeProperty ;
+    rdfs:label "hasTimestamp"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range xsd:dateTime .
+
+eval:hasUnit a owl:DatatypeProperty ;
+    rdfs:label "hasUnit"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range xsd:string .
+
+eval:hasValue a owl:DatatypeProperty ;
+    rdfs:label "hasValue"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range xsd:decimal .
+
+eval:interpretedAs a owl:ObjectProperty ;
+    rdfs:label "interpretedAs"@en ;
+    rdfs:domain eval:MetricResult ;
+    rdfs:range eval:Interpretation .
+
+eval:observedAtStep a owl:ObjectProperty ;
+    rdfs:label "observedAtStep"@en ;
+    rdfs:domain eval:FailureCase ;
+    rdfs:range core:WorkflowStep .
+
+eval:observedInRun a owl:ObjectProperty ;
+    rdfs:label "observedInRun"@en ;
+    rdfs:domain eval:FailureCase ;
+    rdfs:range core:ExecutionRun .
+
+eval:producesResult a owl:ObjectProperty ;
+    rdfs:label "producesResult"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range eval:MetricResult .
+
+eval:studiesAutomationLevel a owl:ObjectProperty ;
+    rdfs:label "studiesAutomationLevel"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range gov:AutomationLevel .
+
+eval:targetsTask a owl:ObjectProperty ;
+    rdfs:label "targetsTask"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range eval:BenchmarkTask .
+
+eval:usesDataset a owl:ObjectProperty ;
+    rdfs:label "usesDataset"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range eval:Dataset .
+
+eval:usesScenario a owl:ObjectProperty ;
+    rdfs:label "usesScenario"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range eval:Scenario .
+
+<https://w3id.org/agent-o/gov> a owl:Ontology ;
+    rdfs:label "AGENT-O Governance Ontology"@en ;
+    rdfs:comment "Governance layer: risk, uncertainty, limitations, policies, automation levels, escalation, human review, security, privacy, compliance, and overrides."@en .
+
+gov:AccountabilityRequirement a owl:Class ;
+    rdfs:label "AccountabilityRequirement"@en ;
+    rdfs:comment "A requirement assigning responsibility and accountability for agentic system behavior."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:Augmentation a owl:Class ;
+    rdfs:label "Augmentation"@en ;
+    rdfs:subClassOf gov:AutomationLevel .
+
+gov:ConsentConstraint a owl:Class ;
+    rdfs:label "ConsentConstraint"@en ;
+    rdfs:comment "A data use condition derived from consent, authorization, or participant preference."@en ;
+    rdfs:subClassOf gov:DataUseRestriction .
+
+gov:Delegation a owl:Class ;
+    rdfs:label "Delegation"@en ;
+    rdfs:subClassOf gov:AutomationLevel .
+
+gov:EquityRequirement a owl:Class ;
+    rdfs:label "EquityRequirement"@en ;
+    rdfs:comment "A requirement addressing fairness, inclusion, accessibility, or equity in agentic health AI."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:ExplainabilityRequirement a owl:Class ;
+    rdfs:label "ExplainabilityRequirement"@en ;
+    rdfs:comment "A requirement that an agentic system provide understandable explanations or decision support rationale."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:FullAutomation a owl:Class ;
+    rdfs:label "FullAutomation"@en ;
+    rdfs:subClassOf gov:AutomationLevel .
+
+gov:HumanAutonomyRequirement a owl:Class ;
+    rdfs:label "HumanAutonomyRequirement"@en ;
+    rdfs:comment "A requirement preserving human agency, autonomy, or meaningful human control."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:PrivacyRequirement a owl:Class ;
+    rdfs:label "PrivacyRequirement"@en ;
+    rdfs:comment "A requirement addressing privacy, confidentiality, data protection, or sensitive-data handling."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:SafetyRequirement a owl:Class ;
+    rdfs:label "SafetyRequirement"@en ;
+    rdfs:comment "A requirement addressing safety, harm prevention, or clinical risk mitigation."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:SharedControl a owl:Class ;
+    rdfs:label "SharedControl"@en ;
+    rdfs:subClassOf gov:AutomationLevel .
+
+gov:Threshold a owl:Class ;
+    rdfs:label "Threshold"@en .
+
+gov:TransparencyRequirement a owl:Class ;
+    rdfs:label "TransparencyRequirement"@en ;
+    rdfs:comment "A requirement for transparency about an agentic system, its purpose, limitations, or outputs."@en ;
+    rdfs:subClassOf gov:EthicalPrinciple .
+
+gov:accessControlRequirement a owl:DatatypeProperty ;
+    rdfs:label "accessControlRequirement"@en ;
+    rdfs:domain gov:SecurityConstraint ;
+    rdfs:range xsd:string .
+
+gov:complianceFramework a owl:DatatypeProperty ;
+    rdfs:label "complianceFramework"@en ;
+    rdfs:domain gov:ComplianceRequirement ;
+    rdfs:range xsd:string .
+
+gov:conditionExpression a owl:DatatypeProperty ;
+    rdfs:label "conditionExpression"@en ;
+    rdfs:domain gov:TriggerCondition ;
+    rdfs:range xsd:string .
+
+gov:confidenceValue a owl:DatatypeProperty ;
+    rdfs:label "confidenceValue"@en ;
+    rdfs:domain gov:ConfidenceScore ;
+    rdfs:range xsd:decimal .
+
+gov:constrains a owl:ObjectProperty ;
+    rdfs:label "constrains"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range core:Agent ;
+    owl:inverseOf gov:constrainedBy .
+
+gov:constrainsDataUse a owl:ObjectProperty ;
+    rdfs:label "constrainsDataUse"@en ;
+    rdfs:comment "Links a governance policy or data use condition to the dataset whose use it constrains."@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range eval:Dataset .
+
+gov:containsPHI a owl:DatatypeProperty ;
+    rdfs:label "containsPHI"@en ;
+    rdfs:domain gov:PrivacyConstraint ;
+    rdfs:range xsd:boolean .
+
+gov:definesAutomationLevel a owl:ObjectProperty ;
+    rdfs:label "definesAutomationLevel"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:AutomationLevel .
+
+gov:enablesOverride a owl:ObjectProperty ;
+    rdfs:label "enablesOverride"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:OverrideAction .
+
+gov:escalatesTo a owl:ObjectProperty ;
+    rdfs:label "escalatesTo"@en ;
+    rdfs:domain gov:EscalationEvent ;
+    rdfs:range core:HumanAgent .
+
+gov:hasAccountabilityRole a owl:ObjectProperty ;
+    rdfs:label "hasAccountabilityRole"@en ;
+    rdfs:comment "Links an agent, report, policy, or evaluation to an accountability role."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:AccountabilityRole .
+
+gov:hasAutomationLevel a owl:ObjectProperty ;
+    rdfs:label "hasAutomationLevel"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:AutomationLevel .
+
+gov:hasConfidenceScore a owl:ObjectProperty ;
+    rdfs:label "hasConfidenceScore"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:ConfidenceScore .
+
+gov:hasCriterion a owl:ObjectProperty ;
+    rdfs:label "hasCriterion"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:DecisionCriterion .
+
+gov:hasDeploymentStatus a owl:ObjectProperty ;
+    rdfs:label "hasDeploymentStatus"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:DeploymentStatus .
+
+gov:hasEthicalConcern a owl:ObjectProperty ;
+    rdfs:label "hasEthicalConcern"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:EthicalConcern .
+
+gov:hasEthicalPrinciple a owl:ObjectProperty ;
+    rdfs:label "hasEthicalPrinciple"@en ;
+    rdfs:comment "Links an agent, report, policy, or governance profile to an ethical principle or governance requirement."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:EthicalPrinciple .
+
+gov:hasFallbackStrategy a owl:ObjectProperty ;
+    rdfs:label "hasFallbackStrategy"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:FallbackStrategy .
+
+gov:hasLimitation a owl:ObjectProperty ;
+    rdfs:label "hasLimitation"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:Limitation .
+
+gov:hasMitigationStrategy a owl:DatatypeProperty ;
+    rdfs:label "hasMitigationStrategy"@en ;
+    rdfs:domain gov:Risk ;
+    rdfs:range xsd:string .
+
+gov:hasPrivacyConstraint a owl:ObjectProperty ;
+    rdfs:label "hasPrivacyConstraint"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:PrivacyConstraint .
+
+gov:hasRegulatoryStatus a owl:ObjectProperty ;
+    rdfs:label "hasRegulatoryStatus"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:RegulatoryStatus .
+
+gov:hasRisk a owl:ObjectProperty ;
+    rdfs:label "hasRisk"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:Risk .
+
+gov:hasSecurityConstraint a owl:ObjectProperty ;
+    rdfs:label "hasSecurityConstraint"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:SecurityConstraint .
+
+gov:hasSeverity a owl:DatatypeProperty ;
+    rdfs:label "hasSeverity"@en ;
+    rdfs:domain gov:Risk ;
+    rdfs:range xsd:string .
+
+gov:hasUncertainty a owl:ObjectProperty ;
+    rdfs:label "hasUncertainty"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:Uncertainty .
+
+gov:influencesMetric a owl:ObjectProperty ;
+    rdfs:label "influencesMetric"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range eval:Metric .
+
+gov:mitigatesRisk a owl:ObjectProperty ;
+    rdfs:label "mitigatesRisk"@en ;
+    rdfs:comment "Links a policy, fallback strategy, monitoring rule, or requirement to a risk it mitigates."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:Risk .
+
+gov:monitoredBy a owl:ObjectProperty ;
+    rdfs:label "monitoredBy"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:MonitoringRule .
+
+gov:overridesAction a owl:ObjectProperty ;
+    rdfs:label "overridesAction"@en ;
+    rdfs:domain gov:OverrideAction ;
+    rdfs:range core:ProposedAction .
+
+gov:policyVariantUsedIn a owl:ObjectProperty ;
+    rdfs:label "policyVariantUsedIn"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range eval:EvaluationStudy .
+
+gov:recordedAs a owl:ObjectProperty ;
+    rdfs:label "recordedAs"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range gov:AuditEvent .
+
+gov:requiredForPattern a owl:ObjectProperty ;
+    rdfs:label "requiredForPattern"@en ;
+    rdfs:domain gov:HumanReviewRequirement ;
+    rdfs:range core:WorkflowPattern .
+
+gov:requiresCompliance a owl:ObjectProperty ;
+    rdfs:label "requiresCompliance"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range gov:ComplianceRequirement .
+
+gov:requiresReview a owl:ObjectProperty ;
+    rdfs:label "requiresReview"@en ;
+    rdfs:domain core:ProposedAction ;
+    rdfs:range gov:HumanReviewRequirement .
+
+gov:satisfiedByReviewEvent a owl:ObjectProperty ;
+    rdfs:label "satisfiedByReviewEvent"@en ;
+    rdfs:domain gov:HumanReviewRequirement ;
+    rdfs:range core:ReviewEvent .
+
+gov:triggeredBy a owl:ObjectProperty ;
+    rdfs:label "triggeredBy"@en ;
+    rdfs:domain gov:EscalationEvent ;
+    rdfs:range gov:TriggerCondition ;
+    owl:equivalentProperty gov:hasTriggerCondition .
+
+gov:triggersEscalation a owl:ObjectProperty ;
+    rdfs:label "triggersEscalation"@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:EscalationEvent .
+
+gov:triggersIncident a owl:ObjectProperty ;
+    rdfs:label "triggersIncident"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range gov:Incident .
+
+gov:uncertaintyValue a owl:DatatypeProperty ;
+    rdfs:label "uncertaintyValue"@en ;
+    rdfs:domain gov:Uncertainty ;
+    rdfs:range xsd:decimal .
+
+<https://w3id.org/agent-o/health> a owl:Ontology ;
+    rdfs:label "AGENT-O Health Ontology"@en ;
+    rdfs:comment "Health and biomedical extension for clinical, patient-facing, and biomedical agent concepts."@en .
+
+health:BiomedicalAgent a owl:Class ;
+    rdfs:label "BiomedicalAgent"@en ;
+    rdfs:comment "An agent used for biomedical research or analysis."@en ;
+    rdfs:subClassOf health:HealthAgent .
+
+health:CareTeamRole a owl:Class ;
+    rdfs:label "CareTeamRole"@en ;
+    rdfs:comment "A care team role associated with a health agent or review process."@en ;
+    rdfs:subClassOf core:Role .
+
+health:ClinicalDecisionSupportAgent a owl:Class ;
+    rdfs:label "ClinicalDecisionSupportAgent"@en ;
+    rdfs:comment "A clinical agent that supports clinical decisions."@en ;
+    rdfs:subClassOf health:ClinicalAgent .
+
+health:ClinicalGuidelineSource a owl:Class ;
+    rdfs:label "ClinicalGuidelineSource"@en ;
+    rdfs:comment "A clinical guideline source used by an agent."@en ;
+    rdfs:subClassOf doc:Reference .
+
+health:ClinicalTask a owl:Class ;
+    rdfs:label "ClinicalTask"@en ;
+    rdfs:comment "A task performed in a clinical workflow."@en ;
+    rdfs:subClassOf core:Task .
+
+health:ClinicianFacingAgent a owl:Class ;
+    rdfs:label "ClinicianFacingAgent"@en ;
+    rdfs:comment "A health agent whose outputs are intended for clinicians or care teams."@en ;
+    rdfs:subClassOf health:HealthAgent .
+
+health:ClinicianFacingOutput a owl:Class ;
+    rdfs:label "ClinicianFacingOutput"@en ;
+    rdfs:comment "An agent output intended for clinicians or care teams."@en ;
+    rdfs:subClassOf core:Artifact .
+
+health:ConditionInput a owl:Class ;
+    rdfs:label "ConditionInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR Condition resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:DiagnosticRecommendation a owl:Class ;
+    rdfs:label "DiagnosticRecommendation"@en ;
+    rdfs:comment "A diagnostic recommendation produced by an agent."@en ;
+    rdfs:subClassOf health:ClinicalRecommendation .
+
+health:DiagnosticReportInput a owl:Class ;
+    rdfs:label "DiagnosticReportInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR DiagnosticReport resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:EHRDataSource a owl:Class ;
+    rdfs:label "EHRDataSource"@en ;
+    rdfs:comment "An electronic health record data source."@en ;
+    rdfs:subClassOf health:HealthDataSource .
+
+health:MedicationInput a owl:Class ;
+    rdfs:label "MedicationInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR Medication or MedicationRequest resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:ObservationInput a owl:Class ;
+    rdfs:label "ObservationInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR Observation resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:PHIDataSource a owl:Class ;
+    rdfs:label "PHIDataSource"@en ;
+    rdfs:comment "A health data source containing protected health information."@en ;
+    rdfs:subClassOf health:HealthDataSource .
+
+health:PatientFacingAgent a owl:Class ;
+    rdfs:label "PatientFacingAgent"@en ;
+    rdfs:comment "A health agent whose outputs are intended for patients or caregivers."@en ;
+    rdfs:subClassOf health:HealthAgent .
+
+health:PatientPopulation a owl:Class ;
+    rdfs:label "PatientPopulation"@en ;
+    rdfs:comment "A patient population associated with an agent, dataset, evaluation, or deployment context."@en ;
+    rdfs:subClassOf core:Context .
+
+health:PatientRecordInput a owl:Class ;
+    rdfs:label "PatientRecordInput"@en ;
+    rdfs:comment "An input artifact representing patient record information."@en ;
+    rdfs:subClassOf health:EHRInput .
+
+health:ProcedureInput a owl:Class ;
+    rdfs:label "ProcedureInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR Procedure resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:TreatmentRecommendation a owl:Class ;
+    rdfs:label "TreatmentRecommendation"@en ;
+    rdfs:comment "A treatment recommendation produced by an agent."@en ;
+    rdfs:subClassOf health:ClinicalRecommendation .
+
+health:derivedFromFHIRResource a owl:ObjectProperty ;
+    rdfs:label "derivedFromFHIRResource"@en ;
+    rdfs:comment "Links an AGENT-O artifact to a FHIR-derived input artifact from which it was derived."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range health:FHIRResourceInput .
+
+health:hasClinicalSetting a owl:ObjectProperty ;
+    rdfs:label "hasClinicalSetting"@en ;
+    rdfs:comment "Links a health agent, task, or evaluation to a clinical setting."@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range health:ClinicalSetting .
+
+health:hasOutputCategory a owl:DatatypeProperty ;
+    rdfs:label "hasOutputCategory"@en ;
+    rdfs:comment "Records whether a patient-facing output is advice, education, recommendation, triage, or another communication category."@en ;
+    rdfs:domain health:PatientFacingOutput ;
+    rdfs:range xsd:string .
+
+health:mapsToFHIRResource a owl:DatatypeProperty ;
+    rdfs:label "mapsToFHIRResource"@en ;
+    rdfs:comment "Records the canonical FHIR RDF class or resource IRI that an AGENT-O artifact maps to."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range xsd:anyURI .
+
+health:usesFHIRResourceType a owl:DatatypeProperty ;
+    rdfs:label "usesFHIRResourceType"@en ;
+    rdfs:comment "Records the FHIR resource type used by an input, output, dataset, or workflow step."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range xsd:string .
+
+<https://w3id.org/agent-o/reporting> a owl:Ontology ;
+    rdfs:label "AGENT-O Reporting Ontology"@en ;
+    rdfs:comment "Agent-system reporting extension for agent cards, reporting sections, and reporting-completeness completeness assessments."@en .
+
+report:AgentIdentityScopeSection a owl:Class ;
+    rdfs:label "AgentIdentityScopeSection"@en ;
+    rdfs:comment "A reporting section for AgentIdentityScopeSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:AgentSystemDocumentation a owl:Class ;
+    rdfs:label "AgentSystemDocumentation"@en ;
+    rdfs:comment "Documentation for an agentic system."@en ;
+    rdfs:subClassOf doc:Reference .
+
+report:ClinicalContextSection a owl:Class ;
+    rdfs:label "ClinicalContextSection"@en ;
+    rdfs:comment "A reporting section for ClinicalContextSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:DataUseSection a owl:Class ;
+    rdfs:label "DataUseSection"@en ;
+    rdfs:comment "A reporting section for DataUseSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:DatasetsMetricsSection a owl:Class ;
+    rdfs:label "DatasetsMetricsSection"@en ;
+    rdfs:comment "A reporting section for DatasetsMetricsSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:DeploymentContextSection a owl:Class ;
+    rdfs:label "DeploymentContextSection"@en ;
+    rdfs:comment "A reporting section for DeploymentContextSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:DeploymentMonitoringSection a owl:Class ;
+    rdfs:label "DeploymentMonitoringSection"@en ;
+    rdfs:comment "A reporting section for DeploymentMonitoringSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:EvaluationReportingSection a owl:Class ;
+    rdfs:label "EvaluationReportingSection"@en ;
+    rdfs:comment "A reporting section for EvaluationReportingSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:FailureFallbackSection a owl:Class ;
+    rdfs:label "FailureFallbackSection"@en ;
+    rdfs:comment "A reporting section for FailureFallbackSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:GovernanceProfile a owl:Class ;
+    rdfs:label "GovernanceProfile"@en ;
+    rdfs:comment "A profile that defines governance requirements, policies, and validation expectations."@en ;
+    rdfs:subClassOf report:ReportingProfile .
+
+report:GovernanceReportingSection a owl:Class ;
+    rdfs:label "GovernanceReportingSection"@en ;
+    rdfs:comment "A reporting section for GovernanceReportingSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:HumanReviewSection a owl:Class ;
+    rdfs:label "HumanReviewSection"@en ;
+    rdfs:comment "A reporting section for HumanReviewSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:InputOutputDataSection a owl:Class ;
+    rdfs:label "InputOutputDataSection"@en ;
+    rdfs:comment "A reporting section for InputOutputDataSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:MemorySection a owl:Class ;
+    rdfs:label "MemorySection"@en ;
+    rdfs:comment "A reporting section for MemorySection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:Missing a report:CompletenessLabel ;
+    rdfs:label "missing"@en .
+
+report:ModelComponentsSection a owl:Class ;
+    rdfs:label "ModelComponentsSection"@en ;
+    rdfs:comment "A reporting section for ModelComponentsSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:NotApplicable a report:CompletenessLabel ;
+    rdfs:label "not applicable"@en .
+
+report:Partial a report:CompletenessLabel ;
+    rdfs:label "partial"@en .
+
+report:PlanningReasoningSection a owl:Class ;
+    rdfs:label "PlanningReasoningSection"@en ;
+    rdfs:comment "A reporting section for PlanningReasoningSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:Present a report:CompletenessLabel ;
+    rdfs:label "present"@en .
+
+report:PrivacySecurityComplianceSection a owl:Class ;
+    rdfs:label "PrivacySecurityComplianceSection"@en ;
+    rdfs:comment "A reporting section for PrivacySecurityComplianceSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:ReproducibilitySection a owl:Class ;
+    rdfs:label "ReproducibilitySection"@en ;
+    rdfs:comment "A reporting section for ReproducibilitySection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:ReportingCompletenessProfile a owl:Class ;
+    rdfs:label "ReportingCompletenessProfile"@en ;
+    rdfs:comment "A profile used to assess the completeness of paper or report descriptions against AGENT-O."@en ;
+    rdfs:subClassOf report:ReportingProfile .
+
+report:RiskUncertaintySection a owl:Class ;
+    rdfs:label "RiskUncertaintySection"@en ;
+    rdfs:comment "A reporting section for RiskUncertaintySection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:RuntimeArchitectureSection a owl:Class ;
+    rdfs:label "RuntimeArchitectureSection"@en ;
+    rdfs:comment "A reporting section for RuntimeArchitectureSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:SubgroupEquityEvaluationSection a owl:Class ;
+    rdfs:label "SubgroupEquityEvaluationSection"@en ;
+    rdfs:comment "A reporting section for SubgroupEquityEvaluationSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:ToolUseSection a owl:Class ;
+    rdfs:label "ToolUseSection"@en ;
+    rdfs:comment "A reporting section for ToolUseSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:WorkflowSection a owl:Class ;
+    rdfs:label "WorkflowSection"@en ;
+    rdfs:comment "A reporting section for WorkflowSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:alignsWithGuideline a owl:ObjectProperty ;
+    rdfs:label "alignsWithGuideline"@en ;
+    rdfs:comment "Links a reporting or governance profile to an external guideline or framework reference."@en ;
+    rdfs:domain report:ReportingProfile ;
+    rdfs:range report:ReportingGuidelineReference .
+
+report:assessesReport a owl:ObjectProperty ;
+    rdfs:label "assessesReport"@en ;
+    rdfs:comment "Links a completeness assessment to the report or documentation being assessed."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range report:AgentSystemReport .
+
+report:assessesSection a owl:ObjectProperty ;
+    rdfs:label "assessesSection"@en ;
+    rdfs:comment "Links a completeness assessment to the reporting section it assesses."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range report:ReportingSection .
+
+report:documentsAgentSystem a owl:ObjectProperty ;
+    rdfs:label "documentsAgentSystem"@en ;
+    rdfs:comment "Links an agent-system report to the agent it documents."@en ;
+    rdfs:domain report:AgentSystemReport ;
+    rdfs:range core:Agent .
+
+report:documentsModelComponent a owl:ObjectProperty ;
+    rdfs:label "documentsModelComponent"@en ;
+    rdfs:comment "Links an agent-system report to a documented model component."@en ;
+    rdfs:domain report:AgentSystemReport ;
+    rdfs:range core:ModelComponent .
+
+report:hasAgentCard a owl:ObjectProperty ;
+    rdfs:label "hasAgentCard"@en ;
+    rdfs:comment "Links an agent to its agent card."@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range report:AgentCard .
+
+report:hasCompletenessLabel a owl:ObjectProperty ;
+    rdfs:label "hasCompletenessLabel"@en ;
+    rdfs:comment "Links a completeness assessment to its controlled completeness label."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range report:CompletenessLabel .
+
+report:hasEvidenceQuote a owl:DatatypeProperty ;
+    rdfs:label "hasEvidenceQuote"@en ;
+    rdfs:comment "Records a source evidence quote for a completeness assessment."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range xsd:string .
+
+report:hasGapExplanation a owl:DatatypeProperty ;
+    rdfs:label "hasGapExplanation"@en ;
+    rdfs:comment "Explains a reporting gap."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range xsd:string .
+
+report:hasIntendedUse a owl:ObjectProperty ;
+    rdfs:label "hasIntendedUse"@en ;
+    rdfs:comment "Links an agent, model component, report, or card to its intended use."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range report:IntendedUse .
+
+report:hasIntendedUser a owl:ObjectProperty ;
+    rdfs:label "hasIntendedUser"@en ;
+    rdfs:comment "Links an agent, model component, report, or card to its intended user or audience."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range report:IntendedUser .
+
+report:hasModelCardReference a owl:ObjectProperty ;
+    rdfs:label "hasModelCardReference"@en ;
+    rdfs:comment "Links a model component to a model card reference."@en ;
+    rdfs:domain core:ModelComponent ;
+    rdfs:range report:ModelCardReference .
+
+report:hasModelCardReport a owl:ObjectProperty ;
+    rdfs:label "hasModelCardReport"@en ;
+    rdfs:comment "Links an agent-system report to a model card reference."@en ;
+    rdfs:domain report:AgentSystemReport ;
+    rdfs:range report:ModelCardReference .
+
+report:hasRecommendedFix a owl:DatatypeProperty ;
+    rdfs:label "hasRecommendedFix"@en ;
+    rdfs:comment "Recommends how to resolve a reporting gap."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range xsd:string .
+
+report:hasReportingGap a owl:ObjectProperty ;
+    rdfs:label "hasReportingGap"@en ;
+    rdfs:comment "Links a completeness assessment to a reporting gap."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range report:ReportingGap .
+
+report:hasReportingSection a owl:ObjectProperty ;
+    rdfs:label "hasReportingSection"@en ;
+    rdfs:comment "Links an agent-system report to one of its reporting sections."@en ;
+    rdfs:domain report:AgentSystemReport ;
+    rdfs:range report:ReportingSection .
+
+report:hasSourceSection a owl:DatatypeProperty ;
+    rdfs:label "hasSourceSection"@en ;
+    rdfs:comment "Records the source paper or report section used for a completeness assessment."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range xsd:string .
+
+report:recommendedReportingSection a owl:ObjectProperty ;
+    rdfs:label "recommendedReportingSection"@en ;
+    rdfs:comment "Links a reporting or reporting-completeness profile to a recommended reporting section."@en ;
+    rdfs:domain report:ReportingProfile ;
+    rdfs:range report:ReportingSection .
+
+report:requiresReportingSection a owl:ObjectProperty ;
+    rdfs:label "requiresReportingSection"@en ;
+    rdfs:comment "Links a reporting or reporting-completeness profile to a required reporting section."@en ;
+    rdfs:domain report:ReportingProfile ;
+    rdfs:range report:ReportingSection .
+
+core:Goal a owl:Class ;
+    rdfs:label "Goal"@en .
+
+core:InputType a owl:Class ;
+    rdfs:label "InputType"@en .
+
+core:Observation a owl:Class ;
+    rdfs:label "Observation"@en .
+
+core:Outcome a owl:Class ;
+    rdfs:label "Outcome"@en .
+
+core:OutputType a owl:Class ;
+    rdfs:label "OutputType"@en .
+
+core:Reasoner a owl:Class ;
+    rdfs:label "Reasoner"@en .
+
+core:StepType a owl:Class ;
+    rdfs:label "StepType"@en .
+
+core:hasExecutionEnvironment a owl:ObjectProperty ;
+    rdfs:label "hasExecutionEnvironment"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ExecutionEnvironment .
+
+core:hasMemoryModule a owl:ObjectProperty ;
+    rdfs:label "hasMemoryModule"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:MemoryModule .
+
+core:partOfSession a owl:ObjectProperty ;
+    rdfs:label "partOfSession"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:Session .
+
+core:producesProposedAction a owl:ObjectProperty ;
+    rdfs:label "producesProposedAction"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ProposedAction .
+
+core:reviewsAction a owl:ObjectProperty ;
+    rdfs:label "reviewsAction"@en ;
+    rdfs:domain core:ReviewEvent ;
+    rdfs:range core:ProposedAction .
+
+doc:Asset a owl:Class ;
+    rdfs:label "Asset"@en .
+
+doc:LineageTrace a owl:Class ;
+    rdfs:label "LineageTrace"@en .
+
+doc:Template a owl:Class ;
+    rdfs:label "Template"@en .
+
+eval:Baseline a owl:Class ;
+    rdfs:label "Baseline"@en .
+
+eval:BenchmarkTask a owl:Class ;
+    rdfs:label "BenchmarkTask"@en .
+
+eval:EquityMetric a owl:Class ;
+    rdfs:label "EquityMetric"@en ;
+    rdfs:comment "A metric used to evaluate equity, fairness, or differential performance."@en ;
+    rdfs:subClassOf eval:Metric .
+
+eval:ErrorType a owl:Class ;
+    rdfs:label "ErrorType"@en .
+
+eval:Evaluator a owl:Class ;
+    rdfs:label "Evaluator"@en .
+
+eval:Interpretation a owl:Class ;
+    rdfs:label "Interpretation"@en .
+
+eval:Scenario a owl:Class ;
+    rdfs:label "Scenario"@en .
+
+eval:Subpopulation a owl:Class ;
+    rdfs:label "Subpopulation"@en .
+
+gov:AccountabilityRole a owl:Class ;
+    rdfs:label "AccountabilityRole"@en ;
+    rdfs:comment "Human or organizational role accountable for agent behavior, review, or governance outcomes."@en .
+
+gov:AuditEvent a owl:Class ;
+    rdfs:label "AuditEvent"@en ;
+    rdfs:comment "Recorded governance or operational event used for auditability and retrospective review."@en .
+
+gov:DataUsePermission a owl:Class ;
+    rdfs:label "DataUsePermission"@en ;
+    rdfs:comment "A permission describing an allowed data use."@en ;
+    rdfs:subClassOf gov:DataUseCondition .
+
+gov:DecisionCriterion a owl:Class ;
+    rdfs:label "DecisionCriterion"@en ;
+    rdfs:comment "Criterion used by a policy, review requirement, or governance rule to guide decisions."@en .
+
+gov:DeploymentStatus a owl:Class ;
+    rdfs:label "DeploymentStatus"@en .
+
+gov:EthicalConcern a owl:Class ;
+    rdfs:label "EthicalConcern"@en .
+
+gov:FallbackStrategy a owl:Class ;
+    rdfs:label "FallbackStrategy"@en ;
+    rdfs:comment "Fallback behavior to use when normal autonomous execution is unsafe, unreliable, or non-compliant."@en .
+
+gov:Incident a owl:Class ;
+    rdfs:label "Incident"@en ;
+    rdfs:comment "Safety, reliability, policy, privacy, or operational incident triggered during agent execution."@en .
+
+gov:Limitation a owl:Class ;
+    rdfs:label "Limitation"@en .
+
+gov:MonitoringRule a owl:Class ;
+    rdfs:label "MonitoringRule"@en ;
+    rdfs:comment "Rule used to monitor agent behavior, execution runs, policy compliance, or safety signals."@en .
+
+gov:RegulatoryStatus a owl:Class ;
+    rdfs:label "RegulatoryStatus"@en .
+
+gov:constrainedBy a owl:ObjectProperty ;
+    rdfs:label "constrainedBy"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range gov:Policy .
+
+gov:hasTriggerCondition a owl:ObjectProperty ;
+    rdfs:label "hasTriggerCondition"@en ;
+    rdfs:domain gov:EscalationEvent ;
+    rdfs:range gov:TriggerCondition .
+
+health:ClinicalAgent a owl:Class ;
+    rdfs:label "ClinicalAgent"@en ;
+    rdfs:comment "An agent used in a clinical setting."@en ;
+    rdfs:subClassOf health:HealthAgent .
+
+health:ClinicalSetting a owl:Class ;
+    rdfs:label "ClinicalSetting"@en ;
+    rdfs:comment "A care delivery or biomedical setting where an agent operates."@en ;
+    rdfs:subClassOf core:Context .
+
+health:EHRInput a owl:Class ;
+    rdfs:label "EHRInput"@en ;
+    rdfs:comment "An input artifact derived from an electronic health record."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:PatientFacingOutput a owl:Class ;
+    rdfs:label "PatientFacingOutput"@en ;
+    rdfs:comment "An agent output intended for patients or caregivers."@en ;
+    rdfs:subClassOf core:Artifact .
+
+report:AgentCard a owl:Class ;
+    rdfs:label "AgentCard"@en ;
+    rdfs:comment "A structured card describing an agentic system."@en ;
+    rdfs:subClassOf report:AgentSystemReport .
+
+report:IntendedUse a owl:Class ;
+    rdfs:label "IntendedUse"@en ;
+    rdfs:comment "The intended use of an agent or model component."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:IntendedUser a owl:Class ;
+    rdfs:label "IntendedUser"@en ;
+    rdfs:comment "The intended user or audience of an agentic system."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:ReportingGap a owl:Class ;
+    rdfs:label "ReportingGap"@en ;
+    rdfs:comment "A missing or incomplete reporting item identified during reporting completeness assessment."@en .
+
+report:ReportingGuidelineReference a owl:Class ;
+    rdfs:label "ReportingGuidelineReference"@en ;
+    rdfs:comment "A reference to an external reporting guideline or governance framework."@en ;
+    rdfs:subClassOf doc:Reference .
+
+core:AgentConfiguration a owl:Class ;
+    rdfs:label "AgentConfiguration"@en .
+
+core:FailureEvent a owl:Class ;
+    rdfs:label "FailureEvent"@en .
+
+core:HumanAgent a owl:Class ;
+    rdfs:label "HumanAgent"@en ;
+    rdfs:subClassOf core:Agent .
+
+core:Model a owl:Class ;
+    rdfs:label "Model"@en .
+
+core:Planner a owl:Class ;
+    rdfs:label "Planner"@en .
+
+core:Resource a owl:Class ;
+    rdfs:label "Resource"@en .
+
+core:Role a owl:Class ;
+    rdfs:label "Role"@en .
+
+core:RuntimeError a owl:Class ;
+    rdfs:label "RuntimeError"@en .
+
+core:Session a owl:Class ;
+    rdfs:label "Session"@en .
+
+core:Tool a owl:Class ;
+    rdfs:label "Tool"@en ;
+    rdfs:subClassOf core:Resource .
+
+core:WorkflowPattern a owl:Class ;
+    rdfs:label "WorkflowPattern"@en .
+
+doc:Citation a owl:Class ;
+    rdfs:label "Citation"@en .
+
+doc:License a owl:Class ;
+    rdfs:label "License"@en .
+
+doc:Owner a owl:Class ;
+    rdfs:label "Owner"@en .
+
+gov:ComplianceRequirement a owl:Class ;
+    rdfs:label "ComplianceRequirement"@en ;
+    rdfs:subClassOf gov:Policy .
+
+gov:ConfidenceScore a owl:Class ;
+    rdfs:label "ConfidenceScore"@en .
+
+gov:DataUseRestriction a owl:Class ;
+    rdfs:label "DataUseRestriction"@en ;
+    rdfs:comment "A restriction describing a constrained or prohibited data use."@en ;
+    rdfs:subClassOf gov:DataUseCondition .
+
+gov:OverrideAction a owl:Class ;
+    rdfs:label "OverrideAction"@en .
+
+gov:PrivacyConstraint a owl:Class ;
+    rdfs:label "PrivacyConstraint"@en ;
+    rdfs:subClassOf gov:SecurityConstraint .
+
+gov:Uncertainty a owl:Class ;
+    rdfs:label "Uncertainty"@en .
+
+health:ClinicalRecommendation a owl:Class ;
+    rdfs:label "ClinicalRecommendation"@en ;
+    rdfs:comment "A health-related recommendation produced by an agent."@en ;
+    rdfs:subClassOf core:ProposedAction .
+
+health:HealthDataSource a owl:Class ;
+    rdfs:label "HealthDataSource"@en ;
+    rdfs:comment "A data source used in a health or biomedical agent context."@en ;
+    rdfs:subClassOf eval:Dataset .
+
+report:ModelCardReference a owl:Class ;
+    rdfs:label "ModelCardReference"@en ;
+    rdfs:comment "A reference to a model card or model-level report."@en ;
+    rdfs:subClassOf doc:Reference .
+
+core:ExecutionEnvironment a owl:Class ;
+    rdfs:label "ExecutionEnvironment"@en .
+
+core:ExecutionUnit a owl:Class ;
+    rdfs:label "ExecutionUnit"@en ;
+    rdfs:comment "Concrete implementation unit for a skill, such as a script, model call, workflow, API call, or pipeline step."@en .
+
+core:MemoryModule a owl:Class ;
+    rdfs:label "MemoryModule"@en .
+
+core:uses a owl:ObjectProperty ;
+    rdfs:label "uses"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+doc:ProvenanceRecord a owl:Class ;
+    rdfs:label "ProvenanceRecord"@en .
+
+doc:VersionInfo a owl:Class ;
+    rdfs:label "VersionInfo"@en .
+
+eval:FailureCase a owl:Class ;
+    rdfs:label "FailureCase"@en .
+
+gov:DataUseCondition a owl:Class ;
+    rdfs:label "DataUseCondition"@en ;
+    rdfs:comment "A governance condition constraining dataset access, use, sharing, or reuse."@en ;
+    rdfs:subClassOf gov:Policy .
+
+gov:HumanReviewRequirement a owl:Class ;
+    rdfs:label "HumanReviewRequirement"@en ;
+    rdfs:comment "Requirement specifying when human review, approval, or oversight is needed."@en .
+
+gov:SecurityConstraint a owl:Class ;
+    rdfs:label "SecurityConstraint"@en ;
+    rdfs:subClassOf gov:Policy .
+
+gov:TriggerCondition a owl:Class ;
+    rdfs:label "TriggerCondition"@en .
+
+core:AgentInteraction a owl:Class ;
+    rdfs:label "AgentInteraction"@en .
+
+core:InvocationStatus a owl:Class ;
+    rdfs:label "InvocationStatus"@en .
+
+core:ReviewOutcome a owl:Class ;
+    rdfs:label "ReviewOutcome"@en .
+
+core:Task a owl:Class ;
+    rdfs:label "Task"@en .
+
+core:Workflow a owl:Class ;
+    rdfs:label "Workflow"@en .
+
+gov:EscalationEvent a owl:Class ;
+    rdfs:label "EscalationEvent"@en .
+
+gov:Risk a owl:Class ;
+    rdfs:label "Risk"@en .
+
+health:HealthAgent a owl:Class ;
+    rdfs:label "HealthAgent"@en ;
+    rdfs:comment "An agent used in a health or biomedical setting."@en ;
+    rdfs:subClassOf core:Agent .
+
+core:Context a owl:Class ;
+    rdfs:label "Context"@en .
+
+core:ExecutionStatus a owl:Class ;
+    rdfs:label "ExecutionStatus"@en .
+
+core:ReviewEvent a owl:Class ;
+    rdfs:label "ReviewEvent"@en .
+
+doc:Reference a owl:Class ;
+    rdfs:label "Reference"@en .
+
+report:CompletenessLabel a owl:Class ;
+    rdfs:label "CompletenessLabel"@en ;
+    rdfs:comment "A controlled label for reporting completeness."@en .
+
+report:ReportingProfile a owl:Class ;
+    rdfs:label "ReportingProfile"@en ;
+    rdfs:comment "A profile that defines required or recommended reporting sections for an agent-system report."@en .
+
+eval:Metric a owl:Class ;
+    rdfs:label "Metric"@en .
+
+report:AgentSystemReport a owl:Class ;
+    rdfs:label "AgentSystemReport"@en ;
+    rdfs:comment "A report describing an agentic system lifecycle."@en .
+
+eval:Dataset a owl:Class ;
+    rdfs:label "Dataset"@en .
+
+gov:AutomationLevel a owl:Class ;
+    rdfs:label "AutomationLevel"@en .
+
+health:FHIRResourceInput a owl:Class ;
+    rdfs:label "FHIRResourceInput"@en ;
+    rdfs:comment "An input artifact represented by or mapped to a FHIR RDF resource."@en ;
+    rdfs:subClassOf core:Artifact .
+
+core:ProposedAction a owl:Class ;
+    rdfs:label "ProposedAction"@en .
+
+core:Skill a owl:Class ;
+    rdfs:label "Skill"@en .
+
+gov:EthicalPrinciple a owl:Class ;
+    rdfs:label "EthicalPrinciple"@en ;
+    rdfs:comment "A health AI ethical principle or governance principle."@en ;
+    rdfs:subClassOf gov:Policy .
+
+report:ReportingCompletenessAssessment a owl:Class ;
+    rdfs:label "ReportingCompletenessAssessment"@en ;
+    rdfs:comment "An assessment of whether a paper or report covers an AGENT-O reporting dimension."@en .
+
+core:ModelComponent a owl:Class ;
+    rdfs:label "ModelComponent"@en ;
+    rdfs:comment "A model component used by an agentic system."@en ;
+    rdfs:subClassOf core:Model .
+
+core:ToolInvocation a owl:Class ;
+    rdfs:label "ToolInvocation"@en .
+
+core:Artifact a owl:Class ;
+    rdfs:label "Artifact"@en .
+
+eval:MetricResult a owl:Class ;
+    rdfs:label "MetricResult"@en .
+
+core:WorkflowStep a owl:Class ;
+    rdfs:label "WorkflowStep"@en .
+
+core:ExecutionRun a owl:Class ;
+    rdfs:label "ExecutionRun"@en .
+
+eval:EvaluationStudy a owl:Class ;
+    rdfs:label "EvaluationStudy"@en .
+
+gov:Policy a owl:Class ;
+    rdfs:label "Policy"@en .
+
+report:ReportingSection a owl:Class ;
+    rdfs:label "ReportingSection"@en ;
+    rdfs:comment "A section of an agent-system report."@en .
+
+core:Agent a owl:Class ;
+    rdfs:label "Agent"@en .
+

@@ -1,0 +1,74 @@
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix exprof: <https://w3id.org/agent-o/profiles#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/profiles/reporting>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O Reporting Profile"@en ;
+  rdfs:comment "Reporting profile that defines the core agent-system reporting sections expected for AGENT-O documentation and paper completeness checks."@en .
+
+exprof:ReportingProfile
+  a report:ReportingProfile ;
+  rdfs:label "AGENT-O reporting profile"@en ;
+  report:requiresReportingSection
+    report:AgentIdentityScopeSection,
+    report:RuntimeArchitectureSection,
+    report:ModelComponentsSection,
+    report:ToolUseSection,
+    report:WorkflowSection,
+    report:PlanningReasoningSection,
+    report:InputOutputDataSection,
+    report:ClinicalContextSection,
+    report:EvaluationReportingSection,
+    report:DatasetsMetricsSection,
+    report:ReproducibilitySection,
+    report:HumanReviewSection,
+    report:RiskUncertaintySection,
+    report:PrivacySecurityComplianceSection,
+    report:DeploymentMonitoringSection,
+    report:FailureFallbackSection ;
+  report:recommendedReportingSection
+    report:SubgroupEquityEvaluationSection,
+    report:DataUseSection,
+    report:GovernanceReportingSection ;
+  report:alignsWithGuideline
+    exprof:MCROGuidelineReference,
+    exprof:PROVOGuidelineReference,
+    exprof:DUOGuidelineReference,
+    exprof:FHIRGuidelineReference,
+    exprof:NISTAIRMFReference,
+    exprof:WHOHealthAIReference .
+
+exprof:MCROGuidelineReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "MCRO" ;
+  doc:sourceURI "https://w3id.org/mcro"^^xsd:anyURI .
+
+exprof:PROVOGuidelineReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "PROV-O" ;
+  doc:sourceURI "http://www.w3.org/ns/prov-o"^^xsd:anyURI .
+
+exprof:DUOGuidelineReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "Data Use Ontology" ;
+  doc:sourceURI "http://purl.obolibrary.org/obo/duo.owl"^^xsd:anyURI .
+
+exprof:FHIRGuidelineReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "FHIR RDF" ;
+  doc:sourceURI "http://hl7.org/fhir/rdf.html"^^xsd:anyURI .
+
+exprof:NISTAIRMFReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "NIST AI RMF" ;
+  doc:sourceURI "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/"^^xsd:anyURI .
+
+exprof:WHOHealthAIReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "WHO health AI ethics and governance" ;
+  doc:sourceURI "https://www.who.int/publications/i/item/9789240029200"^^xsd:anyURI .

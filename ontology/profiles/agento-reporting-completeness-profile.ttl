@@ -1,0 +1,35 @@
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix exprof: <https://w3id.org/agent-o/profiles#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/profiles/reporting-completeness>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O Reporting Completeness Assessment Profile"@en ;
+  rdfs:comment "Reverse-validation profile for scoring whether papers and reports describe agentic systems comprehensively enough for AGENT-O representation."@en .
+
+exprof:ReportingCompletenessProfile
+  a report:ReportingCompletenessProfile ;
+  rdfs:label "AGENT-O reporting-completeness profile"@en ;
+  report:requiresReportingSection
+    report:AgentIdentityScopeSection,
+    report:RuntimeArchitectureSection,
+    report:EvaluationReportingSection,
+    report:ReproducibilitySection,
+    report:GovernanceReportingSection,
+    report:HumanReviewSection ;
+  report:recommendedReportingSection
+    report:ModelComponentsSection,
+    report:DataUseSection,
+    report:SubgroupEquityEvaluationSection,
+    report:DeploymentMonitoringSection,
+    report:FailureFallbackSection ;
+  report:alignsWithGuideline exprof:ReportingCompletenessRubricReference .
+
+exprof:ReportingCompletenessRubricReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "AGENT-O paper completeness rubric" ;
+  doc:sourceURI "https://w3id.org/agent-o/profiles/reporting-completeness"^^xsd:anyURI .

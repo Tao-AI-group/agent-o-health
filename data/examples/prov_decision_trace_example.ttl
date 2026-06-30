@@ -1,0 +1,158 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix ex: <https://w3id.org/agent-o/examples/prov-demo#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:DiagnosticAgent
+  a health:ClinicalDecisionSupportAgent ;
+  core:hasName "AGENT-O diagnostic demo agent" ;
+  core:usesModel ex:DiagnosticMultimodalModel ;
+  core:usesTool ex:RetinalImageAnalysisTool ;
+  core:hasWorkflow ex:DiagnosticWorkflow ;
+  core:hasToolInvocation ex:RetinalToolInvocation ;
+  core:generates ex:GlaucomaRiskRecommendation ;
+  gov:hasAccountabilityRole ex:DiagnosticClinicalOwner ;
+  gov:hasAutomationLevel ex:DiagnosticSharedControl ;
+  gov:hasRisk ex:DiagnosticPatientSafetyRisk ;
+  gov:monitoredBy ex:DiagnosticMonitoringRule ;
+  report:hasAgentCard ex:DiagnosticAgentCard .
+
+ex:DiagnosticMultimodalModel
+  a core:MultimodalModel ;
+  core:hasName "Diagnostic multimodal foundation model" ;
+  report:hasModelCardReference ex:DiagnosticModelCard .
+
+ex:DiagnosticModelCard
+  a report:ModelCardReference ;
+  core:hasName "Diagnostic model card reference" ;
+  doc:sourceURI "https://example.org/model-card/diagnostic-demo"^^xsd:anyURI .
+
+ex:DiagnosticAgentReport
+  a report:AgentSystemReport ;
+  core:hasName "Diagnostic agent system report" ;
+  report:documentsAgentSystem ex:DiagnosticAgent ;
+  report:documentsModelComponent ex:DiagnosticMultimodalModel ;
+  report:hasModelCardReport ex:DiagnosticModelCard ;
+  report:hasReportingSection ex:RuntimeArchitectureSection, ex:EvaluationReportingSection, ex:GovernanceReportingSection, ex:HumanReviewSection, ex:RiskUncertaintySection, ex:ReproducibilitySection .
+
+ex:DiagnosticAgentCard
+  a report:AgentCard ;
+  report:documentsAgentSystem ex:DiagnosticAgent ;
+  report:hasReportingSection ex:RuntimeArchitectureSection, ex:EvaluationReportingSection, ex:GovernanceReportingSection, ex:HumanReviewSection, ex:RiskUncertaintySection, ex:ReproducibilitySection .
+
+ex:RuntimeArchitectureSection a report:RuntimeArchitectureSection .
+ex:EvaluationReportingSection a report:EvaluationReportingSection .
+ex:GovernanceReportingSection a report:GovernanceReportingSection .
+ex:HumanReviewSection a report:HumanReviewSection .
+ex:RiskUncertaintySection a report:RiskUncertaintySection .
+ex:ReproducibilitySection a report:ReproducibilitySection .
+
+ex:DiagnosticWorkflow
+  a core:Workflow ;
+  core:hasName "Retinal diagnostic workflow" ;
+  core:hasStep ex:ImageAnalysisStep .
+
+ex:ImageAnalysisStep
+  a core:WorkflowStep ;
+  core:hasName "Analyze retinal image" ;
+  core:assignedToAgent ex:DiagnosticAgent ;
+  core:executedInRun ex:DiagnosticRun ;
+  core:producesArtifact ex:RiskObservation .
+
+ex:DiagnosticRun
+  a core:ExecutionRun ;
+  core:hasName "Diagnostic run 001" ;
+  core:partOfSession ex:DiagnosticSession ;
+  prov:used ex:RetinalImageArtifact ;
+  prov:wasAssociatedWith ex:DiagnosticAgent .
+
+ex:DiagnosticSession
+  a core:Session ;
+  core:hasName "Diagnostic demo session" .
+
+ex:RetinalImageArtifact
+  a core:Artifact ;
+  core:hasName "Retinal image input" .
+
+ex:RetinalImageAnalysisTool
+  a core:Tool ;
+  core:hasName "Retinal image analysis tool" .
+
+ex:RetinalToolInvocation
+  a core:ToolInvocation ;
+  core:hasName "Retinal tool invocation" ;
+  core:invokesTool ex:RetinalImageAnalysisTool ;
+  core:invokedBy ex:DiagnosticAgent ;
+  core:partOfStep ex:ImageAnalysisStep ;
+  core:hasInvocationInput ex:RetinalImageArtifact ;
+  core:hasInvocationOutput ex:RiskObservation ;
+  prov:used ex:RetinalImageArtifact ;
+  prov:wasAssociatedWith ex:DiagnosticAgent .
+
+ex:RiskObservation
+  a core:Observation ;
+  core:hasName "Cup-to-disc risk observation" ;
+  doc:derivedFrom ex:RetinalImageArtifact ;
+  prov:wasGeneratedBy ex:RetinalToolInvocation .
+
+ex:GlaucomaRiskRecommendation
+  a health:DiagnosticRecommendation ;
+  core:hasName "Glaucoma risk recommendation" ;
+  gov:hasConfidenceScore ex:GlaucomaConfidence ;
+  gov:requiresReview ex:ClinicalReviewRequirement ;
+  doc:hasLineageTrace ex:GlaucomaLineageTrace ;
+  doc:derivedFrom ex:RiskObservation .
+
+ex:GlaucomaLineageTrace
+  a doc:LineageTrace ;
+  doc:traceText "The recommendation was derived from a retinal image artifact, a tool invocation, a workflow step, and a diagnostic execution run." .
+
+ex:GlaucomaConfidence
+  a gov:ConfidenceScore ;
+  gov:confidenceValue "0.82"^^xsd:decimal .
+
+ex:ClinicalReviewRequirement
+  a gov:HumanReviewRequirement ;
+  core:hasName "Clinical review required before use" .
+
+ex:DiagnosticClinicalOwner
+  a gov:AccountabilityRole ;
+  core:hasName "Diagnostic clinical safety owner" .
+
+ex:DiagnosticSharedControl
+  a gov:SharedControl ;
+  core:hasName "Shared-control diagnostic decision support" .
+
+ex:DiagnosticPatientSafetyRisk
+  a gov:Risk ;
+  core:hasName "Diagnostic patient safety risk" ;
+  gov:hasSeverity "moderate" ;
+  gov:hasMitigationStrategy "Require clinical review before acting on diagnostic recommendations." .
+
+ex:DiagnosticMonitoringRule
+  a gov:MonitoringRule ;
+  core:hasDescription "Monitor diagnostic recommendation confidence, review outcomes, and clinician override frequency." .
+
+ex:DiagnosticEvaluation
+  a eval:EvaluationStudy ;
+  core:hasName "Diagnostic demo evaluation" ;
+  eval:evaluates ex:DiagnosticAgent ;
+  eval:usesDataset ex:RetinalEvaluationDataset ;
+  eval:producesResult ex:DiagnosticAccuracyResult .
+
+ex:RetinalEvaluationDataset
+  a eval:Dataset ;
+  core:hasName "Retinal evaluation dataset" .
+
+ex:DiagnosticAccuracyResult
+  a eval:MetricResult ;
+  eval:forMetric ex:AccuracyMetric ;
+  eval:hasValue "0.91"^^xsd:decimal ;
+  eval:derivedFromRun ex:DiagnosticRun .
+
+ex:AccuracyMetric a eval:Metric ; core:hasName "Accuracy" .

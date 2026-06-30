@@ -1,0 +1,136 @@
+{
+  "files_checked": 24,
+  "parse_failures": [],
+  "parse_results": {
+    "data/examples/converted_test_agent_annotations.ttl": {
+      "ok": true,
+      "triples": 418,
+      "error": null
+    },
+    "data/examples/governance_reporting_profile_example.ttl": {
+      "ok": true,
+      "triples": 240,
+      "error": null
+    },
+    "data/examples/health_interoperability_example.ttl": {
+      "ok": true,
+      "triples": 73,
+      "error": null
+    },
+    "data/examples/prov_decision_trace_example.ttl": {
+      "ok": true,
+      "triples": 110,
+      "error": null
+    },
+    "ontology/agento.ttl": {
+      "ok": true,
+      "triples": 1355,
+      "error": null
+    },
+    "ontology/alignments/agento-align-duo.ttl": {
+      "ok": true,
+      "triples": 14,
+      "error": null
+    },
+    "ontology/alignments/agento-align-fhir.ttl": {
+      "ok": true,
+      "triples": 15,
+      "error": null
+    },
+    "ontology/alignments/agento-align-iao.ttl": {
+      "ok": true,
+      "triples": 26,
+      "error": null
+    },
+    "ontology/alignments/agento-align-mcro.ttl": {
+      "ok": true,
+      "triples": 21,
+      "error": null
+    },
+    "ontology/alignments/agento-align-nist-rmf.ttl": {
+      "ok": true,
+      "triples": 43,
+      "error": null
+    },
+    "ontology/alignments/agento-align-prov.ttl": {
+      "ok": true,
+      "triples": 19,
+      "error": null
+    },
+    "ontology/alignments/agento-align-swo.ttl": {
+      "ok": true,
+      "triples": 11,
+      "error": null
+    },
+    "ontology/alignments/agento-align-who-health-ai.ttl": {
+      "ok": true,
+      "triples": 37,
+      "error": null
+    },
+    "ontology/modules/agento-core.ttl": {
+      "ok": true,
+      "triples": 435,
+      "error": null
+    },
+    "ontology/modules/agento-doc.ttl": {
+      "ok": true,
+      "triples": 89,
+      "error": null
+    },
+    "ontology/modules/agento-eval.ttl": {
+      "ok": true,
+      "triples": 159,
+      "error": null
+    },
+    "ontology/modules/agento-gov.ttl": {
+      "ok": true,
+      "triples": 293,
+      "error": null
+    },
+    "ontology/modules/agento-health.ttl": {
+      "ok": true,
+      "triples": 136,
+      "error": null
+    },
+    "ontology/modules/agento-report.ttl": {
+      "ok": true,
+      "triples": 240,
+      "error": null
+    },
+    "ontology/profiles/agento-governance-profile.ttl": {
+      "ok": true,
+      "triples": 26,
+      "error": null
+    },
+    "ontology/profiles/agento-reporting-completeness-profile.ttl": {
+      "ok": true,
+      "triples": 20,
+      "error": null
+    },
+    "ontology/profiles/agento-reporting-profile.ttl": {
+      "ok": true,
+      "triples": 48,
+      "error": null
+    },
+    "shapes/agento-governance-shapes.ttl": {
+      "ok": true,
+      "triples": 61,
+      "error": null
+    },
+    "shapes/agento-reporting-shapes.ttl": {
+      "ok": true,
+      "triples": 92,
+      "error": null
+    }
+  },
+  "active_old_acro_uri_files": [],
+  "missing_class_labels": [],
+  "missing_object_property_labels": [],
+  "missing_datatype_property_labels": [],
+  "object_properties_missing_domain": [],
+  "object_properties_missing_range": [],
+  "datatype_properties_missing_domain": [],
+  "datatype_properties_missing_range": [],
+  "undefined_alignment_terms": [],
+  "passed": true
+}

@@ -1,0 +1,306 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/reporting> a owl:Ontology ;
+    rdfs:label "AGENT-O Reporting Ontology"@en ;
+    rdfs:comment "Agent-system reporting extension for agent cards, reporting sections, and reporting-completeness completeness assessments."@en .
+
+report:AgentIdentityScopeSection a owl:Class ;
+    rdfs:label "AgentIdentityScopeSection"@en ;
+    rdfs:comment "A reporting section for AgentIdentityScopeSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:AgentSystemDocumentation a owl:Class ;
+    rdfs:label "AgentSystemDocumentation"@en ;
+    rdfs:comment "Documentation for an agentic system."@en ;
+    rdfs:subClassOf doc:Reference .
+
+report:ClinicalContextSection a owl:Class ;
+    rdfs:label "ClinicalContextSection"@en ;
+    rdfs:comment "A reporting section for ClinicalContextSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:DataUseSection a owl:Class ;
+    rdfs:label "DataUseSection"@en ;
+    rdfs:comment "A reporting section for DataUseSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:DatasetsMetricsSection a owl:Class ;
+    rdfs:label "DatasetsMetricsSection"@en ;
+    rdfs:comment "A reporting section for DatasetsMetricsSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:DeploymentContextSection a owl:Class ;
+    rdfs:label "DeploymentContextSection"@en ;
+    rdfs:comment "A reporting section for DeploymentContextSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:DeploymentMonitoringSection a owl:Class ;
+    rdfs:label "DeploymentMonitoringSection"@en ;
+    rdfs:comment "A reporting section for DeploymentMonitoringSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:EvaluationReportingSection a owl:Class ;
+    rdfs:label "EvaluationReportingSection"@en ;
+    rdfs:comment "A reporting section for EvaluationReportingSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:FailureFallbackSection a owl:Class ;
+    rdfs:label "FailureFallbackSection"@en ;
+    rdfs:comment "A reporting section for FailureFallbackSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:GovernanceProfile a owl:Class ;
+    rdfs:label "GovernanceProfile"@en ;
+    rdfs:comment "A profile that defines governance requirements, policies, and validation expectations."@en ;
+    rdfs:subClassOf report:ReportingProfile .
+
+report:GovernanceReportingSection a owl:Class ;
+    rdfs:label "GovernanceReportingSection"@en ;
+    rdfs:comment "A reporting section for GovernanceReportingSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:HumanReviewSection a owl:Class ;
+    rdfs:label "HumanReviewSection"@en ;
+    rdfs:comment "A reporting section for HumanReviewSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:InputOutputDataSection a owl:Class ;
+    rdfs:label "InputOutputDataSection"@en ;
+    rdfs:comment "A reporting section for InputOutputDataSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:MemorySection a owl:Class ;
+    rdfs:label "MemorySection"@en ;
+    rdfs:comment "A reporting section for MemorySection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:Missing a report:CompletenessLabel ;
+    rdfs:label "missing"@en .
+
+report:ModelComponentsSection a owl:Class ;
+    rdfs:label "ModelComponentsSection"@en ;
+    rdfs:comment "A reporting section for ModelComponentsSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:NotApplicable a report:CompletenessLabel ;
+    rdfs:label "not applicable"@en .
+
+report:Partial a report:CompletenessLabel ;
+    rdfs:label "partial"@en .
+
+report:PlanningReasoningSection a owl:Class ;
+    rdfs:label "PlanningReasoningSection"@en ;
+    rdfs:comment "A reporting section for PlanningReasoningSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:Present a report:CompletenessLabel ;
+    rdfs:label "present"@en .
+
+report:PrivacySecurityComplianceSection a owl:Class ;
+    rdfs:label "PrivacySecurityComplianceSection"@en ;
+    rdfs:comment "A reporting section for PrivacySecurityComplianceSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:ReproducibilitySection a owl:Class ;
+    rdfs:label "ReproducibilitySection"@en ;
+    rdfs:comment "A reporting section for ReproducibilitySection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:ReportingCompletenessProfile a owl:Class ;
+    rdfs:label "ReportingCompletenessProfile"@en ;
+    rdfs:comment "A profile used to assess the completeness of paper or report descriptions against AGENT-O."@en ;
+    rdfs:subClassOf report:ReportingProfile .
+
+report:RiskUncertaintySection a owl:Class ;
+    rdfs:label "RiskUncertaintySection"@en ;
+    rdfs:comment "A reporting section for RiskUncertaintySection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:RuntimeArchitectureSection a owl:Class ;
+    rdfs:label "RuntimeArchitectureSection"@en ;
+    rdfs:comment "A reporting section for RuntimeArchitectureSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:SubgroupEquityEvaluationSection a owl:Class ;
+    rdfs:label "SubgroupEquityEvaluationSection"@en ;
+    rdfs:comment "A reporting section for SubgroupEquityEvaluationSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:ToolUseSection a owl:Class ;
+    rdfs:label "ToolUseSection"@en ;
+    rdfs:comment "A reporting section for ToolUseSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:WorkflowSection a owl:Class ;
+    rdfs:label "WorkflowSection"@en ;
+    rdfs:comment "A reporting section for WorkflowSection."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:alignsWithGuideline a owl:ObjectProperty ;
+    rdfs:label "alignsWithGuideline"@en ;
+    rdfs:comment "Links a reporting or governance profile to an external guideline or framework reference."@en ;
+    rdfs:domain report:ReportingProfile ;
+    rdfs:range report:ReportingGuidelineReference .
+
+report:assessesReport a owl:ObjectProperty ;
+    rdfs:label "assessesReport"@en ;
+    rdfs:comment "Links a completeness assessment to the report or documentation being assessed."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range report:AgentSystemReport .
+
+report:assessesSection a owl:ObjectProperty ;
+    rdfs:label "assessesSection"@en ;
+    rdfs:comment "Links a completeness assessment to the reporting section it assesses."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range report:ReportingSection .
+
+report:documentsAgentSystem a owl:ObjectProperty ;
+    rdfs:label "documentsAgentSystem"@en ;
+    rdfs:comment "Links an agent-system report to the agent it documents."@en ;
+    rdfs:domain report:AgentSystemReport ;
+    rdfs:range core:Agent .
+
+report:documentsModelComponent a owl:ObjectProperty ;
+    rdfs:label "documentsModelComponent"@en ;
+    rdfs:comment "Links an agent-system report to a documented model component."@en ;
+    rdfs:domain report:AgentSystemReport ;
+    rdfs:range core:ModelComponent .
+
+report:hasAgentCard a owl:ObjectProperty ;
+    rdfs:label "hasAgentCard"@en ;
+    rdfs:comment "Links an agent to its agent card."@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range report:AgentCard .
+
+report:hasCompletenessLabel a owl:ObjectProperty ;
+    rdfs:label "hasCompletenessLabel"@en ;
+    rdfs:comment "Links a completeness assessment to its controlled completeness label."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range report:CompletenessLabel .
+
+report:hasEvidenceQuote a owl:DatatypeProperty ;
+    rdfs:label "hasEvidenceQuote"@en ;
+    rdfs:comment "Records a source evidence quote for a completeness assessment."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range xsd:string .
+
+report:hasGapExplanation a owl:DatatypeProperty ;
+    rdfs:label "hasGapExplanation"@en ;
+    rdfs:comment "Explains a reporting gap."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range xsd:string .
+
+report:hasIntendedUse a owl:ObjectProperty ;
+    rdfs:label "hasIntendedUse"@en ;
+    rdfs:comment "Links an agent, model component, report, or card to its intended use."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range report:IntendedUse .
+
+report:hasIntendedUser a owl:ObjectProperty ;
+    rdfs:label "hasIntendedUser"@en ;
+    rdfs:comment "Links an agent, model component, report, or card to its intended user or audience."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range report:IntendedUser .
+
+report:hasModelCardReference a owl:ObjectProperty ;
+    rdfs:label "hasModelCardReference"@en ;
+    rdfs:comment "Links a model component to a model card reference."@en ;
+    rdfs:domain core:ModelComponent ;
+    rdfs:range report:ModelCardReference .
+
+report:hasModelCardReport a owl:ObjectProperty ;
+    rdfs:label "hasModelCardReport"@en ;
+    rdfs:comment "Links an agent-system report to a model card reference."@en ;
+    rdfs:domain report:AgentSystemReport ;
+    rdfs:range report:ModelCardReference .
+
+report:hasRecommendedFix a owl:DatatypeProperty ;
+    rdfs:label "hasRecommendedFix"@en ;
+    rdfs:comment "Recommends how to resolve a reporting gap."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range xsd:string .
+
+report:hasReportingGap a owl:ObjectProperty ;
+    rdfs:label "hasReportingGap"@en ;
+    rdfs:comment "Links a completeness assessment to a reporting gap."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range report:ReportingGap .
+
+report:hasReportingSection a owl:ObjectProperty ;
+    rdfs:label "hasReportingSection"@en ;
+    rdfs:comment "Links an agent-system report to one of its reporting sections."@en ;
+    rdfs:domain report:AgentSystemReport ;
+    rdfs:range report:ReportingSection .
+
+report:hasSourceSection a owl:DatatypeProperty ;
+    rdfs:label "hasSourceSection"@en ;
+    rdfs:comment "Records the source paper or report section used for a completeness assessment."@en ;
+    rdfs:domain report:ReportingCompletenessAssessment ;
+    rdfs:range xsd:string .
+
+report:recommendedReportingSection a owl:ObjectProperty ;
+    rdfs:label "recommendedReportingSection"@en ;
+    rdfs:comment "Links a reporting or reporting-completeness profile to a recommended reporting section."@en ;
+    rdfs:domain report:ReportingProfile ;
+    rdfs:range report:ReportingSection .
+
+report:requiresReportingSection a owl:ObjectProperty ;
+    rdfs:label "requiresReportingSection"@en ;
+    rdfs:comment "Links a reporting or reporting-completeness profile to a required reporting section."@en ;
+    rdfs:domain report:ReportingProfile ;
+    rdfs:range report:ReportingSection .
+
+report:AgentCard a owl:Class ;
+    rdfs:label "AgentCard"@en ;
+    rdfs:comment "A structured card describing an agentic system."@en ;
+    rdfs:subClassOf report:AgentSystemReport .
+
+report:IntendedUse a owl:Class ;
+    rdfs:label "IntendedUse"@en ;
+    rdfs:comment "The intended use of an agent or model component."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:IntendedUser a owl:Class ;
+    rdfs:label "IntendedUser"@en ;
+    rdfs:comment "The intended user or audience of an agentic system."@en ;
+    rdfs:subClassOf report:ReportingSection .
+
+report:ReportingGap a owl:Class ;
+    rdfs:label "ReportingGap"@en ;
+    rdfs:comment "A missing or incomplete reporting item identified during reporting completeness assessment."@en .
+
+report:ReportingGuidelineReference a owl:Class ;
+    rdfs:label "ReportingGuidelineReference"@en ;
+    rdfs:comment "A reference to an external reporting guideline or governance framework."@en ;
+    rdfs:subClassOf doc:Reference .
+
+report:ModelCardReference a owl:Class ;
+    rdfs:label "ModelCardReference"@en ;
+    rdfs:comment "A reference to a model card or model-level report."@en ;
+    rdfs:subClassOf doc:Reference .
+
+report:CompletenessLabel a owl:Class ;
+    rdfs:label "CompletenessLabel"@en ;
+    rdfs:comment "A controlled label for reporting completeness."@en .
+
+report:ReportingProfile a owl:Class ;
+    rdfs:label "ReportingProfile"@en ;
+    rdfs:comment "A profile that defines required or recommended reporting sections for an agent-system report."@en .
+
+report:AgentSystemReport a owl:Class ;
+    rdfs:label "AgentSystemReport"@en ;
+    rdfs:comment "A report describing an agentic system lifecycle."@en .
+
+report:ReportingCompletenessAssessment a owl:Class ;
+    rdfs:label "ReportingCompletenessAssessment"@en ;
+    rdfs:comment "An assessment of whether a paper or report covers an AGENT-O reporting dimension."@en .
+
+report:ReportingSection a owl:Class ;
+    rdfs:label "ReportingSection"@en ;
+    rdfs:comment "A section of an agent-system report."@en .
+

@@ -1,0 +1,31 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/agent-o/alignments/prov>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O to PROV-O alignment"@en ;
+  rdfs:comment "Safe provenance mappings from AGENT-O runtime, artifact, and lineage concepts to PROV-O. Agent-specific governance and reasoning concepts remain in AGENT-O."@en .
+
+core:Agent rdfs:subClassOf prov:Agent .
+core:HumanAgent rdfs:subClassOf prov:Agent .
+core:ExecutionRun rdfs:subClassOf prov:Activity .
+core:WorkflowStep rdfs:subClassOf prov:Activity .
+core:ToolInvocation rdfs:subClassOf prov:Activity .
+core:Artifact rdfs:subClassOf prov:Entity .
+core:Observation rdfs:subClassOf prov:Entity .
+core:ProposedAction rdfs:subClassOf prov:Entity .
+doc:LineageTrace rdfs:subClassOf prov:Entity .
+
+doc:derivedFrom rdfs:subPropertyOf prov:wasDerivedFrom .
+core:usesTool skos:relatedMatch prov:used .
+core:produces skos:relatedMatch prov:generated .
+core:producesArtifact skos:relatedMatch prov:generated .
+core:executedInRun skos:relatedMatch prov:wasInformedBy .
+core:performedBy skos:relatedMatch prov:wasAssociatedWith .
+eval:derivedFromRun skos:relatedMatch prov:wasGeneratedBy .
+

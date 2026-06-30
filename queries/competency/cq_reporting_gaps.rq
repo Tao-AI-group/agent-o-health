@@ -1,0 +1,25 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+PREFIX report: <https://w3id.org/agent-o/reporting#>
+
+SELECT DISTINCT
+  ?report
+  ?reportName
+  ?agent
+  ?section
+  ?label
+  ?evidenceQuote
+  ?gapExplanation
+  ?recommendedFix
+WHERE {
+  ?assessment a report:ReportingCompletenessAssessment ;
+    report:assessesReport ?report ;
+    report:assessesSection ?section ;
+    report:hasCompletenessLabel ?label .
+  VALUES ?label { report:Partial report:Missing }
+  OPTIONAL { ?report core:hasName ?reportName . }
+  OPTIONAL { ?report report:documentsAgentSystem ?agent . }
+  OPTIONAL { ?assessment report:hasEvidenceQuote ?evidenceQuote . }
+  OPTIONAL { ?assessment report:hasGapExplanation ?gapExplanation . }
+  OPTIONAL { ?assessment report:hasRecommendedFix ?recommendedFix . }
+}
+ORDER BY ?report ?section

@@ -1,0 +1,49 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/agent-o/alignments/mcro>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O to MCRO alignment"@en ;
+  rdfs:comment "Safe mappings from AGENT-O agent-system reporting concepts to MCRO model-card reporting concepts. AGENT-O report concepts are broader than MCRO model card concepts and therefore use SKOS mappings rather than OWL equivalence."@en .
+
+report:AgentSystemReport
+  skos:relatedMatch obo:MCRO_0000001 ;
+  rdfs:comment "An AGENT-O AgentSystemReport is broader than an MCRO Model Card Report because it covers agent runtime, tools, workflows, memory, reasoning, provenance, evaluation, human oversight, and governance."@en .
+
+report:AgentCard
+  skos:relatedMatch obo:MCRO_0000001 .
+
+report:ModelCardReference
+  skos:closeMatch obo:MCRO_0000001 .
+
+core:ModelComponent
+  skos:relatedMatch obo:MCRO_0000021, obo:MCRO_0000019 .
+
+report:EvaluationReportingSection
+  skos:closeMatch obo:MCRO_0000027 .
+
+eval:Dataset
+  skos:relatedMatch obo:MCRO_0000006, obo:MCRO_0000008, obo:MCRO_0000037 .
+
+doc:License
+  skos:closeMatch obo:MCRO_0000016 .
+
+gov:Risk
+  skos:closeMatch obo:MCRO_0000033 .
+
+gov:PrivacyConstraint
+  skos:relatedMatch obo:MCRO_0000028, obo:MCRO_0000034 .
+
+report:IntendedUse
+  skos:closeMatch obo:MCRO_0000029, obo:MCRO_0000038 .
+
+report:IntendedUser
+  skos:closeMatch obo:MCRO_0000030, obo:MCRO_0000039 .
+

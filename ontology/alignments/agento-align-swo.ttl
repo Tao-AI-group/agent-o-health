@@ -1,0 +1,23 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix swo: <http://www.ebi.ac.uk/swo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/agent-o/alignments/swo>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O to SWO alignment"@en ;
+  rdfs:comment "Mappings from AGENT-O tools, scripts, execution units, versions, and software-facing runtime components to the Software Ontology."@en .
+
+core:Tool rdfs:subClassOf swo:SWO_0000001 .
+core:Script rdfs:subClassOf swo:SWO_0000001 .
+core:ExecutionUnit skos:relatedMatch swo:SWO_0000001 .
+core:ExecutionEnvironment skos:relatedMatch swo:SWO_9000050 .
+core:hasVersion skos:relatedMatch swo:SWO_0004000 .
+
+doc:VersionInfo skos:relatedMatch swo:SWO_0004000 .
+doc:License skos:closeMatch swo:SWO_0000002 .
+
+core:implementedBy skos:relatedMatch swo:SWO_0000740 .
+

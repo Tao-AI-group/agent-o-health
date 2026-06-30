@@ -1,0 +1,16 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+PREFIX report: <https://w3id.org/agent-o/reporting#>
+
+SELECT ?agent ?agentName ?model ?modelName ?modelCard ?report
+WHERE {
+  ?agent core:usesModel ?model .
+  OPTIONAL { ?agent core:hasName ?agentName . }
+  OPTIONAL { ?model core:hasName ?modelName . }
+  OPTIONAL { ?model report:hasModelCardReference ?modelCard . }
+  OPTIONAL {
+    ?report report:documentsAgentSystem ?agent ;
+            report:documentsModelComponent ?model .
+  }
+}
+ORDER BY ?agent ?model
+

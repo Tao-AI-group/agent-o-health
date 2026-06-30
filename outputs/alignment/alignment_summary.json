@@ -1,0 +1,18 @@
+{
+  "mapping_count": 128,
+  "by_module": {
+    "core": 22,
+    "doc": 11,
+    "eval": 15,
+    "gov": 36,
+    "health": 19,
+    "report": 25
+  },
+  "by_type": {
+    "rdfs:subClassOf": 32,
+    "rdfs:subPropertyOf": 1,
+    "skos:closeMatch": 16,
+    "skos:exactMatch": 9,
+    "skos:relatedMatch": 70
+  }
+}

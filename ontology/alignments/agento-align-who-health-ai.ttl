@@ -1,0 +1,57 @@
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://w3id.org/agent-o/alignments/who-health-ai>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O WHO health AI governance profile alignment"@en ;
+  rdfs:comment "WHO health AI ethics and governance guidance is represented as profile concepts and validation expectations rather than as direct OWL class equivalence."@en .
+
+gov:WHOHealthAIConceptScheme
+  a skos:ConceptScheme ;
+  rdfs:label "WHO Health AI Ethics and Governance Concept Scheme"@en ;
+  skos:prefLabel "WHO Health AI Ethics and Governance Concept Scheme"@en .
+
+gov:WHOHumanAutonomy
+  a skos:Concept ;
+  skos:inScheme gov:WHOHealthAIConceptScheme ;
+  skos:prefLabel "Protect human autonomy"@en ;
+  skos:exactMatch <https://www.who.int/publications/i/item/9789240029200> .
+
+gov:WHOTransparencyExplainability
+  a skos:Concept ;
+  skos:inScheme gov:WHOHealthAIConceptScheme ;
+  skos:prefLabel "Ensure transparency, explainability, and intelligibility"@en ;
+  skos:exactMatch <https://www.who.int/publications/i/item/9789240029200> .
+
+gov:WHOResponsibilityAccountability
+  a skos:Concept ;
+  skos:inScheme gov:WHOHealthAIConceptScheme ;
+  skos:prefLabel "Foster responsibility and accountability"@en ;
+  skos:exactMatch <https://www.who.int/publications/i/item/9789240029200> .
+
+gov:WHOInclusivenessEquity
+  a skos:Concept ;
+  skos:inScheme gov:WHOHealthAIConceptScheme ;
+  skos:prefLabel "Ensure inclusiveness and equity"@en ;
+  skos:exactMatch <https://www.who.int/publications/i/item/9789240029200> .
+
+gov:WHOSafetyPrivacy
+  a skos:Concept ;
+  skos:inScheme gov:WHOHealthAIConceptScheme ;
+  skos:prefLabel "Promote safety, privacy, and public interest"@en ;
+  skos:exactMatch <https://www.who.int/publications/i/item/9789240029200> .
+
+gov:HumanAutonomyRequirement skos:relatedMatch gov:WHOHumanAutonomy .
+gov:TransparencyRequirement skos:relatedMatch gov:WHOTransparencyExplainability .
+gov:ExplainabilityRequirement skos:relatedMatch gov:WHOTransparencyExplainability .
+gov:AccountabilityRequirement skos:relatedMatch gov:WHOResponsibilityAccountability .
+gov:EquityRequirement skos:relatedMatch gov:WHOInclusivenessEquity .
+gov:SafetyRequirement skos:relatedMatch gov:WHOSafetyPrivacy .
+gov:PrivacyRequirement skos:relatedMatch gov:WHOSafetyPrivacy .
+
+health:PatientFacingAgent skos:relatedMatch gov:WHOHumanAutonomy, gov:WHOTransparencyExplainability .
+health:ClinicalDecisionSupportAgent skos:relatedMatch gov:WHOResponsibilityAccountability, gov:WHOSafetyPrivacy .
+

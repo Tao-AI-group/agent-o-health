@@ -1,0 +1,120 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
+@prefix ex: <https://w3id.org/agent-o/examples/health-interoperability#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:EHRMedicationReviewAgent
+  a health:ClinicalDecisionSupportAgent ;
+  core:hasName "EHR medication review agent" ;
+  health:hasClinicalSetting ex:AmbulatoryCareSetting ;
+  core:usesTool ex:FHIRExtractionTool ;
+  core:hasInputType ex:EHRPatientRecordInput ;
+  core:generates ex:MedicationSafetyRecommendation ;
+  gov:hasAccountabilityRole ex:MedicationReviewClinicalOwner ;
+  gov:hasAutomationLevel ex:MedicationReviewSharedControl ;
+  gov:hasPrivacyConstraint ex:PHIPrivacyConstraint ;
+  gov:hasRisk ex:MedicationReviewPatientSafetyRisk ;
+  gov:monitoredBy ex:MedicationReviewMonitoringRule ;
+  gov:requiresCompliance ex:HIPAAComplianceRequirement .
+
+ex:AmbulatoryCareSetting
+  a health:ClinicalSetting ;
+  core:hasName "Ambulatory care setting" .
+
+ex:FHIRExtractionTool
+  a core:Tool ;
+  core:hasName "FHIR extraction tool" ;
+  core:hasVersion "R4-compatible demo interface" .
+
+ex:EHRPatientRecordInput
+  a health:PatientRecordInput ;
+  core:hasName "FHIR patient record input" ;
+  health:mapsToFHIRResource "http://hl7.org/fhir/Patient"^^xsd:anyURI ;
+  health:usesFHIRResourceType "Patient" .
+
+ex:MedicationObservationInput
+  a health:MedicationInput ;
+  core:hasName "FHIR medication request input" ;
+  health:mapsToFHIRResource "http://hl7.org/fhir/MedicationRequest"^^xsd:anyURI ;
+  health:usesFHIRResourceType "MedicationRequest" .
+
+ex:ConditionInput
+  a health:ConditionInput ;
+  core:hasName "FHIR condition input" ;
+  health:mapsToFHIRResource "http://hl7.org/fhir/Condition"^^xsd:anyURI ;
+  health:usesFHIRResourceType "Condition" .
+
+ex:MedicationSafetyRecommendation
+  a health:TreatmentRecommendation ;
+  core:hasName "Medication safety recommendation" ;
+  health:derivedFromFHIRResource ex:EHRPatientRecordInput, ex:MedicationObservationInput, ex:ConditionInput ;
+  gov:requiresReview ex:ClinicalReviewRequirement ;
+  doc:hasLineageTrace ex:MedicationReviewTrace .
+
+ex:MedicationReviewTrace
+  a doc:LineageTrace ;
+  doc:traceText "The recommendation was derived from FHIR Patient, MedicationRequest, and Condition inputs." .
+
+ex:ClinicalReviewRequirement
+  a gov:HumanReviewRequirement ;
+  core:hasName "Medication safety clinical review requirement" .
+
+ex:MedicationReviewClinicalOwner
+  a gov:AccountabilityRole ;
+  core:hasName "Medication review clinical safety owner" .
+
+ex:MedicationReviewSharedControl
+  a gov:SharedControl ;
+  core:hasName "Shared-control medication review operation" .
+
+ex:MedicationReviewPatientSafetyRisk
+  a gov:Risk ;
+  core:hasName "Medication review patient safety risk" ;
+  gov:hasSeverity "moderate" ;
+  gov:hasMitigationStrategy "Require clinician review for medication safety recommendations derived from EHR inputs." .
+
+ex:MedicationReviewMonitoringRule
+  a gov:MonitoringRule ;
+  core:hasDescription "Monitor clinician overrides, alert burden, and subgroup performance for medication review recommendations." .
+
+ex:PHIPrivacyConstraint
+  a gov:PrivacyConstraint ;
+  gov:containsPHI true ;
+  core:hasDescription "The EHR-derived inputs contain protected health information." .
+
+ex:HIPAAComplianceRequirement
+  a gov:ComplianceRequirement ;
+  gov:complianceFramework "HIPAA" .
+
+ex:RestrictedEHRDataset
+  a health:EHRDataSource ;
+  core:hasName "Restricted EHR medication review dataset" ;
+  eval:hasDataUseCondition ex:InstitutionalDataUseCondition ;
+  eval:hasDataUsePermission ex:ClinicalResearchUsePermission ;
+  eval:hasDataUseRestriction ex:ProjectSpecificRestriction .
+
+ex:InstitutionalDataUseCondition
+  a gov:DataUseCondition ;
+  core:hasName "Institutional data use condition" .
+
+ex:ClinicalResearchUsePermission
+  a gov:DataUsePermission ;
+  core:hasName "Clinical research use permission" .
+
+ex:ProjectSpecificRestriction
+  a gov:DataUseRestriction ;
+  core:hasName "Project-specific data use restriction" .
+
+ex:EHRDataUsePolicy
+  a gov:Policy ;
+  core:hasName "EHR data use policy" ;
+  gov:constrainsDataUse ex:RestrictedEHRDataset .
+
+ex:MedicationReviewEvaluation
+  a eval:EvaluationStudy ;
+  core:hasName "Medication review evaluation" ;
+  eval:evaluates ex:EHRMedicationReviewAgent ;
+  eval:usesDataset ex:RestrictedEHRDataset .

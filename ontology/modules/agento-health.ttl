@@ -1,0 +1,177 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/health> a owl:Ontology ;
+    rdfs:label "AGENT-O Health Ontology"@en ;
+    rdfs:comment "Health and biomedical extension for clinical, patient-facing, and biomedical agent concepts."@en .
+
+health:BiomedicalAgent a owl:Class ;
+    rdfs:label "BiomedicalAgent"@en ;
+    rdfs:comment "An agent used for biomedical research or analysis."@en ;
+    rdfs:subClassOf health:HealthAgent .
+
+health:CareTeamRole a owl:Class ;
+    rdfs:label "CareTeamRole"@en ;
+    rdfs:comment "A care team role associated with a health agent or review process."@en ;
+    rdfs:subClassOf core:Role .
+
+health:ClinicalDecisionSupportAgent a owl:Class ;
+    rdfs:label "ClinicalDecisionSupportAgent"@en ;
+    rdfs:comment "A clinical agent that supports clinical decisions."@en ;
+    rdfs:subClassOf health:ClinicalAgent .
+
+health:ClinicalGuidelineSource a owl:Class ;
+    rdfs:label "ClinicalGuidelineSource"@en ;
+    rdfs:comment "A clinical guideline source used by an agent."@en ;
+    rdfs:subClassOf doc:Reference .
+
+health:ClinicalTask a owl:Class ;
+    rdfs:label "ClinicalTask"@en ;
+    rdfs:comment "A task performed in a clinical workflow."@en ;
+    rdfs:subClassOf core:Task .
+
+health:ClinicianFacingAgent a owl:Class ;
+    rdfs:label "ClinicianFacingAgent"@en ;
+    rdfs:comment "A health agent whose outputs are intended for clinicians or care teams."@en ;
+    rdfs:subClassOf health:HealthAgent .
+
+health:ClinicianFacingOutput a owl:Class ;
+    rdfs:label "ClinicianFacingOutput"@en ;
+    rdfs:comment "An agent output intended for clinicians or care teams."@en ;
+    rdfs:subClassOf core:Artifact .
+
+health:ConditionInput a owl:Class ;
+    rdfs:label "ConditionInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR Condition resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:DiagnosticRecommendation a owl:Class ;
+    rdfs:label "DiagnosticRecommendation"@en ;
+    rdfs:comment "A diagnostic recommendation produced by an agent."@en ;
+    rdfs:subClassOf health:ClinicalRecommendation .
+
+health:DiagnosticReportInput a owl:Class ;
+    rdfs:label "DiagnosticReportInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR DiagnosticReport resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:EHRDataSource a owl:Class ;
+    rdfs:label "EHRDataSource"@en ;
+    rdfs:comment "An electronic health record data source."@en ;
+    rdfs:subClassOf health:HealthDataSource .
+
+health:MedicationInput a owl:Class ;
+    rdfs:label "MedicationInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR Medication or MedicationRequest resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:ObservationInput a owl:Class ;
+    rdfs:label "ObservationInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR Observation resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:PHIDataSource a owl:Class ;
+    rdfs:label "PHIDataSource"@en ;
+    rdfs:comment "A health data source containing protected health information."@en ;
+    rdfs:subClassOf health:HealthDataSource .
+
+health:PatientFacingAgent a owl:Class ;
+    rdfs:label "PatientFacingAgent"@en ;
+    rdfs:comment "A health agent whose outputs are intended for patients or caregivers."@en ;
+    rdfs:subClassOf health:HealthAgent .
+
+health:PatientPopulation a owl:Class ;
+    rdfs:label "PatientPopulation"@en ;
+    rdfs:comment "A patient population associated with an agent, dataset, evaluation, or deployment context."@en ;
+    rdfs:subClassOf core:Context .
+
+health:PatientRecordInput a owl:Class ;
+    rdfs:label "PatientRecordInput"@en ;
+    rdfs:comment "An input artifact representing patient record information."@en ;
+    rdfs:subClassOf health:EHRInput .
+
+health:ProcedureInput a owl:Class ;
+    rdfs:label "ProcedureInput"@en ;
+    rdfs:comment "An input artifact mapped to a FHIR Procedure resource."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:TreatmentRecommendation a owl:Class ;
+    rdfs:label "TreatmentRecommendation"@en ;
+    rdfs:comment "A treatment recommendation produced by an agent."@en ;
+    rdfs:subClassOf health:ClinicalRecommendation .
+
+health:derivedFromFHIRResource a owl:ObjectProperty ;
+    rdfs:label "derivedFromFHIRResource"@en ;
+    rdfs:comment "Links an AGENT-O artifact to a FHIR-derived input artifact from which it was derived."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range health:FHIRResourceInput .
+
+health:hasClinicalSetting a owl:ObjectProperty ;
+    rdfs:label "hasClinicalSetting"@en ;
+    rdfs:comment "Links a health agent, task, or evaluation to a clinical setting."@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range health:ClinicalSetting .
+
+health:hasOutputCategory a owl:DatatypeProperty ;
+    rdfs:label "hasOutputCategory"@en ;
+    rdfs:comment "Records whether a patient-facing output is advice, education, recommendation, triage, or another communication category."@en ;
+    rdfs:domain health:PatientFacingOutput ;
+    rdfs:range xsd:string .
+
+health:mapsToFHIRResource a owl:DatatypeProperty ;
+    rdfs:label "mapsToFHIRResource"@en ;
+    rdfs:comment "Records the canonical FHIR RDF class or resource IRI that an AGENT-O artifact maps to."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range xsd:anyURI .
+
+health:usesFHIRResourceType a owl:DatatypeProperty ;
+    rdfs:label "usesFHIRResourceType"@en ;
+    rdfs:comment "Records the FHIR resource type used by an input, output, dataset, or workflow step."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range xsd:string .
+
+health:ClinicalAgent a owl:Class ;
+    rdfs:label "ClinicalAgent"@en ;
+    rdfs:comment "An agent used in a clinical setting."@en ;
+    rdfs:subClassOf health:HealthAgent .
+
+health:ClinicalSetting a owl:Class ;
+    rdfs:label "ClinicalSetting"@en ;
+    rdfs:comment "A care delivery or biomedical setting where an agent operates."@en ;
+    rdfs:subClassOf core:Context .
+
+health:EHRInput a owl:Class ;
+    rdfs:label "EHRInput"@en ;
+    rdfs:comment "An input artifact derived from an electronic health record."@en ;
+    rdfs:subClassOf health:FHIRResourceInput .
+
+health:PatientFacingOutput a owl:Class ;
+    rdfs:label "PatientFacingOutput"@en ;
+    rdfs:comment "An agent output intended for patients or caregivers."@en ;
+    rdfs:subClassOf core:Artifact .
+
+health:ClinicalRecommendation a owl:Class ;
+    rdfs:label "ClinicalRecommendation"@en ;
+    rdfs:comment "A health-related recommendation produced by an agent."@en ;
+    rdfs:subClassOf core:ProposedAction .
+
+health:HealthDataSource a owl:Class ;
+    rdfs:label "HealthDataSource"@en ;
+    rdfs:comment "A data source used in a health or biomedical agent context."@en ;
+    rdfs:subClassOf eval:Dataset .
+
+health:HealthAgent a owl:Class ;
+    rdfs:label "HealthAgent"@en ;
+    rdfs:comment "An agent used in a health or biomedical setting."@en ;
+    rdfs:subClassOf core:Agent .
+
+health:FHIRResourceInput a owl:Class ;
+    rdfs:label "FHIRResourceInput"@en ;
+    rdfs:comment "An input artifact represented by or mapped to a FHIR RDF resource."@en ;
+    rdfs:subClassOf core:Artifact .
+

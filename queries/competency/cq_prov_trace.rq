@@ -1,0 +1,25 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+PREFIX doc: <https://w3id.org/agent-o/doc#>
+PREFIX eval: <https://w3id.org/agent-o/eval#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+SELECT ?action ?actionName ?sourceEntity ?activity ?associatedAgent ?metricResult
+WHERE {
+  ?action a core:ProposedAction ;
+          doc:derivedFrom ?sourceEntity .
+  OPTIONAL { ?action core:hasName ?actionName . }
+  OPTIONAL {
+    ?sourceEntity prov:wasGeneratedBy ?activity .
+  }
+  OPTIONAL {
+    ?activity prov:used ?upstreamEntity .
+  }
+  OPTIONAL {
+    ?activity prov:wasAssociatedWith ?associatedAgent .
+  }
+  OPTIONAL {
+    ?metricResult eval:derivedFromRun ?run .
+    ?run a core:ExecutionRun .
+  }
+}
+ORDER BY ?action ?sourceEntity ?activity

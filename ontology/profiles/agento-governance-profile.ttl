@@ -1,0 +1,45 @@
+@prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
+@prefix exprof: <https://w3id.org/agent-o/profiles#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/profiles/governance>
+  a owl:Ontology ;
+  rdfs:label "AGENT-O Governance Profile"@en ;
+  rdfs:comment "Governance profile for checking policy, accountability, risk, review, escalation, fallback, monitoring, privacy, and compliance coverage."@en .
+
+exprof:GovernanceProfile
+  a report:GovernanceProfile ;
+  rdfs:label "AGENT-O governance profile"@en ;
+  gov:hasEthicalPrinciple
+    gov:HumanAutonomyRequirement,
+    gov:TransparencyRequirement,
+    gov:ExplainabilityRequirement,
+    gov:EquityRequirement,
+    gov:AccountabilityRequirement,
+    gov:SafetyRequirement,
+    gov:PrivacyRequirement ;
+  report:requiresReportingSection
+    report:GovernanceReportingSection,
+    report:HumanReviewSection,
+    report:RiskUncertaintySection,
+    report:PrivacySecurityComplianceSection,
+    report:DeploymentMonitoringSection,
+    report:FailureFallbackSection ;
+  report:alignsWithGuideline
+    exprof:NISTAIRMFReference,
+    exprof:WHOHealthAIReference .
+
+exprof:NISTAIRMFReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "NIST AI RMF" ;
+  doc:sourceURI "https://airc.nist.gov/airmf-resources/airmf/5-sec-core/"^^xsd:anyURI .
+
+exprof:WHOHealthAIReference
+  a report:ReportingGuidelineReference ;
+  core:hasName "WHO health AI ethics and governance" ;
+  doc:sourceURI "https://www.who.int/publications/i/item/9789240029200"^^xsd:anyURI .

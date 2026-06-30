@@ -1,0 +1,38 @@
+{
+  "data_files": [
+    "ontology/agento.ttl",
+    "ontology/alignments/agento-align-duo.ttl",
+    "ontology/alignments/agento-align-fhir.ttl",
+    "ontology/alignments/agento-align-iao.ttl",
+    "ontology/alignments/agento-align-mcro.ttl",
+    "ontology/alignments/agento-align-nist-rmf.ttl",
+    "ontology/alignments/agento-align-prov.ttl",
+    "ontology/alignments/agento-align-swo.ttl",
+    "ontology/alignments/agento-align-who-health-ai.ttl",
+    "ontology/profiles/agento-governance-profile.ttl",
+    "ontology/profiles/agento-reporting-completeness-profile.ttl",
+    "ontology/profiles/agento-reporting-profile.ttl",
+    "data/examples/converted_test_agent_annotations.ttl",
+    "data/examples/governance_reporting_profile_example.ttl",
+    "data/examples/health_interoperability_example.ttl",
+    "data/examples/prov_decision_trace_example.ttl"
+  ],
+  "data_triples": 2470,
+  "shape_results": {
+    "agento-governance-shapes": {
+      "shape": "shapes/agento-governance-shapes.ttl",
+      "conforms": true,
+      "result_count": 0,
+      "severity_counts": {},
+      "results": []
+    },
+    "agento-reporting-shapes": {
+      "shape": "shapes/agento-reporting-shapes.ttl",
+      "conforms": true,
+      "result_count": 0,
+      "severity_counts": {},
+      "results": []
+    }
+  },
+  "conforms": true
+}

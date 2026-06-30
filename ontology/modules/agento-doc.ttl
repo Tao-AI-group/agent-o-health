@@ -1,0 +1,122 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/doc> a owl:Ontology ;
+    rdfs:label "AGENT-O Documentation Ontology"@en ;
+    rdfs:comment "Documentation/meta-data layer: citations, owners, licenses, versions, references, templates, provenance records, and lineage traces."@en .
+
+doc:citationText a owl:DatatypeProperty ;
+    rdfs:label "citationText"@en ;
+    rdfs:domain doc:Citation ;
+    rdfs:range xsd:string .
+
+doc:contact a owl:DatatypeProperty ;
+    rdfs:label "contact"@en ;
+    rdfs:domain doc:Owner ;
+    rdfs:range xsd:string .
+
+doc:derivedFrom a owl:ObjectProperty ;
+    rdfs:label "derivedFrom"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+doc:hasAsset a owl:ObjectProperty ;
+    rdfs:label "hasAsset"@en ;
+    rdfs:domain core:Skill ;
+    rdfs:range doc:Asset .
+
+doc:hasCitation a owl:ObjectProperty ;
+    rdfs:label "hasCitation"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:Citation .
+
+doc:hasLicense a owl:ObjectProperty ;
+    rdfs:label "hasLicense"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:License .
+
+doc:hasLineageTrace a owl:ObjectProperty ;
+    rdfs:label "hasLineageTrace"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range doc:LineageTrace .
+
+doc:hasOwner a owl:ObjectProperty ;
+    rdfs:label "hasOwner"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:Owner .
+
+doc:hasProvenanceRecord a owl:ObjectProperty ;
+    rdfs:label "hasProvenanceRecord"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range doc:ProvenanceRecord .
+
+doc:hasReference a owl:ObjectProperty ;
+    rdfs:label "hasReference"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:Reference .
+
+doc:hasTemplate a owl:ObjectProperty ;
+    rdfs:label "hasTemplate"@en ;
+    rdfs:domain core:Skill ;
+    rdfs:range doc:Template .
+
+doc:hasVersionInfo a owl:ObjectProperty ;
+    rdfs:label "hasVersionInfo"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range doc:VersionInfo .
+
+doc:identifier a owl:DatatypeProperty ;
+    rdfs:label "identifier"@en ;
+    rdfs:domain doc:License ;
+    rdfs:range xsd:string .
+
+doc:recordedAt a owl:DatatypeProperty ;
+    rdfs:label "recordedAt"@en ;
+    rdfs:domain doc:ProvenanceRecord ;
+    rdfs:range xsd:dateTime .
+
+doc:releaseDate a owl:DatatypeProperty ;
+    rdfs:label "releaseDate"@en ;
+    rdfs:domain doc:VersionInfo ;
+    rdfs:range xsd:date .
+
+doc:sourceURI a owl:DatatypeProperty ;
+    rdfs:label "sourceURI"@en ;
+    rdfs:domain doc:ProvenanceRecord ;
+    rdfs:range xsd:anyURI .
+
+doc:versionString a owl:DatatypeProperty ;
+    rdfs:label "versionString"@en ;
+    rdfs:domain doc:VersionInfo ;
+    rdfs:range xsd:string .
+
+doc:Asset a owl:Class ;
+    rdfs:label "Asset"@en .
+
+doc:LineageTrace a owl:Class ;
+    rdfs:label "LineageTrace"@en .
+
+doc:Reference a owl:Class ;
+    rdfs:label "Reference"@en .
+
+doc:Template a owl:Class ;
+    rdfs:label "Template"@en .
+
+doc:Citation a owl:Class ;
+    rdfs:label "Citation"@en .
+
+doc:License a owl:Class ;
+    rdfs:label "License"@en .
+
+doc:Owner a owl:Class ;
+    rdfs:label "Owner"@en .
+
+doc:ProvenanceRecord a owl:Class ;
+    rdfs:label "ProvenanceRecord"@en .
+
+doc:VersionInfo a owl:Class ;
+    rdfs:label "VersionInfo"@en .
+

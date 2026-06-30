@@ -1,0 +1,562 @@
+@prefix core: <https://w3id.org/agent-o/core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/agent-o/core> a owl:Ontology ;
+    rdfs:label "AGENT-O Core Ontology"@en ;
+    rdfs:comment "Core layer: agent runtime concepts across context/support and core capability execution, including Agent, Skill, ExecutionUnit, ToolInvocation, memory, planning, reasoning, resources, and environment."@en .
+
+core:Approval a owl:Class ;
+    rdfs:label "Approval"@en ;
+    rdfs:subClassOf core:ReviewOutcome .
+
+core:Communication a owl:Class ;
+    rdfs:label "Communication"@en ;
+    rdfs:subClassOf core:AgentInteraction .
+
+core:Coordination a owl:Class ;
+    rdfs:label "Coordination"@en ;
+    rdfs:subClassOf core:AgentInteraction .
+
+core:Delegation a owl:Class ;
+    rdfs:label "Delegation"@en ;
+    rdfs:subClassOf core:AgentInteraction .
+
+core:EmbeddingModel a owl:Class ;
+    rdfs:label "EmbeddingModel"@en ;
+    rdfs:comment "An embedding model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:Environment a owl:Class ;
+    rdfs:label "Environment"@en ;
+    owl:equivalentClass core:ExecutionEnvironment .
+
+core:FineTunedModel a owl:Class ;
+    rdfs:label "FineTunedModel"@en ;
+    rdfs:comment "A fine-tuned model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:FoundationModel a owl:Class ;
+    rdfs:label "FoundationModel"@en ;
+    rdfs:comment "A foundation model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:InvocationFailure a owl:Class ;
+    rdfs:label "InvocationFailure"@en ;
+    rdfs:subClassOf core:InvocationStatus .
+
+core:InvocationSuccess a owl:Class ;
+    rdfs:label "InvocationSuccess"@en ;
+    rdfs:subClassOf core:InvocationStatus .
+
+core:LanguageModel a owl:Class ;
+    rdfs:label "LanguageModel"@en ;
+    rdfs:comment "A language model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:Memory a owl:Class ;
+    rdfs:label "Memory"@en ;
+    owl:equivalentClass core:MemoryModule .
+
+core:Modification a owl:Class ;
+    rdfs:label "Modification"@en ;
+    rdfs:subClassOf core:ReviewOutcome .
+
+core:MultimodalModel a owl:Class ;
+    rdfs:label "MultimodalModel"@en ;
+    rdfs:comment "A multimodal model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:Rejection a owl:Class ;
+    rdfs:label "Rejection"@en ;
+    rdfs:subClassOf core:ReviewOutcome .
+
+core:Script a owl:Class ;
+    rdfs:label "Script"@en ;
+    rdfs:subClassOf core:ExecutionUnit .
+
+core:State a owl:Class ;
+    rdfs:label "State"@en ;
+    rdfs:subClassOf core:Context .
+
+core:StepCompleted a owl:Class ;
+    rdfs:label "StepCompleted"@en ;
+    rdfs:subClassOf core:ExecutionStatus .
+
+core:StepFailed a owl:Class ;
+    rdfs:label "StepFailed"@en ;
+    rdfs:subClassOf core:ExecutionStatus .
+
+core:StepPending a owl:Class ;
+    rdfs:label "StepPending"@en ;
+    rdfs:subClassOf core:ExecutionStatus .
+
+core:StepRunning a owl:Class ;
+    rdfs:label "StepRunning"@en ;
+    rdfs:subClassOf core:ExecutionStatus .
+
+core:VisionModel a owl:Class ;
+    rdfs:label "VisionModel"@en ;
+    rdfs:comment "A vision model used as a model component."@en ;
+    rdfs:subClassOf core:ModelComponent .
+
+core:assignedToAgent a owl:ObjectProperty ;
+    rdfs:label "assignedToAgent"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:Agent .
+
+core:causedByInvocation a owl:ObjectProperty ;
+    rdfs:label "causedByInvocation"@en ;
+    rdfs:domain core:FailureEvent ;
+    rdfs:range core:ToolInvocation .
+
+core:communicatesWith a owl:ObjectProperty ;
+    rdfs:label "communicatesWith"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Agent .
+
+core:consumesArtifact a owl:ObjectProperty ;
+    rdfs:label "consumesArtifact"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:Artifact .
+
+core:coordinatesWith a owl:ObjectProperty ;
+    rdfs:label "coordinatesWith"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Agent .
+
+core:delegatesTo a owl:ObjectProperty ;
+    rdfs:label "delegatesTo"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Agent .
+
+core:dependsOn a owl:ObjectProperty ;
+    rdfs:label "dependsOn"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Context .
+
+core:endedAt a owl:DatatypeProperty ;
+    rdfs:label "endedAt"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range xsd:dateTime .
+
+core:errorMessage a owl:DatatypeProperty ;
+    rdfs:label "errorMessage"@en ;
+    rdfs:domain core:RuntimeError ;
+    rdfs:range xsd:string .
+
+core:executedInRun a owl:ObjectProperty ;
+    rdfs:label "executedInRun"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:ExecutionRun .
+
+core:failsWith a owl:ObjectProperty ;
+    rdfs:label "failsWith"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:FailureEvent .
+
+core:generates a owl:ObjectProperty ;
+    rdfs:label "generates"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ProposedAction ;
+    owl:equivalentProperty core:producesProposedAction .
+
+core:generatesObservation a owl:ObjectProperty ;
+    rdfs:label "generatesObservation"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Observation .
+
+core:hasCapability a owl:ObjectProperty ;
+    rdfs:label "hasCapability"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Skill .
+
+core:hasConfiguration a owl:ObjectProperty ;
+    rdfs:label "hasConfiguration"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:AgentConfiguration .
+
+core:hasContext a owl:ObjectProperty ;
+    rdfs:label "hasContext"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:Context .
+
+core:hasDescription a owl:DatatypeProperty ;
+    rdfs:label "hasDescription"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+core:hasExecutionRun a owl:ObjectProperty ;
+    rdfs:label "hasExecutionRun"@en ;
+    rdfs:domain core:Session ;
+    rdfs:range core:ExecutionRun ;
+    owl:inverseOf core:partOfSession .
+
+core:hasExecutionStatus a owl:ObjectProperty ;
+    rdfs:label "hasExecutionStatus"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:ExecutionStatus .
+
+core:hasGoal a owl:ObjectProperty ;
+    rdfs:label "hasGoal"@en ;
+    rdfs:domain core:Task ;
+    rdfs:range core:Goal .
+
+core:hasInputType a owl:ObjectProperty ;
+    rdfs:label "hasInputType"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:InputType .
+
+core:hasInteraction a owl:ObjectProperty ;
+    rdfs:label "hasInteraction"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:AgentInteraction .
+
+core:hasInvocationInput a owl:ObjectProperty ;
+    rdfs:label "hasInvocationInput"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:Artifact .
+
+core:hasInvocationOutput a owl:ObjectProperty ;
+    rdfs:label "hasInvocationOutput"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:Artifact .
+
+core:hasInvocationStatus a owl:ObjectProperty ;
+    rdfs:label "hasInvocationStatus"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:InvocationStatus .
+
+core:hasName a owl:DatatypeProperty ;
+    rdfs:label "hasName"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+core:hasOutputType a owl:ObjectProperty ;
+    rdfs:label "hasOutputType"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:OutputType .
+
+core:hasReviewOutcome a owl:ObjectProperty ;
+    rdfs:label "hasReviewOutcome"@en ;
+    rdfs:domain core:ReviewEvent ;
+    rdfs:range core:ReviewOutcome .
+
+core:hasRole a owl:ObjectProperty ;
+    rdfs:label "hasRole"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Role .
+
+core:hasRuntimeError a owl:ObjectProperty ;
+    rdfs:label "hasRuntimeError"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:RuntimeError .
+
+core:hasStep a owl:ObjectProperty ;
+    rdfs:label "hasStep"@en ;
+    rdfs:domain core:Workflow ;
+    rdfs:range core:WorkflowStep .
+
+core:hasStepType a owl:ObjectProperty ;
+    rdfs:label "hasStepType"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:StepType .
+
+core:hasToolInvocation a owl:ObjectProperty ;
+    rdfs:label "hasToolInvocation"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ToolInvocation .
+
+core:hasVersion a owl:DatatypeProperty ;
+    rdfs:label "hasVersion"@en ;
+    rdfs:comment "Records a version string for a software tool, model component, execution unit, dataset, or report."@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+core:hasWorkflow a owl:ObjectProperty ;
+    rdfs:label "hasWorkflow"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Workflow .
+
+core:implementedBy a owl:ObjectProperty ;
+    rdfs:label "implementedBy"@en ;
+    rdfs:domain core:Skill ;
+    rdfs:range core:ExecutionUnit .
+
+core:instantiatesPattern a owl:ObjectProperty ;
+    rdfs:label "instantiatesPattern"@en ;
+    rdfs:domain core:Workflow ;
+    rdfs:range core:WorkflowPattern .
+
+core:invokedBy a owl:ObjectProperty ;
+    rdfs:label "invokedBy"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:Agent .
+
+core:invokesAgent a owl:ObjectProperty ;
+    rdfs:label "invokesAgent"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Agent .
+
+core:invokesTool a owl:ObjectProperty ;
+    rdfs:label "invokesTool"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:Tool .
+
+core:operatesIn a owl:ObjectProperty ;
+    rdfs:label "operatesIn"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ExecutionEnvironment ;
+    owl:equivalentProperty core:hasExecutionEnvironment .
+
+core:partOfStep a owl:ObjectProperty ;
+    rdfs:label "partOfStep"@en ;
+    rdfs:domain core:ToolInvocation ;
+    rdfs:range core:WorkflowStep .
+
+core:performedBy a owl:ObjectProperty ;
+    rdfs:label "performedBy"@en ;
+    rdfs:domain core:ReviewEvent ;
+    rdfs:range core:HumanAgent .
+
+core:performsTask a owl:ObjectProperty ;
+    rdfs:label "performsTask"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Task .
+
+core:precedesStep a owl:ObjectProperty ;
+    rdfs:label "precedesStep"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:WorkflowStep .
+
+core:produces a owl:ObjectProperty ;
+    rdfs:label "produces"@en ;
+    rdfs:domain core:ExecutionUnit ;
+    rdfs:range core:ProposedAction .
+
+core:producesArtifact a owl:ObjectProperty ;
+    rdfs:label "producesArtifact"@en ;
+    rdfs:domain core:WorkflowStep ;
+    rdfs:range core:Artifact .
+
+core:realizesTask a owl:ObjectProperty ;
+    rdfs:label "realizesTask"@en ;
+    rdfs:domain core:Workflow ;
+    rdfs:range core:Task .
+
+core:requiresSkill a owl:ObjectProperty ;
+    rdfs:label "requiresSkill"@en ;
+    rdfs:domain core:Skill ;
+    rdfs:range core:Skill .
+
+core:resultsIn a owl:ObjectProperty ;
+    rdfs:label "resultsIn"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:Outcome .
+
+core:reviews a owl:ObjectProperty ;
+    rdfs:label "reviews"@en ;
+    rdfs:domain core:ReviewEvent ;
+    rdfs:range core:ProposedAction ;
+    owl:equivalentProperty core:reviewsAction .
+
+core:selects a owl:ObjectProperty ;
+    rdfs:label "selects"@en ;
+    rdfs:domain core:Planner ;
+    rdfs:range core:Skill .
+
+core:startedAt a owl:DatatypeProperty ;
+    rdfs:label "startedAt"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range xsd:dateTime .
+
+core:statusCode a owl:DatatypeProperty ;
+    rdfs:label "statusCode"@en ;
+    rdfs:domain core:InvocationStatus ;
+    rdfs:range xsd:string .
+
+core:usesMemory a owl:ObjectProperty ;
+    rdfs:label "usesMemory"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:MemoryModule ;
+    rdfs:subPropertyOf core:uses ;
+    owl:equivalentProperty core:hasMemoryModule .
+
+core:usesModel a owl:ObjectProperty ;
+    rdfs:label "usesModel"@en ;
+    rdfs:comment "Links an agent to a model component it uses."@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Model,
+        core:ModelComponent .
+
+core:usesPlanner a owl:ObjectProperty ;
+    rdfs:label "usesPlanner"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Planner .
+
+core:usesReasoner a owl:ObjectProperty ;
+    rdfs:label "usesReasoner"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:Reasoner .
+
+core:usesResource a owl:ObjectProperty ;
+    rdfs:label "usesResource"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range core:Resource ;
+    rdfs:subPropertyOf core:uses .
+
+core:usesTool a owl:ObjectProperty ;
+    rdfs:label "usesTool"@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:Skill ) ] ;
+    rdfs:range core:Tool ;
+    rdfs:subPropertyOf core:uses .
+
+core:AgentConfiguration a owl:Class ;
+    rdfs:label "AgentConfiguration"@en .
+
+core:Goal a owl:Class ;
+    rdfs:label "Goal"@en .
+
+core:HumanAgent a owl:Class ;
+    rdfs:label "HumanAgent"@en ;
+    rdfs:subClassOf core:Agent .
+
+core:InputType a owl:Class ;
+    rdfs:label "InputType"@en .
+
+core:Observation a owl:Class ;
+    rdfs:label "Observation"@en .
+
+core:Outcome a owl:Class ;
+    rdfs:label "Outcome"@en .
+
+core:OutputType a owl:Class ;
+    rdfs:label "OutputType"@en .
+
+core:Reasoner a owl:Class ;
+    rdfs:label "Reasoner"@en .
+
+core:Role a owl:Class ;
+    rdfs:label "Role"@en .
+
+core:StepType a owl:Class ;
+    rdfs:label "StepType"@en .
+
+core:WorkflowPattern a owl:Class ;
+    rdfs:label "WorkflowPattern"@en .
+
+core:hasExecutionEnvironment a owl:ObjectProperty ;
+    rdfs:label "hasExecutionEnvironment"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ExecutionEnvironment .
+
+core:hasMemoryModule a owl:ObjectProperty ;
+    rdfs:label "hasMemoryModule"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:MemoryModule .
+
+core:partOfSession a owl:ObjectProperty ;
+    rdfs:label "partOfSession"@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:Session .
+
+core:producesProposedAction a owl:ObjectProperty ;
+    rdfs:label "producesProposedAction"@en ;
+    rdfs:domain core:Agent ;
+    rdfs:range core:ProposedAction .
+
+core:reviewsAction a owl:ObjectProperty ;
+    rdfs:label "reviewsAction"@en ;
+    rdfs:domain core:ReviewEvent ;
+    rdfs:range core:ProposedAction .
+
+core:FailureEvent a owl:Class ;
+    rdfs:label "FailureEvent"@en .
+
+core:Model a owl:Class ;
+    rdfs:label "Model"@en .
+
+core:Planner a owl:Class ;
+    rdfs:label "Planner"@en .
+
+core:Resource a owl:Class ;
+    rdfs:label "Resource"@en .
+
+core:RuntimeError a owl:Class ;
+    rdfs:label "RuntimeError"@en .
+
+core:Session a owl:Class ;
+    rdfs:label "Session"@en .
+
+core:Tool a owl:Class ;
+    rdfs:label "Tool"@en ;
+    rdfs:subClassOf core:Resource .
+
+core:Context a owl:Class ;
+    rdfs:label "Context"@en .
+
+core:ExecutionEnvironment a owl:Class ;
+    rdfs:label "ExecutionEnvironment"@en .
+
+core:ExecutionUnit a owl:Class ;
+    rdfs:label "ExecutionUnit"@en ;
+    rdfs:comment "Concrete implementation unit for a skill, such as a script, model call, workflow, API call, or pipeline step."@en .
+
+core:MemoryModule a owl:Class ;
+    rdfs:label "MemoryModule"@en .
+
+core:Task a owl:Class ;
+    rdfs:label "Task"@en .
+
+core:uses a owl:ObjectProperty ;
+    rdfs:label "uses"@en ;
+    rdfs:domain owl:Thing ;
+    rdfs:range owl:Thing .
+
+core:AgentInteraction a owl:Class ;
+    rdfs:label "AgentInteraction"@en .
+
+core:Artifact a owl:Class ;
+    rdfs:label "Artifact"@en .
+
+core:InvocationStatus a owl:Class ;
+    rdfs:label "InvocationStatus"@en .
+
+core:ReviewEvent a owl:Class ;
+    rdfs:label "ReviewEvent"@en .
+
+core:ReviewOutcome a owl:Class ;
+    rdfs:label "ReviewOutcome"@en .
+
+core:Workflow a owl:Class ;
+    rdfs:label "Workflow"@en .
+
+core:ExecutionStatus a owl:Class ;
+    rdfs:label "ExecutionStatus"@en .
+
+core:ProposedAction a owl:Class ;
+    rdfs:label "ProposedAction"@en .
+
+core:Skill a owl:Class ;
+    rdfs:label "Skill"@en .
+
+core:ModelComponent a owl:Class ;
+    rdfs:label "ModelComponent"@en ;
+    rdfs:comment "A model component used by an agentic system."@en ;
+    rdfs:subClassOf core:Model .
+
+core:ExecutionRun a owl:Class ;
+    rdfs:label "ExecutionRun"@en .
+
+core:ToolInvocation a owl:Class ;
+    rdfs:label "ToolInvocation"@en .
+
+core:WorkflowStep a owl:Class ;
+    rdfs:label "WorkflowStep"@en .
+
+core:Agent a owl:Class ;
+    rdfs:label "Agent"@en .
+

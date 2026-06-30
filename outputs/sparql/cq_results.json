@@ -1,0 +1,178 @@
+{
+  "input_triples": 2470,
+  "inferred_triples": 4300,
+  "queries": {
+    "cq_data_use_permissions": {
+      "query": "queries/competency/cq_data_use_permissions.rq",
+      "row_count": 1,
+      "status": "answered",
+      "rows": [
+        {
+          "dataset": "https://w3id.org/agent-o/examples/health-interoperability#RestrictedEHRDataset",
+          "datasetName": "Restricted EHR medication review dataset",
+          "condition": "https://w3id.org/agent-o/examples/health-interoperability#InstitutionalDataUseCondition",
+          "permission": "https://w3id.org/agent-o/examples/health-interoperability#ClinicalResearchUsePermission",
+          "restriction": "https://w3id.org/agent-o/examples/health-interoperability#ProjectSpecificRestriction",
+          "policy": "https://w3id.org/agent-o/examples/health-interoperability#EHRDataUsePolicy"
+        }
+      ]
+    },
+    "cq_fhir_inputs": {
+      "query": "queries/competency/cq_fhir_inputs.rq",
+      "row_count": 3,
+      "status": "answered",
+      "rows": [
+        {
+          "input": "https://w3id.org/agent-o/examples/health-interoperability#ConditionInput",
+          "inputName": "FHIR condition input",
+          "resourceType": "Condition",
+          "resourceIRI": "http://hl7.org/fhir/Condition",
+          "agent": null,
+          "agentName": null,
+          "recommendation": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
+        },
+        {
+          "input": "https://w3id.org/agent-o/examples/health-interoperability#EHRPatientRecordInput",
+          "inputName": "FHIR patient record input",
+          "resourceType": "Patient",
+          "resourceIRI": "http://hl7.org/fhir/Patient",
+          "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
+          "agentName": "EHR medication review agent",
+          "recommendation": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
+        },
+        {
+          "input": "https://w3id.org/agent-o/examples/health-interoperability#MedicationObservationInput",
+          "inputName": "FHIR medication request input",
+          "resourceType": "MedicationRequest",
+          "resourceIRI": "http://hl7.org/fhir/MedicationRequest",
+          "agent": null,
+          "agentName": null,
+          "recommendation": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
+        }
+      ]
+    },
+    "cq_governance_profile_checklist": {
+      "query": "queries/competency/cq_governance_profile_checklist.rq",
+      "row_count": 3,
+      "status": "answered",
+      "rows": [
+        {
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgent",
+          "agentName": "Governed medication safety agent",
+          "automationLevel": "https://w3id.org/agent-o/examples/governance-reporting-profile#SharedControlAutomation",
+          "accountabilityRole": "https://w3id.org/agent-o/examples/governance-reporting-profile#ClinicalSafetyOwner",
+          "policy": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyPolicy",
+          "risk": "https://w3id.org/agent-o/examples/governance-reporting-profile#HighRiskMedicationAdviceRisk",
+          "reviewRequirement": "https://w3id.org/agent-o/examples/governance-reporting-profile#ClinicianReviewRequirement",
+          "fallbackStrategy": "https://w3id.org/agent-o/examples/governance-reporting-profile#ManualReviewFallback",
+          "escalationEvent": "https://w3id.org/agent-o/examples/governance-reporting-profile#PharmacistEscalation",
+          "monitoringRule": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyMonitoringRule",
+          "complianceRequirement": "https://w3id.org/agent-o/examples/governance-reporting-profile#HIPAAComplianceRequirement"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
+          "agentName": "EHR medication review agent",
+          "automationLevel": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewSharedControl",
+          "accountabilityRole": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewClinicalOwner",
+          "policy": null,
+          "risk": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewPatientSafetyRisk",
+          "reviewRequirement": "https://w3id.org/agent-o/examples/health-interoperability#ClinicalReviewRequirement",
+          "fallbackStrategy": null,
+          "escalationEvent": null,
+          "monitoringRule": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewMonitoringRule",
+          "complianceRequirement": "https://w3id.org/agent-o/examples/health-interoperability#HIPAAComplianceRequirement"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "agentName": "AGENT-O diagnostic demo agent",
+          "automationLevel": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticSharedControl",
+          "accountabilityRole": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticClinicalOwner",
+          "policy": null,
+          "risk": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticPatientSafetyRisk",
+          "reviewRequirement": "https://w3id.org/agent-o/examples/prov-demo#ClinicalReviewRequirement",
+          "fallbackStrategy": null,
+          "escalationEvent": null,
+          "monitoringRule": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticMonitoringRule",
+          "complianceRequirement": null
+        }
+      ]
+    },
+    "cq_model_card_alignment": {
+      "query": "queries/competency/cq_model_card_alignment.rq",
+      "row_count": 2,
+      "status": "answered",
+      "rows": [
+        {
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgent",
+          "agentName": "Governed medication safety agent",
+          "model": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModel",
+          "modelName": "Medication safety language model",
+          "modelCard": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelCard",
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgentReport"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "agentName": "AGENT-O diagnostic demo agent",
+          "model": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticMultimodalModel",
+          "modelName": "Diagnostic multimodal foundation model",
+          "modelCard": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelCard",
+          "report": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgentReport"
+        }
+      ]
+    },
+    "cq_prov_trace": {
+      "query": "queries/competency/cq_prov_trace.rq",
+      "row_count": 1,
+      "status": "answered",
+      "rows": [
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#RiskObservation",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#RetinalToolInvocation",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        }
+      ]
+    },
+    "cq_reporting_gaps": {
+      "query": "queries/competency/cq_reporting_gaps.rq",
+      "row_count": 3,
+      "status": "answered",
+      "rows": [
+        {
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "reportName": "AgentArena reporting-completeness POC report",
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaBenchmarkDescription",
+          "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaGovernanceSection",
+          "label": "https://w3id.org/agent-o/reporting#Missing",
+          "evidenceQuote": "The benchmark description is not primarily a governance reporting guideline.",
+          "gapExplanation": "Human accountability, escalation, privacy, and compliance expectations need to be annotated separately when AgentArena is used as an ontology benchmark.",
+          "recommendedFix": "Add governance profile fields for accountability role, automation level, review requirement, fallback, monitoring, and compliance."
+        },
+        {
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "reportName": "AgentArena reporting-completeness POC report",
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaBenchmarkDescription",
+          "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaHumanReviewSection",
+          "label": "https://w3id.org/agent-o/reporting#Partial",
+          "evidenceQuote": "Validity and failure cases are discussed, but human review escalation is not fully specified as an agent governance object.",
+          "gapExplanation": "Review authority and escalation triggers remain under-specified for health AI governance use.",
+          "recommendedFix": "Represent review requirements as gov:HumanReviewRequirement and escalation conditions as gov:TriggerCondition."
+        },
+        {
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "reportName": "AgentArena reporting-completeness POC report",
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaBenchmarkDescription",
+          "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#PrivacySecurityComplianceSection",
+          "label": "https://w3id.org/agent-o/reporting#Missing",
+          "evidenceQuote": "The benchmark alignment case does not by itself specify PHI, consent, privacy, or regulatory compliance constraints.",
+          "gapExplanation": "Biomedical deployment contexts require DUO/FHIR/privacy/compliance annotations beyond benchmark task design.",
+          "recommendedFix": "Attach data-use permissions, privacy constraints, and compliance requirements when the evaluated agent uses sensitive health data."
+        }
+      ]
+    }
+  },
+  "answered": 6,
+  "total": 6
+}
