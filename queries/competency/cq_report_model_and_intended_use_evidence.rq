@@ -1,0 +1,30 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+PREFIX health: <https://w3id.org/agent-o/health#>
+PREFIX report: <https://w3id.org/agent-o/reporting#>
+
+# Which report provides model identity/version evidence and an intended-use
+# statement about the same clinical use case declared for the agent system?
+SELECT DISTINCT ?report ?agent ?component ?role ?model ?identifier ?version
+                ?architecture ?developer ?modelCard ?useCase ?intendedAction
+WHERE {
+  ?report a report:AgentSystemReport ;
+          report:documentsAgentSystem ?agent ;
+          report:documentsModelComponent ?component ;
+          report:hasModelCardReport ?modelCard ;
+          report:hasReportingSection ?modelSection, ?useSection ;
+          report:containsStatement ?useStatement .
+  ?modelSection a report:ModelSpecificationSection .
+  ?useSection a report:IntendedUseSection .
+  ?component core:realizesModelSpecification ?model .
+  ?component core:hasModelComponentRole ?role .
+  ?model core:modelIdentifier ?identifier ;
+         core:modelVersion ?version ;
+         core:modelArchitectureType ?architecture ;
+         core:hasDeveloper ?developer .
+  ?modelCard report:describesModelSpecification ?model .
+  ?useStatement a report:IntendedUseStatement ;
+                report:isAbout ?useCase .
+  ?agent health:hasIntendedClinicalUse ?useCase .
+  ?useCase health:hasIntendedAction ?intendedAction .
+}
+ORDER BY ?report

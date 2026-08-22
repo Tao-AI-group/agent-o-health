@@ -17,8 +17,13 @@ health:MedicationInput skos:relatedMatch fhir:Medication, fhir:MedicationRequest
 health:ConditionInput skos:closeMatch fhir:Condition .
 health:ProcedureInput skos:closeMatch fhir:Procedure .
 health:DiagnosticReportInput skos:closeMatch fhir:DiagnosticReport .
+health:FHIRProfile skos:closeMatch fhir:StructureDefinition .
+health:TerminologySystem skos:relatedMatch fhir:CodeSystem, fhir:ValueSet .
+health:InterfaceSpecification skos:relatedMatch fhir:Endpoint .
+health:ExchangeStandard skos:relatedMatch fhir:Resource .
 
 health:mapsToFHIRResource skos:relatedMatch fhir:Resource .
 health:usesFHIRResourceType skos:relatedMatch fhir:Resource .
 health:derivedFromFHIRResource skos:relatedMatch fhir:Resource .
-
+health:usesFHIRProfile skos:relatedMatch fhir:StructureDefinition .
+health:usesTerminologySystem skos:relatedMatch fhir:CodeSystem, fhir:ValueSet .

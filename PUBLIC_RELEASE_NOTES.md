@@ -22,7 +22,7 @@ Alternative names:
 - Aggregate outputs: `outputs/alignment/`, `outputs/validation/`, `outputs/shacl/`, `outputs/sparql/`, and selected `outputs/reporting_completeness/`.
 - Manuscript support tables: `tables/`.
 - Design documentation: `docs/design/`.
-- Tests: `tests/test_corpus_reporting_completeness.py`.
+- Tests: deterministic corpus tests and ontology architecture contract tests under `tests/`.
 - Project metadata: `README.md`, `pyproject.toml`, `requirements.txt`, `.gitignore`.
 - License files: `LICENSE`, `LICENSE-CODE-MIT`, and `LICENSE-CONTENT-CC-BY-4.0`.
 
@@ -36,14 +36,10 @@ Alternative names:
 - Python cache directories such as `__pycache__/`.
 - Dummy Protege screenshot TTL files, unless they are explicitly released as figure-generation utilities.
 
-## Pre-Submission Cleanup
+## Architecture Revision
 
-Before creating the final public repository, consider renaming legacy file and class names that still use `reporting-completeness` to `reporting-completeness` for consistency with the manuscript terminology.
+The architecture revision separates model roles within an agent system from identifiable model specifications and runtime deployments. It also promotes clinical intended use to a first-class health concept, distinguishes model-interface output from final agent output, represents reporting assessment as a provenance-aware activity, and separates concrete agent-system reports from benchmark, review, policy, method/model, and conceptual reports.
 
-Recommended examples:
+The included application profiles now check model identity, version, architecture, developer, license, input/output interfaces, modality, capability, model-level intended use, limitations, deployment provenance, clinical intended action, and FHIR profile/format/terminology evidence. All architecture, governance, and reporting SHACL suites conform with zero findings over the released example graphs.
 
-- `agento-reporting-completeness-profile.ttl` to `agento-reporting-completeness-profile.ttl`.
-- `report:ReportingCompletenessProfile` to `report:ReportingCompletenessProfile`.
-- Script/report labels that say `reporting completeness assessment` to `reporting completeness assessment`.
-
-These renames should be done carefully because ontology URIs, SHACL profiles, scripts, and tests may need synchronized updates.
+Deprecated compatibility entities remain labeled with `owl:deprecated true`; active entity counts exclude them. The integrated ontology is generated from the six authoritative modules and checked for graph equivalence during formal validation.

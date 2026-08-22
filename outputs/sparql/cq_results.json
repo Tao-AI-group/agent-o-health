@@ -1,7 +1,78 @@
 {
-  "input_triples": 2470,
-  "inferred_triples": 4300,
+  "input_triples": 3644,
+  "inferred_triples": 6364,
   "queries": {
+    "cq_clinical_intended_use": {
+      "query": "queries/competency/cq_clinical_intended_use.rq",
+      "row_count": 4,
+      "status": "answered",
+      "rows": [
+        {
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgent",
+          "useCase": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyClinicalUseCase",
+          "user": "https://w3id.org/agent-o/examples/governance-reporting-profile#ClinicianUserRole",
+          "population": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyPatientPopulation",
+          "setting": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyClinicalSetting",
+          "specialty": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetySpecialty",
+          "condition": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyTargetCondition",
+          "workflowStage": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationReviewWorkflowStage",
+          "task": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyClinicalTask",
+          "intendedAction": "https://w3id.org/agent-o/examples/governance-reporting-profile#ReviewedMedicationGuidanceAction",
+          "decisionRole": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSupportDecisionRole",
+          "deploymentMode": "https://w3id.org/agent-o/examples/governance-reporting-profile#SharedControlDeploymentMode",
+          "outOfScopeUse": "https://w3id.org/agent-o/examples/governance-reporting-profile#AutonomousMedicationChangeOutOfScope",
+          "prohibitedUse": "https://w3id.org/agent-o/examples/governance-reporting-profile#UnsupervisedMedicationChangeContraindicated"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgent",
+          "useCase": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyClinicalUseCase",
+          "user": "https://w3id.org/agent-o/examples/governance-reporting-profile#PatientCaregiverUserRole",
+          "population": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyPatientPopulation",
+          "setting": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyClinicalSetting",
+          "specialty": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetySpecialty",
+          "condition": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyTargetCondition",
+          "workflowStage": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationReviewWorkflowStage",
+          "task": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyClinicalTask",
+          "intendedAction": "https://w3id.org/agent-o/examples/governance-reporting-profile#ReviewedMedicationGuidanceAction",
+          "decisionRole": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSupportDecisionRole",
+          "deploymentMode": "https://w3id.org/agent-o/examples/governance-reporting-profile#SharedControlDeploymentMode",
+          "outOfScopeUse": "https://w3id.org/agent-o/examples/governance-reporting-profile#AutonomousMedicationChangeOutOfScope",
+          "prohibitedUse": "https://w3id.org/agent-o/examples/governance-reporting-profile#UnsupervisedMedicationChangeContraindicated"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
+          "useCase": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewUseCase",
+          "user": "https://w3id.org/agent-o/examples/health-interoperability#PharmacistIntendedUserRole",
+          "population": "https://w3id.org/agent-o/examples/health-interoperability#AmbulatoryAdultPopulation",
+          "setting": "https://w3id.org/agent-o/examples/health-interoperability#AmbulatoryCareSetting",
+          "specialty": "https://w3id.org/agent-o/examples/health-interoperability#ClinicalPharmacySpecialty",
+          "condition": "https://w3id.org/agent-o/examples/health-interoperability#MedicationRelatedRiskCondition",
+          "workflowStage": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReconciliationStage",
+          "task": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyReviewTask",
+          "intendedAction": "https://w3id.org/agent-o/examples/health-interoperability#MedicationPlanReviewAction",
+          "decisionRole": "https://w3id.org/agent-o/examples/health-interoperability#MedicationDecisionSupportRole",
+          "deploymentMode": "https://w3id.org/agent-o/examples/health-interoperability#ClinicianFacingMode",
+          "outOfScopeUse": "https://w3id.org/agent-o/examples/health-interoperability#AutonomousPrescribingOutOfScope",
+          "prohibitedUse": "https://w3id.org/agent-o/examples/health-interoperability#AutonomousPrescribingContraindicated"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "useCase": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaDecisionSupportUseCase",
+          "user": "https://w3id.org/agent-o/examples/prov-demo#OphthalmologistRole",
+          "population": "https://w3id.org/agent-o/examples/prov-demo#AdultRetinalScreeningPopulation",
+          "setting": "https://w3id.org/agent-o/examples/prov-demo#OutpatientOphthalmologySetting",
+          "specialty": "https://w3id.org/agent-o/examples/prov-demo#OphthalmologySpecialty",
+          "condition": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaTargetCondition",
+          "workflowStage": "https://w3id.org/agent-o/examples/prov-demo#ImageInterpretationStage",
+          "task": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskAssessmentTask",
+          "intendedAction": "https://w3id.org/agent-o/examples/prov-demo#ClinicalFollowUpAction",
+          "decisionRole": "https://w3id.org/agent-o/examples/prov-demo#DecisionSupportRole",
+          "deploymentMode": "https://w3id.org/agent-o/examples/prov-demo#ClinicianFacingDeployment",
+          "outOfScopeUse": "https://w3id.org/agent-o/examples/prov-demo#AutonomousDiagnosisOutOfScope",
+          "prohibitedUse": "https://w3id.org/agent-o/examples/prov-demo#AutonomousDiagnosisContraindicated"
+        }
+      ]
+    },
     "cq_data_use_permissions": {
       "query": "queries/competency/cq_data_use_permissions.rq",
       "row_count": 1,
@@ -27,6 +98,9 @@
           "inputName": "FHIR condition input",
           "resourceType": "Condition",
           "resourceIRI": "http://hl7.org/fhir/Condition",
+          "fhirProfile": "https://w3id.org/agent-o/examples/health-interoperability#ConditionFHIRProfile",
+          "dataFormat": "https://w3id.org/agent-o/examples/health-interoperability#FHIRJSONFormat",
+          "terminology": "https://w3id.org/agent-o/examples/health-interoperability#SNOMEDCTTerminology",
           "agent": null,
           "agentName": null,
           "recommendation": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
@@ -36,6 +110,9 @@
           "inputName": "FHIR patient record input",
           "resourceType": "Patient",
           "resourceIRI": "http://hl7.org/fhir/Patient",
+          "fhirProfile": "https://w3id.org/agent-o/examples/health-interoperability#PatientFHIRProfile",
+          "dataFormat": "https://w3id.org/agent-o/examples/health-interoperability#FHIRJSONFormat",
+          "terminology": "https://w3id.org/agent-o/examples/health-interoperability#SNOMEDCTTerminology",
           "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
           "agentName": "EHR medication review agent",
           "recommendation": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
@@ -45,6 +122,9 @@
           "inputName": "FHIR medication request input",
           "resourceType": "MedicationRequest",
           "resourceIRI": "http://hl7.org/fhir/MedicationRequest",
+          "fhirProfile": "https://w3id.org/agent-o/examples/health-interoperability#MedicationRequestFHIRProfile",
+          "dataFormat": "https://w3id.org/agent-o/examples/health-interoperability#FHIRJSONFormat",
+          "terminology": "https://w3id.org/agent-o/examples/health-interoperability#RxNormTerminology",
           "agent": null,
           "agentName": null,
           "recommendation": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
@@ -99,32 +179,359 @@
     },
     "cq_model_card_alignment": {
       "query": "queries/competency/cq_model_card_alignment.rq",
-      "row_count": 2,
+      "row_count": 3,
       "status": "answered",
       "rows": [
         {
           "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgent",
           "agentName": "Governed medication safety agent",
+          "component": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelComponent",
+          "componentRole": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyReasonerRole",
           "model": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModel",
           "modelName": "Medication safety language model",
+          "modelVersion": "poc-2026-08",
           "modelCard": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelCard",
           "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgentReport"
         },
         {
+          "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
+          "agentName": "EHR medication review agent",
+          "component": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelComponent",
+          "componentRole": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReasonerRole",
+          "model": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelSpecification",
+          "modelName": "Medication review language model",
+          "modelVersion": "snapshot-2026-08",
+          "modelCard": null,
+          "report": null
+        },
+        {
           "agent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
           "agentName": "AGENT-O diagnostic demo agent",
+          "component": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelComponent",
+          "componentRole": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticReasonerRole",
           "model": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticMultimodalModel",
           "modelName": "Diagnostic multimodal foundation model",
+          "modelVersion": "snapshot-2026-08",
           "modelCard": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelCard",
           "report": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgentReport"
         }
       ]
     },
-    "cq_prov_trace": {
-      "query": "queries/competency/cq_prov_trace.rq",
-      "row_count": 1,
+    "cq_model_interface_layers": {
+      "query": "queries/competency/cq_model_interface_layers.rq",
+      "row_count": 4,
       "status": "answered",
       "rows": [
+        {
+          "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
+          "run": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "modelInput": "https://w3id.org/agent-o/examples/health-interoperability#ConditionInput",
+          "deployment": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelDeployment",
+          "model": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelSpecification",
+          "modelOutput": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "agentOutput": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
+          "run": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "modelInput": "https://w3id.org/agent-o/examples/health-interoperability#EHRPatientRecordInput",
+          "deployment": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelDeployment",
+          "model": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelSpecification",
+          "modelOutput": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "agentOutput": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
+          "run": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "modelInput": "https://w3id.org/agent-o/examples/health-interoperability#MedicationObservationInput",
+          "deployment": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelDeployment",
+          "model": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelSpecification",
+          "modelOutput": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "agentOutput": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "run": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticRun",
+          "modelInput": "https://w3id.org/agent-o/examples/prov-demo#RiskObservation",
+          "deployment": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelDeployment",
+          "model": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticMultimodalModel",
+          "modelOutput": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "agentOutput": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation"
+        }
+      ]
+    },
+    "cq_model_specification_deployment": {
+      "query": "queries/competency/cq_model_specification_deployment.rq",
+      "row_count": 3,
+      "status": "answered",
+      "rows": [
+        {
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgent",
+          "component": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelComponent",
+          "role": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyReasonerRole",
+          "model": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModel",
+          "modelName": "Medication safety language model",
+          "identifier": "medication-safety-language-model",
+          "version": "poc-2026-08",
+          "architecture": "transformer language model",
+          "releaseDate": "2026-08-01",
+          "developer": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelDeveloper",
+          "license": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelLicense",
+          "inputSpecification": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelInput",
+          "outputSpecification": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelOutput",
+          "inputModality": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationStructuredInputModality",
+          "capability": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyReasoningCapability",
+          "modelIntendedUse": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelIntendedUse",
+          "limitation": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelLimitation",
+          "deployment": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyDeployment",
+          "provider": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelProvider",
+          "endpoint": null,
+          "deploymentVersion": "deployment-2026-08",
+          "accessedAt": "2026-08-19 12:00:00+00:00",
+          "servingFramework": null,
+          "quantization": null,
+          "region": null,
+          "runtimeConfiguration": "temperature=0"
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/health-interoperability#EHRMedicationReviewAgent",
+          "component": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelComponent",
+          "role": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReasonerRole",
+          "model": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelSpecification",
+          "modelName": "Medication review language model",
+          "identifier": "medication-review-demo",
+          "version": "snapshot-2026-08",
+          "architecture": "transformer language model",
+          "releaseDate": "2026-08-01",
+          "developer": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelDeveloper",
+          "license": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelLicense",
+          "inputSpecification": "https://w3id.org/agent-o/examples/health-interoperability#StructuredMedicationPromptSpecification",
+          "outputSpecification": "https://w3id.org/agent-o/examples/health-interoperability#MedicationRiskTextSpecification",
+          "inputModality": "https://w3id.org/agent-o/examples/health-interoperability#StructuredDataModality",
+          "capability": "https://w3id.org/agent-o/examples/health-interoperability#MedicationRiskReasoningCapability",
+          "modelIntendedUse": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelIntendedUse",
+          "limitation": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelLimitation",
+          "deployment": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewModelDeployment",
+          "provider": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelProvider",
+          "endpoint": null,
+          "deploymentVersion": "deployment-2026-08",
+          "accessedAt": "2026-08-19 11:00:00+00:00",
+          "servingFramework": null,
+          "quantization": null,
+          "region": null,
+          "runtimeConfiguration": null
+        },
+        {
+          "agent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "component": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelComponent",
+          "role": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticReasonerRole",
+          "model": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticMultimodalModel",
+          "modelName": "Diagnostic multimodal foundation model",
+          "identifier": "diagnostic-multimodal-demo",
+          "version": "snapshot-2026-08",
+          "architecture": "multimodal transformer",
+          "releaseDate": "2026-08-01",
+          "developer": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelDeveloper",
+          "license": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelLicense",
+          "inputSpecification": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticImageInputSpecification",
+          "outputSpecification": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticRiskOutputSpecification",
+          "inputModality": "https://w3id.org/agent-o/examples/prov-demo#ImageModality",
+          "capability": "https://w3id.org/agent-o/examples/prov-demo#RetinalRiskEstimationCapability",
+          "modelIntendedUse": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelIntendedUse",
+          "limitation": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelLimitation",
+          "deployment": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelDeployment",
+          "provider": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelProvider",
+          "endpoint": null,
+          "deploymentVersion": "deployment-2026-08",
+          "accessedAt": "2026-08-19 10:00:00+00:00",
+          "servingFramework": "example inference service",
+          "quantization": null,
+          "region": null,
+          "runtimeConfiguration": null
+        }
+      ]
+    },
+    "cq_prov_trace": {
+      "query": "queries/competency/cq_prov_trace.rq",
+      "row_count": 23,
+      "status": "answered",
+      "rows": [
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "associatedAgent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "associatedAgent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticRun",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticRun",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticRun",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/health-interoperability#MedicationSafetyRecommendation",
+          "actionName": "Medication safety recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#RetinalToolInvocation",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "associatedAgent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "associatedAgent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewRun",
+          "associatedAgent": null,
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticRun",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticRun",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticRun",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
+        {
+          "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
+          "actionName": "Glaucoma risk recommendation",
+          "sourceEntity": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelRiskOutput",
+          "activity": "https://w3id.org/agent-o/examples/prov-demo#RetinalToolInvocation",
+          "associatedAgent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "metricResult": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAccuracyResult"
+        },
         {
           "action": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaRiskRecommendation",
           "actionName": "Glaucoma risk recommendation",
@@ -135,6 +542,120 @@
         }
       ]
     },
+    "cq_report_model_and_intended_use_evidence": {
+      "query": "queries/competency/cq_report_model_and_intended_use_evidence.rq",
+      "row_count": 2,
+      "status": "answered",
+      "rows": [
+        {
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgentReport",
+          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyAgent",
+          "component": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelComponent",
+          "role": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyReasonerRole",
+          "model": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModel",
+          "identifier": "medication-safety-language-model",
+          "version": "poc-2026-08",
+          "architecture": "transformer language model",
+          "developer": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelDeveloper",
+          "modelCard": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyModelCard",
+          "useCase": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyClinicalUseCase",
+          "intendedAction": "https://w3id.org/agent-o/examples/governance-reporting-profile#ReviewedMedicationGuidanceAction"
+        },
+        {
+          "report": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgentReport",
+          "agent": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticAgent",
+          "component": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelComponent",
+          "role": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticReasonerRole",
+          "model": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticMultimodalModel",
+          "identifier": "diagnostic-multimodal-demo",
+          "version": "snapshot-2026-08",
+          "architecture": "multimodal transformer",
+          "developer": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelDeveloper",
+          "modelCard": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticModelCard",
+          "useCase": "https://w3id.org/agent-o/examples/prov-demo#GlaucomaDecisionSupportUseCase",
+          "intendedAction": "https://w3id.org/agent-o/examples/prov-demo#ClinicalFollowUpAction"
+        }
+      ]
+    },
+    "cq_report_type_scope": {
+      "query": "queries/competency/cq_report_type_scope.rq",
+      "row_count": 1,
+      "status": "answered",
+      "rows": [
+        {
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "reportType": "https://w3id.org/agent-o/reporting#BenchmarkReport",
+          "evaluatedEntity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaBenchmarkDescription"
+        }
+      ]
+    },
+    "cq_reporting_assessment_provenance": {
+      "query": "queries/competency/cq_reporting_assessment_provenance.rq",
+      "row_count": 5,
+      "status": "answered",
+      "rows": [
+        {
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "assessor": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "profile": "https://w3id.org/agent-o/profiles#ReportingCompletenessProfile",
+          "rubricVersion": "agento-reporting-completeness-2.1",
+          "promptVersion": "section-aware-evidence-2.1",
+          "assessment": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaEvaluationAssessment",
+          "dimension": "https://w3id.org/agent-o/examples/governance-reporting-profile#EvaluationDimension",
+          "evidence": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaEvaluationEvidence",
+          "verificationStatus": "https://w3id.org/agent-o/reporting#HumanVerified"
+        },
+        {
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "assessor": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "profile": "https://w3id.org/agent-o/profiles#ReportingCompletenessProfile",
+          "rubricVersion": "agento-reporting-completeness-2.1",
+          "promptVersion": "section-aware-evidence-2.1",
+          "assessment": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaGovernanceAssessment",
+          "dimension": "https://w3id.org/agent-o/examples/governance-reporting-profile#GovernanceSafetyDimension",
+          "evidence": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaGovernanceEvidence",
+          "verificationStatus": "https://w3id.org/agent-o/reporting#HumanVerified"
+        },
+        {
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "assessor": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "profile": "https://w3id.org/agent-o/profiles#ReportingCompletenessProfile",
+          "rubricVersion": "agento-reporting-completeness-2.1",
+          "promptVersion": "section-aware-evidence-2.1",
+          "assessment": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaHumanReviewAssessment",
+          "dimension": "https://w3id.org/agent-o/examples/governance-reporting-profile#HumanReviewDimension",
+          "evidence": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaHumanReviewEvidence",
+          "verificationStatus": "https://w3id.org/agent-o/reporting#HumanVerified"
+        },
+        {
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "assessor": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "profile": "https://w3id.org/agent-o/profiles#ReportingCompletenessProfile",
+          "rubricVersion": "agento-reporting-completeness-2.1",
+          "promptVersion": "section-aware-evidence-2.1",
+          "assessment": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPrivacyComplianceAssessment",
+          "dimension": "https://w3id.org/agent-o/examples/governance-reporting-profile#PrivacyComplianceDimension",
+          "evidence": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPrivacyEvidence",
+          "verificationStatus": "https://w3id.org/agent-o/reporting#HumanVerified"
+        },
+        {
+          "activity": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaAssessmentActivity",
+          "assessor": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentOLLMReportingAssessor",
+          "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
+          "profile": "https://w3id.org/agent-o/profiles#ReportingCompletenessProfile",
+          "rubricVersion": "agento-reporting-completeness-2.1",
+          "promptVersion": "section-aware-evidence-2.1",
+          "assessment": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaRuntimeAssessment",
+          "dimension": "https://w3id.org/agent-o/examples/governance-reporting-profile#RuntimeArchitectureDimension",
+          "evidence": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaRuntimeEvidence",
+          "verificationStatus": "https://w3id.org/agent-o/reporting#HumanVerified"
+        }
+      ]
+    },
     "cq_reporting_gaps": {
       "query": "queries/competency/cq_reporting_gaps.rq",
       "row_count": 3,
@@ -142,8 +663,8 @@
       "rows": [
         {
           "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
-          "reportName": "AgentArena reporting-completeness POC report",
-          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaBenchmarkDescription",
+          "reportName": "AgentArena ontology-guided reporting-assessment POC report",
+          "agent": null,
           "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaGovernanceSection",
           "label": "https://w3id.org/agent-o/reporting#Missing",
           "evidenceQuote": "The benchmark description is not primarily a governance reporting guideline.",
@@ -152,8 +673,8 @@
         },
         {
           "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
-          "reportName": "AgentArena reporting-completeness POC report",
-          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaBenchmarkDescription",
+          "reportName": "AgentArena ontology-guided reporting-assessment POC report",
+          "agent": null,
           "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaHumanReviewSection",
           "label": "https://w3id.org/agent-o/reporting#Partial",
           "evidenceQuote": "Validity and failure cases are discussed, but human review escalation is not fully specified as an agent governance object.",
@@ -162,8 +683,8 @@
         },
         {
           "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
-          "reportName": "AgentArena reporting-completeness POC report",
-          "agent": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaBenchmarkDescription",
+          "reportName": "AgentArena ontology-guided reporting-assessment POC report",
+          "agent": null,
           "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#PrivacySecurityComplianceSection",
           "label": "https://w3id.org/agent-o/reporting#Missing",
           "evidenceQuote": "The benchmark alignment case does not by itself specify PHI, consent, privacy, or regulatory compliance constraints.",
@@ -173,6 +694,6 @@
       ]
     }
   },
-  "answered": 6,
-  "total": 6
+  "answered": 12,
+  "total": 12
 }

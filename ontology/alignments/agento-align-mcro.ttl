@@ -2,6 +2,7 @@
 @prefix doc: <https://w3id.org/agent-o/doc#> .
 @prefix eval: <https://w3id.org/agent-o/eval#> .
 @prefix gov: <https://w3id.org/agent-o/gov#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
 @prefix report: <https://w3id.org/agent-o/reporting#> .
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -23,8 +24,21 @@ report:AgentCard
 report:ModelCardReference
   skos:closeMatch obo:MCRO_0000001 .
 
-core:ModelComponent
+report:ModelCardReport
+  skos:closeMatch obo:MCRO_0000001 .
+
+core:AIModelSpecification
   skos:relatedMatch obo:MCRO_0000021, obo:MCRO_0000019 .
+
+core:ModelComponent
+  skos:relatedMatch obo:MCRO_0000021 ;
+  rdfs:comment "AGENT-O ModelComponent represents the role of a model within an agent system, whereas MCRO represents model details as document sections."@en .
+
+core:ModelInputSpecification
+  skos:closeMatch obo:MCRO_0000015 .
+
+core:ModelOutputSpecification
+  skos:closeMatch obo:MCRO_0000024 .
 
 report:EvaluationReportingSection
   skos:closeMatch obo:MCRO_0000027 .
@@ -41,9 +55,14 @@ gov:Risk
 gov:PrivacyConstraint
   skos:relatedMatch obo:MCRO_0000028, obo:MCRO_0000034 .
 
-report:IntendedUse
+core:ModelIntendedUse
   skos:closeMatch obo:MCRO_0000029, obo:MCRO_0000038 .
 
-report:IntendedUser
-  skos:closeMatch obo:MCRO_0000030, obo:MCRO_0000039 .
+health:ClinicalUseCase
+  skos:relatedMatch obo:MCRO_0000029, obo:MCRO_0000038 .
 
+report:IntendedUseStatement
+  skos:closeMatch obo:MCRO_0000029, obo:MCRO_0000038 .
+
+health:IntendedUserRole
+  skos:closeMatch obo:MCRO_0000030, obo:MCRO_0000039 .

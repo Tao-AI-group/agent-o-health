@@ -5,8 +5,8 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/agent-o/core> a owl:Ontology ;
-    rdfs:label "AGENT-O Core Ontology"@en ;
-    rdfs:comment "Core layer: agent runtime concepts across context/support and core capability execution, including Agent, Skill, ExecutionUnit, ToolInvocation, memory, planning, reasoning, resources, and environment."@en .
+    rdfs:label "AGENT-O Agent System, Model Components, and Runtime Ontology"@en ;
+    rdfs:comment "Core layer for agent systems, component composition, versioned AI model specifications, model deployments, execution, tools, memory, planning, reasoning, resources, and environments."@en .
 
 core:Approval a owl:Class ;
     rdfs:label "Approval"@en ;
@@ -26,8 +26,8 @@ core:Delegation a owl:Class ;
 
 core:EmbeddingModel a owl:Class ;
     rdfs:label "EmbeddingModel"@en ;
-    rdfs:comment "An embedding model used as a model component."@en ;
-    rdfs:subClassOf core:ModelComponent .
+    rdfs:comment "An AI model specification for generating embedding representations."@en ;
+    rdfs:subClassOf core:AIModelSpecification .
 
 core:Environment a owl:Class ;
     rdfs:label "Environment"@en ;
@@ -35,13 +35,13 @@ core:Environment a owl:Class ;
 
 core:FineTunedModel a owl:Class ;
     rdfs:label "FineTunedModel"@en ;
-    rdfs:comment "A fine-tuned model used as a model component."@en ;
-    rdfs:subClassOf core:ModelComponent .
+    rdfs:comment "An AI model specification derived by fine-tuning a base model specification."@en ;
+    rdfs:subClassOf core:AIModelSpecification .
 
 core:FoundationModel a owl:Class ;
     rdfs:label "FoundationModel"@en ;
-    rdfs:comment "A foundation model used as a model component."@en ;
-    rdfs:subClassOf core:ModelComponent .
+    rdfs:comment "An AI model specification for a broadly pretrained foundation model."@en ;
+    rdfs:subClassOf core:AIModelSpecification .
 
 core:InvocationFailure a owl:Class ;
     rdfs:label "InvocationFailure"@en ;
@@ -53,8 +53,8 @@ core:InvocationSuccess a owl:Class ;
 
 core:LanguageModel a owl:Class ;
     rdfs:label "LanguageModel"@en ;
-    rdfs:comment "A language model used as a model component."@en ;
-    rdfs:subClassOf core:ModelComponent .
+    rdfs:comment "An AI model specification whose supported interfaces include language input or output."@en ;
+    rdfs:subClassOf core:AIModelSpecification .
 
 core:Memory a owl:Class ;
     rdfs:label "Memory"@en ;
@@ -66,8 +66,8 @@ core:Modification a owl:Class ;
 
 core:MultimodalModel a owl:Class ;
     rdfs:label "MultimodalModel"@en ;
-    rdfs:comment "A multimodal model used as a model component."@en ;
-    rdfs:subClassOf core:ModelComponent .
+    rdfs:comment "An AI model specification supporting more than one input or output modality."@en ;
+    rdfs:subClassOf core:AIModelSpecification .
 
 core:Rejection a owl:Class ;
     rdfs:label "Rejection"@en ;
@@ -99,8 +99,8 @@ core:StepRunning a owl:Class ;
 
 core:VisionModel a owl:Class ;
     rdfs:label "VisionModel"@en ;
-    rdfs:comment "A vision model used as a model component."@en ;
-    rdfs:subClassOf core:ModelComponent .
+    rdfs:comment "An AI model specification whose supported interfaces include image or video data."@en ;
+    rdfs:subClassOf core:AIModelSpecification .
 
 core:assignedToAgent a owl:ObjectProperty ;
     rdfs:label "assignedToAgent"@en ;
@@ -271,7 +271,7 @@ core:hasToolInvocation a owl:ObjectProperty ;
 
 core:hasVersion a owl:DatatypeProperty ;
     rdfs:label "hasVersion"@en ;
-    rdfs:comment "Records a version string for a software tool, model component, execution unit, dataset, or report."@en ;
+    rdfs:comment "Records a version string for a software tool, execution unit, dataset, report, or other versioned entity; model resources use modelVersion for checkpoint-level identity."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range xsd:string .
 
@@ -388,8 +388,7 @@ core:usesModel a owl:ObjectProperty ;
     rdfs:label "usesModel"@en ;
     rdfs:comment "Links an agent to a model component it uses."@en ;
     rdfs:domain core:Agent ;
-    rdfs:range core:Model,
-        core:ModelComponent .
+    rdfs:range core:ModelComponent .
 
 core:usesPlanner a owl:ObjectProperty ;
     rdfs:label "usesPlanner"@en ;
@@ -545,8 +544,10 @@ core:Skill a owl:Class ;
 
 core:ModelComponent a owl:Class ;
     rdfs:label "ModelComponent"@en ;
-    rdfs:comment "A model component used by an agentic system."@en ;
-    rdfs:subClassOf core:Model .
+    rdfs:comment "A component-specific role through which an agent system uses an AI model specification; it is distinct from the model resource and its deployment."@en ;
+    rdfs:subClassOf core:AgentComponent ;
+    owl:disjointWith core:AIModelSpecification,
+        core:ModelDeployment .
 
 core:ExecutionRun a owl:Class ;
     rdfs:label "ExecutionRun"@en .
@@ -560,3 +561,250 @@ core:WorkflowStep a owl:Class ;
 core:Agent a owl:Class ;
     rdfs:label "Agent"@en .
 
+core:AgentSystem a owl:Class ;
+    rdfs:label "AgentSystem"@en ;
+    rdfs:comment "A single-agent or multi-agent system that pursues goals through components, workflows, tools, and executions."@en ;
+    rdfs:subClassOf core:Agent .
+
+core:AgentComponent a owl:Class ;
+    rdfs:label "AgentComponent"@en ;
+    rdfs:comment "A functional component that participates in an agent system architecture."@en .
+
+core:OrganizationAgent a owl:Class ;
+    rdfs:label "OrganizationAgent"@en ;
+    rdfs:comment "An organization acting as a developer, provider, operator, owner, or assessor."@en ;
+    rdfs:subClassOf core:Agent .
+
+core:AIModelSpecification a owl:Class ;
+    rdfs:label "AIModelSpecification"@en ;
+    rdfs:comment "A versioned and identifiable AI model resource, checkpoint, API snapshot, or fine-tuned derivative, independent of its role in a particular agent system."@en ;
+    rdfs:subClassOf core:Model,
+        core:Resource ;
+    owl:disjointWith core:ModelDeployment .
+
+core:ModelDeployment a owl:Class ;
+    rdfs:label "ModelDeployment"@en ;
+    rdfs:comment "A concrete runtime deployment, endpoint, service, or loaded checkpoint through which an AI model specification is used in an execution."@en ;
+    rdfs:subClassOf core:Resource .
+
+core:ModelComponentRole a owl:Class ;
+    rdfs:label "ModelComponentRole"@en ;
+    rdfs:comment "The functional role played by a model component within an agent workflow."@en ;
+    rdfs:subClassOf core:Role .
+
+core:PlannerModelRole a owl:Class ;
+    rdfs:label "PlannerModelRole"@en ;
+    rdfs:subClassOf core:ModelComponentRole .
+
+core:ReasonerModelRole a owl:Class ;
+    rdfs:label "ReasonerModelRole"@en ;
+    rdfs:subClassOf core:ModelComponentRole .
+
+core:RetrieverModelRole a owl:Class ;
+    rdfs:label "RetrieverModelRole"@en ;
+    rdfs:subClassOf core:ModelComponentRole .
+
+core:CriticModelRole a owl:Class ;
+    rdfs:label "CriticModelRole"@en ;
+    rdfs:subClassOf core:ModelComponentRole .
+
+core:VerifierModelRole a owl:Class ;
+    rdfs:label "VerifierModelRole"@en ;
+    rdfs:subClassOf core:ModelComponentRole .
+
+core:RouterModelRole a owl:Class ;
+    rdfs:label "RouterModelRole"@en ;
+    rdfs:subClassOf core:ModelComponentRole .
+
+core:ModelInterfaceSpecification a owl:Class ;
+    rdfs:label "ModelInterfaceSpecification"@en ;
+    rdfs:comment "A specification of data accepted or produced at a model interface."@en ;
+    rdfs:subClassOf core:Resource .
+
+core:ModelInputSpecification a owl:Class ;
+    rdfs:label "ModelInputSpecification"@en ;
+    rdfs:comment "A specification of the representation actually supplied to a model, which may differ from the agent-level clinical input."@en ;
+    rdfs:subClassOf core:ModelInterfaceSpecification .
+
+core:ModelOutputSpecification a owl:Class ;
+    rdfs:label "ModelOutputSpecification"@en ;
+    rdfs:comment "A specification of model-level output, distinct from a downstream agent action or clinical recommendation."@en ;
+    rdfs:subClassOf core:ModelInterfaceSpecification .
+
+core:InputModality a owl:Class ;
+    rdfs:label "InputModality"@en ;
+    rdfs:comment "A modality supported by an AI model specification, such as text, image, audio, waveform, or structured data."@en .
+
+core:ModelCapability a owl:Class ;
+    rdfs:label "ModelCapability"@en ;
+    rdfs:comment "A capability declared for an AI model specification."@en .
+
+core:ModelIntendedUse a owl:Class ;
+    rdfs:label "ModelIntendedUse"@en ;
+    rdfs:comment "A model-level intended use statement, distinct from the intended clinical use of an entire agent system."@en .
+
+core:ModelLimitation a owl:Class ;
+    rdfs:label "ModelLimitation"@en ;
+    rdfs:comment "A limitation declared for an AI model specification."@en .
+
+core:GeneratedModelOutput a owl:Class ;
+    rdfs:label "GeneratedModelOutput"@en ;
+    rdfs:comment "An artifact generated during an execution run that uses a model deployment, before downstream agent processing or action selection."@en ;
+    rdfs:subClassOf core:Artifact .
+
+core:hasComponent a owl:ObjectProperty ;
+    rdfs:label "hasComponent"@en ;
+    rdfs:comment "Links an agent system to a functional component in its architecture."@en ;
+    rdfs:domain core:AgentSystem ;
+    rdfs:range core:AgentComponent .
+
+core:realizesModelSpecification a owl:ObjectProperty ;
+    rdfs:label "realizesModelSpecification"@en ;
+    rdfs:comment "Links a model component to the versioned AI model specification that realizes its function."@en ;
+    rdfs:domain core:ModelComponent ;
+    rdfs:range core:AIModelSpecification ;
+    owl:inverseOf core:realizedByModelComponent .
+
+core:realizedByModelComponent a owl:ObjectProperty ;
+    rdfs:label "realizedByModelComponent"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:ModelComponent .
+
+core:hasModelComponentRole a owl:ObjectProperty ;
+    rdfs:label "hasModelComponentRole"@en ;
+    rdfs:comment "Assigns a workflow function such as planning, reasoning, retrieval, criticism, verification, or routing to a model component."@en ;
+    rdfs:domain core:ModelComponent ;
+    rdfs:range core:ModelComponentRole .
+
+core:deploysModelSpecification a owl:ObjectProperty ;
+    rdfs:label "deploysModelSpecification"@en ;
+    rdfs:comment "Links a concrete model deployment to the AI model specification it serves or loads."@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range core:AIModelSpecification .
+
+core:usesModelDeployment a owl:ObjectProperty ;
+    rdfs:label "usesModelDeployment"@en ;
+    rdfs:comment "Links an execution run to the concrete model deployment used at runtime."@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:ModelDeployment .
+
+core:hasSystemExecution a owl:ObjectProperty ;
+    rdfs:label "hasSystemExecution"@en ;
+    rdfs:comment "Links an agent system to an execution run of that system."@en ;
+    rdfs:domain core:AgentSystem ;
+    rdfs:range core:ExecutionRun .
+
+core:usesModelInputArtifact a owl:ObjectProperty ;
+    rdfs:label "usesModelInputArtifact"@en ;
+    rdfs:comment "Links an execution run to the runtime artifact supplied at a model interface, after any agent-level observation or data transformation."@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:Artifact .
+
+core:hasModelInputSpecification a owl:ObjectProperty ;
+    rdfs:label "hasModelInputSpecification"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:ModelInputSpecification .
+
+core:hasModelOutputSpecification a owl:ObjectProperty ;
+    rdfs:label "hasModelOutputSpecification"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:ModelOutputSpecification .
+
+core:supportsInputModality a owl:ObjectProperty ;
+    rdfs:label "supportsInputModality"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:InputModality .
+
+core:hasModelCapability a owl:ObjectProperty ;
+    rdfs:label "hasModelCapability"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:ModelCapability .
+
+core:hasModelIntendedUse a owl:ObjectProperty ;
+    rdfs:label "hasModelIntendedUse"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:ModelIntendedUse .
+
+core:hasModelLimitation a owl:ObjectProperty ;
+    rdfs:label "hasModelLimitation"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:ModelLimitation .
+
+core:hasBaseModelSpecification a owl:ObjectProperty ;
+    rdfs:label "hasBaseModelSpecification"@en ;
+    rdfs:comment "Links a derived or fine-tuned model specification to its base model specification."@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:AIModelSpecification .
+
+core:hasDeveloper a owl:ObjectProperty ;
+    rdfs:label "hasDeveloper"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:Agent .
+
+core:hasProvider a owl:ObjectProperty ;
+    rdfs:label "hasProvider"@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range core:Agent .
+
+core:generatedModelOutput a owl:ObjectProperty ;
+    rdfs:label "generatedModelOutput"@en ;
+    rdfs:comment "Links an execution run to model-level output generated by using its model deployment."@en ;
+    rdfs:domain core:ExecutionRun ;
+    rdfs:range core:GeneratedModelOutput .
+
+core:modelIdentifier a owl:DatatypeProperty ;
+    rdfs:label "modelIdentifier"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range xsd:string .
+
+core:modelVersion a owl:DatatypeProperty ;
+    rdfs:label "modelVersion"@en ;
+    rdfs:comment "Records a model checkpoint, snapshot, release, or immutable version identifier."@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range xsd:string .
+
+core:modelArchitectureType a owl:DatatypeProperty ;
+    rdfs:label "modelArchitectureType"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range xsd:string .
+
+core:modelReleaseDate a owl:DatatypeProperty ;
+    rdfs:label "modelReleaseDate"@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range xsd:date .
+
+core:deploymentEndpoint a owl:DatatypeProperty ;
+    rdfs:label "deploymentEndpoint"@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range xsd:anyURI .
+
+core:deploymentVersion a owl:DatatypeProperty ;
+    rdfs:label "deploymentVersion"@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range xsd:string .
+
+core:deploymentAccessedAt a owl:DatatypeProperty ;
+    rdfs:label "deploymentAccessedAt"@en ;
+    rdfs:comment "Records when a mutable or externally hosted model deployment was accessed."@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range xsd:dateTime .
+
+core:servingFramework a owl:DatatypeProperty ;
+    rdfs:label "servingFramework"@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range xsd:string .
+
+core:quantization a owl:DatatypeProperty ;
+    rdfs:label "quantization"@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range xsd:string .
+
+core:deploymentRegion a owl:DatatypeProperty ;
+    rdfs:label "deploymentRegion"@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range xsd:string .
+
+core:runtimeConfiguration a owl:DatatypeProperty ;
+    rdfs:label "runtimeConfiguration"@en ;
+    rdfs:domain core:ModelDeployment ;
+    rdfs:range xsd:string .

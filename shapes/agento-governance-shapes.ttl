@@ -55,10 +55,10 @@ report:PatientFacingGovernanceShape
   a sh:NodeShape ;
   sh:targetClass health:PatientFacingAgent ;
   sh:property [
-    sh:path report:hasIntendedUser ;
+    sh:path ( health:hasIntendedClinicalUse health:hasIntendedUser ) ;
     sh:minCount 1 ;
     sh:severity sh:Warning ;
-    sh:message "Patient-facing agents should declare the intended audience."@en
+    sh:message "Patient-facing agents should declare intended users through their clinical use case."@en
   ] ;
   sh:sparql [
     sh:severity sh:Warning ;

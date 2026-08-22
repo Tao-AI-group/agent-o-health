@@ -1,0 +1,18 @@
+PREFIX report: <https://w3id.org/agent-o/reporting#>
+
+# Can a benchmark paper be represented and assessed without asserting that the
+# benchmark framework itself is a concrete agent system?
+SELECT DISTINCT ?report ?reportType ?evaluatedEntity
+WHERE {
+  VALUES ?reportType {
+    report:BenchmarkReport
+    report:SurveyReviewReport
+    report:GovernancePolicyReport
+    report:MethodModelReport
+    report:ConceptualCommentaryReport
+  }
+  ?report a ?reportType ;
+          report:documentsEvaluatedEntity ?evaluatedEntity .
+  FILTER NOT EXISTS { ?report a report:AgentSystemReport }
+}
+ORDER BY ?reportType ?report

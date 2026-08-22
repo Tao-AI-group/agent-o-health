@@ -1,12 +1,16 @@
 PREFIX core: <https://w3id.org/agent-o/core#>
 PREFIX health: <https://w3id.org/agent-o/health#>
 
-SELECT ?input ?inputName ?resourceType ?resourceIRI ?agent ?agentName ?recommendation
+SELECT ?input ?inputName ?resourceType ?resourceIRI ?fhirProfile ?dataFormat
+       ?terminology ?agent ?agentName ?recommendation
 WHERE {
   ?input a health:FHIRResourceInput .
   OPTIONAL { ?input core:hasName ?inputName . }
   OPTIONAL { ?input health:usesFHIRResourceType ?resourceType . }
   OPTIONAL { ?input health:mapsToFHIRResource ?resourceIRI . }
+  OPTIONAL { ?input health:usesFHIRProfile ?fhirProfile . }
+  OPTIONAL { ?input health:hasDataFormat ?dataFormat . }
+  OPTIONAL { ?input health:usesTerminologySystem ?terminology . }
   OPTIONAL {
     ?agent core:hasInputType ?input .
     OPTIONAL { ?agent core:hasName ?agentName . }
@@ -16,4 +20,3 @@ WHERE {
   }
 }
 ORDER BY ?input
-

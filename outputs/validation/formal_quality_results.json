@@ -1,5 +1,5 @@
 {
-  "files_checked": 24,
+  "files_checked": 25,
   "parse_failures": [],
   "parse_results": {
     "data/examples/converted_test_agent_annotations.ttl": {
@@ -9,22 +9,22 @@
     },
     "data/examples/governance_reporting_profile_example.ttl": {
       "ok": true,
-      "triples": 240,
+      "triples": 442,
       "error": null
     },
     "data/examples/health_interoperability_example.ttl": {
       "ok": true,
-      "triples": 73,
+      "triples": 200,
       "error": null
     },
     "data/examples/prov_decision_trace_example.ttl": {
       "ok": true,
-      "triples": 110,
+      "triples": 218,
       "error": null
     },
     "ontology/agento.ttl": {
       "ok": true,
-      "triples": 1355,
+      "triples": 1962,
       "error": null
     },
     "ontology/alignments/agento-align-duo.ttl": {
@@ -34,17 +34,17 @@
     },
     "ontology/alignments/agento-align-fhir.ttl": {
       "ok": true,
-      "triples": 15,
+      "triples": 23,
       "error": null
     },
     "ontology/alignments/agento-align-iao.ttl": {
       "ok": true,
-      "triples": 26,
+      "triples": 38,
       "error": null
     },
     "ontology/alignments/agento-align-mcro.ttl": {
       "ok": true,
-      "triples": 21,
+      "triples": 30,
       "error": null
     },
     "ontology/alignments/agento-align-nist-rmf.ttl": {
@@ -54,12 +54,12 @@
     },
     "ontology/alignments/agento-align-prov.ttl": {
       "ok": true,
-      "triples": 19,
+      "triples": 40,
       "error": null
     },
     "ontology/alignments/agento-align-swo.ttl": {
       "ok": true,
-      "triples": 11,
+      "triples": 17,
       "error": null
     },
     "ontology/alignments/agento-align-who-health-ai.ttl": {
@@ -69,17 +69,17 @@
     },
     "ontology/modules/agento-core.ttl": {
       "ok": true,
-      "triples": 435,
+      "triples": 635,
       "error": null
     },
     "ontology/modules/agento-doc.ttl": {
       "ok": true,
-      "triples": 89,
+      "triples": 90,
       "error": null
     },
     "ontology/modules/agento-eval.ttl": {
       "ok": true,
-      "triples": 159,
+      "triples": 174,
       "error": null
     },
     "ontology/modules/agento-gov.ttl": {
@@ -89,12 +89,12 @@
     },
     "ontology/modules/agento-health.ttl": {
       "ok": true,
-      "triples": 136,
+      "triples": 301,
       "error": null
     },
     "ontology/modules/agento-report.ttl": {
       "ok": true,
-      "triples": 240,
+      "triples": 466,
       "error": null
     },
     "ontology/profiles/agento-governance-profile.ttl": {
@@ -104,22 +104,27 @@
     },
     "ontology/profiles/agento-reporting-completeness-profile.ttl": {
       "ok": true,
-      "triples": 20,
+      "triples": 91,
       "error": null
     },
     "ontology/profiles/agento-reporting-profile.ttl": {
       "ok": true,
-      "triples": 48,
+      "triples": 51,
+      "error": null
+    },
+    "shapes/agento-architecture-shapes.ttl": {
+      "ok": true,
+      "triples": 199,
       "error": null
     },
     "shapes/agento-governance-shapes.ttl": {
       "ok": true,
-      "triples": 61,
+      "triples": 65,
       "error": null
     },
     "shapes/agento-reporting-shapes.ttl": {
       "ok": true,
-      "triples": 92,
+      "triples": 226,
       "error": null
     }
   },
@@ -132,5 +137,169 @@
   "datatype_properties_missing_domain": [],
   "datatype_properties_missing_range": [],
   "undefined_alignment_terms": [],
+  "integrated_matches_module_union": true,
+  "integrated_metrics": {
+    "rdf_triples": 1962,
+    "declared_entities": {
+      "classes": 256,
+      "object_properties": 200,
+      "datatype_properties": 51,
+      "annotation_properties": 0
+    },
+    "active_entities": {
+      "classes": 252,
+      "object_properties": 198,
+      "datatype_properties": 51,
+      "annotation_properties": 0
+    },
+    "deprecated_entities": {
+      "classes": 4,
+      "object_properties": 2,
+      "datatype_properties": 0,
+      "annotation_properties": 0
+    },
+    "schema_axiom_statements": 679,
+    "schema_axiom_definition": "RDF statements using rdfs:subClassOf, rdfs:subPropertyOf, rdfs:domain, rdfs:range, owl:equivalentClass, owl:disjointWith, owl:equivalentProperty, owl:inverseOf, owl:propertyDisjointWith, or an OWL property-characteristic type. This is a transparent RDF-level count, not an OWLAPI logical-axiom count."
+  },
+  "module_metrics": {
+    "agento-core": {
+      "rdf_triples": 635,
+      "declared_entities": {
+        "classes": 80,
+        "object_properties": 77,
+        "datatype_properties": 18,
+        "annotation_properties": 0
+      },
+      "active_entities": {
+        "classes": 80,
+        "object_properties": 77,
+        "datatype_properties": 18,
+        "annotation_properties": 0
+      },
+      "deprecated_entities": {
+        "classes": 0,
+        "object_properties": 0,
+        "datatype_properties": 0,
+        "annotation_properties": 0
+      },
+      "schema_axiom_statements": 243,
+      "schema_axiom_definition": "RDF statements using rdfs:subClassOf, rdfs:subPropertyOf, rdfs:domain, rdfs:range, owl:equivalentClass, owl:disjointWith, owl:equivalentProperty, owl:inverseOf, owl:propertyDisjointWith, or an OWL property-characteristic type. This is a transparent RDF-level count, not an OWLAPI logical-axiom count."
+    },
+    "agento-doc": {
+      "rdf_triples": 90,
+      "declared_entities": {
+        "classes": 9,
+        "object_properties": 10,
+        "datatype_properties": 7,
+        "annotation_properties": 0
+      },
+      "active_entities": {
+        "classes": 9,
+        "object_properties": 10,
+        "datatype_properties": 7,
+        "annotation_properties": 0
+      },
+      "deprecated_entities": {
+        "classes": 0,
+        "object_properties": 0,
+        "datatype_properties": 0,
+        "annotation_properties": 0
+      },
+      "schema_axiom_statements": 34,
+      "schema_axiom_definition": "RDF statements using rdfs:subClassOf, rdfs:subPropertyOf, rdfs:domain, rdfs:range, owl:equivalentClass, owl:disjointWith, owl:equivalentProperty, owl:inverseOf, owl:propertyDisjointWith, or an OWL property-characteristic type. This is a transparent RDF-level count, not an OWLAPI logical-axiom count."
+    },
+    "agento-eval": {
+      "rdf_triples": 174,
+      "declared_entities": {
+        "classes": 22,
+        "object_properties": 23,
+        "datatype_properties": 4,
+        "annotation_properties": 0
+      },
+      "active_entities": {
+        "classes": 22,
+        "object_properties": 23,
+        "datatype_properties": 4,
+        "annotation_properties": 0
+      },
+      "deprecated_entities": {
+        "classes": 0,
+        "object_properties": 0,
+        "datatype_properties": 0,
+        "annotation_properties": 0
+      },
+      "schema_axiom_statements": 61,
+      "schema_axiom_definition": "RDF statements using rdfs:subClassOf, rdfs:subPropertyOf, rdfs:domain, rdfs:range, owl:equivalentClass, owl:disjointWith, owl:equivalentProperty, owl:inverseOf, owl:propertyDisjointWith, or an OWL property-characteristic type. This is a transparent RDF-level count, not an OWLAPI logical-axiom count."
+    },
+    "agento-gov": {
+      "rdf_triples": 293,
+      "declared_entities": {
+        "classes": 39,
+        "object_properties": 34,
+        "datatype_properties": 8,
+        "annotation_properties": 0
+      },
+      "active_entities": {
+        "classes": 39,
+        "object_properties": 34,
+        "datatype_properties": 8,
+        "annotation_properties": 0
+      },
+      "deprecated_entities": {
+        "classes": 0,
+        "object_properties": 0,
+        "datatype_properties": 0,
+        "annotation_properties": 0
+      },
+      "schema_axiom_statements": 105,
+      "schema_axiom_definition": "RDF statements using rdfs:subClassOf, rdfs:subPropertyOf, rdfs:domain, rdfs:range, owl:equivalentClass, owl:disjointWith, owl:equivalentProperty, owl:inverseOf, owl:propertyDisjointWith, or an OWL property-characteristic type. This is a transparent RDF-level count, not an OWLAPI logical-axiom count."
+    },
+    "agento-health": {
+      "rdf_triples": 301,
+      "declared_entities": {
+        "classes": 48,
+        "object_properties": 23,
+        "datatype_properties": 3,
+        "annotation_properties": 0
+      },
+      "active_entities": {
+        "classes": 48,
+        "object_properties": 23,
+        "datatype_properties": 3,
+        "annotation_properties": 0
+      },
+      "deprecated_entities": {
+        "classes": 0,
+        "object_properties": 0,
+        "datatype_properties": 0,
+        "annotation_properties": 0
+      },
+      "schema_axiom_statements": 94,
+      "schema_axiom_definition": "RDF statements using rdfs:subClassOf, rdfs:subPropertyOf, rdfs:domain, rdfs:range, owl:equivalentClass, owl:disjointWith, owl:equivalentProperty, owl:inverseOf, owl:propertyDisjointWith, or an OWL property-characteristic type. This is a transparent RDF-level count, not an OWLAPI logical-axiom count."
+    },
+    "agento-report": {
+      "rdf_triples": 466,
+      "declared_entities": {
+        "classes": 58,
+        "object_properties": 33,
+        "datatype_properties": 11,
+        "annotation_properties": 0
+      },
+      "active_entities": {
+        "classes": 54,
+        "object_properties": 31,
+        "datatype_properties": 11,
+        "annotation_properties": 0
+      },
+      "deprecated_entities": {
+        "classes": 4,
+        "object_properties": 2,
+        "datatype_properties": 0,
+        "annotation_properties": 0
+      },
+      "schema_axiom_statements": 142,
+      "schema_axiom_definition": "RDF statements using rdfs:subClassOf, rdfs:subPropertyOf, rdfs:domain, rdfs:range, owl:equivalentClass, owl:disjointWith, owl:equivalentProperty, owl:inverseOf, owl:propertyDisjointWith, or an OWL property-characteristic type. This is a transparent RDF-level count, not an OWLAPI logical-axiom count."
+    }
+  },
   "passed": true
 }

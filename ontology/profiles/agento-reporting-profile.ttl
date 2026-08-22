@@ -18,11 +18,13 @@ exprof:ReportingProfile
     report:AgentIdentityScopeSection,
     report:RuntimeArchitectureSection,
     report:ModelComponentsSection,
+    report:ModelSpecificationSection,
     report:ToolUseSection,
     report:WorkflowSection,
     report:PlanningReasoningSection,
     report:InputOutputDataSection,
     report:ClinicalContextSection,
+    report:IntendedUseSection,
     report:EvaluationReportingSection,
     report:DatasetsMetricsSection,
     report:ReproducibilitySection,
@@ -34,7 +36,8 @@ exprof:ReportingProfile
   report:recommendedReportingSection
     report:SubgroupEquityEvaluationSection,
     report:DataUseSection,
-    report:GovernanceReportingSection ;
+    report:GovernanceReportingSection,
+    report:AssessmentMethodsSection ;
   report:alignsWithGuideline
     exprof:MCROGuidelineReference,
     exprof:PROVOGuidelineReference,

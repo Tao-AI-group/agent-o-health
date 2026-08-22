@@ -1,16 +1,26 @@
 PREFIX core: <https://w3id.org/agent-o/core#>
 PREFIX report: <https://w3id.org/agent-o/reporting#>
 
-SELECT ?agent ?agentName ?model ?modelName ?modelCard ?report
+# Which model-card document describes the versioned model specification used
+# by each model component, and which agent-system report cites that card?
+SELECT ?agent ?agentName ?component ?componentRole ?model ?modelName ?modelVersion ?modelCard ?report
 WHERE {
-  ?agent core:usesModel ?model .
+  ?agent a core:AgentSystem ;
+         core:hasComponent ?component .
+  ?component a core:ModelComponent ;
+             core:hasModelComponentRole ?componentRole ;
+             core:realizesModelSpecification ?model .
   OPTIONAL { ?agent core:hasName ?agentName . }
   OPTIONAL { ?model core:hasName ?modelName . }
-  OPTIONAL { ?model report:hasModelCardReference ?modelCard . }
+  OPTIONAL { ?model core:modelVersion ?modelVersion . }
+  OPTIONAL {
+    ?modelCard a report:ModelCardReport ;
+               report:describesModelSpecification ?model .
+  }
   OPTIONAL {
     ?report report:documentsAgentSystem ?agent ;
-            report:documentsModelComponent ?model .
+            report:documentsModelComponent ?component .
+    OPTIONAL { ?report report:hasModelCardReport ?modelCard . }
   }
 }
-ORDER BY ?agent ?model
-
+ORDER BY ?agent ?component

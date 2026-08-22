@@ -1,0 +1,42 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+PREFIX doc: <https://w3id.org/agent-o/doc#>
+
+# Which model specification realizes each model component, what role does it
+# play, and which deployment was used in an execution of the agent system?
+SELECT DISTINCT ?agent ?component ?role ?model ?modelName ?identifier ?version
+                ?architecture ?releaseDate ?developer ?license ?inputSpecification
+                ?outputSpecification ?inputModality ?capability ?modelIntendedUse
+                ?limitation ?deployment ?provider ?endpoint ?deploymentVersion
+                ?accessedAt ?servingFramework ?quantization ?region ?runtimeConfiguration
+WHERE {
+  ?agent a core:AgentSystem ;
+         core:hasComponent ?component ;
+         core:hasSystemExecution ?run .
+  ?component a core:ModelComponent ;
+             core:hasModelComponentRole ?role ;
+             core:realizesModelSpecification ?model .
+  ?model core:modelIdentifier ?identifier ;
+         core:modelVersion ?version .
+  OPTIONAL { ?model core:hasName ?modelName . }
+  OPTIONAL { ?model core:modelArchitectureType ?architecture . }
+  OPTIONAL { ?model core:modelReleaseDate ?releaseDate . }
+  OPTIONAL { ?model core:hasDeveloper ?developer . }
+  OPTIONAL { ?model doc:hasLicense ?license . }
+  OPTIONAL { ?model core:hasModelInputSpecification ?inputSpecification . }
+  OPTIONAL { ?model core:hasModelOutputSpecification ?outputSpecification . }
+  OPTIONAL { ?model core:supportsInputModality ?inputModality . }
+  OPTIONAL { ?model core:hasModelCapability ?capability . }
+  OPTIONAL { ?model core:hasModelIntendedUse ?modelIntendedUse . }
+  OPTIONAL { ?model core:hasModelLimitation ?limitation . }
+  ?run core:usesModelDeployment ?deployment .
+  ?deployment core:deploysModelSpecification ?model ;
+              core:hasProvider ?provider .
+  OPTIONAL { ?deployment core:deploymentEndpoint ?endpoint . }
+  OPTIONAL { ?deployment core:deploymentVersion ?deploymentVersion . }
+  OPTIONAL { ?deployment core:deploymentAccessedAt ?accessedAt . }
+  OPTIONAL { ?deployment core:servingFramework ?servingFramework . }
+  OPTIONAL { ?deployment core:quantization ?quantization . }
+  OPTIONAL { ?deployment core:deploymentRegion ?region . }
+  OPTIONAL { ?deployment core:runtimeConfiguration ?runtimeConfiguration . }
+}
+ORDER BY ?agent ?component

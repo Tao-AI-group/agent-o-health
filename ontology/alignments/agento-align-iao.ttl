@@ -19,6 +19,12 @@ doc:ProvenanceRecord rdfs:subClassOf obo:IAO_0000030 .
 doc:LineageTrace rdfs:subClassOf obo:IAO_0000030 .
 
 report:AgentSystemReport rdfs:subClassOf obo:IAO_0000310 .
+report:AssessableReport rdfs:subClassOf obo:IAO_0000310 .
+report:BenchmarkReport rdfs:subClassOf obo:IAO_0000310 .
+report:SurveyReviewReport rdfs:subClassOf obo:IAO_0000310 .
+report:GovernancePolicyReport rdfs:subClassOf obo:IAO_0000310 .
+report:MethodModelReport rdfs:subClassOf obo:IAO_0000310 .
+report:ConceptualCommentaryReport rdfs:subClassOf obo:IAO_0000310 .
 report:AgentCard rdfs:subClassOf obo:IAO_0000310 .
 report:AgentSystemDocumentation rdfs:subClassOf obo:IAO_0000310 .
 report:ReportingSection rdfs:subClassOf obo:IAO_0000314 .
@@ -34,6 +40,11 @@ report:DataUseSection rdfs:subClassOf obo:IAO_0000314 .
 report:DeploymentContextSection rdfs:subClassOf obo:IAO_0000314 .
 report:ReproducibilitySection rdfs:subClassOf obo:IAO_0000314 .
 report:ModelCardReference rdfs:subClassOf obo:IAO_0000310 .
+report:ModelCardReport rdfs:subClassOf obo:IAO_0000310 .
+report:ReportingStatement rdfs:subClassOf obo:IAO_0000030 .
+report:IntendedUseStatement rdfs:subClassOf obo:IAO_0000030 .
+report:ReportingRequirement rdfs:subClassOf obo:IAO_0000030 .
+report:EvidenceStatement rdfs:subClassOf obo:IAO_0000030 .
+report:ReportingCompletenessAssessment rdfs:subClassOf obo:IAO_0000030 .
 
 core:Artifact skos:relatedMatch obo:IAO_0000030 .
-

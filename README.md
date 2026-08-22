@@ -7,15 +7,15 @@ This public release package contains the ontology, SHACL shapes, SPARQL competen
 ## Repository Contents
 
 - `ontology/`: integrated AGENT-O ontology, module files, application profiles, and external alignment files.
-- `shapes/`: SHACL shapes for governance and reporting profiles.
+- `shapes/`: SHACL shapes for agent/model architecture, governance, and reporting-assessment profiles.
 - `queries/competency/`: SPARQL competency queries.
 - `scripts/`: reproducibility scripts for ontology validation, SHACL validation, competency queries, alignment summaries, and reporting-completeness scoring.
 - `data/examples/`: small RDF examples for provenance traces, health interoperability, and governance/reporting profiles.
 - `data/manifest/paper_manifest_public.csv`: sanitized 279-paper manifest with paper identifiers, titles, paper types, and completeness scores.
 - `outputs/`: aggregate validation, alignment, SHACL, SPARQL, and reporting-completeness results.
-- `tables/`: manuscript-ready supplementary tables and corpus reference material.
+- `tables/`: manuscript-ready supplementary tables, corpus reference material, and the model/clinical/reporting architecture crosswalk.
 - `docs/design/`: design notes and crosswalks to external resources.
-- `tests/`: lightweight unit tests for deterministic corpus scoring.
+- `tests/`: unit tests for ontology architecture, competency-result serialization, and deterministic corpus scoring.
 
 ## Quick Start
 
@@ -29,6 +29,12 @@ Run formal ontology checks:
 
 ```bash
 python3 scripts/validate_ontology.py
+```
+
+Rebuild the integrated ontology from the six authoritative modules:
+
+```bash
+python3 scripts/build_integrated_ontology.py
 ```
 
 Run SHACL profile validation:
@@ -54,6 +60,8 @@ python3 scripts/run_corpus_reporting_completeness.py --limit 0
 This package intentionally does not include full-text paper markdown files, raw LLM prompts, raw LLM responses, API credentials, institution-specific API endpoints, or third-party ontology source files. The released corpus manifest is sanitized and does not include local filesystem paths.
 
 Parsed and aggregate reporting-completeness outputs are included to support reproducibility of the manuscript tables without redistributing copyrighted source text.
+
+The detailed corpus is a curated-source collection derived from two public healthcare-agent literature lists plus a prespecified AgentArena benchmark case; it is not presented as a systematic database search. See `docs/design/corpus_collection_protocol.md` for collection details and remaining release-metadata requirements.
 
 ## License
 

@@ -1,5 +1,22 @@
 @prefix report: <https://w3id.org/agent-o/reporting#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+report:AssessableReportShape
+  a sh:NodeShape ;
+  sh:targetClass report:AssessableReport ;
+  sh:or (
+    [ sh:path report:documentsAgentSystem ; sh:minCount 1 ]
+    [ sh:path report:documentsEvaluatedEntity ; sh:minCount 1 ]
+  ) ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Assessable reports must include at least one typed reporting section."@en
+  ] ;
+  sh:severity sh:Violation ;
+  sh:message "Assessable reports must identify the agent system or other evaluated entity they describe."@en .
 
 report:AgentSystemReportShape
   a sh:NodeShape ;
@@ -22,6 +39,27 @@ report:AgentSystemReportShape
     sh:qualifiedMinCount 1 ;
     sh:severity sh:Warning ;
     sh:message "Reports should include a runtime architecture section."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:qualifiedValueShape [ sh:class report:ModelSpecificationSection ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should include a model specification section with identity, role, interface, and deployment evidence."@en
+  ] ;
+  sh:property [
+    sh:path report:hasReportingSection ;
+    sh:qualifiedValueShape [ sh:class report:IntendedUseSection ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should include an intended-use section that distinguishes model use from system-level clinical use."@en
+  ] ;
+  sh:property [
+    sh:path report:containsStatement ;
+    sh:qualifiedValueShape [ sh:class report:IntendedUseStatement ] ;
+    sh:qualifiedMinCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reports should contain an intended-use statement linked to the represented use entity."@en
   ] ;
   sh:property [
     sh:path report:hasReportingSection ;
@@ -97,6 +135,43 @@ report:ReportingCompletenessAssessmentShape
     sh:message "Completeness assessments must use a present, partial, missing, or not-applicable label."@en
   ] ;
   sh:property [
+    sh:path report:generatedByAssessmentActivity ;
+    sh:class report:ReportingAssessmentActivity ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Completeness assessments must link to the activity that generated them."@en
+  ] ;
+  sh:property [
+    sh:path report:assessesDimension ;
+    sh:class report:CompletenessDimension ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Completeness assessments must identify the rubric dimension being assessed."@en
+  ] ;
+  sh:property [
+    sh:path report:hasSupportingEvidence ;
+    sh:class report:EvidenceStatement ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Completeness assessments must link to structured supporting evidence."@en
+  ] ;
+  sh:property [
+    sh:path report:assessmentConfidence ;
+    sh:datatype xsd:decimal ;
+    sh:minInclusive 0 ;
+    sh:maxInclusive 1 ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Automated or hybrid completeness assessments must record a confidence value from 0 to 1."@en
+  ] ;
+  sh:property [
+    sh:path report:hasHumanVerificationStatus ;
+    sh:class report:HumanVerificationStatus ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "Completeness assessments must record whether a human has verified the result."@en
+  ] ;
+  sh:property [
     sh:path report:hasEvidenceQuote ;
     sh:minCount 1 ;
     sh:severity sh:Warning ;
@@ -114,4 +189,34 @@ report:ReportingCompletenessAssessmentShape
         FILTER NOT EXISTS { $this report:hasRecommendedFix ?recommendedFix . }
       }
     """
+  ] .
+
+report:ReportingAssessmentActivityShape
+  a sh:NodeShape ;
+  sh:targetClass report:ReportingAssessmentActivity ;
+  sh:property [ sh:path report:usedReport ; sh:class report:AssessableReport ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:property [ sh:path report:usedReportingProfile ; sh:class report:ReportingProfile ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:property [ sh:path report:associatedWithAssessor ; sh:class report:AssessmentAgent ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:property [ sh:path report:generatedAssessment ; sh:class report:ReportingCompletenessAssessment ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:property [ sh:path report:rubricVersion ; sh:datatype xsd:string ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:property [ sh:path report:promptVersion ; sh:datatype xsd:string ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:property [ sh:path report:assessmentTimestamp ; sh:datatype xsd:dateTime ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:message "Reporting-assessment activities must identify their input report and profile, assessor, outputs, rubric and prompt versions, and timestamp."@en .
+
+report:EvidenceStatementShape
+  a sh:NodeShape ;
+  sh:targetClass report:EvidenceStatement ;
+  sh:property [ sh:path report:evidenceQuote ; sh:datatype xsd:string ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:property [ sh:path report:evidenceSourceSection ; sh:datatype xsd:string ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:property [ sh:path report:evidenceLocator ; sh:datatype xsd:string ; sh:minCount 1 ; sh:severity sh:Violation ] ;
+  sh:message "Evidence statements must preserve a quote, source section, and source locator."@en .
+
+report:ModelCardReportShape
+  a sh:NodeShape ;
+  sh:targetClass report:ModelCardReport ;
+  sh:property [
+    sh:path report:describesModelSpecification ;
+    sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A model card must identify the AI model specification it describes."@en
   ] .

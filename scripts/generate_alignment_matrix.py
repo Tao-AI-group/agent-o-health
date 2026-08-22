@@ -79,7 +79,11 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     paper_dir.mkdir(parents=True, exist_ok=True)
     with (out_dir / "alignment_matrix.csv").open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["module", "source", "mapping_type", "target", "file"])
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["module", "source", "mapping_type", "target", "file"],
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(rows)
 
@@ -124,4 +128,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -1,0 +1,16 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+
+# Can AGENT-O distinguish an agent-level input artifact, the model deployment
+# and its interface output, and the final action produced by the agent system?
+SELECT DISTINCT ?agent ?run ?modelInput ?deployment ?model ?modelOutput ?agentOutput
+WHERE {
+  ?agent a core:AgentSystem ;
+         core:hasSystemExecution ?run ;
+         core:generates ?agentOutput .
+  ?run core:usesModelInputArtifact ?modelInput ;
+       core:usesModelDeployment ?deployment ;
+       core:generatedModelOutput ?modelOutput .
+  ?deployment core:deploysModelSpecification ?model .
+  ?modelOutput a core:GeneratedModelOutput .
+}
+ORDER BY ?agent ?modelInput

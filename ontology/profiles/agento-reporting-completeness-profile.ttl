@@ -1,6 +1,7 @@
 @prefix report: <https://w3id.org/agent-o/reporting#> .
 @prefix core: <https://w3id.org/agent-o/core#> .
 @prefix doc: <https://w3id.org/agent-o/doc#> .
+@prefix health: <https://w3id.org/agent-o/health#> .
 @prefix exprof: <https://w3id.org/agent-o/profiles#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -8,28 +9,115 @@
 
 <https://w3id.org/agent-o/profiles/reporting-completeness>
   a owl:Ontology ;
-  rdfs:label "AGENT-O Reporting Completeness Assessment Profile"@en ;
-  rdfs:comment "Reverse-validation profile for scoring whether papers and reports describe agentic systems comprehensively enough for AGENT-O representation."@en .
+  rdfs:label "AGENT-O Reporting Completeness Profile"@en ;
+  rdfs:comment "Application profile used by an external assessment pipeline to evaluate whether papers and reports provide enough evidence for AGENT-O representation."@en .
 
 exprof:ReportingCompletenessProfile
   a report:ReportingCompletenessProfile ;
-  rdfs:label "AGENT-O reporting-completeness profile"@en ;
+  rdfs:label "AGENT-O reporting completeness profile"@en ;
   report:requiresReportingSection
     report:AgentIdentityScopeSection,
     report:RuntimeArchitectureSection,
+    report:ModelSpecificationSection,
+    report:IntendedUseSection,
     report:EvaluationReportingSection,
     report:ReproducibilitySection,
     report:GovernanceReportingSection,
     report:HumanReviewSection ;
   report:recommendedReportingSection
     report:ModelComponentsSection,
+    report:ClinicalContextSection,
     report:DataUseSection,
     report:SubgroupEquityEvaluationSection,
     report:DeploymentMonitoringSection,
-    report:FailureFallbackSection ;
+    report:FailureFallbackSection,
+    report:AssessmentMethodsSection ;
+  report:hasRequirement
+    exprof:ModelIdentityRequirement,
+    exprof:ModelRoleRequirement,
+    exprof:ModelDeploymentRequirement,
+    exprof:ClinicalUseContextRequirement,
+    exprof:AssessmentProvenanceRequirement ;
   report:alignsWithGuideline exprof:ReportingCompletenessRubricReference .
+
+exprof:ModelIdentityRequirement
+  a report:ReportingRequirement ;
+  rdfs:label "Model identity and version requirement"@en ;
+  report:requirementTargetsSection report:ModelSpecificationSection ;
+  report:requiresInformationElement
+    core:AIModelSpecification,
+    core:hasName,
+    core:modelIdentifier,
+    core:modelVersion,
+    core:modelArchitectureType,
+    core:modelReleaseDate,
+    core:hasDeveloper,
+    core:hasModelInputSpecification,
+    core:hasModelOutputSpecification,
+    core:supportsInputModality,
+    core:hasModelCapability,
+    core:hasModelIntendedUse,
+    core:hasModelLimitation,
+    doc:hasLicense .
+
+exprof:ModelRoleRequirement
+  a report:ReportingRequirement ;
+  rdfs:label "Model component role requirement"@en ;
+  report:requirementTargetsSection report:ModelComponentsSection ;
+  report:requiresInformationElement
+    core:ModelComponent,
+    core:hasModelComponentRole,
+    core:realizesModelSpecification .
+
+exprof:ModelDeploymentRequirement
+  a report:ReportingRequirement ;
+  rdfs:label "Model deployment provenance requirement"@en ;
+  report:requirementTargetsSection report:ModelSpecificationSection ;
+  report:requiresInformationElement
+    core:ModelDeployment,
+    core:deploysModelSpecification,
+    core:hasProvider,
+    core:deploymentVersion,
+    core:deploymentAccessedAt,
+    core:deploymentEndpoint,
+    core:servingFramework,
+    core:quantization,
+    core:deploymentRegion,
+    core:runtimeConfiguration .
+
+exprof:ClinicalUseContextRequirement
+  a report:ReportingRequirement ;
+  rdfs:label "Clinical use context requirement"@en ;
+  report:requirementTargetsSection report:IntendedUseSection ;
+  report:requiresInformationElement
+    health:ClinicalUseCase,
+    health:hasIntendedUser,
+    health:hasTargetPopulation,
+    health:hasCareSetting,
+    health:hasClinicalTask,
+    health:hasClinicalSpecialty,
+    health:hasTargetCondition,
+    health:hasWorkflowStage,
+    health:hasDecisionRole,
+    health:hasIntendedAction,
+    health:hasDeploymentMode,
+    health:hasOutOfScopeUse,
+    health:hasProhibitedUse .
+
+exprof:AssessmentProvenanceRequirement
+  a report:ReportingRequirement ;
+  rdfs:label "Assessment provenance requirement"@en ;
+  report:requirementTargetsSection report:AssessmentMethodsSection ;
+  report:requiresInformationElement
+    report:ReportingAssessmentActivity,
+    report:usedReport,
+    report:usedReportingProfile,
+    report:associatedWithAssessor,
+    report:generatedAssessment,
+    report:hasSupportingEvidence,
+    report:hasHumanVerificationStatus .
 
 exprof:ReportingCompletenessRubricReference
   a report:ReportingGuidelineReference ;
-  core:hasName "AGENT-O paper completeness rubric" ;
+  core:hasName "AGENT-O paper reporting-completeness rubric" ;
   doc:sourceURI "https://w3id.org/agent-o/profiles/reporting-completeness"^^xsd:anyURI .

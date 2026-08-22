@@ -1,11 +1,12 @@
 # AGENT-O SHACL Validation Summary
 
-- Data triples: `2470`
-- Shape files: `2`
+- Data triples: `3644`
+- Shape files: `3`
 - Conforms: `True`
 
 | Shape file | Conforms | Results | Severities |
 | --- | --- | ---: | --- |
+| `agento-architecture-shapes` | `True` | 0 | none |
 | `agento-governance-shapes` | `True` | 0 | none |
 | `agento-reporting-shapes` | `True` | 0 | none |
 

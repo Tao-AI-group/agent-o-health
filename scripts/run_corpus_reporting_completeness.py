@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run deterministic corpus-scale reporting completeness assessment over extracted paper Markdown files."""
+"""Run deterministic corpus-scale reporting-completeness assessment."""
 
 from __future__ import annotations
 
@@ -29,8 +29,14 @@ DIMENSIONS = [
         "name": "Runtime/architecture",
         "weight": 25,
         "required_any": ["agent", "workflow", "framework", "architecture", "pipeline", "system"],
-        "signals": ["tool", "planner", "planning", "reasoning", "memory", "environment", "execution", "step", "multi-agent", "orchestr"],
-        "gap": "Paper should describe the agent identity, runtime framework, architecture, workflow, planning/reasoning, memory, tools, and execution environment.",
+        "signals": [
+            "tool", "planner", "planning", "reasoning", "memory", "environment", "execution", "step",
+            "multi-agent", "orchestr", "model identifier", "model version", "checkpoint", "model architecture",
+            "developer", "provider", "license", "release date", "input modality", "model output", "deployment",
+            "endpoint", "intended use", "clinical setting", "target population", "intended action",
+            "contraindicated", "out of scope",
+        ],
+        "gap": "Paper should describe agent identity and components; workflow, planning/reasoning, memory, tools, and execution; model role, identifier/version, architecture, developer/provider, release date, license, interface modalities, capabilities, intended use, limitations, and deployment; and the agent system's intended clinical use, users, population, setting, intended action, decision role, deployment mode, and excluded uses.",
     },
     {
         "id": "evaluation",
@@ -393,7 +399,7 @@ def write_aggregate_report(results: list[dict], out_dir: Path, paper_table_dir: 
     )
     (out_dir / "aggregate_gap_report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-    table_lines = ["# Table: Corpus Reporting Completeness Assessment Pilot", ""]
+    table_lines = ["# Table: Corpus Reporting-Completeness Pilot", ""]
     table_lines.extend(
         markdown_table(
             ["Paper", "Type", "Score", "Main gaps"],

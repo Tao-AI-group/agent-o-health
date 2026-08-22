@@ -7,9 +7,15 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:EHRMedicationReviewAgent
-  a health:ClinicalDecisionSupportAgent ;
+  a core:AgentSystem, health:ClinicalDecisionSupportAgent ;
   core:hasName "EHR medication review agent" ;
+  core:hasComponent ex:MedicationReviewModelComponent ;
+  core:usesModel ex:MedicationReviewModelComponent ;
+  core:hasSystemExecution ex:MedicationReviewRun ;
   health:hasClinicalSetting ex:AmbulatoryCareSetting ;
+  health:hasIntendedClinicalUse ex:MedicationReviewUseCase ;
+  health:usesExchangeStandard ex:FHIRR4ExchangeStandard ;
+  health:hasInboundInterface ex:FHIRRESTInterface ;
   core:usesTool ex:FHIRExtractionTool ;
   core:hasInputType ex:EHRPatientRecordInput ;
   core:generates ex:MedicationSafetyRecommendation ;
@@ -19,6 +25,58 @@ ex:EHRMedicationReviewAgent
   gov:hasRisk ex:MedicationReviewPatientSafetyRisk ;
   gov:monitoredBy ex:MedicationReviewMonitoringRule ;
   gov:requiresCompliance ex:HIPAAComplianceRequirement .
+
+ex:MedicationReviewModelComponent
+  a core:ModelComponent ;
+  core:hasName "Medication review reasoning component" ;
+  core:hasModelComponentRole ex:MedicationReasonerRole ;
+  core:realizesModelSpecification ex:MedicationReviewModelSpecification .
+
+ex:MedicationReasonerRole a core:ReasonerModelRole ; core:hasName "Medication reasoning role" .
+
+ex:MedicationReviewModelSpecification
+  a core:LanguageModel ;
+  core:hasName "Medication review language model" ;
+  core:modelIdentifier "medication-review-demo" ;
+  core:modelVersion "snapshot-2026-08" ;
+  core:modelArchitectureType "transformer language model" ;
+  core:modelReleaseDate "2026-08-01"^^xsd:date ;
+  core:hasModelInputSpecification ex:StructuredMedicationPromptSpecification ;
+  core:hasModelOutputSpecification ex:MedicationRiskTextSpecification ;
+  core:supportsInputModality ex:StructuredDataModality ;
+  core:hasModelCapability ex:MedicationRiskReasoningCapability ;
+  core:hasModelIntendedUse ex:MedicationModelIntendedUse ;
+  core:hasModelLimitation ex:MedicationModelLimitation ;
+  core:hasDeveloper ex:MedicationModelDeveloper ;
+  doc:hasLicense ex:MedicationModelLicense .
+
+ex:StructuredMedicationPromptSpecification a core:ModelInputSpecification ; core:hasDescription "Serialized text and JSON derived from FHIR resources." .
+ex:MedicationRiskTextSpecification a core:ModelOutputSpecification ; core:hasDescription "Generated medication-risk text before creation of a clinical recommendation." .
+ex:StructuredDataModality a core:InputModality ; core:hasName "structured health data" .
+ex:MedicationRiskReasoningCapability a core:ModelCapability ; core:hasName "Medication risk reasoning" .
+ex:MedicationModelIntendedUse a core:ModelIntendedUse ; core:hasDescription "Generate medication-risk findings for a supervised medication-review workflow." .
+ex:MedicationModelLimitation a core:ModelLimitation ; core:hasDescription "The model is not intended to prescribe, discontinue, or change medication autonomously." .
+ex:MedicationModelDeveloper a core:OrganizationAgent ; core:hasName "Example medication model developer" .
+ex:MedicationModelLicense a doc:License ; core:hasName "Demonstration model license" .
+
+ex:MedicationReviewModelDeployment
+  a core:ModelDeployment ;
+  core:deploysModelSpecification ex:MedicationReviewModelSpecification ;
+  core:hasProvider ex:MedicationModelProvider ;
+  core:deploymentVersion "deployment-2026-08" ;
+  core:deploymentAccessedAt "2026-08-19T11:00:00Z"^^xsd:dateTime .
+
+ex:MedicationModelProvider a core:OrganizationAgent ; core:hasName "Example medication model provider" .
+ex:MedicationReviewRun
+  a core:ExecutionRun ;
+  core:usesModelDeployment ex:MedicationReviewModelDeployment ;
+  core:usesModelInputArtifact ex:EHRPatientRecordInput, ex:MedicationObservationInput, ex:ConditionInput ;
+  core:generatedModelOutput ex:MedicationModelRiskOutput .
+
+ex:MedicationModelRiskOutput
+  a core:GeneratedModelOutput ;
+  core:hasName "Model-level medication risk output" ;
+  core:hasDescription "Structured medication-risk findings generated before the agent creates a clinician-facing recommendation." .
 
 ex:AmbulatoryCareSetting
   a health:ClinicalSetting ;
@@ -30,27 +88,37 @@ ex:FHIRExtractionTool
   core:hasVersion "R4-compatible demo interface" .
 
 ex:EHRPatientRecordInput
-  a health:PatientRecordInput ;
+  a health:PatientRecordInput, health:StructuredHealthDataArtifact ;
   core:hasName "FHIR patient record input" ;
   health:mapsToFHIRResource "http://hl7.org/fhir/Patient"^^xsd:anyURI ;
-  health:usesFHIRResourceType "Patient" .
+  health:usesFHIRResourceType "Patient" ;
+  health:usesFHIRProfile ex:PatientFHIRProfile ;
+  health:hasDataFormat ex:FHIRJSONFormat ;
+  health:usesTerminologySystem ex:SNOMEDCTTerminology .
 
 ex:MedicationObservationInput
-  a health:MedicationInput ;
+  a health:MedicationInput, health:StructuredHealthDataArtifact ;
   core:hasName "FHIR medication request input" ;
   health:mapsToFHIRResource "http://hl7.org/fhir/MedicationRequest"^^xsd:anyURI ;
-  health:usesFHIRResourceType "MedicationRequest" .
+  health:usesFHIRResourceType "MedicationRequest" ;
+  health:usesFHIRProfile ex:MedicationRequestFHIRProfile ;
+  health:hasDataFormat ex:FHIRJSONFormat ;
+  health:usesTerminologySystem ex:RxNormTerminology .
 
 ex:ConditionInput
-  a health:ConditionInput ;
+  a health:ConditionInput, health:StructuredHealthDataArtifact ;
   core:hasName "FHIR condition input" ;
   health:mapsToFHIRResource "http://hl7.org/fhir/Condition"^^xsd:anyURI ;
-  health:usesFHIRResourceType "Condition" .
+  health:usesFHIRResourceType "Condition" ;
+  health:usesFHIRProfile ex:ConditionFHIRProfile ;
+  health:hasDataFormat ex:FHIRJSONFormat ;
+  health:usesTerminologySystem ex:SNOMEDCTTerminology .
 
 ex:MedicationSafetyRecommendation
   a health:TreatmentRecommendation ;
   core:hasName "Medication safety recommendation" ;
   health:derivedFromFHIRResource ex:EHRPatientRecordInput, ex:MedicationObservationInput, ex:ConditionInput ;
+  doc:derivedFrom ex:MedicationModelRiskOutput ;
   gov:requiresReview ex:ClinicalReviewRequirement ;
   doc:hasLineageTrace ex:MedicationReviewTrace .
 
@@ -92,6 +160,7 @@ ex:HIPAAComplianceRequirement
 ex:RestrictedEHRDataset
   a health:EHRDataSource ;
   core:hasName "Restricted EHR medication review dataset" ;
+  health:hasDataModality ex:StructuredEHRModality ;
   eval:hasDataUseCondition ex:InstitutionalDataUseCondition ;
   eval:hasDataUsePermission ex:ClinicalResearchUsePermission ;
   eval:hasDataUseRestriction ex:ProjectSpecificRestriction .
@@ -118,3 +187,41 @@ ex:MedicationReviewEvaluation
   core:hasName "Medication review evaluation" ;
   eval:evaluates ex:EHRMedicationReviewAgent ;
   eval:usesDataset ex:RestrictedEHRDataset .
+
+ex:MedicationReviewUseCase
+  a health:ClinicalUseCase ;
+  core:hasName "Medication safety review" ;
+  health:hasIntendedUser ex:PharmacistIntendedUserRole ;
+  health:hasTargetPopulation ex:AmbulatoryAdultPopulation ;
+  health:hasCareSetting ex:AmbulatoryCareSetting ;
+  health:hasClinicalTask ex:MedicationSafetyReviewTask ;
+  health:hasClinicalSpecialty ex:ClinicalPharmacySpecialty ;
+  health:hasTargetCondition ex:MedicationRelatedRiskCondition ;
+  health:hasWorkflowStage ex:MedicationReconciliationStage ;
+  health:hasDecisionRole ex:MedicationDecisionSupportRole ;
+  health:hasIntendedAction ex:MedicationPlanReviewAction ;
+  health:hasDeploymentMode ex:ClinicianFacingMode ;
+  health:hasOutOfScopeUse ex:AutonomousPrescribingOutOfScope ;
+  health:hasProhibitedUse ex:AutonomousPrescribingContraindicated .
+
+ex:PharmacistIntendedUserRole a health:IntendedUserRole ; core:hasName "Pharmacist" .
+ex:AmbulatoryAdultPopulation a health:PatientPopulation ; core:hasName "Adults receiving ambulatory care" .
+ex:MedicationSafetyReviewTask a health:ClinicalTask ; core:hasName "Medication safety review" .
+ex:ClinicalPharmacySpecialty a health:ClinicalSpecialty ; core:hasName "Clinical pharmacy" .
+ex:MedicationRelatedRiskCondition a health:TargetCondition ; core:hasName "Medication-related risk" .
+ex:MedicationReconciliationStage a health:ClinicalWorkflowStage ; core:hasName "Medication reconciliation" .
+ex:MedicationDecisionSupportRole a health:ClinicalDecisionRole ; core:hasName "Medication decision support" .
+ex:MedicationPlanReviewAction a health:IntendedClinicalAction ; core:hasName "Clinician review of the medication plan" .
+ex:ClinicianFacingMode a health:DeploymentMode ; core:hasName "Clinician-facing support" .
+ex:AutonomousPrescribingOutOfScope a health:OutOfScopeUse ; core:hasName "Autonomous prescribing" .
+ex:AutonomousPrescribingContraindicated a health:ContraindicatedUse ; core:hasName "Autonomous medication prescribing or discontinuation" .
+
+ex:FHIRR4ExchangeStandard a health:ExchangeStandard ; core:hasName "FHIR R4" .
+ex:FHIRRESTInterface a health:InterfaceSpecification ; core:hasName "FHIR REST interface" .
+ex:PatientFHIRProfile a health:FHIRProfile ; core:hasName "Patient profile" .
+ex:MedicationRequestFHIRProfile a health:FHIRProfile ; core:hasName "MedicationRequest profile" .
+ex:ConditionFHIRProfile a health:FHIRProfile ; core:hasName "Condition profile" .
+ex:FHIRJSONFormat a health:DataFormat ; core:hasName "FHIR JSON" .
+ex:SNOMEDCTTerminology a health:TerminologySystem ; core:hasName "SNOMED CT" .
+ex:RxNormTerminology a health:TerminologySystem ; core:hasName "RxNorm" .
+ex:StructuredEHRModality a health:DataModality ; core:hasName "structured EHR data" .

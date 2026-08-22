@@ -39,7 +39,10 @@ def ttl_inputs() -> list[Path]:
 def serialize(value):
     if value is None:
         return None
-    return value.toPython() if hasattr(value, "toPython") else str(value)
+    converted = value.toPython() if hasattr(value, "toPython") else value
+    if isinstance(converted, (str, int, float, bool)) or converted is None:
+        return converted
+    return str(converted)
 
 
 def main() -> None:

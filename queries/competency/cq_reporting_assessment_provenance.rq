@@ -1,0 +1,19 @@
+PREFIX report: <https://w3id.org/agent-o/reporting#>
+
+# Who or what performed a reporting-completeness assessment, which versioned
+# profile and prompt were used, what evidence supports it, and was it verified?
+SELECT DISTINCT ?activity ?assessor ?report ?profile ?rubricVersion ?promptVersion
+                ?assessment ?dimension ?evidence ?verificationStatus
+WHERE {
+  ?activity a report:ReportingAssessmentActivity ;
+            report:associatedWithAssessor ?assessor ;
+            report:usedReport ?report ;
+            report:usedReportingProfile ?profile ;
+            report:rubricVersion ?rubricVersion ;
+            report:promptVersion ?promptVersion ;
+            report:generatedAssessment ?assessment .
+  ?assessment report:assessesDimension ?dimension ;
+              report:hasSupportingEvidence ?evidence ;
+              report:hasHumanVerificationStatus ?verificationStatus .
+}
+ORDER BY ?activity ?dimension

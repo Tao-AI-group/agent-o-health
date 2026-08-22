@@ -48,7 +48,7 @@ gov:HumanReviewRequirement skos:relatedMatch gov:NISTGovern .
 gov:AutomationLevel skos:relatedMatch gov:NISTGovern .
 
 health:ClinicalSetting skos:relatedMatch gov:NISTMap .
-report:IntendedUse skos:relatedMatch gov:NISTMap .
+health:ClinicalUseCase skos:relatedMatch gov:NISTMap .
 health:PatientPopulation skos:relatedMatch gov:NISTMap .
 health:HealthDataSource skos:relatedMatch gov:NISTMap .
 gov:Risk skos:relatedMatch gov:NISTMap .
@@ -65,4 +65,3 @@ gov:FallbackStrategy skos:relatedMatch gov:NISTManage .
 gov:MonitoringRule skos:relatedMatch gov:NISTManage .
 gov:Incident skos:relatedMatch gov:NISTManage .
 gov:OverrideAction skos:relatedMatch gov:NISTManage .
-

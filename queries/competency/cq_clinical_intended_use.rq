@@ -1,0 +1,26 @@
+PREFIX core: <https://w3id.org/agent-o/core#>
+PREFIX health: <https://w3id.org/agent-o/health#>
+
+# What is the agent system's intended clinical use, including user, population,
+# care setting, specialty, condition, workflow stage, task, intended action,
+# decision role, deployment mode, and use constraints?
+SELECT DISTINCT ?agent ?useCase ?user ?population ?setting ?specialty ?condition
+                ?workflowStage ?task ?intendedAction ?decisionRole ?deploymentMode
+                ?outOfScopeUse ?prohibitedUse
+WHERE {
+  ?agent a core:AgentSystem ;
+         health:hasIntendedClinicalUse ?useCase .
+  ?useCase health:hasIntendedUser ?user ;
+           health:hasTargetPopulation ?population ;
+           health:hasCareSetting ?setting ;
+           health:hasClinicalTask ?task ;
+           health:hasClinicalSpecialty ?specialty ;
+           health:hasTargetCondition ?condition ;
+           health:hasWorkflowStage ?workflowStage ;
+           health:hasIntendedAction ?intendedAction ;
+           health:hasDecisionRole ?decisionRole ;
+           health:hasDeploymentMode ?deploymentMode .
+  OPTIONAL { ?useCase health:hasOutOfScopeUse ?outOfScopeUse . }
+  OPTIONAL { ?useCase health:hasProhibitedUse ?prohibitedUse . }
+}
+ORDER BY ?agent ?user

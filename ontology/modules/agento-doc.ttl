@@ -85,7 +85,8 @@ doc:releaseDate a owl:DatatypeProperty ;
 
 doc:sourceURI a owl:DatatypeProperty ;
     rdfs:label "sourceURI"@en ;
-    rdfs:domain doc:ProvenanceRecord ;
+    rdfs:comment "Records a source or access URI for a reference, report, provenance record, model card, or other documented resource."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range xsd:anyURI .
 
 doc:versionString a owl:DatatypeProperty ;
@@ -119,4 +120,3 @@ doc:ProvenanceRecord a owl:Class ;
 
 doc:VersionInfo a owl:Class ;
     rdfs:label "VersionInfo"@en .
-

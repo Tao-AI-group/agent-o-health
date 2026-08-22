@@ -1,6 +1,6 @@
-# Health Interoperability Crosswalk
+# Clinical Context and Health Interoperability Crosswalk
 
-Milestone 3 adds optional health interoperability alignments for IAO, SWO, DUO, and FHIR RDF. These alignments keep AGENT-O core portable while letting health examples answer cross-standard questions about information artifacts, software tools, data use conditions, and clinical data inputs.
+The health module covers clinical context, intended use, health-data semantics, and interoperability. Optional alignments to IAO, SWO, DUO, and FHIR RDF keep AGENT-O core portable while allowing health examples to answer cross-standard questions about information artifacts, software and model deployments, data-use conditions, clinical use cases, and clinical data inputs.
 
 ## IAO
 
@@ -9,6 +9,8 @@ Milestone 3 adds optional health interoperability alignments for IAO, SWO, DUO, 
 | `doc:Reference` | `obo:IAO_0000030` information content entity | `rdfs:subClassOf` | References are information artifacts. |
 | `doc:Citation` | `obo:IAO_0000030` information content entity | `rdfs:subClassOf` | Citations are information artifacts. |
 | `report:AgentSystemReport` | `obo:IAO_0000310` document | `rdfs:subClassOf` | Agent system reports are documents. |
+| `report:BenchmarkReport`, `report:SurveyReviewReport`, `report:GovernancePolicyReport` | `obo:IAO_0000310` document | `rdfs:subClassOf` | Non-system paper types remain documents without becoming agent-system reports. |
+| `report:EvidenceStatement`, `report:ReportingCompletenessAssessment` | `obo:IAO_0000030` information content entity | `rdfs:subClassOf` | Assessment evidence and outputs are information artifacts. |
 | `report:ReportingSection` | `obo:IAO_0000314` document part | `rdfs:subClassOf` | Reporting sections are document parts. |
 | `core:Artifact` | `obo:IAO_0000030` information content entity | `skos:relatedMatch` | Only some runtime artifacts are information artifacts. |
 
@@ -19,6 +21,7 @@ Milestone 3 adds optional health interoperability alignments for IAO, SWO, DUO, 
 | `core:Tool` | `swo:SWO_0000001` software | `rdfs:subClassOf` | Many AGENT-O tools are software tools. |
 | `core:Script` | `swo:SWO_0000001` software | `rdfs:subClassOf` | Scripts are software artifacts. |
 | `core:ExecutionUnit` | `swo:SWO_0000001` software | `skos:relatedMatch` | Some execution units are workflows or APIs, not only software. |
+| `core:AIModelSpecification`, `core:ModelDeployment` | SWO software/version/implementation concepts | mixed | Model resources and runtime deployments reuse software and version semantics without asserting identity. |
 | `doc:License` | `swo:SWO_0000002` licence | `skos:closeMatch` | License metadata aligns with SWO licence. |
 | `core:hasVersion` | `swo:SWO_0004000` has version | `skos:relatedMatch` | Version metadata is represented in AGENT-O as a lightweight datatype property. |
 
@@ -40,11 +43,15 @@ Milestone 3 adds optional health interoperability alignments for IAO, SWO, DUO, 
 | `health:MedicationInput` | `fhir:Medication`, `fhir:MedicationRequest` | `skos:relatedMatch` | Medication-related inputs may map to multiple FHIR resource types. |
 | `health:ConditionInput` | `fhir:Condition` | `skos:closeMatch` | Condition inputs can map to FHIR Condition resources. |
 | `health:DiagnosticReportInput` | `fhir:DiagnosticReport` | `skos:closeMatch` | Diagnostic report inputs can map to FHIR DiagnosticReport resources. |
+| `health:FHIRProfile` | `fhir:StructureDefinition` | `skos:closeMatch` | A FHIR-aligned input identifies the profile or StructureDefinition it conforms to. |
+| `health:TerminologySystem` | `fhir:CodeSystem`, `fhir:ValueSet` | `skos:relatedMatch` | Terminology bindings are represented separately from the FHIR resource type. |
+| `health:InterfaceSpecification` | `fhir:Endpoint` | `skos:relatedMatch` | Deployment interfaces can reference FHIR endpoints without equating every interface with an endpoint resource. |
 
 ## Acceptance Tests
 
-The health interoperability demo supports two competency queries:
+The health and clinical-context examples support, among others, these competency queries:
 
 - `cq_data_use_permissions.rq`: lists datasets with data use conditions, permissions, restrictions, and constraining policies.
 - `cq_fhir_inputs.rq`: lists FHIR-derived input artifacts, resource types, resource IRIs, connected agents, and downstream recommendations.
-
+- `cq_clinical_intended_use.rq`: retrieves intended users, populations, settings, clinical tasks, decision roles, and deployment modes.
+- `cq_model_interface_layers.rq`: distinguishes agent inputs, model-interface inputs and outputs, model deployments, and final agent actions.

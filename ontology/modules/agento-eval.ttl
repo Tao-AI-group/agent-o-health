@@ -175,6 +175,25 @@ eval:Baseline a owl:Class ;
 eval:BenchmarkTask a owl:Class ;
     rdfs:label "BenchmarkTask"@en .
 
+eval:EvaluationFramework a owl:Class ;
+    rdfs:label "EvaluationFramework"@en ;
+    rdfs:comment "A reusable framework that defines how agent systems, models, or workflows are evaluated, separate from the systems being evaluated."@en .
+
+eval:BenchmarkFramework a owl:Class ;
+    rdfs:label "BenchmarkFramework"@en ;
+    rdfs:comment "An evaluation framework defining benchmark tasks, execution conditions, validity rules, and scoring procedures."@en ;
+    rdfs:subClassOf eval:EvaluationFramework .
+
+eval:definesBenchmarkTask a owl:ObjectProperty ;
+    rdfs:label "definesBenchmarkTask"@en ;
+    rdfs:domain eval:BenchmarkFramework ;
+    rdfs:range eval:BenchmarkTask .
+
+eval:usesEvaluationFramework a owl:ObjectProperty ;
+    rdfs:label "usesEvaluationFramework"@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range eval:EvaluationFramework .
+
 eval:EquityMetric a owl:Class ;
     rdfs:label "EquityMetric"@en ;
     rdfs:comment "A metric used to evaluate equity, fairness, or differential performance."@en ;
@@ -209,4 +228,3 @@ eval:MetricResult a owl:Class ;
 
 eval:EvaluationStudy a owl:Class ;
     rdfs:label "EvaluationStudy"@en .
-

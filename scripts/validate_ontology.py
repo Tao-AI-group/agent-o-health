@@ -13,6 +13,7 @@ if VENDOR_PATH.exists():
 
 try:
     from rdflib import Graph, URIRef, RDF, RDFS, OWL, Namespace
+    from rdflib.compare import isomorphic
 except ImportError as exc:  # pragma: no cover
     raise SystemExit(
         "rdflib is required. Run with PYTHONPATH=/tmp/rdflib_validate or install requirements.txt."
@@ -27,6 +28,10 @@ SKOS = Namespace("http://www.w3.org/2004/02/skos/core#")
 
 def is_agento(term) -> bool:
     return isinstance(term, URIRef) and str(term).startswith(AGENTO_PREFIX)
+
+
+def is_deprecated(graph: Graph, term) -> bool:
+    return any(bool(value.toPython()) for value in graph.objects(term, OWL.deprecated))
 
 
 def ttl_files() -> list[Path]:
@@ -76,7 +81,7 @@ def qname(graph: Graph, term: URIRef) -> str:
 def missing_labels(graph: Graph, rdf_type: URIRef) -> list[str]:
     values = []
     for term in sorted(set(graph.subjects(RDF.type, rdf_type)), key=str):
-        if is_agento(term) and not list(graph.objects(term, RDFS.label)):
+        if is_agento(term) and not is_deprecated(graph, term) and not list(graph.objects(term, RDFS.label)):
             values.append(qname(graph, term))
     return values
 
@@ -84,7 +89,7 @@ def missing_labels(graph: Graph, rdf_type: URIRef) -> list[str]:
 def missing_property_axioms(graph: Graph, rdf_type: URIRef, predicate: URIRef) -> list[str]:
     values = []
     for term in sorted(set(graph.subjects(RDF.type, rdf_type)), key=str):
-        if is_agento(term) and not list(graph.objects(term, predicate)):
+        if is_agento(term) and not is_deprecated(graph, term) and not list(graph.objects(term, predicate)):
             values.append(qname(graph, term))
     return values
 
@@ -112,6 +117,68 @@ def undefined_alignment_terms(graph: Graph, alignment_paths: list[Path], defined
     return [qname(graph, term) for term in sorted(undefined, key=str)]
 
 
+def ontology_metrics(graph: Graph) -> dict:
+    entity_types = {
+        "classes": OWL.Class,
+        "object_properties": OWL.ObjectProperty,
+        "datatype_properties": OWL.DatatypeProperty,
+        "annotation_properties": OWL.AnnotationProperty,
+    }
+    declared = {
+        name: sorted(set(graph.subjects(RDF.type, rdf_type)), key=str)
+        for name, rdf_type in entity_types.items()
+    }
+    active = {
+        name: [term for term in terms if not is_deprecated(graph, term)]
+        for name, terms in declared.items()
+    }
+    schema_predicates = {
+        RDFS.subClassOf,
+        RDFS.subPropertyOf,
+        RDFS.domain,
+        RDFS.range,
+        OWL.equivalentClass,
+        OWL.disjointWith,
+        OWL.equivalentProperty,
+        OWL.inverseOf,
+        OWL.propertyDisjointWith,
+    }
+    characteristic_types = {
+        OWL.FunctionalProperty,
+        OWL.InverseFunctionalProperty,
+        OWL.TransitiveProperty,
+        OWL.SymmetricProperty,
+        OWL.AsymmetricProperty,
+        OWL.ReflexiveProperty,
+        OWL.IrreflexiveProperty,
+    }
+    schema_statements = sum(1 for _, predicate, _ in graph if predicate in schema_predicates)
+    schema_statements += sum(1 for _, _, obj in graph.triples((None, RDF.type, None)) if obj in characteristic_types)
+    return {
+        "rdf_triples": len(graph),
+        "declared_entities": {name: len(terms) for name, terms in declared.items()},
+        "active_entities": {name: len(terms) for name, terms in active.items()},
+        "deprecated_entities": {
+            name: len(declared[name]) - len(active[name]) for name in declared
+        },
+        "schema_axiom_statements": schema_statements,
+        "schema_axiom_definition": (
+            "RDF statements using rdfs:subClassOf, rdfs:subPropertyOf, rdfs:domain, "
+            "rdfs:range, owl:equivalentClass, owl:disjointWith, owl:equivalentProperty, "
+            "owl:inverseOf, owl:propertyDisjointWith, or an OWL property-characteristic type. "
+            "This is a transparent RDF-level count, not an OWLAPI logical-axiom count."
+        ),
+    }
+
+
+def integrated_matches_modules(integrated: Graph, module_paths: list[Path]) -> bool:
+    expected = collect_graph(module_paths)
+    top_iri = URIRef("https://w3id.org/agent-o")
+    for triple in integrated.triples((top_iri, None, None)):
+        expected.add(triple)
+    return isomorphic(integrated, expected)
+
+
 def main() -> None:
     files = ttl_files()
     parse_results = {}
@@ -125,9 +192,11 @@ def main() -> None:
 
     active_files = active_ttl_files(files)
     active_graph = collect_graph(active_files)
-    ontology_files = [path for path in active_files if "ontology" in path.parts and "deprecated" not in path.parts]
-    defined_graph = collect_graph(ontology_files)
+    integrated_path = ROOT / "ontology" / "agento.ttl"
+    integrated_graph = collect_graph([integrated_path])
+    module_paths = sorted((ROOT / "ontology" / "modules").glob("*.ttl"))
     alignment_paths = [path for path in active_files if "alignments" in path.parts]
+    defined_graph = collect_graph([integrated_path, *alignment_paths])
 
     results = {
         "files_checked": len(files),
@@ -142,6 +211,11 @@ def main() -> None:
         "datatype_properties_missing_domain": missing_property_axioms(defined_graph, OWL.DatatypeProperty, RDFS.domain),
         "datatype_properties_missing_range": missing_property_axioms(defined_graph, OWL.DatatypeProperty, RDFS.range),
         "undefined_alignment_terms": undefined_alignment_terms(active_graph, alignment_paths, defined_graph),
+        "integrated_matches_module_union": integrated_matches_modules(integrated_graph, module_paths),
+        "integrated_metrics": ontology_metrics(integrated_graph),
+        "module_metrics": {
+            path.stem: ontology_metrics(collect_graph([path])) for path in module_paths
+        },
     }
 
     passed = not any(
@@ -156,6 +230,7 @@ def main() -> None:
             results["datatype_properties_missing_domain"],
             results["datatype_properties_missing_range"],
             results["undefined_alignment_terms"],
+            not results["integrated_matches_module_union"],
         ]
     )
     results["passed"] = passed
@@ -175,13 +250,33 @@ def main() -> None:
         f"- Object properties missing domain/range: `{len(results['object_properties_missing_domain'])}/{len(results['object_properties_missing_range'])}`",
         f"- Datatype properties missing domain/range: `{len(results['datatype_properties_missing_domain'])}/{len(results['datatype_properties_missing_range'])}`",
         f"- Undefined AGENT-O terms in alignments: `{len(results['undefined_alignment_terms'])}`",
+        f"- Integrated ontology matches module union: `{results['integrated_matches_module_union']}`",
+        f"- Integrated RDF triples: `{results['integrated_metrics']['rdf_triples']}`",
+        f"- Active classes: `{results['integrated_metrics']['active_entities']['classes']}`",
+        f"- Active object properties: `{results['integrated_metrics']['active_entities']['object_properties']}`",
+        f"- Active datatype properties: `{results['integrated_metrics']['active_entities']['datatype_properties']}`",
+        f"- RDF-level schema-axiom statements: `{results['integrated_metrics']['schema_axiom_statements']}`",
         f"- Passed: `{passed}`",
+        "",
+        "## Module Inventory",
+        "",
+        "| Module | RDF triples | Active classes | Active object properties | Active datatype properties |",
+        "| --- | ---: | ---: | ---: | ---: |",
+    ]
+    for module, metrics in results["module_metrics"].items():
+        lines.append(
+            f"| `{module}` | {metrics['rdf_triples']} | {metrics['active_entities']['classes']} | "
+            f"{metrics['active_entities']['object_properties']} | {metrics['active_entities']['datatype_properties']} |"
+        )
+    lines.extend([
         "",
         "## Notes",
         "",
         "- Deprecated ACRO URIs are allowed only in `ontology/deprecated/`.",
         "- Alignment files may reference external ontology IRIs, but AGENT-O terms used in alignments must be defined by active AGENT-O ontology files.",
-    ]
+        "- Triple, entity, and schema-axiom-statement counts are reported separately; the RDF-level schema count is not presented as an OWLAPI logical-axiom count.",
+        f"- Schema-axiom counting rule: {results['integrated_metrics']['schema_axiom_definition']}",
+    ])
     (out_dir / "formal_quality_report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(json.dumps({k: results[k] for k in ["passed", "files_checked", "parse_failures", "active_old_acro_uri_files"]}, indent=2))
     raise SystemExit(0 if passed else 1)

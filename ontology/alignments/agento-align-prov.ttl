@@ -1,6 +1,7 @@
 @prefix core: <https://w3id.org/agent-o/core#> .
 @prefix doc: <https://w3id.org/agent-o/doc#> .
 @prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -12,14 +13,25 @@
   rdfs:comment "Safe provenance mappings from AGENT-O runtime, artifact, and lineage concepts to PROV-O. Agent-specific governance and reasoning concepts remain in AGENT-O."@en .
 
 core:Agent rdfs:subClassOf prov:Agent .
+core:AgentSystem rdfs:subClassOf prov:Agent .
 core:HumanAgent rdfs:subClassOf prov:Agent .
+core:OrganizationAgent rdfs:subClassOf prov:Agent .
+report:AssessmentAgent rdfs:subClassOf prov:Agent .
 core:ExecutionRun rdfs:subClassOf prov:Activity .
 core:WorkflowStep rdfs:subClassOf prov:Activity .
 core:ToolInvocation rdfs:subClassOf prov:Activity .
+report:ReportingAssessmentActivity rdfs:subClassOf prov:Activity .
 core:Artifact rdfs:subClassOf prov:Entity .
 core:Observation rdfs:subClassOf prov:Entity .
 core:ProposedAction rdfs:subClassOf prov:Entity .
+core:AIModelSpecification rdfs:subClassOf prov:Entity .
+core:ModelDeployment rdfs:subClassOf prov:Entity .
+core:GeneratedModelOutput rdfs:subClassOf prov:Entity .
 doc:LineageTrace rdfs:subClassOf prov:Entity .
+report:AgentSystemReport rdfs:subClassOf prov:Entity .
+report:ModelCardReport rdfs:subClassOf prov:Entity .
+report:EvidenceStatement rdfs:subClassOf prov:Entity .
+report:ReportingCompletenessAssessment rdfs:subClassOf prov:Entity .
 
 doc:derivedFrom rdfs:subPropertyOf prov:wasDerivedFrom .
 core:usesTool skos:relatedMatch prov:used .
@@ -28,4 +40,13 @@ core:producesArtifact skos:relatedMatch prov:generated .
 core:executedInRun skos:relatedMatch prov:wasInformedBy .
 core:performedBy skos:relatedMatch prov:wasAssociatedWith .
 eval:derivedFromRun skos:relatedMatch prov:wasGeneratedBy .
-
+core:usesModelDeployment rdfs:subPropertyOf prov:used .
+core:usesModelInputArtifact rdfs:subPropertyOf prov:used .
+core:generatedModelOutput rdfs:subPropertyOf prov:generated .
+core:hasDeveloper rdfs:subPropertyOf prov:wasAttributedTo .
+core:hasProvider rdfs:subPropertyOf prov:wasAttributedTo .
+report:usedReport rdfs:subPropertyOf prov:used .
+report:usedReportingProfile rdfs:subPropertyOf prov:used .
+report:associatedWithAssessor rdfs:subPropertyOf prov:wasAssociatedWith .
+report:generatedAssessment rdfs:subPropertyOf prov:generated .
+report:generatedByAssessmentActivity rdfs:subPropertyOf prov:wasGeneratedBy .

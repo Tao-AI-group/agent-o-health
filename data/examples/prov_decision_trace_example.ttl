@@ -9,43 +9,101 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:DiagnosticAgent
-  a health:ClinicalDecisionSupportAgent ;
+  a core:AgentSystem, health:ClinicalDecisionSupportAgent ;
   core:hasName "AGENT-O diagnostic demo agent" ;
-  core:usesModel ex:DiagnosticMultimodalModel ;
+  core:hasComponent ex:DiagnosticModelComponent ;
+  core:usesModel ex:DiagnosticModelComponent ;
   core:usesTool ex:RetinalImageAnalysisTool ;
   core:hasWorkflow ex:DiagnosticWorkflow ;
+  core:hasSystemExecution ex:DiagnosticRun ;
   core:hasToolInvocation ex:RetinalToolInvocation ;
   core:generates ex:GlaucomaRiskRecommendation ;
+  health:hasIntendedClinicalUse ex:GlaucomaDecisionSupportUseCase ;
+  health:usesExchangeStandard ex:FHIRR4ExchangeStandard ;
   gov:hasAccountabilityRole ex:DiagnosticClinicalOwner ;
   gov:hasAutomationLevel ex:DiagnosticSharedControl ;
   gov:hasRisk ex:DiagnosticPatientSafetyRisk ;
   gov:monitoredBy ex:DiagnosticMonitoringRule ;
   report:hasAgentCard ex:DiagnosticAgentCard .
 
+ex:DiagnosticModelComponent
+  a core:ModelComponent ;
+  core:hasName "Diagnostic reasoning model component" ;
+  core:hasModelComponentRole ex:DiagnosticReasonerRole ;
+  core:realizesModelSpecification ex:DiagnosticMultimodalModel .
+
+ex:DiagnosticReasonerRole
+  a core:ReasonerModelRole ;
+  core:hasName "Multimodal diagnostic reasoning role" .
+
 ex:DiagnosticMultimodalModel
   a core:MultimodalModel ;
   core:hasName "Diagnostic multimodal foundation model" ;
+  core:modelIdentifier "diagnostic-multimodal-demo" ;
+  core:modelVersion "snapshot-2026-08" ;
+  core:modelArchitectureType "multimodal transformer" ;
+  core:modelReleaseDate "2026-08-01"^^xsd:date ;
+  core:hasModelInputSpecification ex:DiagnosticImageInputSpecification ;
+  core:hasModelOutputSpecification ex:DiagnosticRiskOutputSpecification ;
+  core:supportsInputModality ex:ImageModality ;
+  core:hasModelCapability ex:RetinalRiskEstimationCapability ;
+  core:hasModelIntendedUse ex:DiagnosticModelIntendedUse ;
+  core:hasModelLimitation ex:DiagnosticModelLimitation ;
+  core:hasDeveloper ex:DiagnosticModelDeveloper ;
+  doc:hasLicense ex:DiagnosticModelLicense ;
   report:hasModelCardReference ex:DiagnosticModelCard .
 
+ex:DiagnosticImageInputSpecification
+  a core:ModelInputSpecification ;
+  core:hasDescription "A normalized retinal image tensor derived from the agent-level image artifact." .
+
+ex:DiagnosticRiskOutputSpecification
+  a core:ModelOutputSpecification ;
+  core:hasDescription "A generated risk score and textual rationale, distinct from the final clinical recommendation." .
+
+ex:ImageModality a core:InputModality ; core:hasName "retinal image" .
+ex:RetinalRiskEstimationCapability a core:ModelCapability ; core:hasName "Retinal risk estimation" .
+ex:DiagnosticModelIntendedUse a core:ModelIntendedUse ; core:hasDescription "Generate retinal risk estimates and rationales for a supervised diagnostic agent workflow." .
+ex:DiagnosticModelLimitation a core:ModelLimitation ; core:hasDescription "Model output is not intended to establish an autonomous diagnosis." .
+ex:DiagnosticModelDeveloper a core:OrganizationAgent ; core:hasName "Example diagnostic model developer" .
+ex:DiagnosticModelLicense a doc:License ; core:hasName "Demonstration model license" .
+
+ex:DiagnosticModelDeployment
+  a core:ModelDeployment ;
+  core:hasName "Diagnostic model deployment" ;
+  core:deploysModelSpecification ex:DiagnosticMultimodalModel ;
+  core:hasProvider ex:DiagnosticModelProvider ;
+  core:deploymentVersion "deployment-2026-08" ;
+  core:deploymentAccessedAt "2026-08-19T10:00:00Z"^^xsd:dateTime ;
+  core:servingFramework "example inference service" .
+
+ex:DiagnosticModelProvider a core:OrganizationAgent ; core:hasName "Example model API provider" .
+
 ex:DiagnosticModelCard
-  a report:ModelCardReference ;
-  core:hasName "Diagnostic model card reference" ;
+  a report:ModelCardReport ;
+  core:hasName "Diagnostic model card report" ;
+  report:describesModelSpecification ex:DiagnosticMultimodalModel ;
   doc:sourceURI "https://example.org/model-card/diagnostic-demo"^^xsd:anyURI .
 
 ex:DiagnosticAgentReport
   a report:AgentSystemReport ;
   core:hasName "Diagnostic agent system report" ;
   report:documentsAgentSystem ex:DiagnosticAgent ;
-  report:documentsModelComponent ex:DiagnosticMultimodalModel ;
+  report:documentsModelComponent ex:DiagnosticModelComponent ;
   report:hasModelCardReport ex:DiagnosticModelCard ;
-  report:hasReportingSection ex:RuntimeArchitectureSection, ex:EvaluationReportingSection, ex:GovernanceReportingSection, ex:HumanReviewSection, ex:RiskUncertaintySection, ex:ReproducibilitySection .
+  report:containsStatement ex:DiagnosticIntendedUseStatement ;
+  report:hasReportingSection ex:RuntimeArchitectureSection, ex:ModelSpecificationSection, ex:IntendedUseSection, ex:EvaluationReportingSection, ex:GovernanceReportingSection, ex:HumanReviewSection, ex:RiskUncertaintySection, ex:ReproducibilitySection .
 
 ex:DiagnosticAgentCard
   a report:AgentCard ;
   report:documentsAgentSystem ex:DiagnosticAgent ;
-  report:hasReportingSection ex:RuntimeArchitectureSection, ex:EvaluationReportingSection, ex:GovernanceReportingSection, ex:HumanReviewSection, ex:RiskUncertaintySection, ex:ReproducibilitySection .
+  report:referencesModelCard ex:DiagnosticModelCard ;
+  report:containsStatement ex:DiagnosticIntendedUseStatement ;
+  report:hasReportingSection ex:RuntimeArchitectureSection, ex:ModelSpecificationSection, ex:IntendedUseSection, ex:EvaluationReportingSection, ex:GovernanceReportingSection, ex:HumanReviewSection, ex:RiskUncertaintySection, ex:ReproducibilitySection .
 
 ex:RuntimeArchitectureSection a report:RuntimeArchitectureSection .
+ex:ModelSpecificationSection a report:ModelSpecificationSection .
+ex:IntendedUseSection a report:IntendedUseSection .
 ex:EvaluationReportingSection a report:EvaluationReportingSection .
 ex:GovernanceReportingSection a report:GovernanceReportingSection .
 ex:HumanReviewSection a report:HumanReviewSection .
@@ -68,15 +126,23 @@ ex:DiagnosticRun
   a core:ExecutionRun ;
   core:hasName "Diagnostic run 001" ;
   core:partOfSession ex:DiagnosticSession ;
+  core:usesModelDeployment ex:DiagnosticModelDeployment ;
+  core:usesModelInputArtifact ex:RiskObservation ;
+  core:generatedModelOutput ex:DiagnosticModelRiskOutput ;
   prov:used ex:RetinalImageArtifact ;
   prov:wasAssociatedWith ex:DiagnosticAgent .
+
+ex:DiagnosticModelRiskOutput
+  a core:GeneratedModelOutput ;
+  core:hasName "Model-level glaucoma risk output" ;
+  core:hasDescription "The risk score and rationale emitted by the deployed model before the agent constructs a reviewable clinical recommendation." .
 
 ex:DiagnosticSession
   a core:Session ;
   core:hasName "Diagnostic demo session" .
 
 ex:RetinalImageArtifact
-  a core:Artifact ;
+  a core:Artifact, health:UnstructuredHealthDataArtifact ;
   core:hasName "Retinal image input" .
 
 ex:RetinalImageAnalysisTool
@@ -106,7 +172,7 @@ ex:GlaucomaRiskRecommendation
   gov:hasConfidenceScore ex:GlaucomaConfidence ;
   gov:requiresReview ex:ClinicalReviewRequirement ;
   doc:hasLineageTrace ex:GlaucomaLineageTrace ;
-  doc:derivedFrom ex:RiskObservation .
+  doc:derivedFrom ex:RiskObservation, ex:DiagnosticModelRiskOutput .
 
 ex:GlaucomaLineageTrace
   a doc:LineageTrace ;
@@ -156,3 +222,37 @@ ex:DiagnosticAccuracyResult
   eval:derivedFromRun ex:DiagnosticRun .
 
 ex:AccuracyMetric a eval:Metric ; core:hasName "Accuracy" .
+
+ex:GlaucomaDecisionSupportUseCase
+  a health:ClinicalUseCase ;
+  core:hasName "Glaucoma risk decision support" ;
+  health:hasIntendedUser ex:OphthalmologistRole ;
+  health:hasTargetPopulation ex:AdultRetinalScreeningPopulation ;
+  health:hasCareSetting ex:OutpatientOphthalmologySetting ;
+  health:hasClinicalTask ex:GlaucomaRiskAssessmentTask ;
+  health:hasClinicalSpecialty ex:OphthalmologySpecialty ;
+  health:hasTargetCondition ex:GlaucomaTargetCondition ;
+  health:hasWorkflowStage ex:ImageInterpretationStage ;
+  health:hasDecisionRole ex:DecisionSupportRole ;
+  health:hasIntendedAction ex:ClinicalFollowUpAction ;
+  health:hasDeploymentMode ex:ClinicianFacingDeployment ;
+  health:hasOutOfScopeUse ex:AutonomousDiagnosisOutOfScope ;
+  health:hasProhibitedUse ex:AutonomousDiagnosisContraindicated .
+
+ex:OphthalmologistRole a health:IntendedUserRole ; core:hasName "Ophthalmologist" .
+ex:AdultRetinalScreeningPopulation a health:PatientPopulation ; core:hasName "Adults undergoing retinal screening" .
+ex:OutpatientOphthalmologySetting a health:ClinicalSetting ; core:hasName "Outpatient ophthalmology clinic" .
+ex:GlaucomaRiskAssessmentTask a health:ClinicalTask ; core:hasName "Glaucoma risk assessment" .
+ex:OphthalmologySpecialty a health:ClinicalSpecialty ; core:hasName "Ophthalmology" .
+ex:GlaucomaTargetCondition a health:TargetCondition ; core:hasName "Glaucoma" .
+ex:ImageInterpretationStage a health:ClinicalWorkflowStage ; core:hasName "Retinal image interpretation" .
+ex:DecisionSupportRole a health:ClinicalDecisionRole ; core:hasName "Clinician decision support" .
+ex:ClinicalFollowUpAction a health:IntendedClinicalAction ; core:hasName "Clinician review and follow-up decision" .
+ex:ClinicianFacingDeployment a health:DeploymentMode ; core:hasName "Clinician-facing deployment" .
+ex:AutonomousDiagnosisOutOfScope a health:OutOfScopeUse ; core:hasName "Autonomous diagnosis without clinician review" .
+ex:AutonomousDiagnosisContraindicated a health:ContraindicatedUse ; core:hasName "Use as an autonomous diagnostic authority" .
+ex:FHIRR4ExchangeStandard a health:ExchangeStandard ; core:hasName "FHIR R4" .
+
+ex:DiagnosticIntendedUseStatement
+  a report:IntendedUseStatement ;
+  report:isAbout ex:GlaucomaDecisionSupportUseCase .

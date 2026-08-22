@@ -8,16 +8,21 @@
 <https://w3id.org/agent-o/alignments/swo>
   a owl:Ontology ;
   rdfs:label "AGENT-O to SWO alignment"@en ;
-  rdfs:comment "Mappings from AGENT-O tools, scripts, execution units, versions, and software-facing runtime components to the Software Ontology."@en .
+  rdfs:comment "Mappings from AGENT-O tools, scripts, model specifications, model deployments, execution units, versions, developers, and software-facing runtime components to the Software Ontology."@en .
 
 core:Tool rdfs:subClassOf swo:SWO_0000001 .
 core:Script rdfs:subClassOf swo:SWO_0000001 .
 core:ExecutionUnit skos:relatedMatch swo:SWO_0000001 .
 core:ExecutionEnvironment skos:relatedMatch swo:SWO_9000050 .
+core:AIModelSpecification skos:relatedMatch swo:SWO_0000001 .
+core:ModelDeployment skos:relatedMatch swo:SWO_0000001 .
+core:ModelInterfaceSpecification skos:relatedMatch swo:SWO_9000050 .
 core:hasVersion skos:relatedMatch swo:SWO_0004000 .
+core:modelVersion rdfs:subPropertyOf swo:SWO_0004000 .
+core:hasDeveloper rdfs:subPropertyOf swo:SWO_0000394 .
+core:hasProvider skos:relatedMatch swo:SWO_0004004 .
 
 doc:VersionInfo skos:relatedMatch swo:SWO_0004000 .
 doc:License skos:closeMatch swo:SWO_0000002 .
 
 core:implementedBy skos:relatedMatch swo:SWO_0000740 .
-
