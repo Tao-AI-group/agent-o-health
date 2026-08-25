@@ -1,17 +1,12 @@
 # Public Release Notes
 
-## Recommended GitHub Repository Name
+## Current Public Snapshot
 
-Recommended name: `agent-o-health`
+The repository contains the active six-module AGENT-O ontology and the completed v2.2.3 reporting-completeness outputs for 279 papers. The final automated run assessed all 279 records without request failures and produced a mean score of 63.7/100 and median score of 67.5/100.
 
-Rationale: the name is short, searchable, and clearly communicates that AGENT-O is scoped to health-oriented AI agent reporting rather than a universal ontology of all agents.
+The v2.2.3 workflow used `gpt-5.1`, rubric `agento-reporting-completeness-2.2.3`, and prompt/workflow `blinded-multi-evidence-2.2.3`. Prior paper scores and labels were hidden from the judge, while section-aware source-paper evidence was supplied. The released values are therefore described as label-blinded, LLM-assisted reporting-completeness estimates.
 
-Alternative names:
-
-- `agent-o`
-- `agent-o-ontology`
-- `agent-o-health-ai`
-- `agento-health`
+Human calibration is pending. All released paper-level records retain `human_verification_status=not_human_verified`, and 190 cases selected by the workflow are listed in `outputs/reporting_completeness/human_review_queue.csv`.
 
 ## Include In GitHub
 
@@ -35,6 +30,14 @@ Alternative names:
 - Third-party ontology source downloads under `data/external/`, unless their licenses are checked and redistribution is explicitly allowed.
 - Python cache directories such as `__pycache__/`.
 - Dummy Protege screenshot TTL files, unless they are explicitly released as figure-generation utilities.
+
+## Evaluation Artifacts
+
+- All three SHACL suites conform with zero findings over the released example graphs.
+- All 12 executable competency queries return their prespecified evidence types. Supplementary Tables S4A and S4B report the summary and per-query results.
+- Supplementary Tables S6 and S7 report the final v2.2.3 score distribution and paper-type-stratified statistics.
+- Supplementary Table S8 defines the weighted rubric, controlled labels, score calculation, and paper-type applicability rules.
+- `outputs/reporting_completeness/run_metadata.json` records the sanitized model and workflow configuration.
 
 ## Architecture Revision
 

@@ -2,11 +2,16 @@
 
 ## Corpus Origin
 
-The 279-document analysis corpus was assembled from two curated GitHub lists of
-healthcare AI-agent literature:
+The 279-document analysis corpus was derived from the literature inventories
+accompanying two reviews of medical and healthcare AI agents:
 
-- `AIM-Research-Lab/Awesome-AI-Agents-Medicine`
-- `AgenticHealthAI/Awesome-AI-Agents-for-Healthcare`
+- Al Radi et al., *Agentic large-language-model systems in medicine: A
+  systematic review and taxonomy* (2025); and
+- Xu et al., *A comprehensive survey of AI Agents in Healthcare* (2026).
+
+The inventories were obtained from the public project repositories associated
+with those reviews (`AIM-Research-Lab/Awesome-AI-Agents-Medicine` and
+`AgenticHealthAI/Awesome-AI-Agents-for-Healthcare`).
 
 The AgentArena/SciAgentArena Markdown document was added as a prespecified
 benchmark-alignment case. The final analysis manifest therefore contains 278
@@ -44,18 +49,20 @@ benchmark, survey/review, governance/policy, method/model, and conceptual papers
 could use `not_applicable` rather than being automatically penalized for absent
 concrete-system details.
 
-## Reproducibility Gaps To Close Before Submission
+## Corpus Provenance Limitations
 
-The current collection index preserves source URLs and download outcomes, but it
-does not preserve immutable commit hashes for the two source README files.
-Before the manuscript is submitted, create a release manifest containing:
+The collection index used during corpus assembly preserved source URLs and
+download outcomes, but the current public manifest does not contain immutable
+source-list revisions, complete DOI/arXiv metadata, source-document checksums,
+or a fully reconstructed record-by-record deduplication and exclusion log.
+These fields were not inferred retrospectively. The public manifest therefore
+supports identification of the analyzed 279 records and verification of the
+released scores, but not independent reconstruction of every collection step.
 
-- retrieval date and source-repository commit SHA for each curated list;
-- canonical paper URL, DOI/arXiv identifier when available, and source list;
-- PDF and extracted-Markdown SHA-256 checksums;
-- duplicate-resolution and exclusion reason fields;
-- extraction tool/version and extraction timestamp; and
-- the final paper-type label and whether that label was manually confirmed.
+Paper types in the public manifest are the final v2.2.3 automated analytical
+labels. They contain no `unclear` records, but they have not been fully
+human-verified. Records selected for manual calibration are listed separately
+in the public human-review queue.
 
 If the study intends to make claims about the broader literature rather than
 this curated corpus, a reproducible database search with explicit queries,

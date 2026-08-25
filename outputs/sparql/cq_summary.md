@@ -13,7 +13,7 @@
 | `cq_model_card_alignment` | answered | 3 |
 | `cq_model_interface_layers` | answered | 4 |
 | `cq_model_specification_deployment` | answered | 3 |
-| `cq_prov_trace` | answered | 23 |
+| `cq_prov_trace` | answered | 3 |
 | `cq_report_model_and_intended_use_evidence` | answered | 2 |
 | `cq_report_type_scope` | answered | 1 |
 | `cq_reporting_assessment_provenance` | answered | 5 |

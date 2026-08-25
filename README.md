@@ -2,7 +2,7 @@
 
 AGENT-O is a modular OWL/RDF ontology framework for health-oriented AI agent reporting and ontology-guided reporting-completeness assessment.
 
-This public release package contains the ontology, SHACL shapes, SPARQL competency queries, validation scripts, example RDF graphs, sanitized corpus manifest, and aggregate evaluation outputs used to support the AGENT-O manuscript.
+This public package contains the ontology, SHACL shapes, SPARQL competency queries, validation scripts, example RDF graphs, a sanitized corpus manifest, and evaluation outputs used to support the AGENT-O manuscript. The current corpus outputs correspond to the completed v2.2.3 assessment of 279 papers (mean, 63.7/100; median, 67.5/100).
 
 ## Repository Contents
 
@@ -12,10 +12,10 @@ This public release package contains the ontology, SHACL shapes, SPARQL competen
 - `scripts/`: reproducibility scripts for ontology validation, SHACL validation, competency queries, alignment summaries, and reporting-completeness scoring.
 - `data/examples/`: small RDF examples for provenance traces, health interoperability, and governance/reporting profiles.
 - `data/manifest/paper_manifest_public.csv`: sanitized 279-paper manifest with paper identifiers, titles, paper types, and completeness scores.
-- `outputs/`: aggregate validation, alignment, SHACL, SPARQL, and reporting-completeness results.
+- `outputs/`: validation, alignment, SHACL, SPARQL, and reporting-completeness results, including sanitized paper-level labels and run metadata.
 - `tables/`: manuscript-ready supplementary tables, corpus reference material, and the model/clinical/reporting architecture crosswalk.
 - `docs/design/`: design notes and crosswalks to external resources.
-- `tests/`: unit tests for ontology architecture, competency-result serialization, and deterministic corpus scoring.
+- `tests/`: unit tests for ontology architecture, competency-result serialization, and the deterministic baseline scorer.
 
 ## Quick Start
 
@@ -49,19 +49,24 @@ Run competency queries:
 python3 scripts/run_sparql_cqs.py
 ```
 
-Run deterministic paper-level reporting-completeness scoring on a local markdown corpus:
+Run the deterministic keyword baseline on a local machine-readable paper corpus:
 
 ```bash
-python3 scripts/run_corpus_reporting_completeness.py --limit 0
+python3 scripts/run_corpus_reporting_completeness.py \
+  --project-root /path/to/local-corpus-root \
+  --output-root /path/to/output-directory \
+  --limit 0
 ```
+
+The local corpus root must follow the extraction-tree layout documented in `docs/design/corpus_collection_protocol.md`. This command runs the baseline scorer used during workflow development; it does not recreate the released v2.2.3 LLM-assisted scores. The released scores were produced with `gpt-5.1` using rubric `agento-reporting-completeness-2.2.3` and prompt/workflow `blinded-multi-evidence-2.2.3`. See `docs/design/reporting_completeness_v2_2_3.md`, `outputs/reporting_completeness/run_metadata.json`, and Supplementary Table S8 for the scoring specification and interpretation boundary.
 
 ## Public-Release Scope
 
 This package intentionally does not include full-text paper markdown files, raw LLM prompts, raw LLM responses, API credentials, institution-specific API endpoints, or third-party ontology source files. The released corpus manifest is sanitized and does not include local filesystem paths.
 
-Parsed and aggregate reporting-completeness outputs are included to support reproducibility of the manuscript tables without redistributing copyrighted source text.
+Sanitized paper-level labels and aggregate reporting-completeness outputs are included to support verification of the manuscript tables without redistributing copyrighted source text. All released paper-level labels are marked `not_human_verified`; the planned stratified human-calibration study remains pending. The values are therefore LLM-assisted reporting-completeness estimates, not a human-validated reference standard.
 
-The detailed corpus is a curated-source collection derived from two public healthcare-agent literature lists plus a prespecified AgentArena benchmark case; it is not presented as a systematic database search. See `docs/design/corpus_collection_protocol.md` for collection details and remaining release-metadata requirements.
+The corpus was derived from the literature inventories accompanying two reviews of medical and healthcare AI agents, plus a prespecified AgentArena benchmark-alignment case. It is not presented as an independent systematic bibliographic-database search. See `docs/design/corpus_collection_protocol.md` for collection details and provenance limitations.
 
 ## License
 

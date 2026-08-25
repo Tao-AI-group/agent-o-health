@@ -1,0 +1,21 @@
+{
+  "status": "completed",
+  "provider_class": "institution-hosted Azure OpenAI-compatible gateway",
+  "model": "gpt-5.1",
+  "papers_prepared": 279,
+  "papers_assessed": 279,
+  "papers_failed": 0,
+  "rubric_version": "agento-reporting-completeness-2.2.3",
+  "prompt_version": "blinded-multi-evidence-2.2.3",
+  "assessment_design": "label-blinded, section-aware, multi-evidence LLM assessment with targeted repair",
+  "evidence_selection": "section-aware dimension retrieval from machine-readable paper text",
+  "temperature": 0.0,
+  "reasoning_effort": "none",
+  "max_completion_tokens": 4800,
+  "max_attempts": 3,
+  "workers": 3,
+  "finalized_at": "2026-08-21T19:15:36.723876+00:00",
+  "human_calibration_status": "pending",
+  "human_verification_status": "not_human_verified",
+  "interpretation": "Publication-level reporting-completeness estimates; not agent performance, clinical utility, safety, or deployment readiness."
+}
