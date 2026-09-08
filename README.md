@@ -16,6 +16,7 @@ This public package contains the ontology, SHACL shapes, SPARQL competency queri
 - `tables/`: manuscript-ready supplementary tables, corpus reference material, and the model/clinical/reporting architecture crosswalk.
 - `docs/design/`: design notes and crosswalks to external resources.
 - `tests/`: unit tests for ontology architecture, competency-result serialization, and the deterministic baseline scorer.
+- `apps/intake-chatbot/`: ontology-driven conversational intake application for creating and validating AGENT-O Agent Cards.
 
 ## Quick Start
 
@@ -60,6 +61,21 @@ python3 scripts/run_corpus_reporting_completeness.py \
 
 The local corpus root must follow the extraction-tree layout documented in `docs/design/corpus_collection_protocol.md`. This command runs the baseline scorer used during workflow development; it does not recreate the released v2.2.3 LLM-assisted scores. The released scores were produced with `gpt-5.1` using rubric `agento-reporting-completeness-2.2.3` and prompt/workflow `blinded-multi-evidence-2.2.3`. See `docs/design/reporting_completeness_v2_2_3.md`, `outputs/reporting_completeness/run_metadata.json`, and Supplementary Table S8 for the scoring specification and interpretation boundary.
 
+Run the Agent Card intake application:
+
+```bash
+cd apps/intake-chatbot
+make bootstrap
+make ontology-check
+make test
+make build
+make run
+```
+
+The application defaults to a deterministic mock LLM and binds to
+`http://127.0.0.1:7860`. See its README for optional institutional gateway and
+internal deployment configuration.
+
 ## Public-Release Scope
 
 This package intentionally does not include full-text paper markdown files, raw LLM prompts, raw LLM responses, API credentials, institution-specific API endpoints, or third-party ontology source files. The released corpus manifest is sanitized and does not include local filesystem paths.
@@ -72,7 +88,7 @@ The corpus was derived from the literature inventories accompanying two reviews 
 
 This repository uses a dual-license structure:
 
-- Code under `scripts/`, `tests/`, and `pyproject.toml` is released under the MIT License.
+- Code under `scripts/`, `tests/`, `apps/`, and `pyproject.toml` is released under the MIT License.
 - Ontology files, SHACL shapes, SPARQL queries, documentation, examples, manifests, tables, and aggregate outputs are released under CC BY 4.0.
 
 See `LICENSE`, `LICENSE-CODE-MIT`, and `LICENSE-CONTENT-CC-BY-4.0`.

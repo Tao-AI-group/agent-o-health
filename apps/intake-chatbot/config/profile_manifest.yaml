@@ -1,0 +1,68 @@
+profile:
+  id: agento-agent-card
+  uri: https://w3id.org/agent-o/profiles/reporting
+  version: "2026-08-31"
+  root_report_class: https://w3id.org/agent-o/reporting#AgentCard
+  root_system_class: https://w3id.org/agent-o/health#HealthAgent
+  report_to_system_property: https://w3id.org/agent-o/reporting#documentsAgentSystem
+  ontology_integrated: ontology/agento.ttl
+  shape_files:
+    - shapes/agento-architecture-shapes.ttl
+    - shapes/agento-governance-shapes.ttl
+    - shapes/agento-reporting-shapes.ttl
+  profile_files:
+    - ontology/profiles/agento-reporting-profile.ttl
+    - ontology/profiles/agento-reporting-completeness-profile.ttl
+    - ontology/profiles/agento-governance-profile.ttl
+  export_formats: [markdown, json, jsonld, turtle]
+
+sections:
+  - id: metadata
+    label: Card metadata
+    description: Card identity, version, authorship, and review state.
+    order: 10
+  - id: identity
+    label: Agent identity and scope
+    description: What the agent is, why it exists, and its operating boundaries.
+    order: 20
+  - id: intended_use
+    label: Intended use and context
+    description: Users, population, setting, task, decision role, and prohibited uses.
+    order: 30
+  - id: architecture
+    label: Agent architecture
+    description: Components, roles, orchestration, and system structure.
+    order: 40
+  - id: models
+    label: Models and deployments
+    description: Model roles, versioned specifications, interfaces, and runtime deployments.
+    order: 50
+  - id: workflow
+    label: Workflow and execution
+    description: Steps, planning, reasoning, memory, tools, and runtime environment.
+    order: 60
+  - id: inputs_outputs
+    label: Inputs, outputs, and actions
+    description: Data sources, artifacts, model outputs, and downstream actions.
+    order: 70
+  - id: evaluation
+    label: Evaluation
+    description: Datasets, tasks, baselines, metrics, results, and failure analysis.
+    order: 80
+  - id: provenance
+    label: Provenance and reproducibility
+    description: Sources, traces, artifacts, versions, environment, and rerun instructions.
+    order: 90
+  - id: governance
+    label: Governance and safety
+    description: Accountability, review, fallback, risk, privacy, security, and compliance.
+    order: 100
+  - id: limitations
+    label: Limitations and evidence
+    description: Known gaps, supporting evidence, confidence, and human verification.
+    order: 110
+
+validation:
+  block_conformant_export_on_violation: true
+  warning_blocks_export: false
+  information_blocks_export: false

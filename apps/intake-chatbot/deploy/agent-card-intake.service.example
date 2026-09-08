@@ -1,0 +1,21 @@
+[Unit]
+Description=AGENT-O Agent Card Intake Chatbot
+After=network.target
+
+[Service]
+Type=simple
+User=agent-card
+Group=agent-card
+WorkingDirectory=/opt/agent-card-intake-chatbot
+EnvironmentFile=/etc/agent-card-intake-chatbot.env
+ExecStart=/opt/agent-card-intake-chatbot/scripts/start_server.sh
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/agent-card-intake
+
+[Install]
+WantedBy=multi-user.target

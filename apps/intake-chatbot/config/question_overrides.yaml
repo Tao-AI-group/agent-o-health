@@ -1,0 +1,41 @@
+questions:
+  https://w3id.org/agent-o/core#hasName:
+    section: identity
+    priority: 10
+    prompt: What is the agent called?
+    help: Use the name that appears in technical documentation or the user interface.
+  https://w3id.org/agent-o/core#hasDescription:
+    section: identity
+    priority: 15
+    prompt: What is the agent designed to do?
+    help: Describe its purpose, main users, and operational boundaries.
+  https://w3id.org/agent-o/core#hasComponent:
+    section: architecture
+    priority: 20
+    prompt: What functional components make up the agent?
+    help: Include model, planner, reasoner, retriever, verifier, memory, and tool components where relevant.
+  https://w3id.org/agent-o/core#realizesModelSpecification:
+    section: models
+    priority: 25
+    prompt: Which exact model specification realizes this component?
+    help: A model role, a versioned model specification, and its runtime deployment are recorded separately.
+  https://w3id.org/agent-o/core#modelVersion:
+    section: models
+    priority: 26
+    prompt: What model version, checkpoint, or API snapshot was used?
+    help: Do not provide a deployment endpoint here; that is recorded separately.
+  https://w3id.org/agent-o/core#deploysModelSpecification:
+    section: models
+    priority: 27
+    prompt: Which model specification is served by this deployment?
+    help: Identify the runtime service, endpoint, or loaded checkpoint separately from the model itself.
+  https://w3id.org/agent-o/health#hasIntendedClinicalUse:
+    section: intended_use
+    priority: 18
+    prompt: In what health or clinical context is this agent intended to be used?
+    help: Include intended users, population, care setting, task, decision role, and excluded uses.
+  https://w3id.org/agent-o/gov#requiresReview:
+    section: governance
+    priority: 30
+    prompt: Which outputs or actions require human review, and when does that review occur?
+    help: Review, override, escalation, and fallback are distinct controls.

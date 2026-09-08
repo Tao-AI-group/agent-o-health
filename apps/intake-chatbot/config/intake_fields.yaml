@@ -1,0 +1,511 @@
+fields:
+  - id: card_title
+    section: metadata
+    label: Card title
+    question: What title should this Agent Card use?
+    subject: report
+    predicate_uri: https://w3id.org/agent-o/core#hasName
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: profile
+  - id: card_version
+    section: metadata
+    label: Card version
+    question: What version identifies this Agent Card draft?
+    subject: report
+    predicate_uri: https://w3id.org/agent-o/core#hasVersion
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: profile
+
+  - id: agent_name
+    section: identity
+    label: Agent name
+    question: What is the agent system called?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/core#hasName
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: profile
+  - id: agent_description
+    section: identity
+    label: Purpose and scope
+    question: What does the agent do, and what is outside its scope?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/core#hasDescription
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: profile
+  - id: agent_goal
+    section: identity
+    label: Agent goal
+    question: What goal does the agent pursue?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/core#hasGoal
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#Goal
+    required: true
+    source: profile
+
+  - id: intended_user
+    section: intended_use
+    label: Intended users
+    question: Who is expected to use or rely on the agent?
+    subject: use_case
+    predicate_uri: https://w3id.org/agent-o/health#hasIntendedUser
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/health#IntendedUserRole
+    required: true
+    source: shacl
+  - id: target_population
+    section: intended_use
+    label: Target population
+    question: Which patient or study population is in scope?
+    subject: use_case
+    predicate_uri: https://w3id.org/agent-o/health#hasTargetPopulation
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/health#PatientPopulation
+    required: true
+    source: shacl
+  - id: care_setting
+    section: intended_use
+    label: Care setting
+    question: In what clinical or research setting is the agent intended to operate?
+    subject: use_case
+    predicate_uri: https://w3id.org/agent-o/health#hasCareSetting
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/health#ClinicalSetting
+    required: true
+    source: shacl
+  - id: clinical_task
+    section: intended_use
+    label: Clinical task
+    question: What health or clinical task does the agent support?
+    subject: use_case
+    predicate_uri: https://w3id.org/agent-o/health#hasClinicalTask
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/health#ClinicalTask
+    required: true
+    source: shacl
+  - id: decision_role
+    section: intended_use
+    label: Decision role
+    question: Is the agent advisory, augmentative, or authorized to act autonomously?
+    subject: use_case
+    predicate_uri: https://w3id.org/agent-o/health#hasDecisionRole
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/health#ClinicalDecisionRole
+    required: true
+    source: shacl
+  - id: intended_action
+    section: intended_use
+    label: Intended action
+    question: What output or clinical action is the agent intended to produce?
+    subject: use_case
+    predicate_uri: https://w3id.org/agent-o/health#hasIntendedAction
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/health#IntendedClinicalAction
+    required: true
+    source: shacl
+  - id: deployment_mode
+    section: intended_use
+    label: Deployment mode
+    question: Is this a research prototype, silent deployment, pilot, or operational system?
+    subject: use_case
+    predicate_uri: https://w3id.org/agent-o/health#hasDeploymentMode
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/health#DeploymentMode
+    required: true
+    source: shacl
+
+  - id: component_name
+    section: architecture
+    label: Model component
+    question: What model component participates in the agent workflow?
+    subject: component
+    predicate_uri: https://w3id.org/agent-o/core#hasName
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: shacl
+  - id: model_role
+    section: architecture
+    label: Model component role
+    question: What role does this model component perform, such as planner, reasoner, retriever, or verifier?
+    subject: component
+    predicate_uri: https://w3id.org/agent-o/core#hasModelComponentRole
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#ModelComponentRole
+    required: true
+    source: shacl
+
+  - id: model_name
+    section: models
+    label: Model name
+    question: What is the exact name of the underlying model specification?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#hasName
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: shacl
+  - id: model_identifier
+    section: models
+    label: Model identifier
+    question: What stable identifier names the model or checkpoint?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#modelIdentifier
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: shacl
+  - id: model_version
+    section: models
+    label: Model version
+    question: Which exact model version, checkpoint, or API snapshot is used?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#modelVersion
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: shacl
+  - id: model_architecture
+    section: models
+    label: Model architecture
+    question: What architecture or model type is this specification?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#modelArchitectureType
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: shacl
+  - id: model_release_date
+    section: models
+    label: Model release date
+    question: What release or snapshot date applies to the model?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#modelReleaseDate
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#date
+    required: true
+    source: shacl
+  - id: model_developer
+    section: models
+    label: Model developer
+    question: Who developed the model specification?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#hasDeveloper
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#Agent
+    required: true
+    source: shacl
+  - id: model_input
+    section: models
+    label: Model input specification
+    question: What representation or modality is passed into the model?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#hasModelInputSpecification
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#ModelInputSpecification
+    required: true
+    source: shacl
+  - id: model_output
+    section: models
+    label: Model output specification
+    question: What does the model itself return before downstream agent actions?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#hasModelOutputSpecification
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#ModelOutputSpecification
+    required: true
+    source: shacl
+  - id: input_modality
+    section: models
+    label: Input modality
+    question: Which input modalities does the model support?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#supportsInputModality
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#InputModality
+    required: true
+    source: shacl
+  - id: model_capability
+    section: models
+    label: Model capability
+    question: Which model capability is relevant to this agent workflow?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#hasModelCapability
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#ModelCapability
+    required: true
+    source: shacl
+  - id: model_intended_use
+    section: models
+    label: Model-level intended use
+    question: What is the model itself intended to do within this system?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#hasModelIntendedUse
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#ModelIntendedUse
+    required: true
+    source: shacl
+  - id: model_limitation
+    section: models
+    label: Model limitation
+    question: What known limitation applies to the model itself?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/core#hasModelLimitation
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#ModelLimitation
+    required: true
+    source: shacl
+  - id: model_license
+    section: models
+    label: Model license or access terms
+    question: What license or access terms apply to the model?
+    subject: model_spec
+    predicate_uri: https://w3id.org/agent-o/doc#hasLicense
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/doc#License
+    required: true
+    source: shacl
+  - id: deployment_provider
+    section: models
+    label: Deployment provider
+    question: Who operates the actual model deployment used at runtime?
+    subject: model_deployment
+    predicate_uri: https://w3id.org/agent-o/core#hasProvider
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#Agent
+    required: true
+    source: shacl
+  - id: deployment_version
+    section: models
+    label: Deployment version
+    question: What deployment version or access date identifies the runtime endpoint?
+    subject: model_deployment
+    predicate_uri: https://w3id.org/agent-o/core#deploymentVersion
+    object_kind: literal
+    datatype_uri: http://www.w3.org/2001/XMLSchema#string
+    required: true
+    source: shacl
+
+  - id: workflow
+    section: workflow
+    label: Workflow
+    question: Describe the main workflow and the order of its steps.
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/core#hasWorkflow
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#Workflow
+    required: true
+    source: profile
+  - id: execution_environment
+    section: workflow
+    label: Execution environment
+    question: Where and with what software environment does the agent run?
+    subject: execution
+    predicate_uri: https://w3id.org/agent-o/core#hasExecutionEnvironment
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#ExecutionEnvironment
+    required: true
+    source: profile
+  - id: memory
+    section: workflow
+    label: Memory and context
+    question: How does the agent retain or share context and memory?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/core#hasMemoryModule
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#Memory
+    required: true
+    source: profile
+  - id: tool
+    section: workflow
+    label: Tools
+    question: Which external tools or services may the agent invoke?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/core#usesTool
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#Tool
+    required: true
+    source: profile
+
+  - id: input_data
+    section: inputs_outputs
+    label: Input data
+    question: What data or artifacts are supplied to the agent?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/core#hasInputType
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#InputType
+    required: true
+    source: profile
+  - id: output
+    section: inputs_outputs
+    label: Generated output
+    question: What output does the agent generate for users or downstream systems?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/core#generates
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/core#Artifact
+    required: true
+    source: profile
+
+  - id: evaluation_dataset
+    section: evaluation
+    label: Evaluation dataset
+    question: Which dataset or cases were used to evaluate the agent?
+    subject: evaluation
+    predicate_uri: https://w3id.org/agent-o/eval#usesDataset
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/eval#Dataset
+    required: true
+    source: profile
+  - id: evaluation_metric
+    section: evaluation
+    label: Evaluation metric
+    question: Which metrics were reported?
+    subject: metric_result
+    predicate_uri: https://w3id.org/agent-o/eval#forMetric
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/eval#Metric
+    required: true
+    source: profile
+  - id: evaluation_result
+    section: evaluation
+    label: Evaluation result
+    question: What result was obtained, including uncertainty where available?
+    subject: evaluation
+    predicate_uri: https://w3id.org/agent-o/eval#producesResult
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/eval#MetricResult
+    required: true
+    source: profile
+  - id: failure_analysis
+    section: evaluation
+    label: Failure analysis
+    question: What failure cases or error analysis were documented?
+    subject: evaluation
+    predicate_uri: https://w3id.org/agent-o/eval#usesScenario
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/eval#Scenario
+    required: true
+    source: profile
+
+  - id: provenance
+    section: provenance
+    label: Provenance and lineage
+    question: What source, lineage, and version records support reproduction?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/doc#hasProvenanceRecord
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/doc#ProvenanceRecord
+    required: true
+    source: profile
+  - id: reproduction_instructions
+    section: provenance
+    label: Reproduction instructions
+    question: Where can a reviewer find code, configuration, dependencies, and rerun instructions?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/doc#hasReference
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/doc#Reference
+    required: true
+    source: profile
+
+  - id: accountability
+    section: governance
+    label: Accountability owner
+    question: Which role is accountable for the agent and its outputs?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/gov#hasAccountabilityRole
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#AccountabilityRole
+    required: true
+    source: profile
+  - id: human_review
+    section: governance
+    label: Human review
+    question: Which outputs or actions require human review, and when does review occur?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/gov#requiresReview
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#HumanReviewRequirement
+    required: true
+    source: profile
+  - id: fallback
+    section: governance
+    label: Fallback
+    question: What fallback is used when the agent fails, refuses, or is uncertain?
+    subject: policy
+    predicate_uri: https://w3id.org/agent-o/gov#hasFallbackStrategy
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#FallbackStrategy
+    required: true
+    source: profile
+  - id: escalation
+    section: governance
+    label: Escalation
+    question: What event triggers escalation, and to whom is it escalated?
+    subject: policy
+    predicate_uri: https://w3id.org/agent-o/gov#triggersEscalation
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#EscalationEvent
+    required: true
+    source: profile
+  - id: privacy
+    section: governance
+    label: Privacy constraint
+    question: What privacy constraints apply to inputs, memory, logs, and outputs?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/gov#hasPrivacyConstraint
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#PrivacyConstraint
+    required: true
+    source: profile
+  - id: security
+    section: governance
+    label: Security requirement
+    question: What security controls or requirements apply?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/gov#hasSecurityConstraint
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#SecurityConstraint
+    required: true
+    source: profile
+  - id: compliance
+    section: governance
+    label: Compliance requirement
+    question: Which policies, standards, or regulations must the agent satisfy?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/gov#requiresCompliance
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#ComplianceRequirement
+    required: true
+    source: profile
+  - id: monitoring
+    section: governance
+    label: Monitoring
+    question: How is the agent monitored after deployment or during evaluation?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/gov#monitoredBy
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#MonitoringRule
+    required: true
+    source: profile
+
+  - id: limitations
+    section: limitations
+    label: Known limitations
+    question: What limitations, unresolved uncertainties, or evidence gaps should reviewers know?
+    subject: agent
+    predicate_uri: https://w3id.org/agent-o/gov#hasLimitation
+    object_kind: entity_ref
+    object_type_uri: https://w3id.org/agent-o/gov#Limitation
+    required: true
+    source: profile

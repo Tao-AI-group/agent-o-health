@@ -1,0 +1,21 @@
+dimensions:
+  runtime_architecture:
+    label: Runtime and architecture
+    weight: 25
+    sections: [identity, intended_use, architecture, models, workflow, inputs_outputs]
+  evaluation:
+    label: Evaluation
+    weight: 25
+    sections: [evaluation]
+  provenance_reproducibility:
+    label: Provenance and reproducibility
+    weight: 20
+    sections: [metadata, provenance]
+  governance_safety:
+    label: Governance and safety
+    weight: 20
+    sections: [governance, limitations]
+  benchmark_process_alignment:
+    label: Benchmark-process alignment
+    weight: 10
+    sections: [workflow, evaluation, provenance]
