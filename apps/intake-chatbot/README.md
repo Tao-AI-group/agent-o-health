@@ -63,6 +63,21 @@ AGENT_O_ROOT=/path/to/agent-o-health
 Then run `make run APP_HOST=0.0.0.0`. A remote bind without an access token is
 rejected unless `ALLOW_INSECURE_BIND=true` is explicitly set.
 
+For the local Mayo credential store, the convenience launcher configures the
+gateway, obtains and refreshes OAuth tokens automatically, and prints a one-click
+browser sign-in link:
+
+```bash
+./scripts/run_mayo_server.sh
+```
+
+It defaults to `/home/m327768/my-codex/apis.jsonl`, credential alias `key1`,
+model `gpt-5.6-luna`, and `0.0.0.0:7860`. Set `APP_PUBLIC_URL` to the URL clients
+use (for example, `http://192.0.2.10:7860`) so the printed sign-in link is ready
+to open. The URL fragment is removed from the address bar immediately and is
+not sent in HTTP requests. Override any corresponding environment variable when
+needed; credential values are never copied into the repository.
+
 ## Development
 
 ```bash

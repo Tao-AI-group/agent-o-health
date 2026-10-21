@@ -1,6 +1,16 @@
 import type { CardSession, ValidationResult } from "../types";
 
-let accessToken = sessionStorage.getItem("agento_access_token") || "";
+function tokenFromUrlFragment(): string {
+  const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+  const token = fragment.get("access_token") || "";
+  if (token) {
+    sessionStorage.setItem("agento_access_token", token);
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+  }
+  return token;
+}
+
+let accessToken = tokenFromUrlFragment() || sessionStorage.getItem("agento_access_token") || "";
 
 export function setAccessToken(value: string) {
   accessToken = value;
