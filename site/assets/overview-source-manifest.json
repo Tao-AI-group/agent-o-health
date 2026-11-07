@@ -1,0 +1,364 @@
+{
+  "prepared": "2026-11-05",
+  "scope": "Selected class relationships for engineering review; not the full ontology",
+  "source_files": {
+    "ontology/modules/agento-core.ttl": "51d64acf69c888c9e34e17a6d7ba02a2bfb0409887f71b7403b465ddea965b76",
+    "ontology/modules/agento-doc.ttl": "4827999a7c7ec6707a12a867670a5e37427796c9fbd7efb907f125a630a39fb7",
+    "ontology/modules/agento-eval.ttl": "10b1e74a52f711e2c0d02a863b25b0906bc1a4a60a50922bdf6b35d4efbc8048",
+    "ontology/modules/agento-gov.ttl": "b42218fc6739649abc4a85e8d853042f4b02b3881c6340606a71471d0a3994f4",
+    "ontology/modules/agento-health.ttl": "2244bd8bb45c0a26f76aa4d1edc36700adc24c465fa45f31973abab31a488310",
+    "ontology/modules/agento-report.ttl": "aec6ced17fc5345818cf83a29115f3a986f2e7e96bd61e8cedac6ced0a0dc7b5"
+  },
+  "rendered_node_count": 24,
+  "unique_class_count": 23,
+  "object_property_edges": 18,
+  "subclass_edges": 2,
+  "all_classes_declared": true,
+  "all_edge_domain_range_or_subclass_checks_passed": true,
+  "nodes": {
+    "system": {
+      "term": "core:AgentSystem",
+      "box": [
+        85,
+        335,
+        220,
+        76
+      ]
+    },
+    "agent": {
+      "term": "core:Agent",
+      "box": [
+        420,
+        215,
+        220,
+        76
+      ]
+    },
+    "component": {
+      "term": "core:ModelComponent",
+      "box": [
+        420,
+        335,
+        220,
+        76
+      ]
+    },
+    "workflow": {
+      "term": "core:Workflow",
+      "box": [
+        420,
+        455,
+        220,
+        76
+      ]
+    },
+    "run": {
+      "term": "core:ExecutionRun",
+      "box": [
+        420,
+        565,
+        220,
+        76
+      ]
+    },
+    "role": {
+      "term": "core:ModelComponentRole",
+      "box": [
+        800,
+        215,
+        245,
+        76
+      ]
+    },
+    "resource": {
+      "term": "core:AIModelResource",
+      "box": [
+        800,
+        335,
+        245,
+        76
+      ]
+    },
+    "deployment": {
+      "term": "core:ModelDeployment",
+      "box": [
+        800,
+        565,
+        245,
+        76
+      ]
+    },
+    "specification": {
+      "term": "core:AIModelSpecification",
+      "box": [
+        1270,
+        335,
+        245,
+        76
+      ]
+    },
+    "document": {
+      "term": "doc:Document",
+      "box": [
+        1270,
+        455,
+        245,
+        76
+      ]
+    },
+    "model": {
+      "term": "core:Model",
+      "box": [
+        1080,
+        455,
+        160,
+        76
+      ]
+    },
+    "study": {
+      "term": "eval:EvaluationStudy",
+      "box": [
+        65,
+        790,
+        205,
+        62
+      ]
+    },
+    "target": {
+      "term": "eval:EvaluableEntity",
+      "box": [
+        350,
+        790,
+        155,
+        62
+      ]
+    },
+    "result": {
+      "term": "eval:MetricResult",
+      "box": [
+        65,
+        925,
+        205,
+        62
+      ]
+    },
+    "metric": {
+      "term": "eval:Metric",
+      "box": [
+        350,
+        925,
+        155,
+        62
+      ]
+    },
+    "policy": {
+      "term": "gov:Policy",
+      "box": [
+        700,
+        790,
+        200,
+        62
+      ]
+    },
+    "escalation": {
+      "term": "gov:EscalationPlan",
+      "box": [
+        580,
+        925,
+        200,
+        62
+      ]
+    },
+    "override": {
+      "term": "gov:OverrideCapability",
+      "box": [
+        820,
+        925,
+        200,
+        62
+      ]
+    },
+    "assessment_activity": {
+      "term": "report:ReportingAssessmentActivity",
+      "box": [
+        1140,
+        790,
+        350,
+        76
+      ]
+    },
+    "report": {
+      "term": "report:AssessableReport",
+      "box": [
+        1095,
+        925,
+        200,
+        62
+      ]
+    },
+    "assessment": {
+      "term": "report:ReportingCompletenessAssessment",
+      "box": [
+        1315,
+        925,
+        220,
+        76
+      ]
+    },
+    "health_system": {
+      "term": "core:AgentSystem",
+      "box": [
+        370,
+        1095,
+        230,
+        62
+      ]
+    },
+    "use_case": {
+      "term": "health:ClinicalUseCase",
+      "box": [
+        870,
+        1095,
+        230,
+        62
+      ]
+    },
+    "population": {
+      "term": "health:PatientPopulation",
+      "box": [
+        1300,
+        1095,
+        230,
+        62
+      ]
+    }
+  },
+  "edges": [
+    {
+      "source": "core:AgentSystem",
+      "predicate": "core:hasMemberAgent",
+      "target": "core:Agent",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:AgentSystem",
+      "predicate": "core:hasComponent",
+      "target": "core:ModelComponent",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:AgentSystem",
+      "predicate": "core:hasWorkflow",
+      "target": "core:Workflow",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:AgentSystem",
+      "predicate": "core:hasSystemExecution",
+      "target": "core:ExecutionRun",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:ModelComponent",
+      "predicate": "core:hasModelComponentRole",
+      "target": "core:ModelComponentRole",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:ModelComponent",
+      "predicate": "core:usesModelResource",
+      "target": "core:AIModelResource",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:ExecutionRun",
+      "predicate": "core:usesModelDeployment",
+      "target": "core:ModelDeployment",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:ModelDeployment",
+      "predicate": "core:deploysModelResource",
+      "target": "core:AIModelResource",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:AIModelSpecification",
+      "predicate": "core:specifiesModel",
+      "target": "core:AIModelResource",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:AIModelSpecification",
+      "predicate": "rdfs:subClassOf",
+      "target": "doc:Document",
+      "scope": "asserted subclass"
+    },
+    {
+      "source": "core:AIModelResource",
+      "predicate": "rdfs:subClassOf",
+      "target": "core:Model",
+      "scope": "asserted subclass"
+    },
+    {
+      "source": "eval:EvaluationStudy",
+      "predicate": "eval:evaluates",
+      "target": "eval:EvaluableEntity",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "eval:EvaluationStudy",
+      "predicate": "eval:producesResult",
+      "target": "eval:MetricResult",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "eval:MetricResult",
+      "predicate": "eval:forMetric",
+      "target": "eval:Metric",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "gov:Policy",
+      "predicate": "gov:hasEscalationPlan",
+      "target": "gov:EscalationPlan",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "gov:Policy",
+      "predicate": "gov:hasOverrideCapability",
+      "target": "gov:OverrideCapability",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "report:ReportingAssessmentActivity",
+      "predicate": "report:usedReport",
+      "target": "report:AssessableReport",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "report:ReportingAssessmentActivity",
+      "predicate": "report:generatedAssessment",
+      "target": "report:ReportingCompletenessAssessment",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "core:AgentSystem",
+      "predicate": "health:hasIntendedClinicalUse",
+      "target": "health:ClinicalUseCase",
+      "scope": "selected instance-link pattern"
+    },
+    {
+      "source": "health:ClinicalUseCase",
+      "predicate": "health:hasTargetPopulation",
+      "target": "health:PatientPopulation",
+      "scope": "selected instance-link pattern"
+    }
+  ],
+  "font": "Liberation Sans",
+  "canvas_mm": [
+    400,
+    320
+  ],
+  "intent": "Review handout; no target-journal production format asserted"
+}

@@ -1,29 +1,46 @@
-@prefix health: <https://w3id.org/agent-o/health#> .
 @prefix fhir: <http://hl7.org/fhir/> .
+@prefix health: <https://w3id.org/agent-o/health#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-<https://w3id.org/agent-o/alignments/fhir>
-  a owl:Ontology ;
-  rdfs:label "AGENT-O to FHIR RDF alignment"@en ;
-  rdfs:comment "Mappings from AGENT-O health input concepts to FHIR RDF resource classes. The alignment is optional and health-profile-specific; AGENT-O does not import the full FHIR RDF model into the core ontology."@en .
+<https://w3id.org/agent-o/alignments/fhir> a owl:Ontology ;
+    rdfs:label "AGENT-O to FHIR RDF alignment"@en ;
+    rdfs:comment "Mappings from AGENT-O health input concepts to FHIR RDF resource classes. The alignment is optional and health-profile-specific; AGENT-O does not import the full FHIR RDF model into the core ontology."@en .
 
-health:FHIRResourceInput skos:relatedMatch fhir:Resource .
-health:EHRInput skos:relatedMatch fhir:Resource .
-health:PatientRecordInput skos:closeMatch fhir:Patient .
-health:ObservationInput skos:closeMatch fhir:Observation .
-health:MedicationInput skos:relatedMatch fhir:Medication, fhir:MedicationRequest .
 health:ConditionInput skos:closeMatch fhir:Condition .
-health:ProcedureInput skos:closeMatch fhir:Procedure .
+
 health:DiagnosticReportInput skos:closeMatch fhir:DiagnosticReport .
-health:FHIRProfile skos:closeMatch fhir:StructureDefinition .
-health:TerminologySystem skos:relatedMatch fhir:CodeSystem, fhir:ValueSet .
-health:InterfaceSpecification skos:relatedMatch fhir:Endpoint .
+
+health:EHRInput skos:relatedMatch fhir:Resource .
+
 health:ExchangeStandard skos:relatedMatch fhir:Resource .
 
-health:mapsToFHIRResource skos:relatedMatch fhir:Resource .
-health:usesFHIRResourceType skos:relatedMatch fhir:Resource .
+health:FHIRProfile skos:closeMatch fhir:StructureDefinition .
+
+health:FHIRResourceInput skos:relatedMatch fhir:Resource .
+
+health:InterfaceSpecification skos:relatedMatch fhir:Endpoint .
+
+health:MedicationInput skos:relatedMatch fhir:Medication,
+        fhir:MedicationRequest .
+
+health:ObservationInput skos:closeMatch fhir:Observation .
+
+health:PatientRecordInput skos:closeMatch fhir:Patient .
+
+health:ProcedureInput skos:closeMatch fhir:Procedure .
+
+health:TerminologySystem skos:relatedMatch fhir:CodeSystem,
+        fhir:ValueSet .
+
 health:derivedFromFHIRResource skos:relatedMatch fhir:Resource .
+
+health:mapsToFHIRResource skos:relatedMatch fhir:Resource .
+
 health:usesFHIRProfile skos:relatedMatch fhir:StructureDefinition .
-health:usesTerminologySystem skos:relatedMatch fhir:CodeSystem, fhir:ValueSet .
+
+health:usesFHIRResourceType skos:relatedMatch fhir:Resource .
+
+health:usesTerminologySystem skos:relatedMatch fhir:CodeSystem,
+        fhir:ValueSet .

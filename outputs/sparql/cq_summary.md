@@ -1,13 +1,13 @@
 # AGENT-O Competency Query Summary
 
-- Input triples: `3644`
-- Inferred triples: `6364`
+- Input triples: `4352`
+- Inferred triples: `10120`
 - Answered queries: `12/12`
 
 | Query | Status | Rows |
 | --- | --- | ---: |
 | `cq_clinical_intended_use` | answered | 4 |
-| `cq_data_use_permissions` | answered | 1 |
+| `cq_data_use_permissions` | answered | 3 |
 | `cq_fhir_inputs` | answered | 3 |
 | `cq_governance_profile_checklist` | answered | 3 |
 | `cq_model_card_alignment` | answered | 3 |

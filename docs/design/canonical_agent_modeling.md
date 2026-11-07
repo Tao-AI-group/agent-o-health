@@ -1,91 +1,182 @@
 # Canonical AGENT-O Modeling Pattern
 
-## Scope
+Updated 2026-10-29 after the comprehensive semantic review. The six module files
+are authoritative; rebuild the integrated ontology after changing a module.
+The historical ACRO migration script is not the current ontology builder.
 
-AGENT-O separates four questions that were previously easy to conflate:
+## System and acting participant
 
-1. What functional role does a model play inside an agent system?
-2. Which identifiable and versioned model resource realizes that role?
-3. Which endpoint, service, or loaded checkpoint was used in a particular run?
-4. Which publication or card states the evidence needed to reconstruct those facts?
-
-## Canonical Pattern
+`AgentSystem` identifies a configured software system. `Agent` identifies an
+acting participant bearing responsibility, including people, organizations and
+software actors. Containing agents does not make every system an Agent.
 
 ```text
 AgentSystem
+  -> hasMemberAgent Agent
   -> hasComponent ModelComponent
        -> hasModelComponentRole ModelComponentRole
-       -> realizesModelSpecification AIModelSpecification
-            -> modelIdentifier / modelVersion / modelArchitectureType / modelReleaseDate
-            -> hasDeveloper OrganizationAgent / hasLicense License
-            -> hasModelInputSpecification ModelInputSpecification
-            -> hasModelOutputSpecification ModelOutputSpecification
-            -> supportsInputModality / hasModelCapability
-            -> hasModelIntendedUse / hasModelLimitation
-            <- describesModelSpecification ModelCardReport
+       -> usesModelResource AIModelResource
+  -> hasWorkflow Workflow
   -> hasSystemExecution ExecutionRun
-       -> usesModelDeployment ModelDeployment
-            -> deploysModelSpecification AIModelSpecification
-            -> hasProvider OrganizationAgent
-       -> usesModelInputArtifact Artifact
-       -> generatedModelOutput GeneratedModelOutput
-  -> hasIntendedClinicalUse ClinicalUseCase
-       -> hasIntendedUser IntendedUserRole
-       -> hasTargetPopulation PatientPopulation
-       -> hasCareSetting ClinicalSetting
-       -> hasClinicalTask ClinicalTask
-       -> hasIntendedAction IntendedClinicalAction
-       -> hasDecisionRole ClinicalDecisionRole
-       -> hasDeploymentMode DeploymentMode
-       -> hasOutOfScopeUse / hasProhibitedUse UseConstraint
 ```
 
-`ModelComponent` is system-relative: the same model specification may be a
-planner in one agent and a verifier in another. `AIModelSpecification` is a
-versioned resource independent of any one system. `ModelDeployment` identifies
-the runtime access point or loaded checkpoint and its provider. A model card is
-a document about a model specification, not the model itself.
+Shared capability, workflow and governance properties explicitly allow both
+agents and systems where appropriate. Their domains do not silently turn a
+system into an Agent. The two classes are not declared disjoint: collective
+agency may be asserted independently when justified.
 
-## Clinical Data Layers
+The existing definition that a system contains an acting participant is now
+formalized as `AgentSystem` subclass of `hasMemberAgent some Agent`. This
+requires a member to exist without requiring it to be named in an incomplete
+graph, and does not classify the system itself as an Agent. Configured systems
+need not have a past execution run. Clinical-use requirements apply to clinical
+systems, rather than every biomedical research system.
 
-The health and core modules distinguish:
+`HealthAgent` and its existing specializations represent acting participants.
+Use `HealthAgentSystem`, `ClinicalAgentSystem`,
+`ClinicalDecisionSupportAgentSystem`, or `PatientFacingAgentSystem` for the
+corresponding configured systems.
 
-- a `HealthDataSource`, such as an EHR dataset;
-- an agent-level `FHIRResourceInput`, `StructuredHealthDataArtifact`, or
-  `UnstructuredHealthDataArtifact`;
-- a `ModelInputSpecification` describing the representation accepted by a model;
-- a runtime input artifact supplied during an `ExecutionRun`;
-- a `GeneratedModelOutput`; and
-- a downstream `ProposedAction`, clinical recommendation, or patient-facing output.
+## Model resource, document, component role and deployment
 
-This separation prevents a FHIR resource, prompt representation, model token
-output, and clinical recommendation from being treated as interchangeable.
+```text
+ModelComponent
+  -> usesModelResource AIModelResource
+       -> modelIdentifier / modelVersion / modelArchitectureType / modelReleaseDate
+       -> hasDeveloper Agent
+       -> hasModelInputSpecification ModelInputSpecification
+       -> hasModelOutputSpecification ModelOutputSpecification
+       -> supportsInputModality / hasModelCapability
+       -> hasModelIntendedUse / hasModelLimitation
+       -> doc:hasLicense License
+       <- specifiesModel AIModelSpecification
+       <- describesModelResource ModelCardReport
 
-## Reporting Assessment
+ExecutionRun
+  -> usesModelDeployment ModelDeployment
+       -> deploysModelResource AIModelResource
+       -> hasProvider Agent
+  -> usesModelInputArtifact Artifact
+  -> generatedModelOutput GeneratedModelOutput
+```
 
-AGENT-O represents the inputs, activity, evidence, and outputs of reporting
-assessment; it does not claim that the ontology itself executes an LLM judge.
+`AIModelResource` is a versioned computational model, checkpoint or API snapshot
+and is a subclass of `Model`. `AIModelSpecification` is a document specifying
+that resource and is a subclass of `doc:Document`, not `Model`. A model card is
+also a document about a model resource; it need not describe any agent system.
+
+`ModelComponent` is a system-relative component binding. Its functional role is
+a separate `ModelComponentRole` instance. The same model resource can support
+different roles in different systems. A `ModelDeployment` identifies runtime
+access or hosting configuration rather than the model or its document.
+
+ModelComponent and ModelComponentRole are disjoint; a component cannot be its
+own model-role assignment. General system outputs use `generates` and are
+Artifacts. `producesProposedAction` specializes it for recommendations or
+suggested actions; an educational output need not be a ProposedAction.
+
+Metadata such as a license does not imply agency. String model versions do not
+inherit SWO's object-valued version property, and model developers do not force
+every parameter resource to become a SWO software individual.
+
+## Clinical context and health-data layers
+
+`ClinicalUseCase` describes intended clinical use through users, target
+population, setting, task, specialty, condition, workflow stage, intended
+action, decision role and deployment mode. These contextual descriptions are
+distinct from real patients, diseases and action occurrences.
+
+EHR origin does not imply FHIR representation. `EHRInput` is an Artifact;
+`FHIRResourceInput` requires explicit FHIR representation or mapping. A source
+may be a dataset, repository or service endpoint, so `HealthDataSource` does
+not universally inherit Dataset. One record may contain both structured data
+and unstructured text. A clinically contraindicated-use constraint becomes an
+explicit prohibition only where the applicable policy says so.
+
+## Implementation and execution
+
+`ExecutionUnit` is a reusable implementation, `WorkflowPattern` a reusable
+control-flow template, `Workflow` a configured enactment, and `WorkflowStep` a
+prospective or actual step occurrence in one execution run. Share a pattern
+across runs; use separate step-occurrence instances. SHACL rejects assigning
+one step occurrence to two execution runs.
+
+## Governance
+
+`GovernanceRequirement` represents a concrete obligation; `EthicalPrinciple`
+represents its guiding principle; `Policy` organizes rules and obligations.
+Requirements do not inherit principles merely because they address the same
+topic. Use `hasGovernanceRequirement` and `basedOnPrinciple` to connect the
+separate instances.
+
+Policies specify prospective controls through `hasEscalationPlan` and
+`hasOverrideCapability`. An EscalationPlan uses `hasTriggerCondition` and
+`plannedRecipient`; an OverrideCapability uses `canOverrideAction`. Actual
+escalation and override occurrences retain EscalationEvent and OverrideAction.
+`triggeredBy` specializes `hasTriggerCondition` in one direction, so a plan's
+condition does not silently turn the plan into an event.
+
+System-level review obligations use `hasGovernanceRequirement` with a
+HumanReviewRequirement. `requiresReview` applies to a ProposedAction and must
+not be used on a system merely to record its review policy.
+
+High-risk fallback and escalation checks apply to both `Agent` and
+`AgentSystem`. The clinical decision-support, PHI and patient-facing checks
+target the corresponding system classes. Their Warning findings remain
+warnings even when implemented as SPARQL constraints.
+
+## Reporting profiles and assessment
+
+Profiles reference section classes and schema elements using annotation
+properties: `requiresReportingSection`, `recommendedReportingSection`,
+`requirementTargetsSection`, and `requiresInformationElement`. These schema
+references do not assert document-part instances. Reports use
+`hasReportingSection` to link actual section instances. When a report declares
+`hasReportingProfile`, SHACL checks that its actual sections satisfy the
+profile's required section types.
 
 ```text
 ReportingAssessmentActivity
   -> usedReport AssessableReport
   -> usedReportingProfile ReportingCompletenessProfile
-  -> associatedWithAssessor HumanAssessor | SoftwareAssessor | LLMAssessor
+  -> associatedWithAssessor AssessmentAgent
   -> generatedAssessment ReportingCompletenessAssessment
        -> assessesDimension CompletenessDimension
        -> hasSupportingEvidence EvidenceStatement
        -> hasHumanVerificationStatus HumanVerificationStatus
 ```
 
-An external application performs extraction and scoring. SHACL profiles provide
-machine-checkable constraints between the ontology and that application.
+Assessment is performed by an external application. Its activity, responsible
+actor and result are separate identities. Completeness labels and human
+verification status are controlled individuals checked with SHACL `sh:in`.
 
-## Paper-Type Scope
+Every assessment identifies its report and rubric dimension. An
+`assessesSection` link identifies an actual section belonging to that report;
+an unrelated section is rejected. Present and Partial assessments require
+such a section. Missing and NotApplicable assessments may omit the link when
+no section exists, while retaining the assessed dimension and evidence.
+Missing may also describe absent information within an existing section.
+The reporting-gap query includes assessments without section links.
 
-`AssessableReport` has separate subclasses for concrete agent-system reports,
-benchmark reports, surveys/reviews, governance or policy reports, method/model
-reports, and conceptual/commentary reports. These paper-type classes are
-mutually disjoint. Only `AgentSystemReport` uses
-`documentsAgentSystem`; other report types use `documentsEvaluatedEntity`.
-This supports paper-type-specific applicability without asserting that every
-paper describes a runnable agent system.
+Missing gap explanations are warnings. Required assessment fields and invalid
+section ownership remain violations; the two severities use separate shapes.
+
+The assessed report must be an input of the generating assessment activity.
+SHACL accepts either direction of the inverse generation relation, so a valid
+representation does not have to duplicate both triples. Evaluation targets
+receive EvaluableEntity identity without becoming a particular technical kind
+of entity. Specific data-use permissions and restrictions also entail the
+general `hasDataUseCondition` relation.
+
+All active named classes and properties have definitions. Current review
+evidence and remaining datatype limits are in the
+[October 29 review](deep_review_2026-10-29/REVIEW_ZH.md).
+
+Agent-system, benchmark, review, policy, method/model and commentary reports
+remain subclasses of `AssessableReport` and may overlap. An assessment's
+primary paper-type label is a classification choice, not proof that every
+publication belongs to exactly one mutually exclusive document class.
+
+The October revision changes RDF resource identifiers and the former meaning
+of `AIModelSpecification`. See [the semantic revision and migration notes](semantic_revision_2026-10-28.md)
+before reusing graphs or application sessions created with the earlier model.

@@ -1,24 +1,23 @@
 # AGENT-O External Alignment Summary
 
-- Alignment triples counted: `183`
+- Alignment triples counted: `172`
 
 ## By Module
 
 | Module | Count |
 | --- | ---: |
-| core | 43 |
-| doc | 11 |
+| core | 41 |
+| doc | 12 |
 | eval | 15 |
-| gov | 36 |
+| gov | 27 |
 | health | 32 |
-| report | 46 |
+| report | 45 |
 
 ## By Mapping Type
 
 | Mapping type | Count |
 | --- | ---: |
-| `rdfs:subClassOf` | 55 |
-| `rdfs:subPropertyOf` | 13 |
+| `rdfs:subClassOf` | 56 |
+| `rdfs:subPropertyOf` | 11 |
 | `skos:closeMatch` | 22 |
-| `skos:exactMatch` | 9 |
-| `skos:relatedMatch` | 84 |
+| `skos:relatedMatch` | 83 |

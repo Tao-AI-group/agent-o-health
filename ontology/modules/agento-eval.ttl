@@ -2,16 +2,17 @@
 @prefix eval: <https://w3id.org/agent-o/eval#> .
 @prefix gov: <https://w3id.org/agent-o/gov#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://w3id.org/agent-o/eval> a owl:Ontology ;
     rdfs:label "AGENT-O Evaluation Ontology"@en ;
-    rdfs:comment "Evaluation layer: EvaluationStudy uses Dataset and produces MetricResult and Interpretation for an Agent."@en .
+    rdfs:comment "Evaluation activities, targets, datasets, metrics and result records. Evaluation targets may be actors, systems, models, tools, workflows or other selected entities."@en .
 
 eval:BiasAssessment a owl:Class ;
     rdfs:label "BiasAssessment"@en ;
-    rdfs:comment "An evaluation activity or result assessing bias in an agentic system."@en ;
+    rdfs:comment "An evaluation study assessing bias in a system or model and producing separate result records; not the result itself."@en ;
     rdfs:subClassOf eval:EvaluationStudy .
 
 eval:CostMetric a owl:Class ;
@@ -19,12 +20,9 @@ eval:CostMetric a owl:Class ;
     rdfs:comment "Metric that measures financial, compute, operational, or resource cost."@en ;
     rdfs:subClassOf eval:Metric .
 
-eval:DatasetUseContext a owl:Class ;
-    rdfs:label "DatasetUseContext"@en ;
-    rdfs:comment "The use context under which a dataset is accessed, evaluated, or reused."@en .
-
 eval:EvaluableEntity a owl:Class ;
-    rdfs:label "EvaluableEntity"@en .
+    rdfs:label "EvaluableEntity"@en ;
+    rdfs:comment "An entity selected as an evaluation target; selection does not imply that the target is an acting agent."@en .
 
 eval:FairnessMetric a owl:Class ;
     rdfs:label "FairnessMetric"@en ;
@@ -43,156 +41,179 @@ eval:SafetyMetric a owl:Class ;
 
 eval:aboutEntity a owl:ObjectProperty ;
     rdfs:label "aboutEntity"@en ;
+    rdfs:comment "Identifies the entity to which a recorded metric result refers."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range owl:Thing .
 
 eval:appliesToDataset a owl:ObjectProperty ;
     rdfs:label "appliesToDataset"@en ;
+    rdfs:comment "Identifies the dataset over which a metric result was obtained or is reported to apply."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range eval:Dataset .
 
 eval:appliesToSubpopulation a owl:ObjectProperty ;
     rdfs:label "appliesToSubpopulation"@en ;
+    rdfs:comment "Identifies the subgroup specification to which a metric result applies."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range eval:Subpopulation .
 
 eval:comparesAgainst a owl:ObjectProperty ;
     rdfs:label "comparesAgainst"@en ;
+    rdfs:comment "Identifies the comparator configuration or method used by an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:Baseline .
 
+eval:definesBenchmarkTask a owl:ObjectProperty ;
+    rdfs:label "definesBenchmarkTask"@en ;
+    rdfs:comment "Identifies a task specification defined by a benchmark framework."@en ;
+    rdfs:domain eval:BenchmarkFramework ;
+    rdfs:range eval:BenchmarkTask .
+
 eval:derivedFromRun a owl:ObjectProperty ;
     rdfs:label "derivedFromRun"@en ;
+    rdfs:comment "Links a metric result to the execution run from which its measurement was derived."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range core:ExecutionRun .
 
 eval:evaluatedBy a owl:ObjectProperty ;
     rdfs:label "evaluatedBy"@en ;
+    rdfs:comment "Identifies the responsible human, organizational or software evaluator performing a study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:Evaluator .
 
 eval:evaluates a owl:ObjectProperty ;
     rdfs:label "evaluates"@en ;
+    rdfs:comment "Selects an entity as the target of an evaluation study without changing its intrinsic system, model, tool, data or other identity."@en ;
     rdfs:domain eval:EvaluationStudy ;
-    rdfs:range core:Agent .
+    rdfs:range eval:EvaluableEntity .
 
 eval:evaluatesConfiguration a owl:ObjectProperty ;
     rdfs:label "evaluatesConfiguration"@en ;
+    rdfs:comment "Identifies the recorded actor or system configuration examined by an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range core:AgentConfiguration .
 
 eval:forMetric a owl:ObjectProperty ;
     rdfs:label "forMetric"@en ;
+    rdfs:comment "Identifies the measurement or scoring definition used to interpret a metric result's value."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range eval:Metric .
 
 eval:hasDataUseCondition a owl:ObjectProperty ;
     rdfs:label "hasDataUseCondition"@en ;
     rdfs:comment "Links a dataset or dataset use context to a data use condition."@en ;
-    rdfs:domain eval:Dataset ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( eval:Dataset eval:DatasetUseContext ) ] ;
     rdfs:range gov:DataUseCondition .
 
 eval:hasDataUsePermission a owl:ObjectProperty ;
     rdfs:label "hasDataUsePermission"@en ;
     rdfs:comment "Links a dataset or dataset use context to a data use permission."@en ;
-    rdfs:domain eval:Dataset ;
-    rdfs:range gov:DataUsePermission .
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( eval:Dataset eval:DatasetUseContext ) ] ;
+    rdfs:range gov:DataUsePermission ;
+    rdfs:subPropertyOf eval:hasDataUseCondition .
 
 eval:hasDataUseRestriction a owl:ObjectProperty ;
     rdfs:label "hasDataUseRestriction"@en ;
     rdfs:comment "Links a dataset or dataset use context to a data use restriction."@en ;
-    rdfs:domain eval:Dataset ;
-    rdfs:range gov:DataUseRestriction .
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( eval:Dataset eval:DatasetUseContext ) ] ;
+    rdfs:range gov:DataUseRestriction ;
+    rdfs:subPropertyOf eval:hasDataUseCondition .
 
 eval:hasErrorType a owl:ObjectProperty ;
     rdfs:label "hasErrorType"@en ;
+    rdfs:comment "Classifies a recorded failure case using an error-type descriptor."@en ;
     rdfs:domain eval:FailureCase ;
     rdfs:range eval:ErrorType .
 
 eval:hasRank a owl:DatatypeProperty ;
     rdfs:label "hasRank"@en ;
+    rdfs:comment "Records the integer rank assigned to a metric result in the reported comparison."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range xsd:integer .
 
 eval:hasTimestamp a owl:DatatypeProperty ;
     rdfs:label "hasTimestamp"@en ;
+    rdfs:comment "Records the timestamp associated with an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range xsd:dateTime .
 
 eval:hasUnit a owl:DatatypeProperty ;
     rdfs:label "hasUnit"@en ;
+    rdfs:comment "Records the measurement unit or scoring unit of a metric result."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range xsd:string .
 
 eval:hasValue a owl:DatatypeProperty ;
     rdfs:label "hasValue"@en ;
+    rdfs:comment "Records a scalar decimal measurement value in a metric result; its metric and unit are expressed separately."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range xsd:decimal .
 
 eval:interpretedAs a owl:ObjectProperty ;
     rdfs:label "interpretedAs"@en ;
+    rdfs:comment "Links a metric result to an information statement explaining its meaning or implications."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range eval:Interpretation .
 
 eval:observedAtStep a owl:ObjectProperty ;
     rdfs:label "observedAtStep"@en ;
+    rdfs:comment "Identifies the workflow-step occurrence at which a recorded failure case was observed."@en ;
     rdfs:domain eval:FailureCase ;
     rdfs:range core:WorkflowStep .
 
 eval:observedInRun a owl:ObjectProperty ;
     rdfs:label "observedInRun"@en ;
+    rdfs:comment "Identifies the execution run in which a recorded failure case was observed."@en ;
     rdfs:domain eval:FailureCase ;
     rdfs:range core:ExecutionRun .
 
 eval:producesResult a owl:ObjectProperty ;
     rdfs:label "producesResult"@en ;
+    rdfs:comment "Links an evaluation study to a recorded metric result, keeping the activity and result identities separate."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:MetricResult .
 
 eval:studiesAutomationLevel a owl:ObjectProperty ;
     rdfs:label "studiesAutomationLevel"@en ;
+    rdfs:comment "Identifies the permitted-autonomy assignment examined by an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range gov:AutomationLevel .
 
 eval:targetsTask a owl:ObjectProperty ;
     rdfs:label "targetsTask"@en ;
+    rdfs:comment "Identifies a benchmark-task specification targeted by an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:BenchmarkTask .
 
 eval:usesDataset a owl:ObjectProperty ;
     rdfs:label "usesDataset"@en ;
+    rdfs:comment "Identifies a data collection used in an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:Dataset .
 
+eval:usesEvaluationFramework a owl:ObjectProperty ;
+    rdfs:label "usesEvaluationFramework"@en ;
+    rdfs:comment "Identifies the reusable evaluation framework followed by a study."@en ;
+    rdfs:domain eval:EvaluationStudy ;
+    rdfs:range eval:EvaluationFramework .
+
 eval:usesScenario a owl:ObjectProperty ;
     rdfs:label "usesScenario"@en ;
+    rdfs:comment "Identifies the specification of circumstances used for an evaluation task."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:Scenario .
 
 eval:Baseline a owl:Class ;
-    rdfs:label "Baseline"@en .
-
-eval:BenchmarkTask a owl:Class ;
-    rdfs:label "BenchmarkTask"@en .
-
-eval:EvaluationFramework a owl:Class ;
-    rdfs:label "EvaluationFramework"@en ;
-    rdfs:comment "A reusable framework that defines how agent systems, models, or workflows are evaluated, separate from the systems being evaluated."@en .
+    rdfs:label "Baseline"@en ;
+    rdfs:comment "A specified comparator configuration or method used to interpret evaluation results."@en .
 
 eval:BenchmarkFramework a owl:Class ;
     rdfs:label "BenchmarkFramework"@en ;
     rdfs:comment "An evaluation framework defining benchmark tasks, execution conditions, validity rules, and scoring procedures."@en ;
     rdfs:subClassOf eval:EvaluationFramework .
-
-eval:definesBenchmarkTask a owl:ObjectProperty ;
-    rdfs:label "definesBenchmarkTask"@en ;
-    rdfs:domain eval:BenchmarkFramework ;
-    rdfs:range eval:BenchmarkTask .
-
-eval:usesEvaluationFramework a owl:ObjectProperty ;
-    rdfs:label "usesEvaluationFramework"@en ;
-    rdfs:domain eval:EvaluationStudy ;
-    rdfs:range eval:EvaluationFramework .
 
 eval:EquityMetric a owl:Class ;
     rdfs:label "EquityMetric"@en ;
@@ -200,31 +221,56 @@ eval:EquityMetric a owl:Class ;
     rdfs:subClassOf eval:Metric .
 
 eval:ErrorType a owl:Class ;
-    rdfs:label "ErrorType"@en .
+    rdfs:label "ErrorType"@en ;
+    rdfs:comment "A descriptor classifying a failure or error, distinct from a particular failure occurrence."@en .
 
 eval:Evaluator a owl:Class ;
-    rdfs:label "Evaluator"@en .
+    rdfs:label "Evaluator"@en ;
+    rdfs:comment "A responsible human, organizational or software participant performing an evaluation."@en ;
+    rdfs:subClassOf core:Agent .
 
 eval:Interpretation a owl:Class ;
-    rdfs:label "Interpretation"@en .
+    rdfs:label "Interpretation"@en ;
+    rdfs:comment "An information statement explaining the meaning or implications of an evaluation result."@en .
 
 eval:Scenario a owl:Class ;
-    rdfs:label "Scenario"@en .
+    rdfs:label "Scenario"@en ;
+    rdfs:comment "A specification of circumstances in which an evaluation task is performed."@en .
 
 eval:Subpopulation a owl:Class ;
-    rdfs:label "Subpopulation"@en .
+    rdfs:label "Subpopulation"@en ;
+    rdfs:comment "A specification of a subgroup used to stratify evaluation results, not the individual members of that subgroup."@en .
+
+eval:BenchmarkTask a owl:Class ;
+    rdfs:label "BenchmarkTask"@en ;
+    rdfs:comment "A task specification used within a benchmark evaluation."@en ;
+    rdfs:subClassOf core:Task .
+
+eval:EvaluationFramework a owl:Class ;
+    rdfs:label "EvaluationFramework"@en ;
+    rdfs:comment "A reusable framework that defines how agent systems, models, or workflows are evaluated, separate from the systems being evaluated."@en .
+
+eval:DatasetUseContext a owl:Class ;
+    rdfs:label "DatasetUseContext"@en ;
+    rdfs:comment "The use context under which a dataset is accessed, evaluated, or reused."@en .
 
 eval:FailureCase a owl:Class ;
-    rdfs:label "FailureCase"@en .
+    rdfs:label "FailureCase"@en ;
+    rdfs:comment "A recorded example or description of failure linked to its observed execution or step."@en ;
+    rdfs:subClassOf core:Artifact .
 
 eval:Dataset a owl:Class ;
-    rdfs:label "Dataset"@en .
+    rdfs:label "Dataset"@en ;
+    rdfs:comment "An identifiable collection of data items used in evaluation or development, distinct from a repository or service providing access to it."@en .
 
 eval:Metric a owl:Class ;
-    rdfs:label "Metric"@en .
+    rdfs:label "Metric"@en ;
+    rdfs:comment "A definition of a measurement or scoring procedure; an observed value belongs to a MetricResult."@en .
 
 eval:MetricResult a owl:Class ;
-    rdfs:label "MetricResult"@en .
+    rdfs:label "MetricResult"@en ;
+    rdfs:comment "A recorded measurement outcome containing a value, metric and relevant evaluation context; not the metric or study."@en .
 
 eval:EvaluationStudy a owl:Class ;
-    rdfs:label "EvaluationStudy"@en .
+    rdfs:label "EvaluationStudy"@en ;
+    rdfs:comment "An organized evaluation activity applying tasks, data and metrics to a target and producing results; not a result record."@en .

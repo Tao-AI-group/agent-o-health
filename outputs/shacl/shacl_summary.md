@@ -1,6 +1,6 @@
 # AGENT-O SHACL Validation Summary
 
-- Data triples: `3644`
+- Data triples: `4352`
 - Shape files: `3`
 - Conforms: `True`
 

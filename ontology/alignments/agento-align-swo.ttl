@@ -1,28 +1,34 @@
 @prefix core: <https://w3id.org/agent-o/core#> .
 @prefix doc: <https://w3id.org/agent-o/doc#> .
-@prefix swo: <http://www.ebi.ac.uk/swo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix swo: <http://www.ebi.ac.uk/swo/> .
 
-<https://w3id.org/agent-o/alignments/swo>
-  a owl:Ontology ;
-  rdfs:label "AGENT-O to SWO alignment"@en ;
-  rdfs:comment "Mappings from AGENT-O tools, scripts, model specifications, model deployments, execution units, versions, developers, and software-facing runtime components to the Software Ontology."@en .
+<https://w3id.org/agent-o/alignments/swo> a owl:Ontology ;
+    rdfs:label "AGENT-O to SWO alignment"@en ;
+    rdfs:comment "Mappings from AGENT-O tools, scripts, model resources, model deployments, execution units, versions, developers, and software-facing runtime components to the Software Ontology. Model-developer and string-version mappings do not impose SWO software or object-version identity."@en .
+
+core:AIModelResource skos:relatedMatch swo:SWO_0000001 .
+
+core:ExecutionUnit skos:relatedMatch swo:SWO_0000001 .
+
+core:ModelDeployment skos:relatedMatch swo:SWO_0000001 .
+
+core:ModelInterfaceSpecification skos:relatedMatch swo:SWO_9000050 .
+
+core:Script rdfs:subClassOf swo:SWO_0000001 .
 
 core:Tool rdfs:subClassOf swo:SWO_0000001 .
-core:Script rdfs:subClassOf swo:SWO_0000001 .
-core:ExecutionUnit skos:relatedMatch swo:SWO_0000001 .
-core:ExecutionEnvironment skos:relatedMatch swo:SWO_9000050 .
-core:AIModelSpecification skos:relatedMatch swo:SWO_0000001 .
-core:ModelDeployment skos:relatedMatch swo:SWO_0000001 .
-core:ModelInterfaceSpecification skos:relatedMatch swo:SWO_9000050 .
-core:hasVersion skos:relatedMatch swo:SWO_0004000 .
-core:modelVersion rdfs:subPropertyOf swo:SWO_0004000 .
-core:hasDeveloper rdfs:subPropertyOf swo:SWO_0000394 .
-core:hasProvider skos:relatedMatch swo:SWO_0004004 .
 
-doc:VersionInfo skos:relatedMatch swo:SWO_0004000 .
+core:hasDeveloper skos:relatedMatch swo:SWO_0000394 .
+
+core:hasVersion skos:relatedMatch swo:SWO_0004000 .
+
+core:implementedBy skos:relatedMatch swo:SWO_0000085 .
+
+core:modelVersion rdfs:seeAlso swo:SWO_0004000 .
+
 doc:License skos:closeMatch swo:SWO_0000002 .
 
-core:implementedBy skos:relatedMatch swo:SWO_0000740 .
+doc:VersionInfo skos:relatedMatch swo:SWO_0004000 .

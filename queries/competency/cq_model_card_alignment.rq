@@ -9,13 +9,13 @@ WHERE {
          core:hasComponent ?component .
   ?component a core:ModelComponent ;
              core:hasModelComponentRole ?componentRole ;
-             core:realizesModelSpecification ?model .
+             core:usesModelResource ?model .
   OPTIONAL { ?agent core:hasName ?agentName . }
   OPTIONAL { ?model core:hasName ?modelName . }
   OPTIONAL { ?model core:modelVersion ?modelVersion . }
   OPTIONAL {
     ?modelCard a report:ModelCardReport ;
-               report:describesModelSpecification ?model .
+               report:describesModelResource ?model .
   }
   OPTIONAL {
     ?report report:documentsAgentSystem ?agent ;

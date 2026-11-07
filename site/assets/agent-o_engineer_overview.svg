@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400mm" height="320mm" viewBox="0 0 1600 1280">
+<title>AGENT-O: core relationships for engineering review</title>
+<desc>Selected relationships verified against the six current AGENT-O ontology modules. Solid arrows are object properties; dashed hollow arrows are subclass relationships.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#45657B"/></marker>
+<marker id="isa" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M 1 1 L 11 6 L 1 11 z" fill="white" stroke="#45657B" stroke-width="1.2"/></marker></defs>
+<rect width="1600" height="1280" fill="white"/>
+<text x="40" y="60" font-family="Liberation Sans,Arial,sans-serif" font-size="42" font-weight="bold" text-anchor="start" fill="#17324D">AGENT-O</text>
+<text x="280" y="60" font-family="Liberation Sans,Arial,sans-serif" font-size="28" font-weight="normal" text-anchor="start" fill="#17324D">Core relationships for engineering review</text>
+<text x="42" y="93" font-family="Liberation Sans,Arial,sans-serif" font-size="18" font-weight="normal" text-anchor="start" fill="#17324D">A modular ontology for representing, evaluating and governing health-oriented agent systems</text>
+<path d="M 44 119 L 108 119" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<text x="120" y="124" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Object property: a link between instances</text>
+<path d="M 530 119 L 594 119" stroke="#45657B" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#isa)"/>
+<text x="606" y="124" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">is-a: subclass to parent class</text>
+<text x="1558" y="124" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="end" fill="#17324D">Selected schema view</text>
+<g id="panel-architecture"><rect x="40" y="150" width="1520" height="520" rx="12" fill="white" stroke="#C6D6E2" stroke-width="1.5"/>
+<text x="64" y="182" font-family="Liberation Sans,Arial,sans-serif" font-size="21" font-weight="bold" text-anchor="start" fill="#17324D">A  System, model and document identities</text>
+<text x="64" y="207" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Namespaces: core + doc  |  Composition, functional roles, reusable model resources and runtime access</text>
+</g>
+<g id="node-system"><rect x="85" y="335" width="220" height="76" rx="7" fill="#DDEDF8" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="97" y="352" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="195.0" y="374" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">AgentSystem</text>
+<text x="195.0" y="395" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Configured software system</text>
+</g>
+<g id="node-agent"><rect x="420" y="215" width="220" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="432" y="232" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="530.0" y="254" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">Agent</text>
+<text x="530.0" y="275" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Responsible acting participant</text>
+</g>
+<g id="node-component"><rect x="420" y="335" width="220" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="432" y="352" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="530.0" y="374" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">ModelComponent</text>
+<text x="530.0" y="395" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">System-relative binding</text>
+</g>
+<g id="node-workflow"><rect x="420" y="455" width="220" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="432" y="472" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="530.0" y="494" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">Workflow</text>
+<text x="530.0" y="515" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Configured workflow</text>
+</g>
+<g id="node-run"><rect x="420" y="565" width="220" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="432" y="582" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="530.0" y="604" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">ExecutionRun</text>
+<text x="530.0" y="625" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">An execution occurrence</text>
+</g>
+<g id="node-role"><rect x="800" y="215" width="245" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="812" y="232" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="922.5" y="254" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">ModelComponentRole</text>
+<text x="922.5" y="275" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">E.g., planning or verification</text>
+</g>
+<g id="node-resource"><rect x="800" y="335" width="245" height="76" rx="7" fill="#DDEDF8" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="812" y="352" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="922.5" y="374" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">AIModelResource</text>
+<text x="922.5" y="395" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Versioned computational model</text>
+</g>
+<g id="node-deployment"><rect x="800" y="565" width="245" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="812" y="582" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="922.5" y="604" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">ModelDeployment</text>
+<text x="922.5" y="625" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Runtime access / hosting</text>
+</g>
+<g id="node-specification"><rect x="1270" y="335" width="245" height="76" rx="7" fill="#E3F2EF" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="1282" y="352" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="1392.5" y="374" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">AIModelSpecification</text>
+<text x="1392.5" y="395" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Document specifying a model</text>
+</g>
+<g id="node-document"><rect x="1270" y="455" width="245" height="76" rx="7" fill="#E3F2EF" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="1282" y="472" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">doc</text>
+<text x="1392.5" y="494" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">Document</text>
+<text x="1392.5" y="515" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Information document</text>
+</g>
+<g id="node-model"><rect x="1080" y="455" width="160" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="1092" y="472" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="1160.0" y="494" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">Model</text>
+<text x="1160.0" y="515" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Model category</text>
+</g>
+<g id="edge-system-core-hasMemberAgent-agent"><path d="M 195 335 L 195 253 L 420 253" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="243.75" y="229.00" width="118.50" height="19" fill="white"/>
+<text x="303" y="243" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasMemberAgent</text>
+</g>
+<g id="edge-system-core-hasComponent-component"><path d="M 305 373 L 420 373" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="310.53" y="349.00" width="102.95" height="19" fill="white"/>
+<text x="362" y="363" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasComponent</text>
+</g>
+<g id="edge-system-core-hasWorkflow-workflow"><path d="M 195 411 L 195 493 L 420 493" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="265.06" y="469.00" width="87.88" height="19" fill="white"/>
+<text x="309" y="483" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasWorkflow</text>
+</g>
+<g id="edge-system-core-hasSystemExecution-run"><path d="M 110 411 L 110 603 L 420 603" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="205.63" y="579.00" width="138.73" height="19" fill="white"/>
+<text x="275" y="593" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasSystemExecution</text>
+</g>
+<g id="edge-component-core-hasModelComponentRole-role"><path d="M 530 335 L 530 310 L 922 310 L 922 291" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="647.07" y="312.00" width="169.86" height="19" fill="white"/>
+<text x="732" y="326" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasModelComponentRole</text>
+</g>
+<g id="edge-component-core-usesModelResource-resource"><path d="M 640 373 L 800 373" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="652.19" y="349.00" width="135.61" height="19" fill="white"/>
+<text x="720" y="363" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">usesModelResource</text>
+</g>
+<g id="edge-run-core-usesModelDeployment-deployment"><path d="M 640 603 L 800 603" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="644.80" y="579.00" width="150.40" height="19" fill="white"/>
+<text x="720" y="593" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">usesModelDeployment</text>
+</g>
+<g id="edge-deployment-core-deploysModelResource-resource"><path d="M 922 565 L 922 411" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="738.85" y="486.00" width="154.29" height="19" fill="white"/>
+<text x="816" y="500" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">deploysModelResource</text>
+</g>
+<g id="edge-specification-core-specifiesModel-resource"><path d="M 1270 373 L 1045 373" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="1106.70" y="349.00" width="100.59" height="19" fill="white"/>
+<text x="1157" y="363" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">specifiesModel</text>
+</g>
+<g id="edge-specification-rdfs-subClassOf-document"><path d="M 1392 411 L 1392 455" fill="none" stroke="#45657B" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#isa)"/>
+<rect x="1407.72" y="424.00" width="30.56" height="19" fill="white"/>
+<text x="1423" y="438" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">is-a</text>
+</g>
+<g id="edge-resource-rdfs-subClassOf-model"><path d="M 1045 393 L 1160 393 L 1160 455" fill="none" stroke="#45657B" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#isa)"/>
+<rect x="1176.72" y="416.00" width="30.56" height="19" fill="white"/>
+<text x="1192" y="430" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">is-a</text>
+</g>
+<text x="705" y="657" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="start" fill="#17324D">System membership does not imply agency. A configured system need not have past execution runs.</text>
+<g id="panel-evaluation"><rect x="40" y="695" width="490" height="340" rx="12" fill="white" stroke="#C6D6E2" stroke-width="1.5"/>
+<text x="64" y="727" font-family="Liberation Sans,Arial,sans-serif" font-size="21" font-weight="bold" text-anchor="start" fill="#17324D">B  Evaluation</text>
+<text x="64" y="752" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Namespace: eval  |  Study, target and result</text>
+</g>
+<g id="node-study"><rect x="65" y="790" width="205" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="77" y="807" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">eval</text>
+<text x="167.5" y="830" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">EvaluationStudy</text>
+</g>
+<g id="node-target"><rect x="350" y="790" width="155" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="362" y="807" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">eval</text>
+<text x="427.5" y="830" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">EvaluableEntity</text>
+</g>
+<g id="node-result"><rect x="65" y="925" width="205" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="77" y="942" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">eval</text>
+<text x="167.5" y="965" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">MetricResult</text>
+</g>
+<g id="node-metric"><rect x="350" y="925" width="155" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="362" y="942" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">eval</text>
+<text x="427.5" y="965" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">Metric</text>
+</g>
+<g id="edge-study-eval-evaluates-target"><path d="M 270 821 L 350 821" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="276.04" y="796.00" width="67.93" height="19" fill="white"/>
+<text x="310" y="810" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">evaluates</text>
+</g>
+<g id="edge-study-eval-producesResult-result"><path d="M 167 852 L 167 925" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="177.37" y="876.00" width="105.27" height="19" fill="white"/>
+<text x="230" y="890" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">producesResult</text>
+</g>
+<g id="edge-result-eval-forMetric-metric"><path d="M 270 956 L 350 956" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="278.77" y="931.00" width="62.45" height="19" fill="white"/>
+<text x="310" y="945" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">forMetric</text>
+</g>
+<text x="65" y="1018" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Targets can include systems, models and workflows.</text>
+<g id="panel-governance"><rect x="555" y="695" width="490" height="340" rx="12" fill="white" stroke="#C6D6E2" stroke-width="1.5"/>
+<text x="579" y="727" font-family="Liberation Sans,Arial,sans-serif" font-size="21" font-weight="bold" text-anchor="start" fill="#17324D">C  Governance controls</text>
+<text x="579" y="752" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Namespace: gov  |  Prospective controls</text>
+</g>
+<g id="node-policy"><rect x="700" y="790" width="200" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="712" y="807" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">gov</text>
+<text x="800.0" y="830" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">Policy</text>
+</g>
+<g id="node-escalation"><rect x="580" y="925" width="200" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="592" y="942" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">gov</text>
+<text x="680.0" y="965" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">EscalationPlan</text>
+</g>
+<g id="node-override"><rect x="820" y="925" width="200" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="832" y="942" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">gov</text>
+<text x="920.0" y="965" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">OverrideCapability</text>
+</g>
+<g id="edge-policy-gov-hasEscalationPlan-escalation"><path d="M 750 852 L 750 900 L 680 900 L 680 925" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="598.41" y="870.00" width="123.18" height="19" fill="white"/>
+<text x="660" y="884" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasEscalationPlan</text>
+</g>
+<g id="edge-policy-gov-hasOverrideCapability-override"><path d="M 850 852 L 850 900 L 920 900 L 920 925" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="863.14" y="870.00" width="145.72" height="19" fill="white"/>
+<text x="936" y="884" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasOverrideCapability</text>
+</g>
+<text x="580" y="1018" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Plans and capabilities are distinct from actual events.</text>
+<g id="panel-reporting"><rect x="1070" y="695" width="490" height="340" rx="12" fill="white" stroke="#C6D6E2" stroke-width="1.5"/>
+<text x="1094" y="727" font-family="Liberation Sans,Arial,sans-serif" font-size="21" font-weight="bold" text-anchor="start" fill="#17324D">D  Reporting-completeness assessment</text>
+<text x="1094" y="752" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Namespace: report  |  Assessment of a publication</text>
+</g>
+<g id="node-assessment_activity"><rect x="1140" y="790" width="350" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="1152" y="807" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">report</text>
+<text x="1315.0" y="829" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">ReportingAssessmentActivity</text>
+<text x="1315.0" y="850" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">Activity using a reporting profile</text>
+</g>
+<g id="node-report"><rect x="1095" y="925" width="200" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="1107" y="942" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">report</text>
+<text x="1195.0" y="965" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">AssessableReport</text>
+</g>
+<g id="node-assessment"><rect x="1315" y="925" width="220" height="76" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="1327" y="942" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">report</text>
+<text x="1425.0" y="960" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">ReportingCompleteness</text>
+<text x="1425.0" y="980" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">Assessment</text>
+</g>
+<g id="edge-assessment_activity-report-usedReport-report"><path d="M 1220 866 L 1220 905 L 1195 905 L 1195 925" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="1139.81" y="877.00" width="80.38" height="19" fill="white"/>
+<text x="1180" y="891" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">usedReport</text>
+</g>
+<g id="edge-assessment_activity-report-generatedAssessment-assessment"><path d="M 1360 866 L 1360 905 L 1425 905 L 1425 925" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="1386.35" y="877.00" width="147.30" height="19" fill="white"/>
+<text x="1460" y="891" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">generatedAssessment</text>
+</g>
+<text x="1095" y="1018" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Records publication-level reporting coverage.</text>
+<g id="panel-health"><rect x="40" y="1060" width="1520" height="120" rx="12" fill="white" stroke="#C6D6E2" stroke-width="1.5"/>
+<text x="64" y="1092" font-family="Liberation Sans,Arial,sans-serif" font-size="21" font-weight="bold" text-anchor="start" fill="#17324D">E  Clinical context</text>
+<text x="64" y="1117" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Namespace: health</text>
+</g>
+<g id="node-health_system"><rect x="370" y="1095" width="230" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="382" y="1112" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">core</text>
+<text x="485.0" y="1135" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">AgentSystem</text>
+</g>
+<g id="node-use_case"><rect x="870" y="1095" width="230" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="882" y="1112" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">health</text>
+<text x="985.0" y="1135" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">ClinicalUseCase</text>
+</g>
+<g id="node-population"><rect x="1300" y="1095" width="230" height="62" rx="7" fill="#F3F7FA" stroke="#94AFC1" stroke-width="1.3"/>
+<text x="1312" y="1112" font-family="Liberation Sans,Arial,sans-serif" font-size="13" font-weight="normal" text-anchor="start" fill="#17324D">health</text>
+<text x="1415.0" y="1135" font-family="Liberation Sans,Arial,sans-serif" font-size="17" font-weight="normal" text-anchor="middle" fill="#17324D">PatientPopulation</text>
+</g>
+<g id="edge-health_system-health-hasIntendedClinicalUse-use_case"><path d="M 600 1126 L 870 1126" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="657.46" y="1101.00" width="155.07" height="19" fill="white"/>
+<text x="735" y="1115" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasIntendedClinicalUse</text>
+</g>
+<g id="edge-use_case-health-hasTargetPopulation-population"><path d="M 1100 1126 L 1300 1126" fill="none" stroke="#45657B" stroke-width="1.8" marker-end="url(#arrow)"/>
+<rect x="1132.18" y="1101.00" width="135.64" height="19" fill="white"/>
+<text x="1200" y="1115" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="middle" fill="#17324D">hasTargetPopulation</text>
+</g>
+<text x="42" y="1210" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Reading guide: boxes denote classes. Solid arrows show selected links between instances; they do not impose universal existence or cardinality.</text>
+<text x="42" y="1234" font-family="Liberation Sans,Arial,sans-serif" font-size="15" font-weight="normal" text-anchor="start" fill="#17324D">Repeated boxes denote the same class. Panel grouping is explanatory. This overview omits detailed classes, constraints and external alignments.</text>
+<text x="42" y="1260" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="start" fill="#17324D">Prepared 2026-11-05 from the six current authoritative modules; includes the 2026-10-29 semantic revisions.</text>
+<text x="1558" y="1260" font-family="Liberation Sans,Arial,sans-serif" font-size="14" font-weight="normal" text-anchor="end" fill="#17324D">Expert-review draft</text>
+</svg>

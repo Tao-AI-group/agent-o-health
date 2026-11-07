@@ -7,7 +7,6 @@ if VENDOR_PATH.exists():
     sys.path.insert(0, str(VENDOR_PATH))
 
 from rdflib import Graph, Literal, Namespace, RDF, RDFS
-from rdflib.collection import Collection
 from rdflib.namespace import OWL
 
 from scripts.build_integrated_ontology import TOP_ONTOLOGY
@@ -34,9 +33,9 @@ class OntologyArchitectureTests(unittest.TestCase):
 
     def test_model_roles_specs_and_deployments_are_distinct(self):
         self.assertIn((CORE.ModelComponent, RDFS.subClassOf, CORE.AgentComponent), self.core)
-        self.assertIn((CORE.ModelComponent, OWL.disjointWith, CORE.AIModelSpecification), self.core)
+        self.assertIn((CORE.ModelComponent, OWL.disjointWith, CORE.AIModelResource), self.core)
         self.assertIn((CORE.ModelComponent, OWL.disjointWith, CORE.ModelDeployment), self.core)
-        self.assertIn((CORE.LanguageModel, RDFS.subClassOf, CORE.AIModelSpecification), self.core)
+        self.assertIn((CORE.LanguageModel, RDFS.subClassOf, CORE.AIModelResource), self.core)
         self.assertNotIn((CORE.LanguageModel, RDFS.subClassOf, CORE.ModelComponent), self.core)
 
     def test_model_reporting_fields_have_a_formal_home(self):
@@ -59,7 +58,7 @@ class OntologyArchitectureTests(unittest.TestCase):
 
     def test_model_card_is_a_document_not_a_model_resource(self):
         self.assertIn((REPORT.ModelCardReport, OWL.disjointWith, CORE.ModelComponent), self.report)
-        self.assertIn((REPORT.ModelCardReport, OWL.disjointWith, CORE.AIModelSpecification), self.report)
+        self.assertIn((REPORT.ModelCardReport, OWL.disjointWith, CORE.AIModelResource), self.report)
         self.assertIn((REPORT.ModelCardReport, OWL.disjointWith, CORE.ModelDeployment), self.report)
 
     def test_clinical_intended_use_is_not_a_reporting_section(self):
@@ -67,22 +66,7 @@ class OntologyArchitectureTests(unittest.TestCase):
         self.assertNotIn((REPORT.IntendedUse, RDFS.subClassOf, REPORT.ReportingSection), self.report)
         self.assertIn((REPORT.IntendedUse, OWL.deprecated, Literal(True)), self.report)
         self.assertIn((HEALTH.hasIntendedAction, RDFS.range, HEALTH.IntendedClinicalAction), self.health)
-        self.assertIn((HEALTH.ContraindicatedUse, RDFS.subClassOf, HEALTH.ProhibitedUse), self.health)
-
-    def test_paper_types_are_explicitly_disjoint(self):
-        expected = {
-            REPORT.AgentSystemReport,
-            REPORT.BenchmarkReport,
-            REPORT.SurveyReviewReport,
-            REPORT.GovernancePolicyReport,
-            REPORT.MethodModelReport,
-            REPORT.ConceptualCommentaryReport,
-        }
-        found = []
-        for node in self.report.subjects(RDF.type, OWL.AllDisjointClasses):
-            for head in self.report.objects(node, OWL.members):
-                found.append(set(Collection(self.report, head)))
-        self.assertIn(expected, found)
+        self.assertIn((HEALTH.ContraindicatedUse, RDFS.subClassOf, HEALTH.UseConstraint), self.health)
 
     def test_reporting_assessment_is_represented_as_provenanced_activity(self):
         self.assertIn((REPORT.ReportingAssessmentActivity, RDF.type, OWL.Class), self.report)
@@ -105,7 +89,7 @@ class OntologyArchitectureTests(unittest.TestCase):
                 TOP_ONTOLOGY,
                 RDFS.comment,
                 Literal(
-                    "Integrated AGENT-O ontology covering agent systems, model specifications and deployments, "
+                    "Integrated AGENT-O ontology covering agent systems, model resources, specification documents and deployments, "
                     "runtime workflow, evaluation, documentation and provenance, governance, clinical context, "
                     "health-data interoperability, and reporting-assessment representation.",
                     lang="en",

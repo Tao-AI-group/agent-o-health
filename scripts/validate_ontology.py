@@ -94,6 +94,18 @@ def missing_property_axioms(graph: Graph, rdf_type: URIRef, predicate: URIRef) -
     return values
 
 
+def undefined_local_predicates(graph: Graph) -> list[str]:
+    declared = {
+        term
+        for kind in [OWL.ObjectProperty, OWL.DatatypeProperty, OWL.AnnotationProperty, RDF.Property]
+        for term in graph.subjects(RDF.type, kind)
+    }
+    return [qname(graph, term) for term in sorted(
+        {predicate for predicate in graph.predicates() if is_agento(predicate)} - declared,
+        key=str,
+    )]
+
+
 def active_old_uri_hits(paths: list[Path]) -> list[str]:
     hits = []
     for path in paths:
@@ -125,7 +137,7 @@ def ontology_metrics(graph: Graph) -> dict:
         "annotation_properties": OWL.AnnotationProperty,
     }
     declared = {
-        name: sorted(set(graph.subjects(RDF.type, rdf_type)), key=str)
+        name: sorted({term for term in graph.subjects(RDF.type, rdf_type) if isinstance(term, URIRef)}, key=str)
         for name, rdf_type in entity_types.items()
     }
     active = {
@@ -156,6 +168,11 @@ def ontology_metrics(graph: Graph) -> dict:
     schema_statements += sum(1 for _, _, obj in graph.triples((None, RDF.type, None)) if obj in characteristic_types)
     return {
         "rdf_triples": len(graph),
+        "anonymous_class_expressions": sum(
+            not isinstance(term, URIRef)
+            for term in set(graph.subjects(RDF.type, OWL.Class)) | set(graph.subjects(RDF.type, OWL.Restriction))
+        ),
+        "entity_count_definition": "Entity counts include named IRIs only; anonymous class expressions are reported separately.",
         "declared_entities": {name: len(terms) for name, terms in declared.items()},
         "active_entities": {name: len(terms) for name, terms in active.items()},
         "deprecated_entities": {
@@ -206,11 +223,17 @@ def main() -> None:
         "missing_class_labels": missing_labels(defined_graph, OWL.Class),
         "missing_object_property_labels": missing_labels(defined_graph, OWL.ObjectProperty),
         "missing_datatype_property_labels": missing_labels(defined_graph, OWL.DatatypeProperty),
+        "missing_class_definitions": missing_property_axioms(defined_graph, OWL.Class, RDFS.comment),
+        "missing_property_definitions": sorted({
+            term for kind in [OWL.ObjectProperty, OWL.DatatypeProperty, OWL.AnnotationProperty]
+            for term in missing_property_axioms(defined_graph, kind, RDFS.comment)
+        }),
         "object_properties_missing_domain": missing_property_axioms(defined_graph, OWL.ObjectProperty, RDFS.domain),
         "object_properties_missing_range": missing_property_axioms(defined_graph, OWL.ObjectProperty, RDFS.range),
         "datatype_properties_missing_domain": missing_property_axioms(defined_graph, OWL.DatatypeProperty, RDFS.domain),
         "datatype_properties_missing_range": missing_property_axioms(defined_graph, OWL.DatatypeProperty, RDFS.range),
         "undefined_alignment_terms": undefined_alignment_terms(active_graph, alignment_paths, defined_graph),
+        "undefined_local_predicates": undefined_local_predicates(active_graph),
         "integrated_matches_module_union": integrated_matches_modules(integrated_graph, module_paths),
         "integrated_metrics": ontology_metrics(integrated_graph),
         "module_metrics": {
@@ -225,11 +248,14 @@ def main() -> None:
             results["missing_class_labels"],
             results["missing_object_property_labels"],
             results["missing_datatype_property_labels"],
+            results["missing_class_definitions"],
+            results["missing_property_definitions"],
             results["object_properties_missing_domain"],
             results["object_properties_missing_range"],
             results["datatype_properties_missing_domain"],
             results["datatype_properties_missing_range"],
             results["undefined_alignment_terms"],
+            results["undefined_local_predicates"],
             not results["integrated_matches_module_union"],
         ]
     )
@@ -247,12 +273,15 @@ def main() -> None:
         f"- Classes missing labels: `{len(results['missing_class_labels'])}`",
         f"- Object properties missing labels: `{len(results['missing_object_property_labels'])}`",
         f"- Datatype properties missing labels: `{len(results['missing_datatype_property_labels'])}`",
+        f"- Active named classes/properties missing definitions: `{len(results['missing_class_definitions'])}/{len(results['missing_property_definitions'])}`",
         f"- Object properties missing domain/range: `{len(results['object_properties_missing_domain'])}/{len(results['object_properties_missing_range'])}`",
         f"- Datatype properties missing domain/range: `{len(results['datatype_properties_missing_domain'])}/{len(results['datatype_properties_missing_range'])}`",
         f"- Undefined AGENT-O terms in alignments: `{len(results['undefined_alignment_terms'])}`",
+        f"- Undeclared AGENT-O predicates in active graphs: `{len(results['undefined_local_predicates'])}`",
         f"- Integrated ontology matches module union: `{results['integrated_matches_module_union']}`",
         f"- Integrated RDF triples: `{results['integrated_metrics']['rdf_triples']}`",
-        f"- Active classes: `{results['integrated_metrics']['active_entities']['classes']}`",
+        f"- Active named classes: `{results['integrated_metrics']['active_entities']['classes']}`",
+        f"- Anonymous class expressions: `{results['integrated_metrics']['anonymous_class_expressions']}`",
         f"- Active object properties: `{results['integrated_metrics']['active_entities']['object_properties']}`",
         f"- Active datatype properties: `{results['integrated_metrics']['active_entities']['datatype_properties']}`",
         f"- RDF-level schema-axiom statements: `{results['integrated_metrics']['schema_axiom_statements']}`",

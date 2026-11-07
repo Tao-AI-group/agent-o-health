@@ -40,7 +40,7 @@ def build_graph() -> Graph:
             TOP_ONTOLOGY,
             RDFS.comment,
             Literal(
-                "Integrated AGENT-O ontology covering agent systems, model specifications and deployments, "
+                "Integrated AGENT-O ontology covering agent systems, model resources, specification documents and deployments, "
                 "runtime workflow, evaluation, documentation and provenance, governance, clinical context, "
                 "health-data interoperability, and reporting-assessment representation.",
                 lang="en",

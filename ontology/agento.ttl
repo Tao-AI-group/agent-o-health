@@ -11,76 +11,86 @@
 
 <https://w3id.org/agent-o> a owl:Ontology ;
     rdfs:label "AGENT-O Ontology"@en ;
-    rdfs:comment "Integrated AGENT-O ontology covering agent systems, model specifications and deployments, runtime workflow, evaluation, documentation and provenance, governance, clinical context, health-data interoperability, and reporting-assessment representation."@en .
+    rdfs:comment "Integrated AGENT-O ontology covering agent systems, model resources, specification documents and deployments, runtime workflow, evaluation, documentation and provenance, governance, clinical context, health-data interoperability, and reporting-assessment representation."@en .
 
 <https://w3id.org/agent-o/core> a owl:Ontology ;
     rdfs:label "AGENT-O Agent System, Model Components, and Runtime Ontology"@en ;
-    rdfs:comment "Core layer for agent systems, component composition, versioned AI model specifications, model deployments, execution, tools, memory, planning, reasoning, resources, and environments."@en .
+    rdfs:comment "Core layer for agent systems, component composition, versioned AI model resources, model deployments, execution, tools, memory, planning, reasoning, resources, and environments."@en .
 
 core:Approval a owl:Class ;
     rdfs:label "Approval"@en ;
+    rdfs:comment "A review decision permitting a proposed action; not the later execution of that action."@en ;
     rdfs:subClassOf core:ReviewOutcome .
 
 core:Communication a owl:Class ;
     rdfs:label "Communication"@en ;
+    rdfs:comment "An interaction occurrence conveying information between participants."@en ;
     rdfs:subClassOf core:AgentInteraction .
 
 core:Coordination a owl:Class ;
     rdfs:label "Coordination"@en ;
+    rdfs:comment "An interaction occurrence aligning the work of multiple participants."@en ;
     rdfs:subClassOf core:AgentInteraction .
 
 core:CriticModelRole a owl:Class ;
     rdfs:label "CriticModelRole"@en ;
+    rdfs:comment "A model-component role providing criticism within a system workflow, distinct from the component or model resource bearing the role."@en ;
     rdfs:subClassOf core:ModelComponentRole .
 
 core:Delegation a owl:Class ;
     rdfs:label "Delegation"@en ;
+    rdfs:comment "An interaction occurrence assigning work or authority to another acting participant."@en ;
     rdfs:subClassOf core:AgentInteraction .
 
 core:EmbeddingModel a owl:Class ;
     rdfs:label "EmbeddingModel"@en ;
-    rdfs:comment "An AI model specification for generating embedding representations."@en ;
-    rdfs:subClassOf core:AIModelSpecification .
+    rdfs:comment "An AI model resource for generating embedding representations."@en ;
+    rdfs:subClassOf core:AIModelResource .
 
 core:Environment a owl:Class ;
     rdfs:label "Environment"@en ;
+    rdfs:comment "An alternative name for ExecutionEnvironment with the same instance scope."@en ;
     owl:equivalentClass core:ExecutionEnvironment .
 
 core:FineTunedModel a owl:Class ;
     rdfs:label "FineTunedModel"@en ;
-    rdfs:comment "An AI model specification derived by fine-tuning a base model specification."@en ;
-    rdfs:subClassOf core:AIModelSpecification .
+    rdfs:comment "An AI model resource derived by fine-tuning a base model resource."@en ;
+    rdfs:subClassOf core:AIModelResource .
 
 core:FoundationModel a owl:Class ;
     rdfs:label "FoundationModel"@en ;
-    rdfs:comment "An AI model specification for a broadly pretrained foundation model."@en ;
-    rdfs:subClassOf core:AIModelSpecification .
+    rdfs:comment "An AI model resource for a broadly pretrained foundation model."@en ;
+    rdfs:subClassOf core:AIModelResource .
 
 core:InvocationFailure a owl:Class ;
     rdfs:label "InvocationFailure"@en ;
+    rdfs:comment "An invocation-status assignment indicating failure."@en ;
     rdfs:subClassOf core:InvocationStatus .
 
 core:InvocationSuccess a owl:Class ;
     rdfs:label "InvocationSuccess"@en ;
+    rdfs:comment "An invocation-status assignment indicating success."@en ;
     rdfs:subClassOf core:InvocationStatus .
 
 core:LanguageModel a owl:Class ;
     rdfs:label "LanguageModel"@en ;
-    rdfs:comment "An AI model specification whose supported interfaces include language input or output."@en ;
-    rdfs:subClassOf core:AIModelSpecification .
+    rdfs:comment "An AI model resource whose supported interfaces include language input or output."@en ;
+    rdfs:subClassOf core:AIModelResource .
 
 core:Memory a owl:Class ;
     rdfs:label "Memory"@en ;
+    rdfs:comment "An alternative name for MemoryModule with the same instance scope."@en ;
     owl:equivalentClass core:MemoryModule .
 
 core:Modification a owl:Class ;
     rdfs:label "Modification"@en ;
+    rdfs:comment "A review decision requiring a change to a proposed action, not the change activity itself."@en ;
     rdfs:subClassOf core:ReviewOutcome .
 
 core:MultimodalModel a owl:Class ;
     rdfs:label "MultimodalModel"@en ;
-    rdfs:comment "An AI model specification supporting more than one input or output modality."@en ;
-    rdfs:subClassOf core:AIModelSpecification .
+    rdfs:comment "An AI model resource supporting more than one input or output modality."@en ;
+    rdfs:subClassOf core:AIModelResource .
 
 core:OrganizationAgent a owl:Class ;
     rdfs:label "OrganizationAgent"@en ;
@@ -89,90 +99,117 @@ core:OrganizationAgent a owl:Class ;
 
 core:PlannerModelRole a owl:Class ;
     rdfs:label "PlannerModelRole"@en ;
+    rdfs:comment "A model-component role providing planning within a system workflow, distinct from the component or model resource bearing the role."@en ;
     rdfs:subClassOf core:ModelComponentRole .
 
 core:ReasonerModelRole a owl:Class ;
     rdfs:label "ReasonerModelRole"@en ;
+    rdfs:comment "A model-component role providing reasoning within a system workflow, distinct from the component or model resource bearing the role."@en ;
     rdfs:subClassOf core:ModelComponentRole .
 
 core:Rejection a owl:Class ;
     rdfs:label "Rejection"@en ;
+    rdfs:comment "A review decision refusing permission for a proposed action."@en ;
     rdfs:subClassOf core:ReviewOutcome .
 
 core:RetrieverModelRole a owl:Class ;
     rdfs:label "RetrieverModelRole"@en ;
+    rdfs:comment "A model-component role providing retrieval within a system workflow, distinct from the component or model resource bearing the role."@en ;
     rdfs:subClassOf core:ModelComponentRole .
 
 core:RouterModelRole a owl:Class ;
     rdfs:label "RouterModelRole"@en ;
+    rdfs:comment "A model-component role providing routing within a system workflow, distinct from the component or model resource bearing the role."@en ;
     rdfs:subClassOf core:ModelComponentRole .
 
 core:Script a owl:Class ;
     rdfs:label "Script"@en ;
+    rdfs:comment "A reusable software program implementing a skill, distinct from one execution of that program."@en ;
     rdfs:subClassOf core:ExecutionUnit .
 
 core:State a owl:Class ;
     rdfs:label "State"@en ;
+    rdfs:comment "A contextual description of a relevant state at a point or stage of execution."@en ;
     rdfs:subClassOf core:Context .
 
 core:StepCompleted a owl:Class ;
     rdfs:label "StepCompleted"@en ;
+    rdfs:comment "A workflow-step status assignment indicating completion."@en ;
     rdfs:subClassOf core:ExecutionStatus .
 
 core:StepFailed a owl:Class ;
     rdfs:label "StepFailed"@en ;
+    rdfs:comment "A workflow-step status assignment indicating failure."@en ;
     rdfs:subClassOf core:ExecutionStatus .
 
 core:StepPending a owl:Class ;
     rdfs:label "StepPending"@en ;
+    rdfs:comment "A workflow-step status assignment indicating execution has not started."@en ;
     rdfs:subClassOf core:ExecutionStatus .
 
 core:StepRunning a owl:Class ;
     rdfs:label "StepRunning"@en ;
+    rdfs:comment "A workflow-step status assignment indicating execution is in progress."@en ;
     rdfs:subClassOf core:ExecutionStatus .
 
 core:VerifierModelRole a owl:Class ;
     rdfs:label "VerifierModelRole"@en ;
+    rdfs:comment "A model-component role providing verification within a system workflow, distinct from the component or model resource bearing the role."@en ;
     rdfs:subClassOf core:ModelComponentRole .
 
 core:VisionModel a owl:Class ;
     rdfs:label "VisionModel"@en ;
-    rdfs:comment "An AI model specification whose supported interfaces include image or video data."@en ;
-    rdfs:subClassOf core:AIModelSpecification .
+    rdfs:comment "An AI model resource whose supported interfaces include image or video data."@en ;
+    rdfs:subClassOf core:AIModelResource .
 
 core:assignedToAgent a owl:ObjectProperty ;
     rdfs:label "assignedToAgent"@en ;
+    rdfs:comment "Identifies the actor or system assigned to perform a workflow-step occurrence; assignment does not establish completion."@en ;
     rdfs:domain core:WorkflowStep ;
-    rdfs:range core:Agent .
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] .
 
 core:causedByInvocation a owl:ObjectProperty ;
     rdfs:label "causedByInvocation"@en ;
+    rdfs:comment "Links a failure occurrence to the tool invocation identified as its cause."@en ;
     rdfs:domain core:FailureEvent ;
     rdfs:range core:ToolInvocation .
 
 core:communicatesWith a owl:ObjectProperty ;
     rdfs:label "communicatesWith"@en ;
-    rdfs:domain core:Agent ;
-    rdfs:range core:Agent .
+    rdfs:comment "Records a communication relationship between acting participants or configured systems."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] .
 
 core:consumesArtifact a owl:ObjectProperty ;
     rdfs:label "consumesArtifact"@en ;
+    rdfs:comment "Identifies an information artifact consumed by a workflow-step occurrence."@en ;
     rdfs:domain core:WorkflowStep ;
     rdfs:range core:Artifact .
 
 core:coordinatesWith a owl:ObjectProperty ;
     rdfs:label "coordinatesWith"@en ;
-    rdfs:domain core:Agent ;
-    rdfs:range core:Agent .
+    rdfs:comment "Records a coordination relationship between acting participants or configured systems."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] .
 
 core:delegatesTo a owl:ObjectProperty ;
     rdfs:label "delegatesTo"@en ;
-    rdfs:domain core:Agent ;
-    rdfs:range core:Agent .
+    rdfs:comment "Identifies the actor or system to which a participant or system delegates work or authority."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] .
 
 core:dependsOn a owl:ObjectProperty ;
     rdfs:label "dependsOn"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Identifies contextual conditions on which the reported operation of an actor or system depends."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:Context .
 
 core:deploymentAccessedAt a owl:DatatypeProperty ;
@@ -183,42 +220,49 @@ core:deploymentAccessedAt a owl:DatatypeProperty ;
 
 core:deploymentEndpoint a owl:DatatypeProperty ;
     rdfs:label "deploymentEndpoint"@en ;
+    rdfs:comment "Records the access URI of a model deployment endpoint."@en ;
     rdfs:domain core:ModelDeployment ;
     rdfs:range xsd:anyURI .
 
 core:deploymentRegion a owl:DatatypeProperty ;
     rdfs:label "deploymentRegion"@en ;
+    rdfs:comment "Records the hosting or service region of a model deployment."@en ;
     rdfs:domain core:ModelDeployment ;
     rdfs:range xsd:string .
 
 core:deploymentVersion a owl:DatatypeProperty ;
     rdfs:label "deploymentVersion"@en ;
+    rdfs:comment "Records the version of a deployment configuration or service instance, separate from the computational model version."@en ;
     rdfs:domain core:ModelDeployment ;
     rdfs:range xsd:string .
 
-core:deploysModelSpecification a owl:ObjectProperty ;
-    rdfs:label "deploysModelSpecification"@en ;
-    rdfs:comment "Links a concrete model deployment to the AI model specification it serves or loads."@en ;
+core:deploysModelResource a owl:ObjectProperty ;
+    rdfs:label "deploysModelResource"@en ;
+    rdfs:comment "Links a runtime deployment to the model resource that it serves or loads."@en ;
     rdfs:domain core:ModelDeployment ;
-    rdfs:range core:AIModelSpecification .
+    rdfs:range core:AIModelResource .
 
 core:endedAt a owl:DatatypeProperty ;
     rdfs:label "endedAt"@en ;
+    rdfs:comment "Records the time at which an execution run ended."@en ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range xsd:dateTime .
 
 core:errorMessage a owl:DatatypeProperty ;
     rdfs:label "errorMessage"@en ;
+    rdfs:comment "Records the textual message in a runtime-error description."@en ;
     rdfs:domain core:RuntimeError ;
     rdfs:range xsd:string .
 
 core:executedInRun a owl:ObjectProperty ;
     rdfs:label "executedInRun"@en ;
+    rdfs:comment "Associates one prospective or actual workflow-step occurrence with its execution run."@en ;
     rdfs:domain core:WorkflowStep ;
     rdfs:range core:ExecutionRun .
 
 core:failsWith a owl:ObjectProperty ;
     rdfs:label "failsWith"@en ;
+    rdfs:comment "Links an execution run to a failure occurrence encountered during that run."@en ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range core:FailureEvent .
 
@@ -228,26 +272,25 @@ core:generatedModelOutput a owl:ObjectProperty ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range core:GeneratedModelOutput .
 
-core:generates a owl:ObjectProperty ;
-    rdfs:label "generates"@en ;
-    rdfs:domain core:Agent ;
-    rdfs:range core:ProposedAction ;
-    owl:equivalentProperty core:producesProposedAction .
-
 core:generatesObservation a owl:ObjectProperty ;
     rdfs:label "generatesObservation"@en ;
-    rdfs:domain core:Agent ;
-    rdfs:range core:Observation .
+    rdfs:comment "Links an actor or system to an information output recording an observation or computed finding."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
+    rdfs:range core:Observation ;
+    rdfs:subPropertyOf core:generates .
 
-core:hasBaseModelSpecification a owl:ObjectProperty ;
-    rdfs:label "hasBaseModelSpecification"@en ;
-    rdfs:comment "Links a derived or fine-tuned model specification to its base model specification."@en ;
-    rdfs:domain core:AIModelSpecification ;
-    rdfs:range core:AIModelSpecification .
+core:hasBaseModelResource a owl:ObjectProperty ;
+    rdfs:label "hasBaseModelResource"@en ;
+    rdfs:comment "Links a derived or fine-tuned model resource to its base model resource."@en ;
+    rdfs:domain core:AIModelResource ;
+    rdfs:range core:AIModelResource .
 
 core:hasCapability a owl:ObjectProperty ;
     rdfs:label "hasCapability"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with a described skill or procedure, whose implementation and execution are represented separately."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:Skill .
 
 core:hasComponent a owl:ObjectProperty ;
@@ -258,68 +301,84 @@ core:hasComponent a owl:ObjectProperty ;
 
 core:hasConfiguration a owl:ObjectProperty ;
     rdfs:label "hasConfiguration"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links an actor or system to a record of its selected settings and resources."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:AgentConfiguration .
 
 core:hasContext a owl:ObjectProperty ;
     rdfs:label "hasContext"@en ;
+    rdfs:comment "Links an execution run to a description of circumstances relevant to that run."@en ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range core:Context .
 
 core:hasDescription a owl:DatatypeProperty ;
     rdfs:label "hasDescription"@en ;
+    rdfs:comment "Provides a textual description of an entity without assigning an additional entity type."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range xsd:string .
 
 core:hasDeveloper a owl:ObjectProperty ;
     rdfs:label "hasDeveloper"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Identifies the person, organization or software actor responsible for developing an AI model resource."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range core:Agent .
 
 core:hasExecutionRun a owl:ObjectProperty ;
     rdfs:label "hasExecutionRun"@en ;
+    rdfs:comment "Identifies an execution run included in an interaction or operational session."@en ;
     rdfs:domain core:Session ;
     rdfs:range core:ExecutionRun ;
     owl:inverseOf core:partOfSession .
 
 core:hasExecutionStatus a owl:ObjectProperty ;
     rdfs:label "hasExecutionStatus"@en ;
+    rdfs:comment "Links a workflow-step occurrence to its recorded status assignment."@en ;
     rdfs:domain core:WorkflowStep ;
     rdfs:range core:ExecutionStatus .
 
 core:hasGoal a owl:ObjectProperty ;
     rdfs:label "hasGoal"@en ;
+    rdfs:comment "Links a task specification to the desired state or objective it pursues."@en ;
     rdfs:domain core:Task ;
     rdfs:range core:Goal .
 
 core:hasInputType a owl:ObjectProperty ;
     rdfs:label "hasInputType"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Describes a kind of input accepted by an actor or system, rather than identifying an input artifact occurrence."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:InputType .
 
 core:hasInteraction a owl:ObjectProperty ;
     rdfs:label "hasInteraction"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with an interaction occurrence in which it participates."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:AgentInteraction .
 
 core:hasInvocationInput a owl:ObjectProperty ;
     rdfs:label "hasInvocationInput"@en ;
+    rdfs:comment "Identifies the information artifact supplied to a particular tool invocation."@en ;
     rdfs:domain core:ToolInvocation ;
     rdfs:range core:Artifact .
 
 core:hasInvocationOutput a owl:ObjectProperty ;
     rdfs:label "hasInvocationOutput"@en ;
+    rdfs:comment "Identifies the information artifact returned by a particular tool invocation."@en ;
     rdfs:domain core:ToolInvocation ;
     rdfs:range core:Artifact .
 
 core:hasInvocationStatus a owl:ObjectProperty ;
     rdfs:label "hasInvocationStatus"@en ;
+    rdfs:comment "Links a tool invocation to its recorded success, failure or other status assignment."@en ;
     rdfs:domain core:ToolInvocation ;
     rdfs:range core:InvocationStatus .
 
 core:hasModelCapability a owl:ObjectProperty ;
     rdfs:label "hasModelCapability"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Identifies a capability declared for an AI model resource, distinct from a system-level skill."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range core:ModelCapability .
 
 core:hasModelComponentRole a owl:ObjectProperty ;
@@ -330,61 +389,75 @@ core:hasModelComponentRole a owl:ObjectProperty ;
 
 core:hasModelInputSpecification a owl:ObjectProperty ;
     rdfs:label "hasModelInputSpecification"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Describes the representation supplied at a model resource's input interface."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range core:ModelInputSpecification .
 
 core:hasModelIntendedUse a owl:ObjectProperty ;
     rdfs:label "hasModelIntendedUse"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Links a model resource to its model-level intended use, distinct from the intended clinical use of a whole system."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range core:ModelIntendedUse .
 
 core:hasModelLimitation a owl:ObjectProperty ;
     rdfs:label "hasModelLimitation"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Links a model resource to a statement of its known limitations or applicability boundaries."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range core:ModelLimitation .
 
 core:hasModelOutputSpecification a owl:ObjectProperty ;
     rdfs:label "hasModelOutputSpecification"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Describes the representation returned at a model resource's output interface, before downstream system processing."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range core:ModelOutputSpecification .
 
 core:hasName a owl:DatatypeProperty ;
     rdfs:label "hasName"@en ;
+    rdfs:comment "Provides a human-readable name for an entity without assigning an additional entity type."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range xsd:string .
 
 core:hasOutputType a owl:ObjectProperty ;
     rdfs:label "hasOutputType"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Describes a kind of output produced by an actor or system, rather than identifying a particular output artifact."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:OutputType .
 
 core:hasProvider a owl:ObjectProperty ;
     rdfs:label "hasProvider"@en ;
+    rdfs:comment "Identifies the actor responsible for providing or operating a model deployment; this role is distinct from publishing the model."@en ;
     rdfs:domain core:ModelDeployment ;
     rdfs:range core:Agent .
 
 core:hasReviewOutcome a owl:ObjectProperty ;
     rdfs:label "hasReviewOutcome"@en ;
+    rdfs:comment "Links a human-review occurrence to its approval, rejection or modification decision."@en ;
     rdfs:domain core:ReviewEvent ;
     rdfs:range core:ReviewOutcome .
 
 core:hasRole a owl:ObjectProperty ;
     rdfs:label "hasRole"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Assigns a contextual functional or organizational role to an acting participant or configured system."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:Role .
 
 core:hasRuntimeError a owl:ObjectProperty ;
     rdfs:label "hasRuntimeError"@en ;
+    rdfs:comment "Links a tool invocation to an error description recorded during that invocation."@en ;
     rdfs:domain core:ToolInvocation ;
     rdfs:range core:RuntimeError .
 
 core:hasStep a owl:ObjectProperty ;
     rdfs:label "hasStep"@en ;
+    rdfs:comment "Identifies a prospective or completed step occurrence grouped within a configured workflow enactment."@en ;
     rdfs:domain core:Workflow ;
     rdfs:range core:WorkflowStep .
 
 core:hasStepType a owl:ObjectProperty ;
     rdfs:label "hasStepType"@en ;
+    rdfs:comment "Classifies the function of a workflow-step occurrence using a step-type descriptor."@en ;
     rdfs:domain core:WorkflowStep ;
     rdfs:range core:StepType .
 
@@ -396,7 +469,9 @@ core:hasSystemExecution a owl:ObjectProperty ;
 
 core:hasToolInvocation a owl:ObjectProperty ;
     rdfs:label "hasToolInvocation"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with a particular occurrence of calling a tool."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:ToolInvocation .
 
 core:hasVersion a owl:DatatypeProperty ;
@@ -407,157 +482,199 @@ core:hasVersion a owl:DatatypeProperty ;
 
 core:hasWorkflow a owl:ObjectProperty ;
     rdfs:label "hasWorkflow"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with a configured workflow enactment rather than a reusable control-flow pattern."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:Workflow .
 
 core:implementedBy a owl:ObjectProperty ;
     rdfs:label "implementedBy"@en ;
+    rdfs:comment "Links a described skill or procedure to the reusable software implementation that realizes it."@en ;
     rdfs:domain core:Skill ;
     rdfs:range core:ExecutionUnit .
 
 core:instantiatesPattern a owl:ObjectProperty ;
     rdfs:label "instantiatesPattern"@en ;
+    rdfs:comment "Links a configured workflow enactment to the reusable control-flow pattern from which it is configured."@en ;
     rdfs:domain core:Workflow ;
     rdfs:range core:WorkflowPattern .
 
 core:invokedBy a owl:ObjectProperty ;
     rdfs:label "invokedBy"@en ;
+    rdfs:comment "Identifies the actor or system responsible for initiating a particular tool invocation."@en ;
     rdfs:domain core:ToolInvocation ;
-    rdfs:range core:Agent .
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] .
 
 core:invokesAgent a owl:ObjectProperty ;
     rdfs:label "invokesAgent"@en ;
-    rdfs:domain core:Agent ;
-    rdfs:range core:Agent .
+    rdfs:comment "Records an invocation of another acting participant or configured agent system."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] .
 
 core:invokesTool a owl:ObjectProperty ;
     rdfs:label "invokesTool"@en ;
+    rdfs:comment "Identifies the reusable tool or service called in a particular invocation occurrence."@en ;
     rdfs:domain core:ToolInvocation ;
     rdfs:range core:Tool .
 
 core:modelArchitectureType a owl:DatatypeProperty ;
     rdfs:label "modelArchitectureType"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Records the architecture or computational family of an AI model resource."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range xsd:string .
 
 core:modelIdentifier a owl:DatatypeProperty ;
     rdfs:label "modelIdentifier"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Records the identifier used to distinguish an AI model resource within its documented naming scheme."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range xsd:string .
 
 core:modelReleaseDate a owl:DatatypeProperty ;
     rdfs:label "modelReleaseDate"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Records the calendar date of a model release or documented snapshot; it does not assert a time of day."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range xsd:date .
 
 core:modelVersion a owl:DatatypeProperty ;
     rdfs:label "modelVersion"@en ;
     rdfs:comment "Records a model checkpoint, snapshot, release, or immutable version identifier."@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range xsd:string .
 
 core:operatesIn a owl:ObjectProperty ;
     rdfs:label "operatesIn"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with its described execution environment; this is an alias of hasExecutionEnvironment."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:ExecutionEnvironment ;
     owl:equivalentProperty core:hasExecutionEnvironment .
 
 core:partOfStep a owl:ObjectProperty ;
     rdfs:label "partOfStep"@en ;
+    rdfs:comment "Identifies the workflow-step occurrence within which a tool invocation takes place."@en ;
     rdfs:domain core:ToolInvocation ;
     rdfs:range core:WorkflowStep .
 
 core:performedBy a owl:ObjectProperty ;
     rdfs:label "performedBy"@en ;
+    rdfs:comment "Identifies the human participant who performs a human-review occurrence."@en ;
     rdfs:domain core:ReviewEvent ;
     rdfs:range core:HumanAgent .
 
 core:performsTask a owl:ObjectProperty ;
     rdfs:label "performsTask"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with a task it is configured or reported to perform; execution occurrences are represented separately."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:Task .
 
 core:precedesStep a owl:ObjectProperty ;
     rdfs:label "precedesStep"@en ;
+    rdfs:comment "Records that one workflow-step occurrence precedes another in the represented workflow ordering."@en ;
     rdfs:domain core:WorkflowStep ;
     rdfs:range core:WorkflowStep .
 
 core:produces a owl:ObjectProperty ;
     rdfs:label "produces"@en ;
+    rdfs:comment "Describes a proposed-action output associated with a reusable execution implementation; it does not identify a particular generating run."@en ;
     rdfs:domain core:ExecutionUnit ;
     rdfs:range core:ProposedAction .
 
 core:producesArtifact a owl:ObjectProperty ;
     rdfs:label "producesArtifact"@en ;
+    rdfs:comment "Links a workflow-step occurrence to an information artifact it produces."@en ;
     rdfs:domain core:WorkflowStep ;
     rdfs:range core:Artifact .
 
+core:producesProposedAction a owl:ObjectProperty ;
+    rdfs:label "producesProposedAction"@en ;
+    rdfs:comment "Links an agent or system to an output specifying a suggested action; this specializes the general information-output relation generates."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
+    rdfs:range core:ProposedAction ;
+    rdfs:subPropertyOf core:generates .
+
 core:quantization a owl:DatatypeProperty ;
     rdfs:label "quantization"@en ;
+    rdfs:comment "Records the numerical-precision or quantization configuration used by a model deployment."@en ;
     rdfs:domain core:ModelDeployment ;
     rdfs:range xsd:string .
 
-core:realizesModelSpecification a owl:ObjectProperty ;
-    rdfs:label "realizesModelSpecification"@en ;
-    rdfs:comment "Links a model component to the versioned AI model specification that realizes its function."@en ;
-    rdfs:domain core:ModelComponent ;
-    rdfs:range core:AIModelSpecification ;
-    owl:inverseOf core:realizedByModelComponent .
-
 core:realizesTask a owl:ObjectProperty ;
     rdfs:label "realizesTask"@en ;
+    rdfs:comment "Identifies the task specification realized by a configured workflow enactment."@en ;
     rdfs:domain core:Workflow ;
     rdfs:range core:Task .
 
 core:requiresSkill a owl:ObjectProperty ;
     rdfs:label "requiresSkill"@en ;
+    rdfs:comment "Identifies another described skill or procedure required by a skill."@en ;
     rdfs:domain core:Skill ;
     rdfs:range core:Skill .
 
 core:resultsIn a owl:ObjectProperty ;
     rdfs:label "resultsIn"@en ;
+    rdfs:comment "Links an execution run to its recorded outcome or resulting-state description."@en ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range core:Outcome .
 
 core:reviews a owl:ObjectProperty ;
     rdfs:label "reviews"@en ;
+    rdfs:comment "Identifies the proposed action examined in a human-review occurrence; this is an alias of reviewsAction."@en ;
     rdfs:domain core:ReviewEvent ;
     rdfs:range core:ProposedAction ;
     owl:equivalentProperty core:reviewsAction .
 
 core:runtimeConfiguration a owl:DatatypeProperty ;
     rdfs:label "runtimeConfiguration"@en ;
+    rdfs:comment "Records runtime settings of a model deployment, such as inference parameters or loading configuration."@en ;
     rdfs:domain core:ModelDeployment ;
     rdfs:range xsd:string .
 
 core:selects a owl:ObjectProperty ;
     rdfs:label "selects"@en ;
+    rdfs:comment "Identifies a skill selected by a configured planning implementation."@en ;
     rdfs:domain core:Planner ;
     rdfs:range core:Skill .
 
 core:servingFramework a owl:DatatypeProperty ;
     rdfs:label "servingFramework"@en ;
+    rdfs:comment "Records the software framework used to serve a model deployment."@en ;
     rdfs:domain core:ModelDeployment ;
     rdfs:range xsd:string .
 
+core:specifiesModel a owl:ObjectProperty ;
+    rdfs:label "specifiesModel"@en ;
+    rdfs:comment "Links a model specification document to the computational model resource it specifies."@en ;
+    rdfs:domain core:AIModelSpecification ;
+    rdfs:range core:AIModelResource .
+
 core:startedAt a owl:DatatypeProperty ;
     rdfs:label "startedAt"@en ;
+    rdfs:comment "Records the time at which an execution run started."@en ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range xsd:dateTime .
 
 core:statusCode a owl:DatatypeProperty ;
     rdfs:label "statusCode"@en ;
+    rdfs:comment "Records the textual code of an invocation-status assignment."@en ;
     rdfs:domain core:InvocationStatus ;
     rdfs:range xsd:string .
 
 core:supportsInputModality a owl:ObjectProperty ;
     rdfs:label "supportsInputModality"@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Identifies a modality accepted by an AI model resource, such as text, images or waveforms."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range core:InputModality .
 
 core:usesMemory a owl:ObjectProperty ;
     rdfs:label "usesMemory"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Identifies a memory module used by an actor or system; this is an alias of hasMemoryModule."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:MemoryModule ;
     rdfs:subPropertyOf core:uses ;
     owl:equivalentProperty core:hasMemoryModule .
@@ -565,7 +682,8 @@ core:usesMemory a owl:ObjectProperty ;
 core:usesModel a owl:ObjectProperty ;
     rdfs:label "usesModel"@en ;
     rdfs:comment "Links an agent to a model component it uses."@en ;
-    rdfs:domain core:Agent ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:ModelComponent .
 
 core:usesModelDeployment a owl:ObjectProperty ;
@@ -580,26 +698,39 @@ core:usesModelInputArtifact a owl:ObjectProperty ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range core:Artifact .
 
+core:usesModelResource a owl:ObjectProperty ;
+    rdfs:label "usesModelResource"@en ;
+    rdfs:comment "Links a model-component binding to the model resource it uses."@en ;
+    rdfs:domain core:ModelComponent ;
+    rdfs:range core:AIModelResource ;
+    owl:inverseOf core:usedByModelComponent .
+
 core:usesPlanner a owl:ObjectProperty ;
     rdfs:label "usesPlanner"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Identifies the configured planning implementation used by an actor or system."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:Planner .
 
 core:usesReasoner a owl:ObjectProperty ;
     rdfs:label "usesReasoner"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Identifies the configured inference or deliberation implementation used by an actor or system."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:Reasoner .
 
 core:usesResource a owl:ObjectProperty ;
     rdfs:label "usesResource"@en ;
+    rdfs:comment "Identifies a digital, informational, software or service resource used by an entity."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range core:Resource ;
     rdfs:subPropertyOf core:uses .
 
 core:usesTool a owl:ObjectProperty ;
     rdfs:label "usesTool"@en ;
+    rdfs:comment "Identifies a callable software tool or service used by an actor, system or described skill."@en ;
     rdfs:domain [ a owl:Class ;
-            owl:unionOf ( core:Agent core:Skill ) ] ;
+            owl:unionOf ( core:Agent core:Skill core:AgentSystem ) ] ;
     rdfs:range core:Tool ;
     rdfs:subPropertyOf core:uses .
 
@@ -609,76 +740,91 @@ core:usesTool a owl:ObjectProperty ;
 
 doc:citationText a owl:DatatypeProperty ;
     rdfs:label "citationText"@en ;
+    rdfs:comment "Records the formatted bibliographic text of a citation record."@en ;
     rdfs:domain doc:Citation ;
     rdfs:range xsd:string .
 
 doc:contact a owl:DatatypeProperty ;
     rdfs:label "contact"@en ;
+    rdfs:comment "Records contact details in an ownership contact record."@en ;
     rdfs:domain doc:Owner ;
     rdfs:range xsd:string .
 
 doc:derivedFrom a owl:ObjectProperty ;
     rdfs:label "derivedFrom"@en ;
+    rdfs:comment "Records the derivation of an entity from a source entity; the PROV-O mapping gives both endpoints entity identity."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range owl:Thing .
 
 doc:hasAsset a owl:ObjectProperty ;
     rdfs:label "hasAsset"@en ;
+    rdfs:comment "Identifies a reusable code, data or configuration resource supporting a described skill."@en ;
     rdfs:domain core:Skill ;
     rdfs:range doc:Asset .
 
 doc:hasCitation a owl:ObjectProperty ;
     rdfs:label "hasCitation"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to a bibliographic citation record identifying a source."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:Citation .
 
 doc:hasLicense a owl:ObjectProperty ;
     rdfs:label "hasLicense"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to its license or access terms; use of this metadata does not imply agency."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:License .
 
 doc:hasLineageTrace a owl:ObjectProperty ;
     rdfs:label "hasLineageTrace"@en ;
+    rdfs:comment "Links a documented entity to an information record describing its derivation history."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range doc:LineageTrace .
 
 doc:hasOwner a owl:ObjectProperty ;
     rdfs:label "hasOwner"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to an ownership contact record; the record is distinct from the responsible person or organization."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:Owner .
 
 doc:hasProvenanceRecord a owl:ObjectProperty ;
     rdfs:label "hasProvenanceRecord"@en ;
+    rdfs:comment "Links a documented entity to a record of its origin, production or use."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range doc:ProvenanceRecord .
 
 doc:hasReference a owl:ObjectProperty ;
     rdfs:label "hasReference"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to a record identifying or locating an external source."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:Reference .
 
 doc:hasTemplate a owl:ObjectProperty ;
     rdfs:label "hasTemplate"@en ;
+    rdfs:comment "Identifies a reusable information pattern used when preparing a skill implementation or its documentation."@en ;
     rdfs:domain core:Skill ;
     rdfs:range doc:Template .
 
 doc:hasVersionInfo a owl:ObjectProperty ;
     rdfs:label "hasVersionInfo"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to a record identifying a particular version or release."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:VersionInfo .
 
 doc:identifier a owl:DatatypeProperty ;
     rdfs:label "identifier"@en ;
+    rdfs:comment "Records the identifier of a license or access-terms statement."@en ;
     rdfs:domain doc:License ;
     rdfs:range xsd:string .
 
 doc:recordedAt a owl:DatatypeProperty ;
     rdfs:label "recordedAt"@en ;
+    rdfs:comment "Records the time at which a provenance record was created or recorded."@en ;
     rdfs:domain doc:ProvenanceRecord ;
     rdfs:range xsd:dateTime .
 
 doc:releaseDate a owl:DatatypeProperty ;
     rdfs:label "releaseDate"@en ;
+    rdfs:comment "Records the calendar release date in a version-information record."@en ;
     rdfs:domain doc:VersionInfo ;
     rdfs:range xsd:date .
 
@@ -688,31 +834,31 @@ doc:sourceURI a owl:DatatypeProperty ;
     rdfs:domain owl:Thing ;
     rdfs:range xsd:anyURI .
 
+doc:traceText a owl:DatatypeProperty ;
+    rdfs:label "traceText"@en ;
+    rdfs:comment "Records the textual account of an information product's derivation in a lineage trace, not the derivation activity itself."@en ;
+    rdfs:domain doc:LineageTrace ;
+    rdfs:range xsd:string .
+
 doc:versionString a owl:DatatypeProperty ;
     rdfs:label "versionString"@en ;
+    rdfs:comment "Records the textual version identifier held in a version-information record."@en ;
     rdfs:domain doc:VersionInfo ;
     rdfs:range xsd:string .
 
 <https://w3id.org/agent-o/eval> a owl:Ontology ;
     rdfs:label "AGENT-O Evaluation Ontology"@en ;
-    rdfs:comment "Evaluation layer: EvaluationStudy uses Dataset and produces MetricResult and Interpretation for an Agent."@en .
+    rdfs:comment "Evaluation activities, targets, datasets, metrics and result records. Evaluation targets may be actors, systems, models, tools, workflows or other selected entities."@en .
 
 eval:BiasAssessment a owl:Class ;
     rdfs:label "BiasAssessment"@en ;
-    rdfs:comment "An evaluation activity or result assessing bias in an agentic system."@en ;
+    rdfs:comment "An evaluation study assessing bias in a system or model and producing separate result records; not the result itself."@en ;
     rdfs:subClassOf eval:EvaluationStudy .
 
 eval:CostMetric a owl:Class ;
     rdfs:label "CostMetric"@en ;
     rdfs:comment "Metric that measures financial, compute, operational, or resource cost."@en ;
     rdfs:subClassOf eval:Metric .
-
-eval:DatasetUseContext a owl:Class ;
-    rdfs:label "DatasetUseContext"@en ;
-    rdfs:comment "The use context under which a dataset is accessed, evaluated, or reused."@en .
-
-eval:EvaluableEntity a owl:Class ;
-    rdfs:label "EvaluableEntity"@en .
 
 eval:FairnessMetric a owl:Class ;
     rdfs:label "FairnessMetric"@en ;
@@ -731,139 +877,161 @@ eval:SafetyMetric a owl:Class ;
 
 eval:aboutEntity a owl:ObjectProperty ;
     rdfs:label "aboutEntity"@en ;
+    rdfs:comment "Identifies the entity to which a recorded metric result refers."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range owl:Thing .
 
 eval:appliesToDataset a owl:ObjectProperty ;
     rdfs:label "appliesToDataset"@en ;
+    rdfs:comment "Identifies the dataset over which a metric result was obtained or is reported to apply."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range eval:Dataset .
 
 eval:appliesToSubpopulation a owl:ObjectProperty ;
     rdfs:label "appliesToSubpopulation"@en ;
+    rdfs:comment "Identifies the subgroup specification to which a metric result applies."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range eval:Subpopulation .
 
 eval:comparesAgainst a owl:ObjectProperty ;
     rdfs:label "comparesAgainst"@en ;
+    rdfs:comment "Identifies the comparator configuration or method used by an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:Baseline .
 
 eval:definesBenchmarkTask a owl:ObjectProperty ;
     rdfs:label "definesBenchmarkTask"@en ;
+    rdfs:comment "Identifies a task specification defined by a benchmark framework."@en ;
     rdfs:domain eval:BenchmarkFramework ;
     rdfs:range eval:BenchmarkTask .
 
 eval:derivedFromRun a owl:ObjectProperty ;
     rdfs:label "derivedFromRun"@en ;
+    rdfs:comment "Links a metric result to the execution run from which its measurement was derived."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range core:ExecutionRun .
 
 eval:evaluatedBy a owl:ObjectProperty ;
     rdfs:label "evaluatedBy"@en ;
+    rdfs:comment "Identifies the responsible human, organizational or software evaluator performing a study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:Evaluator .
 
 eval:evaluates a owl:ObjectProperty ;
     rdfs:label "evaluates"@en ;
+    rdfs:comment "Selects an entity as the target of an evaluation study without changing its intrinsic system, model, tool, data or other identity."@en ;
     rdfs:domain eval:EvaluationStudy ;
-    rdfs:range core:Agent .
+    rdfs:range eval:EvaluableEntity .
 
 eval:evaluatesConfiguration a owl:ObjectProperty ;
     rdfs:label "evaluatesConfiguration"@en ;
+    rdfs:comment "Identifies the recorded actor or system configuration examined by an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range core:AgentConfiguration .
 
 eval:forMetric a owl:ObjectProperty ;
     rdfs:label "forMetric"@en ;
+    rdfs:comment "Identifies the measurement or scoring definition used to interpret a metric result's value."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range eval:Metric .
-
-eval:hasDataUseCondition a owl:ObjectProperty ;
-    rdfs:label "hasDataUseCondition"@en ;
-    rdfs:comment "Links a dataset or dataset use context to a data use condition."@en ;
-    rdfs:domain eval:Dataset ;
-    rdfs:range gov:DataUseCondition .
 
 eval:hasDataUsePermission a owl:ObjectProperty ;
     rdfs:label "hasDataUsePermission"@en ;
     rdfs:comment "Links a dataset or dataset use context to a data use permission."@en ;
-    rdfs:domain eval:Dataset ;
-    rdfs:range gov:DataUsePermission .
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( eval:Dataset eval:DatasetUseContext ) ] ;
+    rdfs:range gov:DataUsePermission ;
+    rdfs:subPropertyOf eval:hasDataUseCondition .
 
 eval:hasDataUseRestriction a owl:ObjectProperty ;
     rdfs:label "hasDataUseRestriction"@en ;
     rdfs:comment "Links a dataset or dataset use context to a data use restriction."@en ;
-    rdfs:domain eval:Dataset ;
-    rdfs:range gov:DataUseRestriction .
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( eval:Dataset eval:DatasetUseContext ) ] ;
+    rdfs:range gov:DataUseRestriction ;
+    rdfs:subPropertyOf eval:hasDataUseCondition .
 
 eval:hasErrorType a owl:ObjectProperty ;
     rdfs:label "hasErrorType"@en ;
+    rdfs:comment "Classifies a recorded failure case using an error-type descriptor."@en ;
     rdfs:domain eval:FailureCase ;
     rdfs:range eval:ErrorType .
 
 eval:hasRank a owl:DatatypeProperty ;
     rdfs:label "hasRank"@en ;
+    rdfs:comment "Records the integer rank assigned to a metric result in the reported comparison."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range xsd:integer .
 
 eval:hasTimestamp a owl:DatatypeProperty ;
     rdfs:label "hasTimestamp"@en ;
+    rdfs:comment "Records the timestamp associated with an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range xsd:dateTime .
 
 eval:hasUnit a owl:DatatypeProperty ;
     rdfs:label "hasUnit"@en ;
+    rdfs:comment "Records the measurement unit or scoring unit of a metric result."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range xsd:string .
 
 eval:hasValue a owl:DatatypeProperty ;
     rdfs:label "hasValue"@en ;
+    rdfs:comment "Records a scalar decimal measurement value in a metric result; its metric and unit are expressed separately."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range xsd:decimal .
 
 eval:interpretedAs a owl:ObjectProperty ;
     rdfs:label "interpretedAs"@en ;
+    rdfs:comment "Links a metric result to an information statement explaining its meaning or implications."@en ;
     rdfs:domain eval:MetricResult ;
     rdfs:range eval:Interpretation .
 
 eval:observedAtStep a owl:ObjectProperty ;
     rdfs:label "observedAtStep"@en ;
+    rdfs:comment "Identifies the workflow-step occurrence at which a recorded failure case was observed."@en ;
     rdfs:domain eval:FailureCase ;
     rdfs:range core:WorkflowStep .
 
 eval:observedInRun a owl:ObjectProperty ;
     rdfs:label "observedInRun"@en ;
+    rdfs:comment "Identifies the execution run in which a recorded failure case was observed."@en ;
     rdfs:domain eval:FailureCase ;
     rdfs:range core:ExecutionRun .
 
 eval:producesResult a owl:ObjectProperty ;
     rdfs:label "producesResult"@en ;
+    rdfs:comment "Links an evaluation study to a recorded metric result, keeping the activity and result identities separate."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:MetricResult .
 
 eval:studiesAutomationLevel a owl:ObjectProperty ;
     rdfs:label "studiesAutomationLevel"@en ;
+    rdfs:comment "Identifies the permitted-autonomy assignment examined by an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range gov:AutomationLevel .
 
 eval:targetsTask a owl:ObjectProperty ;
     rdfs:label "targetsTask"@en ;
+    rdfs:comment "Identifies a benchmark-task specification targeted by an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:BenchmarkTask .
 
 eval:usesDataset a owl:ObjectProperty ;
     rdfs:label "usesDataset"@en ;
+    rdfs:comment "Identifies a data collection used in an evaluation study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:Dataset .
 
 eval:usesEvaluationFramework a owl:ObjectProperty ;
     rdfs:label "usesEvaluationFramework"@en ;
+    rdfs:comment "Identifies the reusable evaluation framework followed by a study."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:EvaluationFramework .
 
 eval:usesScenario a owl:ObjectProperty ;
     rdfs:label "usesScenario"@en ;
+    rdfs:comment "Identifies the specification of circumstances used for an evaluation task."@en ;
     rdfs:domain eval:EvaluationStudy ;
     rdfs:range eval:Scenario .
 
@@ -874,10 +1042,11 @@ eval:usesScenario a owl:ObjectProperty ;
 gov:AccountabilityRequirement a owl:Class ;
     rdfs:label "AccountabilityRequirement"@en ;
     rdfs:comment "A requirement assigning responsibility and accountability for agentic system behavior."@en ;
-    rdfs:subClassOf gov:EthicalPrinciple .
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:Augmentation a owl:Class ;
     rdfs:label "Augmentation"@en ;
+    rdfs:comment "An automation-level assignment in which software assists a human who retains control."@en ;
     rdfs:subClassOf gov:AutomationLevel .
 
 gov:ConsentConstraint a owl:Class ;
@@ -887,98 +1056,125 @@ gov:ConsentConstraint a owl:Class ;
 
 gov:Delegation a owl:Class ;
     rdfs:label "Delegation"@en ;
+    rdfs:comment "An automation-level assignment allowing delegated work under retained oversight, not a delegation interaction event."@en ;
     rdfs:subClassOf gov:AutomationLevel .
 
 gov:EquityRequirement a owl:Class ;
     rdfs:label "EquityRequirement"@en ;
     rdfs:comment "A requirement addressing fairness, inclusion, accessibility, or equity in agentic health AI."@en ;
-    rdfs:subClassOf gov:EthicalPrinciple .
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:ExplainabilityRequirement a owl:Class ;
     rdfs:label "ExplainabilityRequirement"@en ;
     rdfs:comment "A requirement that an agentic system provide understandable explanations or decision support rationale."@en ;
-    rdfs:subClassOf gov:EthicalPrinciple .
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:FullAutomation a owl:Class ;
     rdfs:label "FullAutomation"@en ;
+    rdfs:comment "An automation-level assignment permitting autonomous execution within the stated scope."@en ;
     rdfs:subClassOf gov:AutomationLevel .
 
 gov:HumanAutonomyRequirement a owl:Class ;
     rdfs:label "HumanAutonomyRequirement"@en ;
     rdfs:comment "A requirement preserving human agency, autonomy, or meaningful human control."@en ;
-    rdfs:subClassOf gov:EthicalPrinciple .
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:PrivacyRequirement a owl:Class ;
     rdfs:label "PrivacyRequirement"@en ;
     rdfs:comment "A requirement addressing privacy, confidentiality, data protection, or sensitive-data handling."@en ;
-    rdfs:subClassOf gov:EthicalPrinciple .
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:SafetyRequirement a owl:Class ;
     rdfs:label "SafetyRequirement"@en ;
     rdfs:comment "A requirement addressing safety, harm prevention, or clinical risk mitigation."@en ;
-    rdfs:subClassOf gov:EthicalPrinciple .
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:SharedControl a owl:Class ;
     rdfs:label "SharedControl"@en ;
+    rdfs:comment "An automation-level assignment distributing control between human and software participants."@en ;
     rdfs:subClassOf gov:AutomationLevel .
 
 gov:Threshold a owl:Class ;
-    rdfs:label "Threshold"@en .
+    rdfs:label "Threshold"@en ;
+    rdfs:comment "A specified decision boundary applied to a measured or estimated value."@en .
 
 gov:TransparencyRequirement a owl:Class ;
     rdfs:label "TransparencyRequirement"@en ;
     rdfs:comment "A requirement for transparency about an agentic system, its purpose, limitations, or outputs."@en ;
-    rdfs:subClassOf gov:EthicalPrinciple .
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:accessControlRequirement a owl:DatatypeProperty ;
     rdfs:label "accessControlRequirement"@en ;
+    rdfs:comment "Records the access-control obligation expressed by a security constraint."@en ;
     rdfs:domain gov:SecurityConstraint ;
     rdfs:range xsd:string .
 
+gov:basedOnPrinciple a owl:ObjectProperty ;
+    rdfs:label "basedOnPrinciple"@en ;
+    rdfs:comment "Links a concrete governance requirement to the ethical-principle instance motivating it."@en ;
+    rdfs:domain gov:GovernanceRequirement ;
+    rdfs:range gov:EthicalPrinciple .
+
+gov:canOverrideAction a owl:ObjectProperty ;
+    rdfs:label "canOverrideAction"@en ;
+    rdfs:comment "Identifies a proposed action that a configured override capability can supersede; the relation does not say that it has done so."@en ;
+    rdfs:domain gov:OverrideCapability ;
+    rdfs:range core:ProposedAction .
+
 gov:complianceFramework a owl:DatatypeProperty ;
     rdfs:label "complianceFramework"@en ;
+    rdfs:comment "Names the regulatory or compliance framework from which a compliance requirement is derived."@en ;
     rdfs:domain gov:ComplianceRequirement ;
     rdfs:range xsd:string .
 
 gov:conditionExpression a owl:DatatypeProperty ;
     rdfs:label "conditionExpression"@en ;
+    rdfs:comment "Records the expression specifying when a trigger condition is satisfied."@en ;
     rdfs:domain gov:TriggerCondition ;
     rdfs:range xsd:string .
 
 gov:confidenceValue a owl:DatatypeProperty ;
     rdfs:label "confidenceValue"@en ;
+    rdfs:comment "Records the numeric value of a confidence estimate; the applicable scale belongs to its reported context."@en ;
     rdfs:domain gov:ConfidenceScore ;
     rdfs:range xsd:decimal .
 
 gov:constrains a owl:ObjectProperty ;
     rdfs:label "constrains"@en ;
+    rdfs:comment "Identifies the actor or system whose permitted behavior is governed by a policy."@en ;
     rdfs:domain gov:Policy ;
-    rdfs:range core:Agent ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     owl:inverseOf gov:constrainedBy .
 
 gov:constrainsDataUse a owl:ObjectProperty ;
     rdfs:label "constrainsDataUse"@en ;
     rdfs:comment "Links a governance policy or data use condition to the dataset whose use it constrains."@en ;
-    rdfs:domain gov:Policy ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( gov:Policy gov:DataUseCondition ) ] ;
     rdfs:range eval:Dataset .
 
 gov:containsPHI a owl:DatatypeProperty ;
     rdfs:label "containsPHI"@en ;
+    rdfs:comment "Indicates whether data in the scope of a privacy constraint contain protected health information."@en ;
     rdfs:domain gov:PrivacyConstraint ;
     rdfs:range xsd:boolean .
 
 gov:definesAutomationLevel a owl:ObjectProperty ;
     rdfs:label "definesAutomationLevel"@en ;
+    rdfs:comment "Links a policy to the permitted-autonomy assignment it specifies."@en ;
     rdfs:domain gov:Policy ;
     rdfs:range gov:AutomationLevel .
 
 gov:enablesOverride a owl:ObjectProperty ;
     rdfs:label "enablesOverride"@en ;
+    rdfs:comment "Records an actual override occurrence authorized by a policy. Use hasOverrideCapability to describe a configured control without asserting that an override occurred."@en ;
     rdfs:domain gov:Policy ;
     rdfs:range gov:OverrideAction .
 
 gov:escalatesTo a owl:ObjectProperty ;
     rdfs:label "escalatesTo"@en ;
+    rdfs:comment "Identifies the human participant who receives an actual escalation occurrence; a prospective plan uses plannedRecipient."@en ;
     rdfs:domain gov:EscalationEvent ;
     rdfs:range core:HumanAgent .
 
@@ -990,82 +1186,122 @@ gov:hasAccountabilityRole a owl:ObjectProperty ;
 
 gov:hasAutomationLevel a owl:ObjectProperty ;
     rdfs:label "hasAutomationLevel"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with its permitted-autonomy assignment in the represented context."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range gov:AutomationLevel .
 
 gov:hasConfidenceScore a owl:ObjectProperty ;
     rdfs:label "hasConfidenceScore"@en ;
+    rdfs:comment "Links an entity to a recorded confidence estimate, whose numeric value is expressed separately."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range gov:ConfidenceScore .
 
 gov:hasCriterion a owl:ObjectProperty ;
     rdfs:label "hasCriterion"@en ;
+    rdfs:comment "Identifies a decision criterion specified by a policy."@en ;
     rdfs:domain gov:Policy ;
     rdfs:range gov:DecisionCriterion .
 
 gov:hasDeploymentStatus a owl:ObjectProperty ;
     rdfs:label "hasDeploymentStatus"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Records the operational or deployment-stage assignment of an actor or system."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range gov:DeploymentStatus .
+
+gov:hasEscalationPlan a owl:ObjectProperty ;
+    rdfs:label "hasEscalationPlan"@en ;
+    rdfs:comment "Links a policy to its configured escalation plan without asserting that an escalation has occurred."@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:EscalationPlan .
 
 gov:hasEthicalConcern a owl:ObjectProperty ;
     rdfs:label "hasEthicalConcern"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with a recorded concern about its ethical implications."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range gov:EthicalConcern .
 
 gov:hasEthicalPrinciple a owl:ObjectProperty ;
     rdfs:label "hasEthicalPrinciple"@en ;
-    rdfs:comment "Links an agent, report, policy, or governance profile to an ethical principle or governance requirement."@en ;
+    rdfs:comment "Links an entity to a guiding ethical-principle instance, not to a requirement class."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range gov:EthicalPrinciple .
 
 gov:hasFallbackStrategy a owl:ObjectProperty ;
     rdfs:label "hasFallbackStrategy"@en ;
+    rdfs:comment "Identifies the fallback behavior specified by a policy for failure, uncertainty or other exceptional conditions."@en ;
     rdfs:domain gov:Policy ;
     rdfs:range gov:FallbackStrategy .
 
+gov:hasGovernanceRequirement a owl:ObjectProperty ;
+    rdfs:label "hasGovernanceRequirement"@en ;
+    rdfs:comment "Links a policy or system to a concrete governance obligation."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( gov:Policy core:AgentSystem ) ] ;
+    rdfs:range gov:GovernanceRequirement .
+
 gov:hasLimitation a owl:ObjectProperty ;
     rdfs:label "hasLimitation"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links an actor or system to a statement of a known capability or applicability boundary."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range gov:Limitation .
 
 gov:hasMitigationStrategy a owl:DatatypeProperty ;
     rdfs:label "hasMitigationStrategy"@en ;
+    rdfs:comment "Records a textual description of a mitigation strategy for a potential risk."@en ;
     rdfs:domain gov:Risk ;
     rdfs:range xsd:string .
 
+gov:hasOverrideCapability a owl:ObjectProperty ;
+    rdfs:label "hasOverrideCapability"@en ;
+    rdfs:comment "Links a policy to a configured override control without asserting an actual override occurrence."@en ;
+    rdfs:domain gov:Policy ;
+    rdfs:range gov:OverrideCapability .
+
 gov:hasPrivacyConstraint a owl:ObjectProperty ;
     rdfs:label "hasPrivacyConstraint"@en ;
+    rdfs:comment "Associates an entity with a requirement governing personal-information collection, disclosure or use."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range gov:PrivacyConstraint .
 
 gov:hasRegulatoryStatus a owl:ObjectProperty ;
     rdfs:label "hasRegulatoryStatus"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with a recorded regulatory classification or authorization status."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range gov:RegulatoryStatus .
 
 gov:hasRisk a owl:ObjectProperty ;
     rdfs:label "hasRisk"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links an actor or system to a description of a potential adverse outcome and its circumstances."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range gov:Risk .
 
 gov:hasSecurityConstraint a owl:ObjectProperty ;
     rdfs:label "hasSecurityConstraint"@en ;
+    rdfs:comment "Associates an entity with a requirement protecting software, services or information from unauthorized access or interference."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range gov:SecurityConstraint .
 
 gov:hasSeverity a owl:DatatypeProperty ;
     rdfs:label "hasSeverity"@en ;
+    rdfs:comment "Records a risk-severity label. The supplied high-risk governance profile recognizes the case-insensitive labels high and critical."@en ;
     rdfs:domain gov:Risk ;
     rdfs:range xsd:string .
 
 gov:hasUncertainty a owl:ObjectProperty ;
     rdfs:label "hasUncertainty"@en ;
+    rdfs:comment "Links an entity to a recorded estimate or description of uncertainty."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range gov:Uncertainty .
 
 gov:influencesMetric a owl:ObjectProperty ;
     rdfs:label "influencesMetric"@en ;
+    rdfs:comment "Identifies a metric whose interpretation or measured behavior is affected by a policy used in evaluation."@en ;
     rdfs:domain gov:Policy ;
     rdfs:range eval:Metric .
 
@@ -1077,62 +1313,85 @@ gov:mitigatesRisk a owl:ObjectProperty ;
 
 gov:monitoredBy a owl:ObjectProperty ;
     rdfs:label "monitoredBy"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Identifies a monitoring rule specified for an actor or system, rather than identifying a monitoring participant."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range gov:MonitoringRule .
 
 gov:overridesAction a owl:ObjectProperty ;
     rdfs:label "overridesAction"@en ;
+    rdfs:comment "Identifies the proposed action superseded by an actual override occurrence."@en ;
     rdfs:domain gov:OverrideAction ;
     rdfs:range core:ProposedAction .
 
+gov:plannedRecipient a owl:ObjectProperty ;
+    rdfs:label "plannedRecipient"@en ;
+    rdfs:comment "Identifies the human participant designated to receive an escalation if the plan is activated."@en ;
+    rdfs:domain gov:EscalationPlan ;
+    rdfs:range core:HumanAgent .
+
 gov:policyVariantUsedIn a owl:ObjectProperty ;
     rdfs:label "policyVariantUsedIn"@en ;
+    rdfs:comment "Identifies an evaluation study in which a particular policy variant was used."@en ;
     rdfs:domain gov:Policy ;
     rdfs:range eval:EvaluationStudy .
 
 gov:recordedAs a owl:ObjectProperty ;
     rdfs:label "recordedAs"@en ;
+    rdfs:comment "Links an execution run to a recorded audit event concerning its operational or governance history."@en ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range gov:AuditEvent .
 
 gov:requiredForPattern a owl:ObjectProperty ;
     rdfs:label "requiredForPattern"@en ;
+    rdfs:comment "Identifies the reusable workflow pattern to which a human-review requirement applies."@en ;
     rdfs:domain gov:HumanReviewRequirement ;
     rdfs:range core:WorkflowPattern .
 
 gov:requiresCompliance a owl:ObjectProperty ;
     rdfs:label "requiresCompliance"@en ;
+    rdfs:comment "Associates an entity with a concrete compliance obligation derived from a specified framework."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range gov:ComplianceRequirement .
 
+gov:requiresGovernanceRequirement a owl:AnnotationProperty ;
+    rdfs:label "requiresGovernanceRequirement"@en ;
+    rdfs:comment "Schema annotation identifying a required governance-requirement class for a profile."@en .
+
 gov:requiresReview a owl:ObjectProperty ;
     rdfs:label "requiresReview"@en ;
+    rdfs:comment "Links a proposed action to the human-review requirement applicable to that action; system-level requirements use hasGovernanceRequirement."@en ;
     rdfs:domain core:ProposedAction ;
     rdfs:range gov:HumanReviewRequirement .
 
 gov:satisfiedByReviewEvent a owl:ObjectProperty ;
     rdfs:label "satisfiedByReviewEvent"@en ;
+    rdfs:comment "Identifies an actual human-review occurrence recorded as satisfying a review requirement."@en ;
     rdfs:domain gov:HumanReviewRequirement ;
     rdfs:range core:ReviewEvent .
 
 gov:triggeredBy a owl:ObjectProperty ;
     rdfs:label "triggeredBy"@en ;
+    rdfs:comment "Links an actual escalation occurrence to the condition that triggered it; a configured plan uses hasTriggerCondition instead."@en ;
     rdfs:domain gov:EscalationEvent ;
     rdfs:range gov:TriggerCondition ;
-    owl:equivalentProperty gov:hasTriggerCondition .
+    rdfs:subPropertyOf gov:hasTriggerCondition .
 
 gov:triggersEscalation a owl:ObjectProperty ;
     rdfs:label "triggersEscalation"@en ;
+    rdfs:comment "Records an actual escalation occurrence triggered under a policy. Use hasEscalationPlan for the policy's prospective escalation control."@en ;
     rdfs:domain gov:Policy ;
     rdfs:range gov:EscalationEvent .
 
 gov:triggersIncident a owl:ObjectProperty ;
     rdfs:label "triggersIncident"@en ;
+    rdfs:comment "Links an execution run to an actual safety, reliability, privacy or other operational incident arising during that run."@en ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range gov:Incident .
 
 gov:uncertaintyValue a owl:DatatypeProperty ;
     rdfs:label "uncertaintyValue"@en ;
+    rdfs:comment "Records the numeric value of an uncertainty estimate; its interpretation and scale belong to the reported context."@en ;
     rdfs:domain gov:Uncertainty ;
     rdfs:range xsd:decimal .
 
@@ -1155,9 +1414,14 @@ health:ClinicalDecisionSupportAgent a owl:Class ;
     rdfs:comment "A clinical agent that supports clinical decisions."@en ;
     rdfs:subClassOf health:ClinicalAgent .
 
+health:ClinicalDecisionSupportAgentSystem a owl:Class ;
+    rdfs:label "ClinicalDecisionSupportAgentSystem"@en ;
+    rdfs:comment "A clinical agent system configured to support clinical decisions."@en ;
+    rdfs:subClassOf health:ClinicalAgentSystem .
+
 health:ClinicalGuidelineSource a owl:Class ;
     rdfs:label "ClinicalGuidelineSource"@en ;
-    rdfs:comment "A clinical guideline source used by an agent."@en ;
+    rdfs:comment "A reference record identifying a clinical guideline used by an agent or agent system."@en ;
     rdfs:subClassOf doc:Reference .
 
 health:ClinicianFacingAgent a owl:Class ;
@@ -1177,8 +1441,8 @@ health:ConditionInput a owl:Class ;
 
 health:ContraindicatedUse a owl:Class ;
     rdfs:label "ContraindicatedUse"@en ;
-    rdfs:comment "A use that is clinically contraindicated for an agent system."@en ;
-    rdfs:subClassOf health:ProhibitedUse .
+    rdfs:comment "A use-constraint statement identifying a clinically contraindicated use. A separate prohibition may be asserted when the applicable policy prohibits that use."@en ;
+    rdfs:subClassOf health:UseConstraint .
 
 health:DiagnosticRecommendation a owl:Class ;
     rdfs:label "DiagnosticRecommendation"@en ;
@@ -1215,15 +1479,25 @@ health:PatientFacingAgent a owl:Class ;
     rdfs:comment "A health agent whose outputs are intended for patients or caregivers."@en ;
     rdfs:subClassOf health:HealthAgent .
 
+health:PatientFacingAgentSystem a owl:Class ;
+    rdfs:label "PatientFacingAgentSystem"@en ;
+    rdfs:comment "A health-oriented agent system configured to communicate outputs to patients or caregivers."@en ;
+    rdfs:subClassOf health:HealthAgentSystem .
+
 health:PatientRecordInput a owl:Class ;
     rdfs:label "PatientRecordInput"@en ;
-    rdfs:comment "An input artifact representing patient record information."@en ;
+    rdfs:comment "An input artifact derived from an electronic health record and representing patient-record information; no FHIR representation is implied."@en ;
     rdfs:subClassOf health:EHRInput .
 
 health:ProcedureInput a owl:Class ;
     rdfs:label "ProcedureInput"@en ;
     rdfs:comment "An input artifact mapped to a FHIR Procedure resource."@en ;
     rdfs:subClassOf health:FHIRResourceInput .
+
+health:StructuredHealthDataArtifact a owl:Class ;
+    rdfs:label "StructuredHealthDataArtifact"@en ;
+    rdfs:comment "An agent-level artifact containing structured health data, distinct from the representation supplied to an underlying model."@en ;
+    rdfs:subClassOf core:Artifact .
 
 health:TreatmentRecommendation a owl:Class ;
     rdfs:label "TreatmentRecommendation"@en ;
@@ -1233,8 +1507,7 @@ health:TreatmentRecommendation a owl:Class ;
 health:UnstructuredHealthDataArtifact a owl:Class ;
     rdfs:label "UnstructuredHealthDataArtifact"@en ;
     rdfs:comment "An agent-level artifact containing unstructured health data such as narrative text, images, waveforms, audio, or video."@en ;
-    rdfs:subClassOf core:Artifact ;
-    owl:disjointWith health:StructuredHealthDataArtifact .
+    rdfs:subClassOf core:Artifact .
 
 health:derivedFromFHIRResource a owl:ObjectProperty ;
     rdfs:label "derivedFromFHIRResource"@en ;
@@ -1244,47 +1517,56 @@ health:derivedFromFHIRResource a owl:ObjectProperty ;
 
 health:hasCareSetting a owl:ObjectProperty ;
     rdfs:label "hasCareSetting"@en ;
+    rdfs:comment "Identifies the contextual description of the care setting for an intended clinical use case."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:ClinicalSetting .
 
 health:hasClinicalSetting a owl:ObjectProperty ;
     rdfs:label "hasClinicalSetting"@en ;
     rdfs:comment "Links a health agent, task, or evaluation to a clinical setting."@en ;
-    rdfs:domain core:Agent ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem core:Task eval:EvaluationStudy ) ] ;
     rdfs:range health:ClinicalSetting .
 
 health:hasClinicalSpecialty a owl:ObjectProperty ;
     rdfs:label "hasClinicalSpecialty"@en ;
+    rdfs:comment "Identifies the clinical or biomedical specialty relevant to a clinical use case."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:ClinicalSpecialty .
 
 health:hasClinicalTask a owl:ObjectProperty ;
     rdfs:label "hasClinicalTask"@en ;
+    rdfs:comment "Identifies the task specification supported by an intended clinical use case."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:ClinicalTask .
 
 health:hasDataFormat a owl:ObjectProperty ;
     rdfs:label "hasDataFormat"@en ;
+    rdfs:comment "Identifies the serialization or file format of an information artifact."@en ;
     rdfs:domain core:Artifact ;
     rdfs:range health:DataFormat .
 
 health:hasDataModality a owl:ObjectProperty ;
     rdfs:label "hasDataModality"@en ;
+    rdfs:comment "Identifies a modality of the health data provided by a data source."@en ;
     rdfs:domain health:HealthDataSource ;
     rdfs:range health:DataModality .
 
 health:hasDecisionRole a owl:ObjectProperty ;
     rdfs:label "hasDecisionRole"@en ;
+    rdfs:comment "Describes how a clinical use case's outputs relate to a clinical decision."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:ClinicalDecisionRole .
 
 health:hasDeploymentMode a owl:ObjectProperty ;
     rdfs:label "hasDeploymentMode"@en ;
+    rdfs:comment "Identifies the intended operational-mode description for a clinical use case."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:DeploymentMode .
 
 health:hasInboundInterface a owl:ObjectProperty ;
     rdfs:label "hasInboundInterface"@en ;
+    rdfs:comment "Identifies an inbound interface specification of an agent system."@en ;
     rdfs:domain core:AgentSystem ;
     rdfs:range health:InterfaceSpecification .
 
@@ -1296,11 +1578,13 @@ health:hasIntendedAction a owl:ObjectProperty ;
 
 health:hasOutOfScopeUse a owl:ObjectProperty ;
     rdfs:label "hasOutOfScopeUse"@en ;
+    rdfs:comment "Identifies a use-constraint statement describing use outside the intended clinical scope."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:OutOfScopeUse .
 
 health:hasOutboundInterface a owl:ObjectProperty ;
     rdfs:label "hasOutboundInterface"@en ;
+    rdfs:comment "Identifies an outbound interface specification of an agent system."@en ;
     rdfs:domain core:AgentSystem ;
     rdfs:range health:InterfaceSpecification .
 
@@ -1312,21 +1596,25 @@ health:hasOutputCategory a owl:DatatypeProperty ;
 
 health:hasProhibitedUse a owl:ObjectProperty ;
     rdfs:label "hasProhibitedUse"@en ;
+    rdfs:comment "Identifies a use-constraint statement explicitly prohibiting a use of a clinical use case."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:ProhibitedUse .
 
 health:hasTargetCondition a owl:ObjectProperty ;
     rdfs:label "hasTargetCondition"@en ;
+    rdfs:comment "Identifies the contextual disease, finding or health-state description targeted by a clinical use case."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:TargetCondition .
 
 health:hasTargetPopulation a owl:ObjectProperty ;
     rdfs:label "hasTargetPopulation"@en ;
+    rdfs:comment "Identifies the population specification relevant to a clinical use case, rather than the patients themselves."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:PatientPopulation .
 
 health:hasWorkflowStage a owl:ObjectProperty ;
     rdfs:label "hasWorkflowStage"@en ;
+    rdfs:comment "Identifies the contextual specification of the workflow stage at which a clinical use case operates."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:ClinicalWorkflowStage .
 
@@ -1344,22 +1632,26 @@ health:transformedBy a owl:ObjectProperty ;
 
 health:usesExchangeStandard a owl:ObjectProperty ;
     rdfs:label "usesExchangeStandard"@en ;
+    rdfs:comment "Identifies a health-information exchange standard used by an agent system."@en ;
     rdfs:domain core:AgentSystem ;
     rdfs:range health:ExchangeStandard .
 
 health:usesFHIRProfile a owl:ObjectProperty ;
     rdfs:label "usesFHIRProfile"@en ;
+    rdfs:comment "Identifies the FHIR profile or StructureDefinition used to constrain a FHIR-derived input artifact."@en ;
     rdfs:domain health:FHIRResourceInput ;
     rdfs:range health:FHIRProfile .
 
 health:usesFHIRResourceType a owl:DatatypeProperty ;
     rdfs:label "usesFHIRResourceType"@en ;
     rdfs:comment "Records the FHIR resource type used by an input, output, dataset, or workflow step."@en ;
-    rdfs:domain core:Artifact ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Artifact eval:Dataset core:WorkflowStep ) ] ;
     rdfs:range xsd:string .
 
 health:usesTerminologySystem a owl:ObjectProperty ;
     rdfs:label "usesTerminologySystem"@en ;
+    rdfs:comment "Identifies a terminology or coding system used to encode content in an information artifact."@en ;
     rdfs:domain core:Artifact ;
     rdfs:range health:TerminologySystem .
 
@@ -1369,48 +1661,68 @@ health:usesTerminologySystem a owl:ObjectProperty ;
 
 report:AgentIdentityScopeSection a owl:Class ;
     rdfs:label "AgentIdentityScopeSection"@en ;
-    rdfs:comment "A reporting section for AgentIdentityScopeSection."@en ;
+    rdfs:comment "A document section identifying the configured system, its acting participants, purpose and scope, with their identities kept distinct."@en ;
     rdfs:subClassOf report:ReportingSection .
+
+report:AgentSystemDocumentation a owl:Class ;
+    rdfs:label "AgentSystemDocumentation"@en ;
+    rdfs:comment "Documentation for an agentic system."@en ;
+    rdfs:subClassOf doc:Document .
 
 report:AssessmentMethodsSection a owl:Class ;
     rdfs:label "AssessmentMethodsSection"@en ;
     rdfs:comment "A reporting section describing the completeness-assessment pipeline, rubric, assessor, evidence retrieval, and human calibration procedure."@en ;
     rdfs:subClassOf report:ReportingSection .
 
+report:BenchmarkReport a owl:Class ;
+    rdfs:label "BenchmarkReport"@en ;
+    rdfs:comment "A report describing a benchmark or evaluation framework; it may also describe methods or concrete agent systems."@en ;
+    rdfs:subClassOf report:AssessableReport .
+
 report:ClinicalContextSection a owl:Class ;
     rdfs:label "ClinicalContextSection"@en ;
-    rdfs:comment "A reporting section for ClinicalContextSection."@en ;
+    rdfs:comment "A document section describing the intended patient population, care setting, clinical task and decision context; it describes use rather than an execution occurrence."@en ;
     rdfs:subClassOf report:ReportingSection .
+
+report:ConceptualCommentaryReport a owl:Class ;
+    rdfs:label "ConceptualCommentaryReport"@en ;
+    rdfs:comment "A conceptual or commentary report for which empirical evaluation and runtime fields may be not applicable."@en ;
+    rdfs:subClassOf report:AssessableReport .
 
 report:DataUseSection a owl:Class ;
     rdfs:label "DataUseSection"@en ;
-    rdfs:comment "A reporting section for DataUseSection."@en ;
+    rdfs:comment "A document section describing the conditions, permissions and restrictions governing access to and reuse of data."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:DatasetsMetricsSection a owl:Class ;
     rdfs:label "DatasetsMetricsSection"@en ;
-    rdfs:comment "A reporting section for DatasetsMetricsSection."@en ;
+    rdfs:comment "A document section identifying evaluation datasets, comparators, metric definitions and measurement units; observed results belong in evaluation reporting."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:DeploymentContextSection a owl:Class ;
     rdfs:label "DeploymentContextSection"@en ;
-    rdfs:comment "A reporting section for DeploymentContextSection."@en ;
+    rdfs:comment "A document section describing the intended or observed operating setting, access mode and infrastructure of deployment, distinct from post-deployment monitoring controls."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:DeploymentMonitoringSection a owl:Class ;
     rdfs:label "DeploymentMonitoringSection"@en ;
-    rdfs:comment "A reporting section for DeploymentMonitoringSection."@en ;
+    rdfs:comment "A document section describing post-deployment monitoring rules, responsible participants, observed signals and response procedures, distinct from the deployment configuration itself."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:EvaluationReportingSection a owl:Class ;
     rdfs:label "EvaluationReportingSection"@en ;
-    rdfs:comment "A reporting section for EvaluationReportingSection."@en ;
+    rdfs:comment "A document section reporting evaluation methods, configurations, measured results and their interpretation; a metric definition is distinct from its observed result."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:FailureFallbackSection a owl:Class ;
     rdfs:label "FailureFallbackSection"@en ;
-    rdfs:comment "A reporting section for FailureFallbackSection."@en ;
+    rdfs:comment "A document section describing failure conditions and fallback or escalation plans, distinguishing prospective controls from incidents that actually occurred."@en ;
     rdfs:subClassOf report:ReportingSection .
+
+report:GovernancePolicyReport a owl:Class ;
+    rdfs:label "GovernancePolicyReport"@en ;
+    rdfs:comment "A governance, ethics, policy, or regulatory report for which system implementation fields may be not applicable."@en ;
+    rdfs:subClassOf report:AssessableReport .
 
 report:GovernanceProfile a owl:Class ;
     rdfs:label "GovernanceProfile"@en ;
@@ -1419,17 +1731,18 @@ report:GovernanceProfile a owl:Class ;
 
 report:GovernanceReportingSection a owl:Class ;
     rdfs:label "GovernanceReportingSection"@en ;
-    rdfs:comment "A reporting section for GovernanceReportingSection."@en ;
+    rdfs:comment "A document section documenting applicable policies, concrete obligations, accountability and permitted automation, distinct from the policy or governance requirement itself."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:HumanAssessor a owl:Class ;
     rdfs:label "HumanAssessor"@en ;
+    rdfs:comment "A person responsible for performing a reporting-assessment activity."@en ;
     rdfs:subClassOf core:HumanAgent,
         report:AssessmentAgent .
 
 report:HumanReviewSection a owl:Class ;
     rdfs:label "HumanReviewSection"@en ;
-    rdfs:comment "A reporting section for HumanReviewSection."@en ;
+    rdfs:comment "A document section specifying who reviews which outputs, when approval or override is required and how review decisions are recorded, distinguishing requirements from performed reviews."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:HumanVerified a report:HumanVerificationStatus ;
@@ -1437,11 +1750,12 @@ report:HumanVerified a report:HumanVerificationStatus ;
 
 report:HybridAssessmentTeam a owl:Class ;
     rdfs:label "HybridAssessmentTeam"@en ;
+    rdfs:comment "A responsible team combining human and software assessment participants."@en ;
     rdfs:subClassOf report:AssessmentAgent .
 
 report:InputOutputDataSection a owl:Class ;
     rdfs:label "InputOutputDataSection"@en ;
-    rdfs:comment "A reporting section for InputOutputDataSection."@en ;
+    rdfs:comment "A document section describing input and output artifacts, their representations and transformations, distinguishing model interfaces from system-level data and recommendations."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:IntendedUseSection a owl:Class ;
@@ -1456,11 +1770,17 @@ report:IntendedUseStatement a owl:Class ;
 
 report:MemorySection a owl:Class ;
     rdfs:label "MemorySection"@en ;
-    rdfs:comment "A reporting section for MemorySection."@en ;
+    rdfs:comment "A document section describing memory components, retention, retrieval, sharing and relevant access controls, distinct from an actual stored memory artifact."@en ;
     rdfs:subClassOf report:ReportingSection .
 
+report:MethodModelReport a owl:Class ;
+    rdfs:label "MethodModelReport"@en ;
+    rdfs:comment "A report centered on a method or model that does not necessarily describe a complete agent system."@en ;
+    rdfs:subClassOf report:AssessableReport .
+
 report:Missing a report:CompletenessLabel ;
-    rdfs:label "missing"@en .
+    rdfs:label "Missing"@en,
+        "missing"@en .
 
 report:ModelCardReference a owl:Class ;
     rdfs:label "ModelCardReference"@en ;
@@ -1471,42 +1791,45 @@ report:ModelCardReference a owl:Class ;
 
 report:ModelComponentsSection a owl:Class ;
     rdfs:label "ModelComponentsSection"@en ;
-    rdfs:comment "A reporting section for ModelComponentsSection."@en ;
+    rdfs:comment "A document section identifying system-relative model components, the roles they bear and the computational model resources they use; components and roles are separate entities."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:ModelSpecificationSection a owl:Class ;
     rdfs:label "ModelSpecificationSection"@en ;
-    rdfs:comment "A reporting section identifying versioned AI model specifications, model roles, interfaces, and runtime deployments."@en ;
+    rdfs:comment "A reporting section identifying versioned AI model resources, model roles, interfaces, and runtime deployments."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:NotApplicable a report:CompletenessLabel ;
-    rdfs:label "not applicable"@en .
+    rdfs:label "NotApplicable"@en,
+        "not applicable"@en .
 
 report:NotHumanVerified a report:HumanVerificationStatus ;
     rdfs:label "not human verified"@en .
 
 report:Partial a report:CompletenessLabel ;
-    rdfs:label "partial"@en .
+    rdfs:label "Partial"@en,
+        "partial"@en .
 
 report:PendingHumanVerification a report:HumanVerificationStatus ;
     rdfs:label "pending human verification"@en .
 
 report:PlanningReasoningSection a owl:Class ;
     rdfs:label "PlanningReasoningSection"@en ;
-    rdfs:comment "A reporting section for PlanningReasoningSection."@en ;
+    rdfs:comment "A document section explaining planning and reasoning implementations, their intended functions and their use in the workflow, distinct from evidence of a particular reasoning occurrence."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:Present a report:CompletenessLabel ;
-    rdfs:label "present"@en .
+    rdfs:label "Present"@en,
+        "present"@en .
 
 report:PrivacySecurityComplianceSection a owl:Class ;
     rdfs:label "PrivacySecurityComplianceSection"@en ;
-    rdfs:comment "A reporting section for PrivacySecurityComplianceSection."@en ;
+    rdfs:comment "A document section describing privacy and security constraints, sensitive-data handling and applicable compliance obligations; reporting an obligation is not proof that it has been satisfied."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:ReproducibilitySection a owl:Class ;
     rdfs:label "ReproducibilitySection"@en ;
-    rdfs:comment "A reporting section for ReproducibilitySection."@en ;
+    rdfs:comment "A document section providing access to code, configurations, dependencies, versions and instructions needed to reproduce reported methods or evaluations."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:ReverseValidationProfile a owl:Class ;
@@ -1518,27 +1841,32 @@ report:ReverseValidationProfile a owl:Class ;
 
 report:RiskUncertaintySection a owl:Class ;
     rdfs:label "RiskUncertaintySection"@en ;
-    rdfs:comment "A reporting section for RiskUncertaintySection."@en ;
+    rdfs:comment "A document section reporting identified risks, uncertainty estimates, limitations and their interpretation, distinguishing potential adverse outcomes from actual incidents."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:RuntimeArchitectureSection a owl:Class ;
     rdfs:label "RuntimeArchitectureSection"@en ;
-    rdfs:comment "A reporting section for RuntimeArchitectureSection."@en ;
+    rdfs:comment "A document section describing runtime components, model deployments, interfaces and execution relationships, distinct from the ordering and control flow described in a workflow section."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:SubgroupEquityEvaluationSection a owl:Class ;
     rdfs:label "SubgroupEquityEvaluationSection"@en ;
-    rdfs:comment "A reporting section for SubgroupEquityEvaluationSection."@en ;
+    rdfs:comment "A document section reporting subgroup definitions, stratified evaluation results and fairness or equity analyses, distinct from an ethical principle or an untested equity requirement."@en ;
     rdfs:subClassOf report:ReportingSection .
+
+report:SurveyReviewReport a owl:Class ;
+    rdfs:label "SurveyReviewReport"@en ;
+    rdfs:comment "A survey or review report for which concrete runtime fields may be not applicable."@en ;
+    rdfs:subClassOf report:AssessableReport .
 
 report:ToolUseSection a owl:Class ;
     rdfs:label "ToolUseSection"@en ;
-    rdfs:comment "A reporting section for ToolUseSection."@en ;
+    rdfs:comment "A document section identifying callable tools, permissions and invocation interfaces, with reported invocation occurrences distinguished from reusable tool resources."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:WorkflowSection a owl:Class ;
     rdfs:label "WorkflowSection"@en ;
-    rdfs:comment "A reporting section for WorkflowSection."@en ;
+    rdfs:comment "A document section describing task decomposition, step ordering, branching, delegation and control flow, distinguishing reusable patterns from configured enactments and step occurrences."@en ;
     rdfs:subClassOf report:ReportingSection .
 
 report:alignsWithGuideline a owl:ObjectProperty ;
@@ -1549,6 +1877,7 @@ report:alignsWithGuideline a owl:ObjectProperty ;
 
 report:assessesDimension a owl:ObjectProperty ;
     rdfs:label "assessesDimension"@en ;
+    rdfs:comment "Identifies the rubric dimension evaluated by a completeness assessment, including when no actual section exists."@en ;
     rdfs:domain report:ReportingCompletenessAssessment ;
     rdfs:range report:CompletenessDimension .
 
@@ -1560,35 +1889,39 @@ report:assessesReport a owl:ObjectProperty ;
 
 report:assessesSection a owl:ObjectProperty ;
     rdfs:label "assessesSection"@en ;
-    rdfs:comment "Links a completeness assessment to the reporting section it assesses."@en ;
+    rdfs:comment "Links a completeness assessment to an actual section of the report it assesses. Missing or not-applicable assessments may omit this link when no section exists; assessesDimension still identifies the assessment target."@en ;
     rdfs:domain report:ReportingCompletenessAssessment ;
     rdfs:range report:ReportingSection .
 
 report:assessmentConfidence a owl:DatatypeProperty ;
     rdfs:label "assessmentConfidence"@en ;
+    rdfs:comment "Records the assessor's confidence in a completeness assessment on the profile's zero-to-one scale."@en ;
     rdfs:domain report:ReportingCompletenessAssessment ;
     rdfs:range xsd:decimal .
 
 report:assessmentTimestamp a owl:DatatypeProperty ;
     rdfs:label "assessmentTimestamp"@en ;
+    rdfs:comment "Records the timestamp associated with a reporting-assessment activity."@en ;
     rdfs:domain report:ReportingAssessmentActivity ;
     rdfs:range xsd:dateTime .
 
 report:associatedWithAssessor a owl:ObjectProperty ;
     rdfs:label "associatedWithAssessor"@en ;
+    rdfs:comment "Identifies the responsible human or software assessor associated with a reporting-assessment activity."@en ;
     rdfs:domain report:ReportingAssessmentActivity ;
     rdfs:range report:AssessmentAgent .
 
 report:containsStatement a owl:ObjectProperty ;
     rdfs:label "containsStatement"@en ;
-    rdfs:domain report:AgentSystemReport ;
+    rdfs:comment "Links an assessable report to a reporting statement contained in that report."@en ;
+    rdfs:domain report:AssessableReport ;
     rdfs:range report:ReportingStatement .
 
-report:describesModelSpecification a owl:ObjectProperty ;
-    rdfs:label "describesModelSpecification"@en ;
-    rdfs:comment "Links a model-card report to the AI model specification it describes."@en ;
+report:describesModelResource a owl:ObjectProperty ;
+    rdfs:label "describesModelResource"@en ;
+    rdfs:comment "Links a model-card document to the model resource it describes."@en ;
     rdfs:domain report:ModelCardReport ;
-    rdfs:range core:AIModelSpecification .
+    rdfs:range core:AIModelResource .
 
 report:documentsAgentSystem a owl:ObjectProperty ;
     rdfs:label "documentsAgentSystem"@en ;
@@ -1616,21 +1949,25 @@ report:evidenceLocator a owl:DatatypeProperty ;
 
 report:evidenceQuote a owl:DatatypeProperty ;
     rdfs:label "evidenceQuote"@en ;
+    rdfs:comment "Preserves the source text quoted in a structured evidence statement."@en ;
     rdfs:domain report:EvidenceStatement ;
     rdfs:range xsd:string .
 
 report:evidenceSourceSection a owl:DatatypeProperty ;
     rdfs:label "evidenceSourceSection"@en ;
+    rdfs:comment "Records the source-section locator associated with a quoted evidence statement."@en ;
     rdfs:domain report:EvidenceStatement ;
     rdfs:range xsd:string .
 
 report:gapForRequirement a owl:ObjectProperty ;
     rdfs:label "gapForRequirement"@en ;
+    rdfs:comment "Identifies the reporting requirement to which a recorded reporting gap pertains."@en ;
     rdfs:domain report:ReportingGap ;
     rdfs:range report:ReportingRequirement .
 
 report:generatedAssessment a owl:ObjectProperty ;
     rdfs:label "generatedAssessment"@en ;
+    rdfs:comment "Links a reporting-assessment activity to an assessment result it generates; inverse of generatedByAssessmentActivity."@en ;
     rdfs:domain report:ReportingAssessmentActivity ;
     rdfs:range report:ReportingCompletenessAssessment ;
     owl:inverseOf report:generatedByAssessmentActivity .
@@ -1638,7 +1975,8 @@ report:generatedAssessment a owl:ObjectProperty ;
 report:hasAgentCard a owl:ObjectProperty ;
     rdfs:label "hasAgentCard"@en ;
     rdfs:comment "Links an agent to its agent card."@en ;
-    rdfs:domain core:Agent ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range report:AgentCard .
 
 report:hasCompletenessLabel a owl:ObjectProperty ;
@@ -1661,6 +1999,7 @@ report:hasGapExplanation a owl:DatatypeProperty ;
 
 report:hasHumanVerificationStatus a owl:ObjectProperty ;
     rdfs:label "hasHumanVerificationStatus"@en ;
+    rdfs:comment "Records whether a human has verified an assessment result, using the controlled verification-status individuals."@en ;
     rdfs:domain report:ReportingCompletenessAssessment ;
     rdfs:range report:HumanVerificationStatus .
 
@@ -1682,13 +2021,13 @@ report:hasIntendedUser a owl:ObjectProperty ;
 
 report:hasModelCardReference a owl:ObjectProperty ;
     rdfs:label "hasModelCardReference"@en ;
-    rdfs:comment "Links an AI model specification to a model-card report that describes it."@en ;
-    rdfs:domain core:AIModelSpecification ;
+    rdfs:comment "Links an AI model resource to a model-card report that describes it."@en ;
+    rdfs:domain core:AIModelResource ;
     rdfs:range report:ModelCardReport .
 
 report:hasModelCardReport a owl:ObjectProperty ;
     rdfs:label "hasModelCardReport"@en ;
-    rdfs:comment "Links an agent-system report to a model-card report describing one of the system's model specifications."@en ;
+    rdfs:comment "Links an agent-system report to a model-card report describing one of the system's model resources."@en ;
     rdfs:domain report:AgentSystemReport ;
     rdfs:range report:ModelCardReport .
 
@@ -1704,6 +2043,12 @@ report:hasReportingGap a owl:ObjectProperty ;
     rdfs:domain report:ReportingCompletenessAssessment ;
     rdfs:range report:ReportingGap .
 
+report:hasReportingProfile a owl:ObjectProperty ;
+    rdfs:label "hasReportingProfile"@en ;
+    rdfs:comment "Links an assessable report to a declared reporting profile whose required section types are checked by SHACL."@en ;
+    rdfs:domain report:AssessableReport ;
+    rdfs:range report:ReportingProfile .
+
 report:hasReportingSection a owl:ObjectProperty ;
     rdfs:label "hasReportingSection"@en ;
     rdfs:comment "Links an assessable agent-system, benchmark, review, policy, method, or conceptual report to one of its reporting sections."@en ;
@@ -1712,6 +2057,7 @@ report:hasReportingSection a owl:ObjectProperty ;
 
 report:hasRequirement a owl:ObjectProperty ;
     rdfs:label "hasRequirement"@en ;
+    rdfs:comment "Identifies a concrete reporting requirement included in a reporting profile."@en ;
     rdfs:domain report:ReportingProfile ;
     rdfs:range report:ReportingRequirement .
 
@@ -1723,24 +2069,25 @@ report:hasSourceSection a owl:DatatypeProperty ;
 
 report:hasSupportingEvidence a owl:ObjectProperty ;
     rdfs:label "hasSupportingEvidence"@en ;
+    rdfs:comment "Links a completeness assessment to a structured evidence record preserving its supporting quote and source location."@en ;
     rdfs:domain report:ReportingCompletenessAssessment ;
     rdfs:range report:EvidenceStatement .
 
 report:isAbout a owl:ObjectProperty ;
     rdfs:label "isAbout"@en ;
+    rdfs:comment "Identifies the entity or specification described by a reporting statement."@en ;
     rdfs:domain report:ReportingStatement ;
     rdfs:range owl:Thing .
 
 report:promptVersion a owl:DatatypeProperty ;
     rdfs:label "promptVersion"@en ;
+    rdfs:comment "Records the prompt version used in a reporting-assessment activity."@en ;
     rdfs:domain report:ReportingAssessmentActivity ;
     rdfs:range xsd:string .
 
-report:recommendedReportingSection a owl:ObjectProperty ;
+report:recommendedReportingSection a owl:AnnotationProperty ;
     rdfs:label "recommendedReportingSection"@en ;
-    rdfs:comment "Links a reporting profile to a recommended reporting section."@en ;
-    rdfs:domain report:ReportingProfile ;
-    rdfs:range report:ReportingSection .
+    rdfs:comment "Schema annotation identifying a recommended ReportingSection subclass for a reporting profile."@en .
 
 report:referencesModelCard a owl:ObjectProperty ;
     rdfs:label "referencesModelCard"@en ;
@@ -1748,42 +2095,47 @@ report:referencesModelCard a owl:ObjectProperty ;
     rdfs:domain report:AgentCard ;
     rdfs:range report:ModelCardReport .
 
-report:requirementTargetsSection a owl:ObjectProperty ;
+report:requirementTargetsSection a owl:AnnotationProperty ;
     rdfs:label "requirementTargetsSection"@en ;
-    rdfs:domain report:ReportingRequirement ;
-    rdfs:range report:ReportingSection .
+    rdfs:comment "Schema annotation identifying the section class targeted by a reporting requirement."@en .
 
-report:requiresInformationElement a owl:ObjectProperty ;
+report:requiresInformationElement a owl:AnnotationProperty ;
     rdfs:label "requiresInformationElement"@en ;
-    rdfs:comment "Links a reporting requirement to an ontology class or property whose instantiation it expects."@en ;
-    rdfs:domain report:ReportingRequirement ;
-    rdfs:range owl:Thing .
+    rdfs:comment "Schema annotation referencing a class or property expected by a requirement; it does not itself instantiate that class or property."@en .
 
-report:requiresReportingSection a owl:ObjectProperty ;
+report:requiresReportingSection a owl:AnnotationProperty ;
     rdfs:label "requiresReportingSection"@en ;
-    rdfs:comment "Links a reporting profile to a required reporting section."@en ;
-    rdfs:domain report:ReportingProfile ;
-    rdfs:range report:ReportingSection .
+    rdfs:comment "Schema annotation identifying a required ReportingSection subclass for a reporting profile; it does not assert that the class IRI is a section instance."@en .
 
 report:rubricVersion a owl:DatatypeProperty ;
     rdfs:label "rubricVersion"@en ;
+    rdfs:comment "Records the rubric version applied in a reporting-assessment activity."@en ;
     rdfs:domain report:ReportingAssessmentActivity ;
     rdfs:range xsd:string .
 
 report:usedReport a owl:ObjectProperty ;
     rdfs:label "usedReport"@en ;
+    rdfs:comment "Identifies an assessable report read as an input by a reporting-assessment activity."@en ;
     rdfs:domain report:ReportingAssessmentActivity ;
     rdfs:range report:AssessableReport .
 
 report:usedReportingProfile a owl:ObjectProperty ;
     rdfs:label "usedReportingProfile"@en ;
+    rdfs:comment "Identifies the reporting profile applied by a reporting-assessment activity."@en ;
     rdfs:domain report:ReportingAssessmentActivity ;
     rdfs:range report:ReportingProfile .
 
 report:usesAssessorModelDeployment a owl:ObjectProperty ;
     rdfs:label "usesAssessorModelDeployment"@en ;
+    rdfs:comment "Identifies the model deployment used by a software assessor when producing reporting assessments."@en ;
     rdfs:domain report:LLMAssessor ;
     rdfs:range core:ModelDeployment .
+
+core:AIModelSpecification a owl:Class ;
+    rdfs:label "AIModelSpecification"@en ;
+    rdfs:comment "An information document specifying a model resource, its architecture, interfaces or intended behavior. A specification describes a model and is not itself that computational model."@en ;
+    rdfs:subClassOf doc:Document ;
+    owl:disjointWith core:AIModelResource .
 
 core:GeneratedModelOutput a owl:Class ;
     rdfs:label "GeneratedModelOutput"@en ;
@@ -1791,21 +2143,25 @@ core:GeneratedModelOutput a owl:Class ;
     rdfs:subClassOf core:Artifact .
 
 core:Goal a owl:Class ;
-    rdfs:label "Goal"@en .
+    rdfs:label "Goal"@en ;
+    rdfs:comment "A specified desired state or objective pursued by performing a task."@en .
 
 core:InputModality a owl:Class ;
     rdfs:label "InputModality"@en ;
-    rdfs:comment "A modality supported by an AI model specification, such as text, image, audio, waveform, or structured data."@en .
+    rdfs:comment "A modality supported by an AI model resource, such as text, image, audio, waveform, or structured data."@en .
 
 core:InputType a owl:Class ;
-    rdfs:label "InputType"@en .
+    rdfs:label "InputType"@en ;
+    rdfs:comment "A descriptor of a kind of input accepted by an agent or system, not an input data instance."@en .
 
 core:Model a owl:Class ;
-    rdfs:label "Model"@en .
+    rdfs:label "Model"@en ;
+    rdfs:comment "A computational model represented by its learned parameters or specified input-output computation; not a document describing that model or a running service hosting it."@en ;
+    rdfs:subClassOf core:Resource .
 
 core:ModelCapability a owl:Class ;
     rdfs:label "ModelCapability"@en ;
-    rdfs:comment "A capability declared for an AI model specification."@en .
+    rdfs:comment "A capability declared for an AI model resource."@en .
 
 core:ModelInputSpecification a owl:Class ;
     rdfs:label "ModelInputSpecification"@en ;
@@ -1818,7 +2174,7 @@ core:ModelIntendedUse a owl:Class ;
 
 core:ModelLimitation a owl:Class ;
     rdfs:label "ModelLimitation"@en ;
-    rdfs:comment "A limitation declared for an AI model specification."@en .
+    rdfs:comment "A limitation declared for an AI model resource."@en .
 
 core:ModelOutputSpecification a owl:Class ;
     rdfs:label "ModelOutputSpecification"@en ;
@@ -1826,61 +2182,76 @@ core:ModelOutputSpecification a owl:Class ;
     rdfs:subClassOf core:ModelInterfaceSpecification .
 
 core:Observation a owl:Class ;
-    rdfs:label "Observation"@en .
+    rdfs:label "Observation"@en ;
+    rdfs:comment "An information product recording a perceived or computed finding, distinct from the observation activity."@en ;
+    rdfs:subClassOf core:Artifact .
 
 core:Outcome a owl:Class ;
-    rdfs:label "Outcome"@en .
+    rdfs:label "Outcome"@en ;
+    rdfs:comment "A recorded result or resulting state of an execution, not the execution itself."@en .
 
 core:OutputType a owl:Class ;
-    rdfs:label "OutputType"@en .
+    rdfs:label "OutputType"@en ;
+    rdfs:comment "A descriptor of a kind of output produced by an agent or system, not an output data instance."@en .
 
 core:Reasoner a owl:Class ;
-    rdfs:label "Reasoner"@en .
+    rdfs:label "Reasoner"@en ;
+    rdfs:comment "A configured implementation supporting inference or deliberation, distinct from its reasoning role and an individual reasoning occurrence."@en ;
+    rdfs:subClassOf core:ExecutionUnit .
 
 core:StepType a owl:Class ;
-    rdfs:label "StepType"@en .
+    rdfs:label "StepType"@en ;
+    rdfs:comment "A descriptor classifying the function of a workflow-step occurrence, not the step occurrence itself."@en .
 
 core:hasExecutionEnvironment a owl:ObjectProperty ;
     rdfs:label "hasExecutionEnvironment"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Associates an actor or system with its described software, hardware or service execution environment."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:ExecutionEnvironment .
+
+core:hasMemberAgent a owl:ObjectProperty ;
+    rdfs:label "hasMemberAgent"@en ;
+    rdfs:comment "Links an agent system to an acting agent participating as a member; membership is not class inheritance."@en ;
+    rdfs:domain core:AgentSystem ;
+    rdfs:range core:Agent .
 
 core:hasMemoryModule a owl:ObjectProperty ;
     rdfs:label "hasMemoryModule"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Identifies a configured storage or retrieval component used by an actor or system."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range core:MemoryModule .
 
 core:partOfSession a owl:ObjectProperty ;
     rdfs:label "partOfSession"@en ;
+    rdfs:comment "Identifies the interaction or operational session containing an execution run."@en ;
     rdfs:domain core:ExecutionRun ;
     rdfs:range core:Session .
 
-core:producesProposedAction a owl:ObjectProperty ;
-    rdfs:label "producesProposedAction"@en ;
-    rdfs:domain core:Agent ;
-    rdfs:range core:ProposedAction .
-
-core:realizedByModelComponent a owl:ObjectProperty ;
-    rdfs:label "realizedByModelComponent"@en ;
-    rdfs:domain core:AIModelSpecification ;
-    rdfs:range core:ModelComponent .
-
 core:reviewsAction a owl:ObjectProperty ;
     rdfs:label "reviewsAction"@en ;
+    rdfs:comment "Identifies the proposed action examined in a human-review occurrence, separate from any subsequent action execution."@en ;
     rdfs:domain core:ReviewEvent ;
     rdfs:range core:ProposedAction .
 
-doc:Asset a owl:Class ;
-    rdfs:label "Asset"@en .
+core:usedByModelComponent a owl:ObjectProperty ;
+    rdfs:label "usedByModelComponent"@en ;
+    rdfs:comment "Links a model resource to a model-component binding using it."@en ;
+    rdfs:domain core:AIModelResource ;
+    rdfs:range core:ModelComponent .
 
-doc:LineageTrace a owl:Class ;
-    rdfs:label "LineageTrace"@en .
+doc:Asset a owl:Class ;
+    rdfs:label "Asset"@en ;
+    rdfs:comment "A reusable supporting resource such as code, data or a configuration supplied to implement a skill."@en .
 
 doc:Template a owl:Class ;
-    rdfs:label "Template"@en .
+    rdfs:label "Template"@en ;
+    rdfs:comment "A reusable information pattern for preparing an implementation or document."@en .
 
 eval:Baseline a owl:Class ;
-    rdfs:label "Baseline"@en .
+    rdfs:label "Baseline"@en ;
+    rdfs:comment "A specified comparator configuration or method used to interpret evaluation results."@en .
 
 eval:BenchmarkFramework a owl:Class ;
     rdfs:label "BenchmarkFramework"@en ;
@@ -1893,23 +2264,34 @@ eval:EquityMetric a owl:Class ;
     rdfs:subClassOf eval:Metric .
 
 eval:ErrorType a owl:Class ;
-    rdfs:label "ErrorType"@en .
+    rdfs:label "ErrorType"@en ;
+    rdfs:comment "A descriptor classifying a failure or error, distinct from a particular failure occurrence."@en .
+
+eval:EvaluableEntity a owl:Class ;
+    rdfs:label "EvaluableEntity"@en ;
+    rdfs:comment "An entity selected as an evaluation target; selection does not imply that the target is an acting agent."@en .
 
 eval:Evaluator a owl:Class ;
-    rdfs:label "Evaluator"@en .
+    rdfs:label "Evaluator"@en ;
+    rdfs:comment "A responsible human, organizational or software participant performing an evaluation."@en ;
+    rdfs:subClassOf core:Agent .
 
 eval:Interpretation a owl:Class ;
-    rdfs:label "Interpretation"@en .
+    rdfs:label "Interpretation"@en ;
+    rdfs:comment "An information statement explaining the meaning or implications of an evaluation result."@en .
 
 eval:Scenario a owl:Class ;
-    rdfs:label "Scenario"@en .
+    rdfs:label "Scenario"@en ;
+    rdfs:comment "A specification of circumstances in which an evaluation task is performed."@en .
 
 eval:Subpopulation a owl:Class ;
-    rdfs:label "Subpopulation"@en .
+    rdfs:label "Subpopulation"@en ;
+    rdfs:comment "A specification of a subgroup used to stratify evaluation results, not the individual members of that subgroup."@en .
 
 gov:AccountabilityRole a owl:Class ;
     rdfs:label "AccountabilityRole"@en ;
-    rdfs:comment "Human or organizational role accountable for agent behavior, review, or governance outcomes."@en .
+    rdfs:comment "Human or organizational role accountable for agent behavior, review, or governance outcomes, distinct from the responsible participant bearing the role."@en ;
+    rdfs:subClassOf core:Role .
 
 gov:AuditEvent a owl:Class ;
     rdfs:label "AuditEvent"@en ;
@@ -1925,10 +2307,12 @@ gov:DecisionCriterion a owl:Class ;
     rdfs:comment "Criterion used by a policy, review requirement, or governance rule to guide decisions."@en .
 
 gov:DeploymentStatus a owl:Class ;
-    rdfs:label "DeploymentStatus"@en .
+    rdfs:label "DeploymentStatus"@en ;
+    rdfs:comment "A recorded status describing the operational or deployment stage of a system."@en .
 
 gov:EthicalConcern a owl:Class ;
-    rdfs:label "EthicalConcern"@en .
+    rdfs:label "EthicalConcern"@en ;
+    rdfs:comment "A recorded issue concerning ethical implications of a system or its use."@en .
 
 gov:FallbackStrategy a owl:Class ;
     rdfs:label "FallbackStrategy"@en ;
@@ -1939,29 +2323,40 @@ gov:Incident a owl:Class ;
     rdfs:comment "Safety, reliability, policy, privacy, or operational incident triggered during agent execution."@en .
 
 gov:Limitation a owl:Class ;
-    rdfs:label "Limitation"@en .
+    rdfs:label "Limitation"@en ;
+    rdfs:comment "A statement of a restriction or known boundary on a system capability or applicability."@en .
 
 gov:MonitoringRule a owl:Class ;
     rdfs:label "MonitoringRule"@en ;
     rdfs:comment "Rule used to monitor agent behavior, execution runs, policy compliance, or safety signals."@en .
 
 gov:RegulatoryStatus a owl:Class ;
-    rdfs:label "RegulatoryStatus"@en .
+    rdfs:label "RegulatoryStatus"@en ;
+    rdfs:comment "A recorded regulatory classification or authorization status, not evidence of compliance by itself."@en .
 
 gov:constrainedBy a owl:ObjectProperty ;
     rdfs:label "constrainedBy"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Identifies a policy governing the permitted behavior of an actor or system."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
     rdfs:range gov:Policy .
 
 gov:hasTriggerCondition a owl:ObjectProperty ;
     rdfs:label "hasTriggerCondition"@en ;
-    rdfs:domain gov:EscalationEvent ;
+    rdfs:comment "Links an escalation plan to its specified trigger condition, or an actual escalation occurrence to its triggering condition. The plan relation alone does not assert an occurrence."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( gov:EscalationPlan gov:EscalationEvent ) ] ;
     rdfs:range gov:TriggerCondition .
 
 health:ClinicalAgent a owl:Class ;
     rdfs:label "ClinicalAgent"@en ;
     rdfs:comment "An agent used in a clinical setting."@en ;
     rdfs:subClassOf health:HealthAgent .
+
+health:ClinicalAgentSystem a owl:Class ;
+    rdfs:label "ClinicalAgentSystem"@en ;
+    rdfs:comment "A health-oriented agent system configured for use in clinical care."@en ;
+    rdfs:subClassOf health:HealthAgentSystem .
 
 health:ClinicalDecisionRole a owl:Class ;
     rdfs:label "ClinicalDecisionRole"@en ;
@@ -1970,7 +2365,7 @@ health:ClinicalDecisionRole a owl:Class ;
 
 health:ClinicalSpecialty a owl:Class ;
     rdfs:label "ClinicalSpecialty"@en ;
-    rdfs:comment "A clinical or biomedical specialty relevant to an intended use."@en ;
+    rdfs:comment "A contextual description of the clinical or biomedical specialty relevant to intended use."@en ;
     rdfs:subClassOf core:Context .
 
 health:ClinicalTask a owl:Class ;
@@ -1980,7 +2375,7 @@ health:ClinicalTask a owl:Class ;
 
 health:ClinicalWorkflowStage a owl:Class ;
     rdfs:label "ClinicalWorkflowStage"@en ;
-    rdfs:comment "A stage in a clinical workflow at which an agent system is intended to operate."@en ;
+    rdfs:comment "A contextual specification of the stage of a clinical workflow at which the system is intended to operate."@en ;
     rdfs:subClassOf core:Context .
 
 health:DataFormat a owl:Class ;
@@ -2004,7 +2399,7 @@ health:DeploymentMode a owl:Class ;
 health:EHRInput a owl:Class ;
     rdfs:label "EHRInput"@en ;
     rdfs:comment "An input artifact derived from an electronic health record."@en ;
-    rdfs:subClassOf health:FHIRResourceInput .
+    rdfs:subClassOf core:Artifact .
 
 health:ExchangeStandard a owl:Class ;
     rdfs:label "ExchangeStandard"@en ;
@@ -2016,12 +2411,12 @@ health:FHIRProfile a owl:Class ;
 
 health:IntendedClinicalAction a owl:Class ;
     rdfs:label "IntendedClinicalAction"@en ;
-    rdfs:comment "The real-world clinical action that an agent system is intended to inform, recommend, initiate, or support, distinct from a runtime proposed-action instance."@en ;
+    rdfs:comment "A contextual specification of the clinical action the system is intended to inform or support, not an action occurrence."@en ;
     rdfs:subClassOf core:Context .
 
 health:OutOfScopeUse a owl:Class ;
     rdfs:label "OutOfScopeUse"@en ;
-    rdfs:comment "A use not covered by the intended scope of an agent system."@en ;
+    rdfs:comment "A use-constraint statement identifying a use outside the specified intended scope."@en ;
     rdfs:subClassOf health:UseConstraint .
 
 health:PatientFacingOutput a owl:Class ;
@@ -2031,17 +2426,17 @@ health:PatientFacingOutput a owl:Class ;
 
 health:PatientPopulation a owl:Class ;
     rdfs:label "PatientPopulation"@en ;
-    rdfs:comment "A patient population associated with an agent, dataset, evaluation, or deployment context."@en ;
+    rdfs:comment "A contextual specification of the patient population relevant to a use case, not the patients themselves."@en ;
     rdfs:subClassOf core:Context .
 
-health:StructuredHealthDataArtifact a owl:Class ;
-    rdfs:label "StructuredHealthDataArtifact"@en ;
-    rdfs:comment "An agent-level artifact containing structured health data, distinct from the representation supplied to an underlying model."@en ;
-    rdfs:subClassOf core:Artifact .
+health:ProhibitedUse a owl:Class ;
+    rdfs:label "ProhibitedUse"@en ;
+    rdfs:comment "A use-constraint statement explicitly prohibiting an identified use."@en ;
+    rdfs:subClassOf health:UseConstraint .
 
 health:TargetCondition a owl:Class ;
     rdfs:label "TargetCondition"@en ;
-    rdfs:comment "A disease, finding, health state, or biomedical condition addressed by a clinical use case."@en ;
+    rdfs:comment "A contextual description of a disease, finding or health state targeted by a use case, not an occurrence of that condition."@en ;
     rdfs:subClassOf core:Context .
 
 health:TerminologySystem a owl:Class ;
@@ -2056,55 +2451,30 @@ health:hasIntendedClinicalUse a owl:ObjectProperty ;
 
 health:hasIntendedUser a owl:ObjectProperty ;
     rdfs:label "hasIntendedUser"@en ;
+    rdfs:comment "Identifies a user or recipient role expected in a clinical use case, rather than a particular person."@en ;
     rdfs:domain health:ClinicalUseCase ;
     rdfs:range health:IntendedUserRole .
-
-report:AgentSystemDocumentation a owl:Class ;
-    rdfs:label "AgentSystemDocumentation"@en ;
-    rdfs:comment "Documentation for an agentic system."@en ;
-    rdfs:subClassOf doc:Reference .
-
-report:BenchmarkReport a owl:Class ;
-    rdfs:label "BenchmarkReport"@en ;
-    rdfs:comment "A report describing a benchmark or evaluation framework rather than a single concrete agent system."@en ;
-    rdfs:subClassOf report:AssessableReport .
 
 report:CompletenessDimension a owl:Class ;
     rdfs:label "CompletenessDimension"@en ;
     rdfs:comment "A dimension of reporting completeness such as runtime architecture, evaluation, provenance, governance, or benchmark-process alignment."@en .
 
-report:ConceptualCommentaryReport a owl:Class ;
-    rdfs:label "ConceptualCommentaryReport"@en ;
-    rdfs:comment "A conceptual or commentary report for which empirical evaluation and runtime fields may be not applicable."@en ;
-    rdfs:subClassOf report:AssessableReport .
-
-report:GovernancePolicyReport a owl:Class ;
-    rdfs:label "GovernancePolicyReport"@en ;
-    rdfs:comment "A governance, ethics, policy, or regulatory report for which system implementation fields may be not applicable."@en ;
-    rdfs:subClassOf report:AssessableReport .
-
 report:IntendedUse a owl:Class ;
     rdfs:label "IntendedUse"@en ;
-    rdfs:comment "Deprecated compatibility class; intended clinical use is represented by health:ClinicalUseCase, while a report may contain an IntendedUseStatement about that use case."@en ;
+    rdfs:comment "Deprecated generic compatibility term. See the clinical replacement where appropriate; no equivalence is asserted because the legacy scope may be broader."@en ;
     rdfs:seeAlso health:ClinicalUseCase ;
-    owl:deprecated true ;
-    owl:equivalentClass health:ClinicalUseCase .
+    owl:deprecated true .
 
 report:IntendedUser a owl:Class ;
     rdfs:label "IntendedUser"@en ;
-    rdfs:comment "Deprecated compatibility class; intended users are represented by health:IntendedUserRole."@en ;
+    rdfs:comment "Deprecated generic compatibility term. See the clinical replacement where appropriate; no equivalence is asserted because the legacy scope may be broader."@en ;
     rdfs:seeAlso health:IntendedUserRole ;
-    owl:deprecated true ;
-    owl:equivalentClass health:IntendedUserRole .
+    owl:deprecated true .
 
 report:LLMAssessor a owl:Class ;
     rdfs:label "LLMAssessor"@en ;
+    rdfs:comment "A software assessor that uses a language-model deployment to carry out reporting assessment."@en ;
     rdfs:subClassOf report:SoftwareAssessor .
-
-report:MethodModelReport a owl:Class ;
-    rdfs:label "MethodModelReport"@en ;
-    rdfs:comment "A report centered on a method or model that does not necessarily describe a complete agent system."@en ;
-    rdfs:subClassOf report:AssessableReport .
 
 report:ReportingCompletenessProfile a owl:Class ;
     rdfs:label "ReportingCompletenessProfile"@en ;
@@ -2118,15 +2488,12 @@ report:ReportingGuidelineReference a owl:Class ;
 
 report:SoftwareAssessor a owl:Class ;
     rdfs:label "SoftwareAssessor"@en ;
+    rdfs:comment "A software actor responsible for performing a reporting-assessment activity, distinct from its underlying model resource."@en ;
     rdfs:subClassOf report:AssessmentAgent .
-
-report:SurveyReviewReport a owl:Class ;
-    rdfs:label "SurveyReviewReport"@en ;
-    rdfs:comment "A survey or review report for which concrete runtime fields may be not applicable."@en ;
-    rdfs:subClassOf report:AssessableReport .
 
 report:generatedByAssessmentActivity a owl:ObjectProperty ;
     rdfs:label "generatedByAssessmentActivity"@en ;
+    rdfs:comment "Identifies the activity that generated a completeness-assessment result; its assessed report must be an input of that activity."@en ;
     rdfs:domain report:ReportingCompletenessAssessment ;
     rdfs:range report:ReportingAssessmentActivity .
 
@@ -2135,10 +2502,12 @@ core:AgentComponent a owl:Class ;
     rdfs:comment "A functional component that participates in an agent system architecture."@en .
 
 core:AgentConfiguration a owl:Class ;
-    rdfs:label "AgentConfiguration"@en .
+    rdfs:label "AgentConfiguration"@en ;
+    rdfs:comment "A recorded configuration of an agent or agent system, identifying selected settings and resources rather than a running actor."@en .
 
 core:FailureEvent a owl:Class ;
-    rdfs:label "FailureEvent"@en .
+    rdfs:label "FailureEvent"@en ;
+    rdfs:comment "An occurrence of unsuccessful or disrupted execution, distinct from its error description and recorded status."@en .
 
 core:ModelInterfaceSpecification a owl:Class ;
     rdfs:label "ModelInterfaceSpecification"@en ;
@@ -2146,61 +2515,107 @@ core:ModelInterfaceSpecification a owl:Class ;
     rdfs:subClassOf core:Resource .
 
 core:Planner a owl:Class ;
-    rdfs:label "Planner"@en .
+    rdfs:label "Planner"@en ;
+    rdfs:comment "A configured implementation that selects or organizes skills to pursue a goal, distinct from its planning role and an individual planning occurrence."@en ;
+    rdfs:subClassOf core:ExecutionUnit .
 
 core:RuntimeError a owl:Class ;
-    rdfs:label "RuntimeError"@en .
+    rdfs:label "RuntimeError"@en ;
+    rdfs:comment "A description of an error encountered during execution, distinct from a failure occurrence."@en .
 
 core:Session a owl:Class ;
-    rdfs:label "Session"@en .
+    rdfs:label "Session"@en ;
+    rdfs:comment "A grouping of related execution runs within one interaction or operational episode."@en .
 
 core:Tool a owl:Class ;
     rdfs:label "Tool"@en ;
+    rdfs:comment "A callable software tool, API or software service used by an agent or system; physical instruments are outside this class."@en ;
     rdfs:subClassOf core:Resource .
 
 core:WorkflowPattern a owl:Class ;
-    rdfs:label "WorkflowPattern"@en .
+    rdfs:label "WorkflowPattern"@en ;
+    rdfs:comment "A reusable control-flow template from which workflow enactments can be configured; not a particular execution."@en .
+
+core:generates a owl:ObjectProperty ;
+    rdfs:label "generates"@en ;
+    rdfs:comment "Links an agent or system to an information output it generates. An output need not recommend an action; use producesProposedAction for that more specific relation."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem ) ] ;
+    rdfs:range core:Artifact .
 
 doc:Citation a owl:Class ;
-    rdfs:label "Citation"@en .
+    rdfs:label "Citation"@en ;
+    rdfs:comment "A bibliographic citation record identifying a source, not the cited document itself."@en .
 
 doc:License a owl:Class ;
-    rdfs:label "License"@en .
+    rdfs:label "License"@en ;
+    rdfs:comment "A statement of permissions and conditions governing use of a resource."@en .
+
+doc:LineageTrace a owl:Class ;
+    rdfs:label "LineageTrace"@en ;
+    rdfs:comment "An information record describing the derivation history of an artifact or decision."@en .
 
 doc:Owner a owl:Class ;
-    rdfs:label "Owner"@en .
+    rdfs:label "Owner"@en ;
+    rdfs:comment "A contact record identifying a person or organization responsible for ownership, distinct from that acting participant."@en .
 
 doc:ProvenanceRecord a owl:Class ;
-    rdfs:label "ProvenanceRecord"@en .
+    rdfs:label "ProvenanceRecord"@en ;
+    rdfs:comment "An information record documenting the origin, production or use of an entity."@en .
 
 eval:BenchmarkTask a owl:Class ;
-    rdfs:label "BenchmarkTask"@en .
+    rdfs:label "BenchmarkTask"@en ;
+    rdfs:comment "A task specification used within a benchmark evaluation."@en ;
+    rdfs:subClassOf core:Task .
 
 eval:EvaluationFramework a owl:Class ;
     rdfs:label "EvaluationFramework"@en ;
     rdfs:comment "A reusable framework that defines how agent systems, models, or workflows are evaluated, separate from the systems being evaluated."@en .
 
+eval:hasDataUseCondition a owl:ObjectProperty ;
+    rdfs:label "hasDataUseCondition"@en ;
+    rdfs:comment "Links a dataset or dataset use context to a data use condition."@en ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( eval:Dataset eval:DatasetUseContext ) ] ;
+    rdfs:range gov:DataUseCondition .
+
 gov:ComplianceRequirement a owl:Class ;
     rdfs:label "ComplianceRequirement"@en ;
-    rdfs:subClassOf gov:Policy .
+    rdfs:comment "A concrete governance obligation derived from a specified regulatory or compliance framework, not the framework or complete policy."@en ;
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:ConfidenceScore a owl:Class ;
-    rdfs:label "ConfidenceScore"@en .
+    rdfs:label "ConfidenceScore"@en ;
+    rdfs:comment "A recorded confidence estimate associated with a prediction, recommendation or assessment."@en .
 
 gov:DataUseRestriction a owl:Class ;
     rdfs:label "DataUseRestriction"@en ;
     rdfs:comment "A restriction describing a constrained or prohibited data use."@en ;
     rdfs:subClassOf gov:DataUseCondition .
 
-gov:OverrideAction a owl:Class ;
-    rdfs:label "OverrideAction"@en .
+gov:EthicalPrinciple a owl:Class ;
+    rdfs:label "EthicalPrinciple"@en ;
+    rdfs:comment "A general normative principle guiding governance decisions, distinct from a concrete operational requirement or complete policy."@en .
+
+gov:OverrideCapability a owl:Class ;
+    rdfs:label "OverrideCapability"@en ;
+    rdfs:comment "A configured control allowing an authorized participant to supersede a proposed action; distinct from an occurrence of exercising that control."@en ;
+    rdfs:subClassOf core:Resource ;
+    owl:disjointWith gov:OverrideAction .
 
 gov:PrivacyConstraint a owl:Class ;
     rdfs:label "PrivacyConstraint"@en ;
-    rdfs:subClassOf gov:SecurityConstraint .
+    rdfs:comment "A governance requirement limiting collection, disclosure or use of personal information, including purpose limitation as well as confidentiality."@en ;
+    rdfs:subClassOf gov:GovernanceRequirement .
+
+gov:SecurityConstraint a owl:Class ;
+    rdfs:label "SecurityConstraint"@en ;
+    rdfs:comment "A governance requirement protecting software, services or information from unauthorized access or interference."@en ;
+    rdfs:subClassOf gov:GovernanceRequirement .
 
 gov:Uncertainty a owl:Class ;
-    rdfs:label "Uncertainty"@en .
+    rdfs:label "Uncertainty"@en ;
+    rdfs:comment "A recorded estimate or description of uncertainty associated with an information product or assessment."@en .
 
 health:ClinicalRecommendation a owl:Class ;
     rdfs:label "ClinicalRecommendation"@en ;
@@ -2209,21 +2624,22 @@ health:ClinicalRecommendation a owl:Class ;
 
 health:ClinicalSetting a owl:Class ;
     rdfs:label "ClinicalSetting"@en ;
-    rdfs:comment "A care delivery or biomedical setting where an agent operates."@en ;
+    rdfs:comment "A contextual description of a care-delivery or biomedical setting in which a system is used."@en ;
     rdfs:subClassOf core:Context .
+
+health:HealthAgentSystem a owl:Class ;
+    rdfs:label "HealthAgentSystem"@en ;
+    rdfs:comment "An agent system configured for health or biomedical use, distinct from its acting member agents."@en ;
+    rdfs:subClassOf core:AgentSystem .
+
+health:IntendedUserRole a owl:Class ;
+    rdfs:label "IntendedUserRole"@en ;
+    rdfs:comment "A role expected to use, supervise, or receive output from a health-oriented agent system."@en ;
+    rdfs:subClassOf core:Role .
 
 health:InterfaceSpecification a owl:Class ;
     rdfs:label "InterfaceSpecification"@en ;
     rdfs:comment "A specification of an inbound or outbound interface used by an agent system."@en .
-
-health:ProhibitedUse a owl:Class ;
-    rdfs:label "ProhibitedUse"@en ;
-    rdfs:comment "An explicitly prohibited use of an agent system."@en ;
-    rdfs:subClassOf health:UseConstraint .
-
-health:UseConstraint a owl:Class ;
-    rdfs:label "UseConstraint"@en ;
-    rdfs:comment "A statement that limits where or how a clinical use case is appropriate."@en .
 
 report:AgentCard a owl:Class ;
     rdfs:label "AgentCard"@en ;
@@ -2234,86 +2650,115 @@ report:ReportingGap a owl:Class ;
     rdfs:label "ReportingGap"@en ;
     rdfs:comment "A missing or incomplete reporting item identified during reporting completeness assessment."@en .
 
-core:ExecutionEnvironment a owl:Class ;
-    rdfs:label "ExecutionEnvironment"@en .
+report:ReportingRequirement a owl:Class ;
+    rdfs:label "ReportingRequirement"@en ;
+    rdfs:comment "A required or recommended information element defined by a reporting profile."@en .
 
-core:HumanAgent a owl:Class ;
-    rdfs:label "HumanAgent"@en ;
-    rdfs:subClassOf core:Agent .
+core:ExecutionEnvironment a owl:Class ;
+    rdfs:label "ExecutionEnvironment"@en ;
+    rdfs:comment "A described software, hardware or service environment in which an execution takes place."@en .
 
 core:MemoryModule a owl:Class ;
-    rdfs:label "MemoryModule"@en .
+    rdfs:label "MemoryModule"@en ;
+    rdfs:comment "A configured storage or retrieval component used to retain state or information for an agent or system."@en .
 
 core:uses a owl:ObjectProperty ;
     rdfs:label "uses"@en ;
+    rdfs:comment "A general use association between entities; specialized properties specify the resource type and operational context."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range owl:Thing .
 
 doc:VersionInfo a owl:Class ;
-    rdfs:label "VersionInfo"@en .
+    rdfs:label "VersionInfo"@en ;
+    rdfs:comment "An information record identifying a particular release or version of a resource, not the resource itself."@en .
+
+eval:DatasetUseContext a owl:Class ;
+    rdfs:label "DatasetUseContext"@en ;
+    rdfs:comment "The use context under which a dataset is accessed, evaluated, or reused."@en .
 
 eval:FailureCase a owl:Class ;
-    rdfs:label "FailureCase"@en .
+    rdfs:label "FailureCase"@en ;
+    rdfs:comment "A recorded example or description of failure linked to its observed execution or step."@en ;
+    rdfs:subClassOf core:Artifact .
 
-gov:DataUseCondition a owl:Class ;
-    rdfs:label "DataUseCondition"@en ;
-    rdfs:comment "A governance condition constraining dataset access, use, sharing, or reuse."@en ;
-    rdfs:subClassOf gov:Policy .
+gov:EscalationPlan a owl:Class ;
+    rdfs:label "EscalationPlan"@en ;
+    rdfs:comment "A prospective specification of when an issue should be referred and to whom; distinct from an actual escalation occurrence."@en ;
+    rdfs:subClassOf core:Resource ;
+    owl:disjointWith gov:EscalationEvent .
 
 gov:HumanReviewRequirement a owl:Class ;
     rdfs:label "HumanReviewRequirement"@en ;
-    rdfs:comment "Requirement specifying when human review, approval, or oversight is needed."@en .
+    rdfs:comment "Requirement specifying when human review, approval, or oversight is needed."@en ;
+    rdfs:subClassOf gov:GovernanceRequirement .
 
-gov:SecurityConstraint a owl:Class ;
-    rdfs:label "SecurityConstraint"@en ;
-    rdfs:subClassOf gov:Policy .
+gov:OverrideAction a owl:Class ;
+    rdfs:label "OverrideAction"@en ;
+    rdfs:comment "An occurrence of a human or authorized controller superseding a proposed action."@en .
 
 gov:TriggerCondition a owl:Class ;
-    rdfs:label "TriggerCondition"@en .
+    rdfs:label "TriggerCondition"@en ;
+    rdfs:comment "A specified condition whose satisfaction can trigger escalation or another control action."@en .
 
 health:HealthDataSource a owl:Class ;
     rdfs:label "HealthDataSource"@en ;
-    rdfs:comment "A data source used in a health or biomedical agent context."@en ;
-    rdfs:subClassOf eval:Dataset .
+    rdfs:comment "An identifiable source providing health data, including a dataset, repository or service endpoint. A source is a Dataset only when it is itself a data collection."@en .
 
-health:IntendedUserRole a owl:Class ;
-    rdfs:label "IntendedUserRole"@en ;
-    rdfs:comment "A role expected to use, supervise, or receive output from a health-oriented agent system."@en ;
-    rdfs:subClassOf core:Role .
+health:UseConstraint a owl:Class ;
+    rdfs:label "UseConstraint"@en ;
+    rdfs:comment "A statement that limits where or how a clinical use case is appropriate."@en .
 
 report:ReportingStatement a owl:Class ;
     rdfs:label "ReportingStatement"@en ;
-    rdfs:comment "A statement in a report about an agent-system entity, context, requirement, or limitation."@en .
+    rdfs:comment "An information statement contained in an assessable report about a described entity, use, requirement or limitation."@en .
 
 core:AgentInteraction a owl:Class ;
-    rdfs:label "AgentInteraction"@en .
+    rdfs:label "AgentInteraction"@en ;
+    rdfs:comment "An occurrence of interaction between acting participants, distinct from the participants and the interaction protocol."@en .
 
-core:ExecutionUnit a owl:Class ;
-    rdfs:label "ExecutionUnit"@en ;
-    rdfs:comment "Concrete implementation unit for a skill, such as a script, model call, workflow, API call, or pipeline step."@en .
+core:HumanAgent a owl:Class ;
+    rdfs:label "HumanAgent"@en ;
+    rdfs:comment "A person acting as a responsible participant in an activity."@en ;
+    rdfs:subClassOf core:Agent .
 
 core:InvocationStatus a owl:Class ;
-    rdfs:label "InvocationStatus"@en .
+    rdfs:label "InvocationStatus"@en ;
+    rdfs:comment "A recorded status assignment for a tool invocation, distinct from the invocation occurrence."@en .
 
 core:ReviewOutcome a owl:Class ;
-    rdfs:label "ReviewOutcome"@en .
-
-core:Task a owl:Class ;
-    rdfs:label "Task"@en .
+    rdfs:label "ReviewOutcome"@en ;
+    rdfs:comment "A decision resulting from review, distinct from the review event and any subsequent action."@en .
 
 core:Workflow a owl:Class ;
-    rdfs:label "Workflow"@en .
+    rdfs:label "Workflow"@en ;
+    rdfs:comment "A configured workflow enactment grouping prospective or completed step occurrences. Reusable control-flow templates are WorkflowPattern instances."@en .
 
-gov:EscalationEvent a owl:Class ;
-    rdfs:label "EscalationEvent"@en .
+doc:Document a owl:Class ;
+    rdfs:label "Document"@en ;
+    rdfs:comment "An information artifact containing document content, distinct from a bibliographic reference record."@en ;
+    rdfs:subClassOf core:Artifact .
+
+doc:Reference a owl:Class ;
+    rdfs:label "Reference"@en ;
+    rdfs:comment "A reference record identifying or locating an external source, distinct from the source document it identifies."@en .
+
+gov:DataUseCondition a owl:Class ;
+    rdfs:label "DataUseCondition"@en ;
+    rdfs:comment "A governance condition constraining dataset access, use, sharing, or reuse."@en .
 
 gov:Risk a owl:Class ;
-    rdfs:label "Risk"@en .
+    rdfs:label "Risk"@en ;
+    rdfs:comment "A description of a potential adverse outcome and its associated circumstances, distinct from an actual incident."@en .
 
 health:HealthAgent a owl:Class ;
     rdfs:label "HealthAgent"@en ;
-    rdfs:comment "An agent used in a health or biomedical setting."@en ;
+    rdfs:comment "An acting participant in health or biomedical work, distinct from the configured system containing that participant."@en ;
     rdfs:subClassOf core:Agent .
+
+report:AgentSystemReport a owl:Class ;
+    rdfs:label "AgentSystemReport"@en ;
+    rdfs:comment "A report describing a concrete agent system and its lifecycle."@en ;
+    rdfs:subClassOf report:AssessableReport .
 
 report:AssessmentAgent a owl:Class ;
     rdfs:label "AssessmentAgent"@en ;
@@ -2328,21 +2773,17 @@ report:HumanVerificationStatus a owl:Class ;
     rdfs:label "HumanVerificationStatus"@en ;
     rdfs:comment "A controlled status indicating whether an automated assessment has been checked by a human reviewer."@en .
 
-report:ReportingRequirement a owl:Class ;
-    rdfs:label "ReportingRequirement"@en ;
-    rdfs:comment "A required or recommended information element defined by a reporting profile."@en .
-
 core:ExecutionStatus a owl:Class ;
-    rdfs:label "ExecutionStatus"@en .
-
-core:Resource a owl:Class ;
-    rdfs:label "Resource"@en .
+    rdfs:label "ExecutionStatus"@en ;
+    rdfs:comment "A status assignment for one workflow-step occurrence; subclasses classify assignments rather than representing execution activities."@en .
 
 core:ReviewEvent a owl:Class ;
-    rdfs:label "ReviewEvent"@en .
+    rdfs:label "ReviewEvent"@en ;
+    rdfs:comment "One occurrence of a human reviewing a proposed action and producing a review decision."@en .
 
-core:Role a owl:Class ;
-    rdfs:label "Role"@en .
+gov:EscalationEvent a owl:Class ;
+    rdfs:label "EscalationEvent"@en ;
+    rdfs:comment "One occurrence of referring a decision or execution issue to a human participant."@en .
 
 report:CompletenessLabel a owl:Class ;
     rdfs:label "CompletenessLabel"@en ;
@@ -2350,128 +2791,153 @@ report:CompletenessLabel a owl:Class ;
 
 report:ModelCardReport a owl:Class ;
     rdfs:label "ModelCardReport"@en ;
-    rdfs:comment "A model-card document describing an AI model specification. The report is not the model itself."@en ;
-    rdfs:subClassOf report:AgentSystemDocumentation ;
-    owl:disjointWith core:AIModelSpecification,
+    rdfs:comment "A document describing a model resource, whether or not that resource is used in an agent system. The model card is not the model resource, its specification or its deployment."@en ;
+    rdfs:subClassOf doc:Document ;
+    owl:disjointWith core:AIModelResource,
         core:ModelComponent,
         core:ModelDeployment .
 
+core:ExecutionUnit a owl:Class ;
+    rdfs:label "ExecutionUnit"@en ;
+    rdfs:comment "A reusable software implementation of a skill, such as a script or configured processing implementation, distinct from an individual invocation, workflow-step occurrence or execution run."@en ;
+    rdfs:subClassOf core:Resource .
+
 core:ModelComponent a owl:Class ;
     rdfs:label "ModelComponent"@en ;
-    rdfs:comment "A component-specific role through which an agent system uses an AI model specification; it is distinct from the model resource and its deployment."@en ;
+    rdfs:comment "A system-relative functional component binding that uses a model resource. The component is the bearer of a ModelComponentRole, not the role itself or the model resource."@en ;
     rdfs:subClassOf core:AgentComponent ;
-    owl:disjointWith core:AIModelSpecification,
+    owl:disjointWith core:AIModelResource,
+        core:ModelComponentRole,
         core:ModelDeployment .
 
-doc:Reference a owl:Class ;
-    rdfs:label "Reference"@en .
+core:Role a owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A functional or organizational role borne by a participant or component in a context, distinct from its bearer."@en .
+
+core:Task a owl:Class ;
+    rdfs:label "Task"@en ;
+    rdfs:comment "A specified piece of work directed toward a goal; the execution performing the work is represented separately."@en .
 
 eval:Metric a owl:Class ;
-    rdfs:label "Metric"@en .
-
-report:AgentSystemReport a owl:Class ;
-    rdfs:label "AgentSystemReport"@en ;
-    rdfs:comment "A report describing a concrete agent system and its lifecycle."@en ;
-    rdfs:subClassOf report:AssessableReport .
-
-core:ModelComponentRole a owl:Class ;
-    rdfs:label "ModelComponentRole"@en ;
-    rdfs:comment "The functional role played by a model component within an agent workflow."@en ;
-    rdfs:subClassOf core:Role .
+    rdfs:label "Metric"@en ;
+    rdfs:comment "A definition of a measurement or scoring procedure; an observed value belongs to a MetricResult."@en .
 
 eval:Dataset a owl:Class ;
-    rdfs:label "Dataset"@en .
+    rdfs:label "Dataset"@en ;
+    rdfs:comment "An identifiable collection of data items used in evaluation or development, distinct from a repository or service providing access to it."@en .
 
 gov:AutomationLevel a owl:Class ;
-    rdfs:label "AutomationLevel"@en .
-
-core:AgentSystem a owl:Class ;
-    rdfs:label "AgentSystem"@en ;
-    rdfs:comment "A single-agent or multi-agent system that pursues goals through components, workflows, tools, and executions."@en ;
-    rdfs:subClassOf core:Agent .
-
-core:ProposedAction a owl:Class ;
-    rdfs:label "ProposedAction"@en .
-
-core:Skill a owl:Class ;
-    rdfs:label "Skill"@en .
-
-gov:EthicalPrinciple a owl:Class ;
-    rdfs:label "EthicalPrinciple"@en ;
-    rdfs:comment "A health AI ethical principle or governance principle."@en ;
-    rdfs:subClassOf gov:Policy .
+    rdfs:label "AutomationLevel"@en ;
+    rdfs:comment "An assignment of permitted autonomy within an operating context; its subclasses classify assignments rather than interaction events."@en .
 
 health:FHIRResourceInput a owl:Class ;
     rdfs:label "FHIRResourceInput"@en ;
     rdfs:comment "An input artifact represented by or mapped to a FHIR RDF resource."@en ;
     rdfs:subClassOf core:Artifact .
 
+report:ReportingProfile a owl:Class ;
+    rdfs:label "ReportingProfile"@en ;
+    rdfs:comment "An information profile specifying required or recommended content for assessable reports. Type-level requirements are schema annotations, not document-part instances."@en .
+
+core:ModelComponentRole a owl:Class ;
+    rdfs:label "ModelComponentRole"@en ;
+    rdfs:comment "The functional role played by a model component within an agent workflow."@en ;
+    rdfs:subClassOf core:Role .
+
+core:ProposedAction a owl:Class ;
+    rdfs:label "ProposedAction"@en ;
+    rdfs:comment "An information object specifying a suggested future action or recommendation, not the real-world action performed later."@en ;
+    rdfs:subClassOf core:Artifact .
+
+core:Skill a owl:Class ;
+    rdfs:label "Skill"@en ;
+    rdfs:comment "A described capability or procedure that can be implemented and used to perform tasks, distinct from a particular execution."@en .
+
 report:ReportingAssessmentActivity a owl:Class ;
     rdfs:label "ReportingAssessmentActivity"@en ;
     rdfs:comment "An activity performed by an external human, software, LLM-based, or hybrid assessor that applies a reporting profile to a report and generates assessment instances."@en ;
     owl:disjointWith core:AgentSystem .
 
-report:ReportingProfile a owl:Class ;
-    rdfs:label "ReportingProfile"@en ;
-    rdfs:comment "A profile that defines required or recommended reporting sections for an agent-system report."@en .
-
 core:ToolInvocation a owl:Class ;
-    rdfs:label "ToolInvocation"@en .
+    rdfs:label "ToolInvocation"@en ;
+    rdfs:comment "One occurrence of calling a software tool with particular inputs and outputs."@en .
+
+core:Resource a owl:Class ;
+    rdfs:label "Resource"@en ;
+    rdfs:comment "An identifiable digital, informational, software or service asset available for use; availability does not confer agency."@en .
 
 eval:MetricResult a owl:Class ;
-    rdfs:label "MetricResult"@en .
+    rdfs:label "MetricResult"@en ;
+    rdfs:comment "A recorded measurement outcome containing a value, metric and relevant evaluation context; not the metric or study."@en .
+
+core:Context a owl:Class ;
+    rdfs:label "Context"@en ;
+    rdfs:comment "A contextual description specifying circumstances relevant to a task or execution. Its instances describe populations, settings, conditions or intended actions rather than being the patients, diseases or actions themselves."@en .
+
+core:WorkflowStep a owl:Class ;
+    rdfs:label "WorkflowStep"@en ;
+    rdfs:comment "One prospective or actual step occurrence in a particular execution run, not a reusable plan node shared across runs."@en .
 
 report:AssessableReport a owl:Class ;
     rdfs:label "AssessableReport"@en ;
     rdfs:comment "A publication or report to which a paper-type-specific reporting completeness profile may be applied."@en ;
-    rdfs:subClassOf doc:Reference .
+    rdfs:subClassOf doc:Document .
 
-core:Context a owl:Class ;
-    rdfs:label "Context"@en .
+gov:GovernanceRequirement a owl:Class ;
+    rdfs:label "GovernanceRequirement"@en ;
+    rdfs:comment "A concrete obligation or constraint concerning system behavior or use, distinct from the ethical principle motivating it and a policy organizing it."@en .
 
-core:WorkflowStep a owl:Class ;
-    rdfs:label "WorkflowStep"@en .
-
-eval:EvaluationStudy a owl:Class ;
-    rdfs:label "EvaluationStudy"@en .
+gov:Policy a owl:Class ;
+    rdfs:label "Policy"@en ;
+    rdfs:comment "A normative specification organizing rules, obligations or conditions for permitted behavior; an individual principle or requirement is not automatically a complete policy."@en .
 
 core:ModelDeployment a owl:Class ;
     rdfs:label "ModelDeployment"@en ;
-    rdfs:comment "A concrete runtime deployment, endpoint, service, or loaded checkpoint through which an AI model specification is used in an execution."@en ;
+    rdfs:comment "A runtime access or hosting configuration for a model resource, identified by its endpoint, loaded instance or service configuration; not the model resource or specification document."@en ;
     rdfs:subClassOf core:Resource .
 
-gov:Policy a owl:Class ;
-    rdfs:label "Policy"@en .
-
-report:ReportingCompletenessAssessment a owl:Class ;
-    rdfs:label "ReportingCompletenessAssessment"@en ;
-    rdfs:comment "An assessment of whether a paper or report covers an AGENT-O reporting dimension."@en .
+eval:EvaluationStudy a owl:Class ;
+    rdfs:label "EvaluationStudy"@en ;
+    rdfs:comment "An organized evaluation activity applying tasks, data and metrics to a target and producing results; not a result record."@en .
 
 health:ClinicalUseCase a owl:Class ;
     rdfs:label "ClinicalUseCase"@en ;
     rdfs:comment "A first-class specification of why, for whom, where, and in which clinical workflow an agent system is intended to be used."@en ;
     rdfs:subClassOf core:Context .
 
+report:ReportingCompletenessAssessment a owl:Class ;
+    rdfs:label "ReportingCompletenessAssessment"@en ;
+    rdfs:comment "An assessment of whether a paper or report covers an AGENT-O reporting dimension."@en .
+
 core:ExecutionRun a owl:Class ;
-    rdfs:label "ExecutionRun"@en .
+    rdfs:label "ExecutionRun"@en ;
+    rdfs:comment "One occurrence of executing an agent system or workflow, with its own runtime context and provenance; not the reusable implementation."@en .
 
 core:Artifact a owl:Class ;
-    rdfs:label "Artifact"@en .
+    rdfs:label "Artifact"@en ;
+    rdfs:comment "An identifiable information or data product, including a document, input, intermediate product, or generated output; not the activity producing it."@en ;
+    rdfs:subClassOf core:Resource .
 
-core:AIModelSpecification a owl:Class ;
-    rdfs:label "AIModelSpecification"@en ;
-    rdfs:comment "A versioned and identifiable AI model resource, checkpoint, API snapshot, or fine-tuned derivative, independent of its role in a particular agent system."@en ;
+report:ReportingSection a owl:Class ;
+    rdfs:label "ReportingSection"@en ;
+    rdfs:comment "An actual document part of an assessable report, distinct from the class specifying a kind of section."@en ;
+    rdfs:subClassOf core:Artifact .
+
+core:AIModelResource a owl:Class ;
+    rdfs:label "AIModelResource"@en ;
+    rdfs:comment "A versioned, identifiable computational model resource, such as a checkpoint, API snapshot or fine-tuned derivative, independent of its component role, specification document and runtime deployment."@en ;
     rdfs:subClassOf core:Model,
         core:Resource ;
     owl:disjointWith core:ModelDeployment .
 
-report:ReportingSection a owl:Class ;
-    rdfs:label "ReportingSection"@en ;
-    rdfs:comment "A section of an agent-system report."@en .
-
 core:Agent a owl:Class ;
-    rdfs:label "Agent"@en .
+    rdfs:label "Agent"@en ;
+    rdfs:comment "An acting participant to which responsibility for an activity can be attributed, including a person, organization, or software actor. An architecture containing agents is not an agent solely by composition."@en .
 
-[] a owl:AllDisjointClasses ;
-    owl:members ( report:AgentSystemReport report:BenchmarkReport report:SurveyReviewReport report:GovernancePolicyReport report:MethodModelReport report:ConceptualCommentaryReport ) .
+core:AgentSystem a owl:Class ;
+    rdfs:label "AgentSystem"@en ;
+    rdfs:comment "A configured software system containing one or more acting agents together with components, workflows and resources. System composition does not itself assert an Agent identity; collective agency must be asserted on independent grounds."@en ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty core:hasMemberAgent ;
+            owl:someValuesFrom core:Agent ] .
 

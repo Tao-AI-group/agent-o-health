@@ -10,7 +10,7 @@ WHERE {
   ?run core:usesModelInputArtifact ?modelInput ;
        core:usesModelDeployment ?deployment ;
        core:generatedModelOutput ?modelOutput .
-  ?deployment core:deploysModelSpecification ?model .
+  ?deployment core:deploysModelResource ?model .
   ?modelOutput a core:GeneratedModelOutput .
 }
 ORDER BY ?agent ?modelInput

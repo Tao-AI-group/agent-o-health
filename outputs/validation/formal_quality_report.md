@@ -6,27 +6,30 @@
 - Classes missing labels: `0`
 - Object properties missing labels: `0`
 - Datatype properties missing labels: `0`
+- Active named classes/properties missing definitions: `0/0`
 - Object properties missing domain/range: `0/0`
 - Datatype properties missing domain/range: `0/0`
 - Undefined AGENT-O terms in alignments: `0`
+- Undeclared AGENT-O predicates in active graphs: `0`
 - Integrated ontology matches module union: `True`
-- Integrated RDF triples: `1962`
-- Active classes: `252`
-- Active object properties: `198`
-- Active datatype properties: `51`
-- RDF-level schema-axiom statements: `679`
+- Integrated RDF triples: `2646`
+- Active named classes: `260`
+- Anonymous class expressions: `50`
+- Active object properties: `203`
+- Active datatype properties: `52`
+- RDF-level schema-axiom statements: `713`
 - Passed: `True`
 
 ## Module Inventory
 
 | Module | RDF triples | Active classes | Active object properties | Active datatype properties |
 | --- | ---: | ---: | ---: | ---: |
-| `agento-core` | 635 | 80 | 77 | 18 |
-| `agento-doc` | 90 | 9 | 10 | 7 |
-| `agento-eval` | 174 | 22 | 23 | 4 |
-| `agento-gov` | 293 | 39 | 34 | 8 |
-| `agento-health` | 301 | 48 | 23 | 3 |
-| `agento-report` | 466 | 54 | 31 | 11 |
+| `agento-core` | 983 | 80 | 79 | 18 |
+| `agento-doc` | 124 | 10 | 10 | 8 |
+| `agento-eval` | 234 | 22 | 23 | 4 |
+| `agento-gov` | 469 | 42 | 40 | 8 |
+| `agento-health` | 351 | 52 | 23 | 3 |
+| `agento-report` | 482 | 54 | 28 | 11 |
 
 ## Notes
 

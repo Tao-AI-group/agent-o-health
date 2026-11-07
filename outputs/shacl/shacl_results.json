@@ -17,7 +17,7 @@
     "data/examples/health_interoperability_example.ttl",
     "data/examples/prov_decision_trace_example.ttl"
   ],
-  "data_triples": 3644,
+  "data_triples": 4352,
   "shape_results": {
     "agento-architecture-shapes": {
       "shape": "shapes/agento-architecture-shapes.ttl",

@@ -3,6 +3,7 @@
 @prefix eval: <https://w3id.org/agent-o/eval#> .
 @prefix health: <https://w3id.org/agent-o/health#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -25,15 +26,15 @@ health:ClinicalDecisionSupportAgent a owl:Class ;
     rdfs:comment "A clinical agent that supports clinical decisions."@en ;
     rdfs:subClassOf health:ClinicalAgent .
 
+health:ClinicalDecisionSupportAgentSystem a owl:Class ;
+    rdfs:label "ClinicalDecisionSupportAgentSystem"@en ;
+    rdfs:comment "A clinical agent system configured to support clinical decisions."@en ;
+    rdfs:subClassOf health:ClinicalAgentSystem .
+
 health:ClinicalGuidelineSource a owl:Class ;
     rdfs:label "ClinicalGuidelineSource"@en ;
-    rdfs:comment "A clinical guideline source used by an agent."@en ;
+    rdfs:comment "A reference record identifying a clinical guideline used by an agent or agent system."@en ;
     rdfs:subClassOf doc:Reference .
-
-health:ClinicalTask a owl:Class ;
-    rdfs:label "ClinicalTask"@en ;
-    rdfs:comment "A task performed in a clinical workflow."@en ;
-    rdfs:subClassOf core:Task .
 
 health:ClinicianFacingAgent a owl:Class ;
     rdfs:label "ClinicianFacingAgent"@en ;
@@ -49,6 +50,11 @@ health:ConditionInput a owl:Class ;
     rdfs:label "ConditionInput"@en ;
     rdfs:comment "An input artifact mapped to a FHIR Condition resource."@en ;
     rdfs:subClassOf health:FHIRResourceInput .
+
+health:ContraindicatedUse a owl:Class ;
+    rdfs:label "ContraindicatedUse"@en ;
+    rdfs:comment "A use-constraint statement identifying a clinically contraindicated use. A separate prohibition may be asserted when the applicable policy prohibits that use."@en ;
+    rdfs:subClassOf health:UseConstraint .
 
 health:DiagnosticRecommendation a owl:Class ;
     rdfs:label "DiagnosticRecommendation"@en ;
@@ -85,14 +91,14 @@ health:PatientFacingAgent a owl:Class ;
     rdfs:comment "A health agent whose outputs are intended for patients or caregivers."@en ;
     rdfs:subClassOf health:HealthAgent .
 
-health:PatientPopulation a owl:Class ;
-    rdfs:label "PatientPopulation"@en ;
-    rdfs:comment "A patient population associated with an agent, dataset, evaluation, or deployment context."@en ;
-    rdfs:subClassOf core:Context .
+health:PatientFacingAgentSystem a owl:Class ;
+    rdfs:label "PatientFacingAgentSystem"@en ;
+    rdfs:comment "A health-oriented agent system configured to communicate outputs to patients or caregivers."@en ;
+    rdfs:subClassOf health:HealthAgentSystem .
 
 health:PatientRecordInput a owl:Class ;
     rdfs:label "PatientRecordInput"@en ;
-    rdfs:comment "An input artifact representing patient record information."@en ;
+    rdfs:comment "An input artifact derived from an electronic health record and representing patient-record information; no FHIR representation is implied."@en ;
     rdfs:subClassOf health:EHRInput .
 
 health:ProcedureInput a owl:Class ;
@@ -100,10 +106,20 @@ health:ProcedureInput a owl:Class ;
     rdfs:comment "An input artifact mapped to a FHIR Procedure resource."@en ;
     rdfs:subClassOf health:FHIRResourceInput .
 
+health:StructuredHealthDataArtifact a owl:Class ;
+    rdfs:label "StructuredHealthDataArtifact"@en ;
+    rdfs:comment "An agent-level artifact containing structured health data, distinct from the representation supplied to an underlying model."@en ;
+    rdfs:subClassOf core:Artifact .
+
 health:TreatmentRecommendation a owl:Class ;
     rdfs:label "TreatmentRecommendation"@en ;
     rdfs:comment "A treatment recommendation produced by an agent."@en ;
     rdfs:subClassOf health:ClinicalRecommendation .
+
+health:UnstructuredHealthDataArtifact a owl:Class ;
+    rdfs:label "UnstructuredHealthDataArtifact"@en ;
+    rdfs:comment "An agent-level artifact containing unstructured health data such as narrative text, images, waveforms, audio, or video."@en ;
+    rdfs:subClassOf core:Artifact .
 
 health:derivedFromFHIRResource a owl:ObjectProperty ;
     rdfs:label "derivedFromFHIRResource"@en ;
@@ -111,11 +127,90 @@ health:derivedFromFHIRResource a owl:ObjectProperty ;
     rdfs:domain core:Artifact ;
     rdfs:range health:FHIRResourceInput .
 
+health:hasCareSetting a owl:ObjectProperty ;
+    rdfs:label "hasCareSetting"@en ;
+    rdfs:comment "Identifies the contextual description of the care setting for an intended clinical use case."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:ClinicalSetting .
+
 health:hasClinicalSetting a owl:ObjectProperty ;
     rdfs:label "hasClinicalSetting"@en ;
     rdfs:comment "Links a health agent, task, or evaluation to a clinical setting."@en ;
-    rdfs:domain core:Agent ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Agent core:AgentSystem core:Task eval:EvaluationStudy ) ] ;
     rdfs:range health:ClinicalSetting .
+
+health:hasClinicalSpecialty a owl:ObjectProperty ;
+    rdfs:label "hasClinicalSpecialty"@en ;
+    rdfs:comment "Identifies the clinical or biomedical specialty relevant to a clinical use case."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:ClinicalSpecialty .
+
+health:hasClinicalTask a owl:ObjectProperty ;
+    rdfs:label "hasClinicalTask"@en ;
+    rdfs:comment "Identifies the task specification supported by an intended clinical use case."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:ClinicalTask .
+
+health:hasDataFormat a owl:ObjectProperty ;
+    rdfs:label "hasDataFormat"@en ;
+    rdfs:comment "Identifies the serialization or file format of an information artifact."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range health:DataFormat .
+
+health:hasDataModality a owl:ObjectProperty ;
+    rdfs:label "hasDataModality"@en ;
+    rdfs:comment "Identifies a modality of the health data provided by a data source."@en ;
+    rdfs:domain health:HealthDataSource ;
+    rdfs:range health:DataModality .
+
+health:hasDecisionRole a owl:ObjectProperty ;
+    rdfs:label "hasDecisionRole"@en ;
+    rdfs:comment "Describes how a clinical use case's outputs relate to a clinical decision."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:ClinicalDecisionRole .
+
+health:hasDeploymentMode a owl:ObjectProperty ;
+    rdfs:label "hasDeploymentMode"@en ;
+    rdfs:comment "Identifies the intended operational-mode description for a clinical use case."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:DeploymentMode .
+
+health:hasInboundInterface a owl:ObjectProperty ;
+    rdfs:label "hasInboundInterface"@en ;
+    rdfs:comment "Identifies an inbound interface specification of an agent system."@en ;
+    rdfs:domain core:AgentSystem ;
+    rdfs:range health:InterfaceSpecification .
+
+health:hasIntendedAction a owl:ObjectProperty ;
+    rdfs:label "hasIntendedAction"@en ;
+    rdfs:comment "Links a clinical use case to the clinical action that the agent system is intended to inform, recommend, initiate, or support."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:IntendedClinicalAction .
+
+health:hasIntendedClinicalUse a owl:ObjectProperty ;
+    rdfs:label "hasIntendedClinicalUse"@en ;
+    rdfs:comment "Links an agent system to its intended clinical use context."@en ;
+    rdfs:domain core:AgentSystem ;
+    rdfs:range health:ClinicalUseCase .
+
+health:hasIntendedUser a owl:ObjectProperty ;
+    rdfs:label "hasIntendedUser"@en ;
+    rdfs:comment "Identifies a user or recipient role expected in a clinical use case, rather than a particular person."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:IntendedUserRole .
+
+health:hasOutOfScopeUse a owl:ObjectProperty ;
+    rdfs:label "hasOutOfScopeUse"@en ;
+    rdfs:comment "Identifies a use-constraint statement describing use outside the intended clinical scope."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:OutOfScopeUse .
+
+health:hasOutboundInterface a owl:ObjectProperty ;
+    rdfs:label "hasOutboundInterface"@en ;
+    rdfs:comment "Identifies an outbound interface specification of an agent system."@en ;
+    rdfs:domain core:AgentSystem ;
+    rdfs:range health:InterfaceSpecification .
 
 health:hasOutputCategory a owl:DatatypeProperty ;
     rdfs:label "hasOutputCategory"@en ;
@@ -123,51 +218,197 @@ health:hasOutputCategory a owl:DatatypeProperty ;
     rdfs:domain health:PatientFacingOutput ;
     rdfs:range xsd:string .
 
+health:hasProhibitedUse a owl:ObjectProperty ;
+    rdfs:label "hasProhibitedUse"@en ;
+    rdfs:comment "Identifies a use-constraint statement explicitly prohibiting a use of a clinical use case."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:ProhibitedUse .
+
+health:hasTargetCondition a owl:ObjectProperty ;
+    rdfs:label "hasTargetCondition"@en ;
+    rdfs:comment "Identifies the contextual disease, finding or health-state description targeted by a clinical use case."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:TargetCondition .
+
+health:hasTargetPopulation a owl:ObjectProperty ;
+    rdfs:label "hasTargetPopulation"@en ;
+    rdfs:comment "Identifies the population specification relevant to a clinical use case, rather than the patients themselves."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:PatientPopulation .
+
+health:hasWorkflowStage a owl:ObjectProperty ;
+    rdfs:label "hasWorkflowStage"@en ;
+    rdfs:comment "Identifies the contextual specification of the workflow stage at which a clinical use case operates."@en ;
+    rdfs:domain health:ClinicalUseCase ;
+    rdfs:range health:ClinicalWorkflowStage .
+
 health:mapsToFHIRResource a owl:DatatypeProperty ;
     rdfs:label "mapsToFHIRResource"@en ;
     rdfs:comment "Records the canonical FHIR RDF class or resource IRI that an AGENT-O artifact maps to."@en ;
     rdfs:domain core:Artifact ;
     rdfs:range xsd:anyURI .
 
+health:transformedBy a owl:ObjectProperty ;
+    rdfs:label "transformedBy"@en ;
+    rdfs:comment "Links a health-data artifact to a transformation that produces an agent- or model-level representation."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range health:DataTransformation .
+
+health:usesExchangeStandard a owl:ObjectProperty ;
+    rdfs:label "usesExchangeStandard"@en ;
+    rdfs:comment "Identifies a health-information exchange standard used by an agent system."@en ;
+    rdfs:domain core:AgentSystem ;
+    rdfs:range health:ExchangeStandard .
+
+health:usesFHIRProfile a owl:ObjectProperty ;
+    rdfs:label "usesFHIRProfile"@en ;
+    rdfs:comment "Identifies the FHIR profile or StructureDefinition used to constrain a FHIR-derived input artifact."@en ;
+    rdfs:domain health:FHIRResourceInput ;
+    rdfs:range health:FHIRProfile .
+
 health:usesFHIRResourceType a owl:DatatypeProperty ;
     rdfs:label "usesFHIRResourceType"@en ;
     rdfs:comment "Records the FHIR resource type used by an input, output, dataset, or workflow step."@en ;
-    rdfs:domain core:Artifact ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( core:Artifact eval:Dataset core:WorkflowStep ) ] ;
     rdfs:range xsd:string .
+
+health:usesTerminologySystem a owl:ObjectProperty ;
+    rdfs:label "usesTerminologySystem"@en ;
+    rdfs:comment "Identifies a terminology or coding system used to encode content in an information artifact."@en ;
+    rdfs:domain core:Artifact ;
+    rdfs:range health:TerminologySystem .
 
 health:ClinicalAgent a owl:Class ;
     rdfs:label "ClinicalAgent"@en ;
     rdfs:comment "An agent used in a clinical setting."@en ;
     rdfs:subClassOf health:HealthAgent .
 
-health:ClinicalSetting a owl:Class ;
-    rdfs:label "ClinicalSetting"@en ;
-    rdfs:comment "A care delivery or biomedical setting where an agent operates."@en ;
+health:ClinicalAgentSystem a owl:Class ;
+    rdfs:label "ClinicalAgentSystem"@en ;
+    rdfs:comment "A health-oriented agent system configured for use in clinical care."@en ;
+    rdfs:subClassOf health:HealthAgentSystem .
+
+health:ClinicalDecisionRole a owl:Class ;
+    rdfs:label "ClinicalDecisionRole"@en ;
+    rdfs:comment "The intended relationship of an agent output to a clinical decision, such as information retrieval, decision support, recommendation, or autonomous action."@en ;
+    rdfs:subClassOf core:Role .
+
+health:ClinicalSpecialty a owl:Class ;
+    rdfs:label "ClinicalSpecialty"@en ;
+    rdfs:comment "A contextual description of the clinical or biomedical specialty relevant to intended use."@en ;
+    rdfs:subClassOf core:Context .
+
+health:ClinicalTask a owl:Class ;
+    rdfs:label "ClinicalTask"@en ;
+    rdfs:comment "A task performed in a clinical workflow."@en ;
+    rdfs:subClassOf core:Task .
+
+health:ClinicalWorkflowStage a owl:Class ;
+    rdfs:label "ClinicalWorkflowStage"@en ;
+    rdfs:comment "A contextual specification of the stage of a clinical workflow at which the system is intended to operate."@en ;
+    rdfs:subClassOf core:Context .
+
+health:DataFormat a owl:Class ;
+    rdfs:label "DataFormat"@en ;
+    rdfs:comment "A serialization or file format used for agent input, output, or exchange."@en .
+
+health:DataModality a owl:Class ;
+    rdfs:label "DataModality"@en ;
+    rdfs:comment "A health-data modality such as text, image, waveform, genomic sequence, structured EHR data, or audio."@en .
+
+health:DataTransformation a owl:Class ;
+    rdfs:label "DataTransformation"@en ;
+    rdfs:comment "A mapping, serialization, normalization, or other transformation between health-data and agent or model representations."@en ;
+    rdfs:subClassOf core:ExecutionUnit .
+
+health:DeploymentMode a owl:Class ;
+    rdfs:label "DeploymentMode"@en ;
+    rdfs:comment "The intended operational mode of a health agent, such as retrospective analysis, silent deployment, clinician-facing support, or patient-facing interaction."@en ;
     rdfs:subClassOf core:Context .
 
 health:EHRInput a owl:Class ;
     rdfs:label "EHRInput"@en ;
     rdfs:comment "An input artifact derived from an electronic health record."@en ;
-    rdfs:subClassOf health:FHIRResourceInput .
+    rdfs:subClassOf core:Artifact .
+
+health:ExchangeStandard a owl:Class ;
+    rdfs:label "ExchangeStandard"@en ;
+    rdfs:comment "A standard used to exchange health information between an agent system and another system."@en .
+
+health:FHIRProfile a owl:Class ;
+    rdfs:label "FHIRProfile"@en ;
+    rdfs:comment "A FHIR profile or StructureDefinition constraining a FHIR resource used by an agent system."@en .
+
+health:IntendedClinicalAction a owl:Class ;
+    rdfs:label "IntendedClinicalAction"@en ;
+    rdfs:comment "A contextual specification of the clinical action the system is intended to inform or support, not an action occurrence."@en ;
+    rdfs:subClassOf core:Context .
+
+health:IntendedUserRole a owl:Class ;
+    rdfs:label "IntendedUserRole"@en ;
+    rdfs:comment "A role expected to use, supervise, or receive output from a health-oriented agent system."@en ;
+    rdfs:subClassOf core:Role .
+
+health:OutOfScopeUse a owl:Class ;
+    rdfs:label "OutOfScopeUse"@en ;
+    rdfs:comment "A use-constraint statement identifying a use outside the specified intended scope."@en ;
+    rdfs:subClassOf health:UseConstraint .
 
 health:PatientFacingOutput a owl:Class ;
     rdfs:label "PatientFacingOutput"@en ;
     rdfs:comment "An agent output intended for patients or caregivers."@en ;
     rdfs:subClassOf core:Artifact .
 
+health:PatientPopulation a owl:Class ;
+    rdfs:label "PatientPopulation"@en ;
+    rdfs:comment "A contextual specification of the patient population relevant to a use case, not the patients themselves."@en ;
+    rdfs:subClassOf core:Context .
+
+health:ProhibitedUse a owl:Class ;
+    rdfs:label "ProhibitedUse"@en ;
+    rdfs:comment "A use-constraint statement explicitly prohibiting an identified use."@en ;
+    rdfs:subClassOf health:UseConstraint .
+
+health:TargetCondition a owl:Class ;
+    rdfs:label "TargetCondition"@en ;
+    rdfs:comment "A contextual description of a disease, finding or health state targeted by a use case, not an occurrence of that condition."@en ;
+    rdfs:subClassOf core:Context .
+
+health:TerminologySystem a owl:Class ;
+    rdfs:label "TerminologySystem"@en ;
+    rdfs:comment "A terminology or coding system used to encode health-data content."@en .
+
 health:ClinicalRecommendation a owl:Class ;
     rdfs:label "ClinicalRecommendation"@en ;
     rdfs:comment "A health-related recommendation produced by an agent."@en ;
     rdfs:subClassOf core:ProposedAction .
 
+health:ClinicalSetting a owl:Class ;
+    rdfs:label "ClinicalSetting"@en ;
+    rdfs:comment "A contextual description of a care-delivery or biomedical setting in which a system is used."@en ;
+    rdfs:subClassOf core:Context .
+
+health:HealthAgentSystem a owl:Class ;
+    rdfs:label "HealthAgentSystem"@en ;
+    rdfs:comment "An agent system configured for health or biomedical use, distinct from its acting member agents."@en ;
+    rdfs:subClassOf core:AgentSystem .
+
+health:InterfaceSpecification a owl:Class ;
+    rdfs:label "InterfaceSpecification"@en ;
+    rdfs:comment "A specification of an inbound or outbound interface used by an agent system."@en .
+
 health:HealthDataSource a owl:Class ;
     rdfs:label "HealthDataSource"@en ;
-    rdfs:comment "A data source used in a health or biomedical agent context."@en ;
-    rdfs:subClassOf eval:Dataset .
+    rdfs:comment "An identifiable source providing health data, including a dataset, repository or service endpoint. A source is a Dataset only when it is itself a data collection."@en .
+
+health:UseConstraint a owl:Class ;
+    rdfs:label "UseConstraint"@en ;
+    rdfs:comment "A statement that limits where or how a clinical use case is appropriate."@en .
 
 health:HealthAgent a owl:Class ;
     rdfs:label "HealthAgent"@en ;
-    rdfs:comment "An agent used in a health or biomedical setting."@en ;
+    rdfs:comment "An acting participant in health or biomedical work, distinct from the configured system containing that participant."@en ;
     rdfs:subClassOf core:Agent .
 
 health:FHIRResourceInput a owl:Class ;
@@ -179,205 +420,3 @@ health:ClinicalUseCase a owl:Class ;
     rdfs:label "ClinicalUseCase"@en ;
     rdfs:comment "A first-class specification of why, for whom, where, and in which clinical workflow an agent system is intended to be used."@en ;
     rdfs:subClassOf core:Context .
-
-health:IntendedUserRole a owl:Class ;
-    rdfs:label "IntendedUserRole"@en ;
-    rdfs:comment "A role expected to use, supervise, or receive output from a health-oriented agent system."@en ;
-    rdfs:subClassOf core:Role .
-
-health:ClinicalSpecialty a owl:Class ;
-    rdfs:label "ClinicalSpecialty"@en ;
-    rdfs:comment "A clinical or biomedical specialty relevant to an intended use."@en ;
-    rdfs:subClassOf core:Context .
-
-health:TargetCondition a owl:Class ;
-    rdfs:label "TargetCondition"@en ;
-    rdfs:comment "A disease, finding, health state, or biomedical condition addressed by a clinical use case."@en ;
-    rdfs:subClassOf core:Context .
-
-health:ClinicalWorkflowStage a owl:Class ;
-    rdfs:label "ClinicalWorkflowStage"@en ;
-    rdfs:comment "A stage in a clinical workflow at which an agent system is intended to operate."@en ;
-    rdfs:subClassOf core:Context .
-
-health:ClinicalDecisionRole a owl:Class ;
-    rdfs:label "ClinicalDecisionRole"@en ;
-    rdfs:comment "The intended relationship of an agent output to a clinical decision, such as information retrieval, decision support, recommendation, or autonomous action."@en ;
-    rdfs:subClassOf core:Role .
-
-health:DeploymentMode a owl:Class ;
-    rdfs:label "DeploymentMode"@en ;
-    rdfs:comment "The intended operational mode of a health agent, such as retrospective analysis, silent deployment, clinician-facing support, or patient-facing interaction."@en ;
-    rdfs:subClassOf core:Context .
-
-health:UseConstraint a owl:Class ;
-    rdfs:label "UseConstraint"@en ;
-    rdfs:comment "A statement that limits where or how a clinical use case is appropriate."@en .
-
-health:OutOfScopeUse a owl:Class ;
-    rdfs:label "OutOfScopeUse"@en ;
-    rdfs:comment "A use not covered by the intended scope of an agent system."@en ;
-    rdfs:subClassOf health:UseConstraint .
-
-health:ProhibitedUse a owl:Class ;
-    rdfs:label "ProhibitedUse"@en ;
-    rdfs:comment "An explicitly prohibited use of an agent system."@en ;
-    rdfs:subClassOf health:UseConstraint .
-
-health:ContraindicatedUse a owl:Class ;
-    rdfs:label "ContraindicatedUse"@en ;
-    rdfs:comment "A use that is clinically contraindicated for an agent system."@en ;
-    rdfs:subClassOf health:ProhibitedUse .
-
-health:IntendedClinicalAction a owl:Class ;
-    rdfs:label "IntendedClinicalAction"@en ;
-    rdfs:comment "The real-world clinical action that an agent system is intended to inform, recommend, initiate, or support, distinct from a runtime proposed-action instance."@en ;
-    rdfs:subClassOf core:Context .
-
-health:DataModality a owl:Class ;
-    rdfs:label "DataModality"@en ;
-    rdfs:comment "A health-data modality such as text, image, waveform, genomic sequence, structured EHR data, or audio."@en .
-
-health:FHIRProfile a owl:Class ;
-    rdfs:label "FHIRProfile"@en ;
-    rdfs:comment "A FHIR profile or StructureDefinition constraining a FHIR resource used by an agent system."@en .
-
-health:TerminologySystem a owl:Class ;
-    rdfs:label "TerminologySystem"@en ;
-    rdfs:comment "A terminology or coding system used to encode health-data content."@en .
-
-health:DataFormat a owl:Class ;
-    rdfs:label "DataFormat"@en ;
-    rdfs:comment "A serialization or file format used for agent input, output, or exchange."@en .
-
-health:ExchangeStandard a owl:Class ;
-    rdfs:label "ExchangeStandard"@en ;
-    rdfs:comment "A standard used to exchange health information between an agent system and another system."@en .
-
-health:InterfaceSpecification a owl:Class ;
-    rdfs:label "InterfaceSpecification"@en ;
-    rdfs:comment "A specification of an inbound or outbound interface used by an agent system."@en .
-
-health:DataTransformation a owl:Class ;
-    rdfs:label "DataTransformation"@en ;
-    rdfs:comment "A mapping, serialization, normalization, or other transformation between health-data and agent or model representations."@en ;
-    rdfs:subClassOf core:ExecutionUnit .
-
-health:StructuredHealthDataArtifact a owl:Class ;
-    rdfs:label "StructuredHealthDataArtifact"@en ;
-    rdfs:comment "An agent-level artifact containing structured health data, distinct from the representation supplied to an underlying model."@en ;
-    rdfs:subClassOf core:Artifact .
-
-health:UnstructuredHealthDataArtifact a owl:Class ;
-    rdfs:label "UnstructuredHealthDataArtifact"@en ;
-    rdfs:comment "An agent-level artifact containing unstructured health data such as narrative text, images, waveforms, audio, or video."@en ;
-    rdfs:subClassOf core:Artifact ;
-    owl:disjointWith health:StructuredHealthDataArtifact .
-
-health:hasIntendedClinicalUse a owl:ObjectProperty ;
-    rdfs:label "hasIntendedClinicalUse"@en ;
-    rdfs:comment "Links an agent system to its intended clinical use context."@en ;
-    rdfs:domain core:AgentSystem ;
-    rdfs:range health:ClinicalUseCase .
-
-health:hasIntendedUser a owl:ObjectProperty ;
-    rdfs:label "hasIntendedUser"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:IntendedUserRole .
-
-health:hasTargetPopulation a owl:ObjectProperty ;
-    rdfs:label "hasTargetPopulation"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:PatientPopulation .
-
-health:hasCareSetting a owl:ObjectProperty ;
-    rdfs:label "hasCareSetting"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:ClinicalSetting .
-
-health:hasClinicalTask a owl:ObjectProperty ;
-    rdfs:label "hasClinicalTask"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:ClinicalTask .
-
-health:hasClinicalSpecialty a owl:ObjectProperty ;
-    rdfs:label "hasClinicalSpecialty"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:ClinicalSpecialty .
-
-health:hasTargetCondition a owl:ObjectProperty ;
-    rdfs:label "hasTargetCondition"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:TargetCondition .
-
-health:hasWorkflowStage a owl:ObjectProperty ;
-    rdfs:label "hasWorkflowStage"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:ClinicalWorkflowStage .
-
-health:hasDecisionRole a owl:ObjectProperty ;
-    rdfs:label "hasDecisionRole"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:ClinicalDecisionRole .
-
-health:hasIntendedAction a owl:ObjectProperty ;
-    rdfs:label "hasIntendedAction"@en ;
-    rdfs:comment "Links a clinical use case to the clinical action that the agent system is intended to inform, recommend, initiate, or support."@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:IntendedClinicalAction .
-
-health:hasDeploymentMode a owl:ObjectProperty ;
-    rdfs:label "hasDeploymentMode"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:DeploymentMode .
-
-health:hasOutOfScopeUse a owl:ObjectProperty ;
-    rdfs:label "hasOutOfScopeUse"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:OutOfScopeUse .
-
-health:hasProhibitedUse a owl:ObjectProperty ;
-    rdfs:label "hasProhibitedUse"@en ;
-    rdfs:domain health:ClinicalUseCase ;
-    rdfs:range health:ProhibitedUse .
-
-health:hasDataModality a owl:ObjectProperty ;
-    rdfs:label "hasDataModality"@en ;
-    rdfs:domain health:HealthDataSource ;
-    rdfs:range health:DataModality .
-
-health:usesFHIRProfile a owl:ObjectProperty ;
-    rdfs:label "usesFHIRProfile"@en ;
-    rdfs:domain health:FHIRResourceInput ;
-    rdfs:range health:FHIRProfile .
-
-health:usesTerminologySystem a owl:ObjectProperty ;
-    rdfs:label "usesTerminologySystem"@en ;
-    rdfs:domain core:Artifact ;
-    rdfs:range health:TerminologySystem .
-
-health:hasDataFormat a owl:ObjectProperty ;
-    rdfs:label "hasDataFormat"@en ;
-    rdfs:domain core:Artifact ;
-    rdfs:range health:DataFormat .
-
-health:usesExchangeStandard a owl:ObjectProperty ;
-    rdfs:label "usesExchangeStandard"@en ;
-    rdfs:domain core:AgentSystem ;
-    rdfs:range health:ExchangeStandard .
-
-health:hasInboundInterface a owl:ObjectProperty ;
-    rdfs:label "hasInboundInterface"@en ;
-    rdfs:domain core:AgentSystem ;
-    rdfs:range health:InterfaceSpecification .
-
-health:hasOutboundInterface a owl:ObjectProperty ;
-    rdfs:label "hasOutboundInterface"@en ;
-    rdfs:domain core:AgentSystem ;
-    rdfs:range health:InterfaceSpecification .
-
-health:transformedBy a owl:ObjectProperty ;
-    rdfs:label "transformedBy"@en ;
-    rdfs:comment "Links a health-data artifact to a transformation that produces an agent- or model-level representation."@en ;
-    rdfs:domain core:Artifact ;
-    rdfs:range health:DataTransformation .

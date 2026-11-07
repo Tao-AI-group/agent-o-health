@@ -1,513 +1,592 @@
 @prefix core: <https://w3id.org/agent-o/core#> .
 @prefix doc: <https://w3id.org/agent-o/doc#> .
 @prefix eval: <https://w3id.org/agent-o/eval#> .
+@prefix ex: <https://w3id.org/agent-o/examples/governance-reporting-profile#> .
+@prefix exprof: <https://w3id.org/agent-o/profiles#> .
 @prefix gov: <https://w3id.org/agent-o/gov#> .
 @prefix health: <https://w3id.org/agent-o/health#> .
 @prefix report: <https://w3id.org/agent-o/reporting#> .
-@prefix exprof: <https://w3id.org/agent-o/profiles#> .
-@prefix ex: <https://w3id.org/agent-o/examples/governance-reporting-profile#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:MedicationSafetyAgent
-  a core:AgentSystem, health:ClinicalDecisionSupportAgent, health:PatientFacingAgent ;
-  core:hasName "Governed medication safety agent" ;
-  core:hasComponent ex:MedicationSafetyModelComponent ;
-  core:usesModel ex:MedicationSafetyModelComponent ;
-  core:usesTool ex:FHIRRiskScreeningTool ;
-  core:hasWorkflow ex:MedicationSafetyWorkflow ;
-  core:hasSystemExecution ex:MedicationSafetyRun ;
-  core:generates ex:PatientMedicationAdvice ;
-  report:hasAgentCard ex:MedicationSafetyAgentCard ;
-  health:hasIntendedClinicalUse ex:MedicationSafetyClinicalUseCase ;
-  health:usesExchangeStandard ex:MedicationFHIRExchangeStandard ;
-  gov:hasAutomationLevel ex:SharedControlAutomation ;
-  gov:hasAccountabilityRole ex:ClinicalSafetyOwner ;
-  gov:hasEthicalPrinciple
-    ex:HumanAutonomyPrinciple,
-    ex:TransparencyPrinciple,
-    ex:EquityPrinciple,
-    ex:PrivacyPrinciple,
-    ex:SafetyPrinciple ;
-  gov:hasRisk ex:HighRiskMedicationAdviceRisk ;
-  gov:hasPrivacyConstraint ex:MedicationPHIPrivacyConstraint ;
-  gov:requiresCompliance ex:HIPAAComplianceRequirement ;
-  gov:monitoredBy ex:MedicationSafetyMonitoringRule .
+ex:MedicationSafetyAgentReport a report:AgentSystemReport ;
+    core:hasName "Governed medication safety agent report" ;
+    report:containsStatement ex:MedicationSafetyIntendedUseStatement ;
+    report:documentsAgentSystem ex:MedicationSafetyAgent ;
+    report:documentsModelComponent ex:MedicationSafetyModelComponent ;
+    report:hasModelCardReport ex:MedicationSafetyModelCard ;
+    report:hasReportingSection ex:AgentIdentityScopeSection,
+        ex:ClinicalContextSection,
+        ex:DatasetsMetricsSection,
+        ex:DeploymentMonitoringSection,
+        ex:EvaluationReportingSection,
+        ex:FailureFallbackSection,
+        ex:GovernanceReportingSection,
+        ex:HumanReviewSection,
+        ex:InputOutputDataSection,
+        ex:IntendedUseSection,
+        ex:ModelComponentsSection,
+        ex:ModelSpecificationSection,
+        ex:PlanningReasoningSection,
+        ex:PrivacySecurityComplianceSection,
+        ex:ReproducibilitySection,
+        ex:RiskUncertaintySection,
+        ex:RuntimeArchitectureSection,
+        ex:SubgroupEquityEvaluationSection,
+        ex:ToolUseSection,
+        ex:WorkflowSection .
 
-ex:MedicationSafetyModelComponent
-  a core:ModelComponent ;
-  core:hasName "Medication safety reasoning component" ;
-  core:hasModelComponentRole ex:MedicationSafetyReasonerRole ;
-  core:realizesModelSpecification ex:MedicationSafetyModel .
+ex:MedicationSafetyEvaluation a eval:EvaluationStudy ;
+    core:hasName "Medication safety evaluation" ;
+    eval:evaluates ex:MedicationSafetyAgent ;
+    eval:producesResult ex:MedicationSafetyAccuracyResult,
+        ex:MedicationSafetyFairnessResult ;
+    eval:usesDataset ex:MedicationSafetyDataset .
 
-ex:MedicationSafetyReasonerRole
-  a core:ReasonerModelRole ;
-  core:hasName "Medication safety reasoning role" .
+ex:MedicationSafetyPolicy a gov:Policy ;
+    core:hasName "Medication safety governance policy" ;
+    gov:constrains ex:MedicationSafetyAgent ;
+    gov:definesAutomationLevel ex:SharedControlAutomation ;
+    gov:hasOverrideCapability ex:ClinicianOverride ;
+    gov:hasFallbackStrategy ex:ManualReviewFallback ;
+    gov:mitigatesRisk ex:HighRiskMedicationAdviceRisk ;
+    gov:hasEscalationPlan ex:PharmacistEscalation .
 
-ex:MedicationSafetyModel
-  a core:LanguageModel ;
-  core:hasName "Medication safety language model" ;
-  core:modelIdentifier "medication-safety-language-model" ;
-  core:modelVersion "poc-2026-08" ;
-  core:modelArchitectureType "transformer language model" ;
-  core:modelReleaseDate "2026-08-01"^^xsd:date ;
-  core:hasModelInputSpecification ex:MedicationSafetyModelInput ;
-  core:hasModelOutputSpecification ex:MedicationSafetyModelOutput ;
-  core:supportsInputModality ex:MedicationStructuredInputModality ;
-  core:hasModelCapability ex:MedicationSafetyReasoningCapability ;
-  core:hasModelIntendedUse ex:MedicationSafetyModelIntendedUse ;
-  core:hasModelLimitation ex:MedicationSafetyModelLimitation ;
-  core:hasDeveloper ex:MedicationSafetyModelDeveloper ;
-  doc:hasLicense ex:MedicationSafetyModelLicense ;
-  report:hasModelCardReference ex:MedicationSafetyModelCard .
+ex:AgentArenaBenchmarkDescription a eval:BenchmarkFramework ;
+    core:hasName "AgentArena benchmark-alignment paper description" .
 
-ex:MedicationSafetyModelInput a core:ModelInputSpecification ; core:hasDescription "Serialized medication and patient context." .
-ex:MedicationSafetyModelOutput a core:ModelOutputSpecification ; core:hasDescription "Generated medication-risk rationale before agent action selection." .
-ex:MedicationStructuredInputModality a core:InputModality ; core:hasName "structured medication data" .
-ex:MedicationSafetyReasoningCapability a core:ModelCapability ; core:hasName "Medication safety reasoning" .
-ex:MedicationSafetyModelIntendedUse a core:ModelIntendedUse ; core:hasDescription "Generate medication-safety rationales for a shared-control agent workflow." .
-ex:MedicationSafetyModelLimitation a core:ModelLimitation ; core:hasDescription "The model output requires clinical review before patient-facing release." .
-ex:MedicationSafetyModelDeveloper a core:OrganizationAgent ; core:hasName "Example medication model developer" .
-ex:MedicationSafetyModelLicense a doc:License ; core:hasName "Demonstration model license" .
+ex:AgentArenaEvaluationAssessment a report:ReportingCompletenessAssessment ;
+    report:assessesDimension ex:EvaluationDimension ;
+    report:assessesReport ex:AgentArenaPOCReport ;
+    report:assessesSection ex:AgentArenaEvaluationSection ;
+    report:assessmentConfidence 0.90 ;
+    report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
+    report:hasCompletenessLabel report:Present ;
+    report:hasEvidenceQuote "Tasks, scoring, and benchmark-style comparisons are treated as evaluation artifacts." ;
+    report:hasHumanVerificationStatus report:HumanVerified ;
+    report:hasSourceSection "AgentArena evaluation framework" ;
+    report:hasSupportingEvidence ex:AgentArenaEvaluationEvidence .
 
-ex:MedicationSafetyDeployment
-  a core:ModelDeployment ;
-  core:hasName "Medication safety model deployment" ;
-  core:deploysModelSpecification ex:MedicationSafetyModel ;
-  core:hasProvider ex:MedicationSafetyModelProvider ;
-  core:deploymentVersion "deployment-2026-08" ;
-  core:deploymentAccessedAt "2026-08-19T12:00:00Z"^^xsd:dateTime ;
-  core:runtimeConfiguration "temperature=0" .
+ex:AgentArenaEvaluationEvidence a report:EvidenceStatement ;
+    report:evidenceLocator "AgentArena evaluation framework" ;
+    report:evidenceQuote "Tasks, scoring, and benchmark-style comparisons are treated as evaluation artifacts." ;
+    report:evidenceSourceSection "Evaluation framework" .
 
-ex:MedicationSafetyModelProvider a core:OrganizationAgent ; core:hasName "Example medication model provider" .
-ex:MedicationSafetyRun a core:ExecutionRun ; core:usesModelDeployment ex:MedicationSafetyDeployment .
+ex:AgentArenaGovernanceAssessment a report:ReportingCompletenessAssessment ;
+    report:assessesDimension ex:GovernanceSafetyDimension ;
+    report:assessesReport ex:AgentArenaPOCReport ;
+    report:assessesSection ex:AgentArenaGovernanceSection ;
+    report:assessmentConfidence 0.88 ;
+    report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
+    report:hasCompletenessLabel report:Missing ;
+    report:hasEvidenceQuote "The benchmark description is not primarily a governance reporting guideline." ;
+    report:hasGapExplanation "Human accountability, escalation, privacy, and compliance expectations need to be annotated separately when AgentArena is used as an ontology benchmark." ;
+    report:hasHumanVerificationStatus report:HumanVerified ;
+    report:hasRecommendedFix "Add governance profile fields for accountability role, automation level, review requirement, fallback, monitoring, and compliance." ;
+    report:hasSupportingEvidence ex:AgentArenaGovernanceEvidence .
 
-ex:MedicationSafetyModelCard
-  a report:ModelCardReport ;
-  core:hasName "Medication safety model card" ;
-  report:describesModelSpecification ex:MedicationSafetyModel ;
-  doc:sourceURI "https://example.org/model-cards/medication-safety"^^xsd:anyURI .
+ex:AgentArenaGovernanceEvidence a report:EvidenceStatement ;
+    report:evidenceLocator "Governance evidence review" ;
+    report:evidenceQuote "The benchmark description is not primarily a governance reporting guideline." ;
+    report:evidenceSourceSection "Benchmark scope" .
 
-ex:FHIRRiskScreeningTool
-  a core:Tool ;
-  core:hasName "FHIR risk screening tool" ;
-  core:hasVersion "R4-poc" .
+ex:AgentArenaHumanReviewAssessment a report:ReportingCompletenessAssessment ;
+    report:assessesDimension ex:HumanReviewDimension ;
+    report:assessesReport ex:AgentArenaPOCReport ;
+    report:assessesSection ex:AgentArenaHumanReviewSection ;
+    report:assessmentConfidence 0.84 ;
+    report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
+    report:hasCompletenessLabel report:Partial ;
+    report:hasEvidenceQuote "Validity and failure cases are discussed, but human review escalation is not fully specified as an agent governance object." ;
+    report:hasGapExplanation "Review authority and escalation triggers remain under-specified for health AI governance use." ;
+    report:hasHumanVerificationStatus report:HumanVerified ;
+    report:hasRecommendedFix "Represent review requirements as gov:HumanReviewRequirement and escalation conditions as gov:TriggerCondition." ;
+    report:hasSupportingEvidence ex:AgentArenaHumanReviewEvidence .
 
-ex:MedicationSafetyWorkflow
-  a core:Workflow ;
-  core:hasName "Medication safety workflow" ;
-  core:hasStep ex:ExtractFHIRStep, ex:ScreenRiskStep, ex:DraftAdviceStep, ex:HumanReviewStep .
+ex:AgentArenaHumanReviewEvidence a report:EvidenceStatement ;
+    report:evidenceLocator "Human-review evidence review" ;
+    report:evidenceQuote "Validity and failure cases are discussed, but human review escalation is not fully specified." ;
+    report:evidenceSourceSection "Failure handling" .
 
-ex:ExtractFHIRStep
-  a core:WorkflowStep ;
-  core:hasName "Extract FHIR patient context" .
+ex:AgentArenaPrivacyComplianceAssessment a report:ReportingCompletenessAssessment ;
+    report:assessesDimension ex:PrivacyComplianceDimension ;
+    report:assessesReport ex:AgentArenaPOCReport ;
+    report:assessmentConfidence 0.91 ;
+    report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
+    report:hasCompletenessLabel report:Missing ;
+    report:hasEvidenceQuote "The benchmark alignment case does not by itself specify PHI, consent, privacy, or regulatory compliance constraints." ;
+    report:hasGapExplanation "Biomedical deployment contexts require DUO/FHIR/privacy/compliance annotations beyond benchmark task design." ;
+    report:hasHumanVerificationStatus report:HumanVerified ;
+    report:hasRecommendedFix "Attach data-use permissions, privacy constraints, and compliance requirements when the evaluated agent uses sensitive health data." ;
+    report:hasSupportingEvidence ex:AgentArenaPrivacyEvidence .
 
-ex:ScreenRiskStep
-  a core:WorkflowStep ;
-  core:hasName "Screen medication risk" .
+ex:AgentArenaPrivacyEvidence a report:EvidenceStatement ;
+    report:evidenceLocator "Privacy evidence review" ;
+    report:evidenceQuote "The benchmark does not itself specify privacy or regulatory compliance constraints." ;
+    report:evidenceSourceSection "Benchmark scope" .
 
-ex:DraftAdviceStep
-  a core:WorkflowStep ;
-  core:hasName "Draft patient-facing advice" .
-
-ex:HumanReviewStep
-  a core:WorkflowStep ;
-  core:hasName "Route recommendation to clinician review" .
-
-ex:PatientMedicationAdvice
-  a health:PatientFacingOutput, health:TreatmentRecommendation ;
-  core:hasName "Patient medication advice" ;
-  health:hasOutputCategory "recommendation" ;
-  gov:requiresReview ex:ClinicianReviewRequirement ;
-  doc:hasLineageTrace ex:MedicationAdviceLineage .
-
-ex:MedicationAdviceLineage
-  a doc:LineageTrace ;
-  doc:traceText "The advice is derived from FHIR patient context, medication risk screening, model output, and clinician review status." .
-
-ex:MedicationSafetyPolicy
-  a gov:Policy ;
-  core:hasName "Medication safety governance policy" ;
-  gov:constrains ex:MedicationSafetyAgent ;
-  gov:definesAutomationLevel ex:SharedControlAutomation ;
-  gov:hasFallbackStrategy ex:ManualReviewFallback ;
-  gov:triggersEscalation ex:PharmacistEscalation ;
-  gov:enablesOverride ex:ClinicianOverride ;
-  gov:mitigatesRisk ex:HighRiskMedicationAdviceRisk .
-
-ex:SharedControlAutomation
-  a gov:SharedControl ;
-  core:hasName "Shared-control clinical operation" .
-
-ex:ClinicalSafetyOwner
-  a gov:AccountabilityRole ;
-  core:hasName "Clinical safety owner" .
-
-ex:HighRiskMedicationAdviceRisk
-  a gov:Risk ;
-  core:hasName "High-risk medication advice" ;
-  gov:hasSeverity "high" ;
-  gov:hasMitigationStrategy "Require clinician review, fallback to manual review, and escalate low-confidence high-alert medication cases." .
-
-ex:ManualReviewFallback
-  a gov:FallbackStrategy ;
-  core:hasName "Manual review fallback" ;
-  gov:mitigatesRisk ex:HighRiskMedicationAdviceRisk .
-
-ex:PharmacistEscalation
-  a gov:EscalationEvent ;
-  core:hasName "Escalate to pharmacist reviewer" ;
-  gov:triggeredBy ex:LowConfidenceTrigger ;
-  gov:escalatesTo ex:PharmacistReviewer .
-
-ex:LowConfidenceTrigger
-  a gov:TriggerCondition ;
-  gov:conditionExpression "confidence < 0.70 or high-alert medication detected" .
-
-ex:PharmacistReviewer
-  a core:HumanAgent ;
-  core:hasName "Pharmacist reviewer" .
-
-ex:ClinicianOverride
-  a gov:OverrideAction ;
-  core:hasName "Clinician override" ;
-  gov:overridesAction ex:PatientMedicationAdvice .
-
-ex:MedicationSafetyMonitoringRule
-  a gov:MonitoringRule ;
-  core:hasDescription "Monitor subgroup performance, override frequency, escalation rate, and unresolved safety incidents after deployment." .
-
-ex:ClinicianReviewRequirement
-  a gov:HumanReviewRequirement ;
-  core:hasName "Clinician review before patient release" .
-
-ex:MedicationPHIPrivacyConstraint
-  a gov:PrivacyConstraint ;
-  gov:containsPHI true ;
-  core:hasDescription "FHIR-derived patient context contains protected health information." .
-
-ex:HIPAAComplianceRequirement
-  a gov:ComplianceRequirement ;
-  gov:complianceFramework "HIPAA" .
-
-ex:HumanAutonomyPrinciple a gov:HumanAutonomyRequirement ; core:hasName "Human autonomy and meaningful control" .
-ex:TransparencyPrinciple a gov:TransparencyRequirement ; core:hasName "Transparent patient-facing communication" .
-ex:EquityPrinciple a gov:EquityRequirement ; core:hasName "Subgroup equity monitoring" .
-ex:PrivacyPrinciple a gov:PrivacyRequirement ; core:hasName "Privacy and confidential data handling" .
-ex:SafetyPrinciple a gov:SafetyRequirement ; core:hasName "Clinical safety and harm prevention" .
-
-ex:MedicationSafetyEvaluation
-  a eval:EvaluationStudy ;
-  core:hasName "Medication safety evaluation" ;
-  eval:evaluates ex:MedicationSafetyAgent ;
-  eval:usesDataset ex:MedicationSafetyDataset ;
-  eval:producesResult ex:MedicationSafetyAccuracyResult, ex:MedicationSafetyFairnessResult .
-
-ex:MedicationSafetyDataset
-  a health:EHRDataSource ;
-  core:hasName "Medication safety EHR benchmark dataset" .
-
-ex:MedicationSafetyAccuracyResult
-  a eval:MetricResult ;
-  eval:forMetric ex:MedicationSafetyAccuracyMetric ;
-  eval:hasValue "0.92"^^xsd:decimal ;
-  eval:appliesToDataset ex:MedicationSafetyDataset .
-
-ex:MedicationSafetyFairnessResult
-  a eval:MetricResult ;
-  eval:forMetric ex:SubgroupAlertParityMetric ;
-  eval:hasValue "0.04"^^xsd:decimal ;
-  eval:appliesToDataset ex:MedicationSafetyDataset .
-
-ex:MedicationSafetyAccuracyMetric a eval:Metric ; core:hasName "Accuracy" .
-ex:SubgroupAlertParityMetric a eval:FairnessMetric ; core:hasName "Subgroup alert parity gap" .
-
-ex:MedicationSafetyAgentReport
-  a report:AgentSystemReport ;
-  core:hasName "Governed medication safety agent report" ;
-  report:documentsAgentSystem ex:MedicationSafetyAgent ;
-  report:documentsModelComponent ex:MedicationSafetyModelComponent ;
-  report:hasModelCardReport ex:MedicationSafetyModelCard ;
-  report:containsStatement ex:MedicationSafetyIntendedUseStatement ;
-  report:hasReportingSection
-    ex:AgentIdentityScopeSection,
-    ex:RuntimeArchitectureSection,
-    ex:ModelComponentsSection,
-    ex:ModelSpecificationSection,
-    ex:ToolUseSection,
-    ex:WorkflowSection,
-    ex:PlanningReasoningSection,
-    ex:InputOutputDataSection,
-    ex:ClinicalContextSection,
-    ex:IntendedUseSection,
-    ex:EvaluationReportingSection,
-    ex:DatasetsMetricsSection,
-    ex:SubgroupEquityEvaluationSection,
-    ex:GovernanceReportingSection,
-    ex:HumanReviewSection,
-    ex:RiskUncertaintySection,
-    ex:PrivacySecurityComplianceSection,
-    ex:DeploymentMonitoringSection,
-    ex:FailureFallbackSection,
-    ex:ReproducibilitySection .
-
-ex:MedicationSafetyAgentCard
-  a report:AgentCard ;
-  report:documentsAgentSystem ex:MedicationSafetyAgent ;
-  report:referencesModelCard ex:MedicationSafetyModelCard ;
-  report:containsStatement ex:MedicationSafetyIntendedUseStatement ;
-  report:hasReportingSection
-    ex:AgentIdentityScopeSection,
-    ex:RuntimeArchitectureSection,
-    ex:ModelComponentsSection,
-    ex:ModelSpecificationSection,
-    ex:ToolUseSection,
-    ex:WorkflowSection,
-    ex:PlanningReasoningSection,
-    ex:InputOutputDataSection,
-    ex:ClinicalContextSection,
-    ex:IntendedUseSection,
-    ex:EvaluationReportingSection,
-    ex:DatasetsMetricsSection,
-    ex:SubgroupEquityEvaluationSection,
-    ex:GovernanceReportingSection,
-    ex:HumanReviewSection,
-    ex:RiskUncertaintySection,
-    ex:PrivacySecurityComplianceSection,
-    ex:DeploymentMonitoringSection,
-    ex:FailureFallbackSection,
-    ex:ReproducibilitySection .
-
-ex:MedicationSafetyClinicalUseCase
-  a health:ClinicalUseCase ;
-  core:hasName "Patient-facing medication safety decision support" ;
-  health:hasIntendedUser ex:ClinicianUserRole, ex:PatientCaregiverUserRole ;
-  health:hasTargetPopulation ex:MedicationSafetyPatientPopulation ;
-  health:hasCareSetting ex:MedicationSafetyClinicalSetting ;
-  health:hasClinicalTask ex:MedicationSafetyClinicalTask ;
-  health:hasClinicalSpecialty ex:MedicationSafetySpecialty ;
-  health:hasTargetCondition ex:MedicationSafetyTargetCondition ;
-  health:hasWorkflowStage ex:MedicationReviewWorkflowStage ;
-  health:hasDecisionRole ex:MedicationSupportDecisionRole ;
-  health:hasIntendedAction ex:ReviewedMedicationGuidanceAction ;
-  health:hasDeploymentMode ex:SharedControlDeploymentMode ;
-  health:hasOutOfScopeUse ex:AutonomousMedicationChangeOutOfScope ;
-  health:hasProhibitedUse ex:UnsupervisedMedicationChangeContraindicated .
-
-ex:ClinicianUserRole a health:IntendedUserRole ; core:hasName "Clinician user" .
-ex:PatientCaregiverUserRole a health:IntendedUserRole ; core:hasName "Patient and caregiver audience" .
-ex:MedicationSafetyPatientPopulation a health:PatientPopulation ; core:hasName "Patients receiving medication advice" .
-ex:MedicationSafetyClinicalSetting a health:ClinicalSetting ; core:hasName "Ambulatory medication management" .
-ex:MedicationSafetyClinicalTask a health:ClinicalTask ; core:hasName "Medication safety review" .
-ex:MedicationSafetySpecialty a health:ClinicalSpecialty ; core:hasName "Clinical pharmacy" .
-ex:MedicationSafetyTargetCondition a health:TargetCondition ; core:hasName "Medication-related risk" .
-ex:MedicationReviewWorkflowStage a health:ClinicalWorkflowStage ; core:hasName "Medication review" .
-ex:MedicationSupportDecisionRole a health:ClinicalDecisionRole ; core:hasName "Shared medication decision support" .
-ex:ReviewedMedicationGuidanceAction a health:IntendedClinicalAction ; core:hasName "Release clinician-reviewed medication guidance" .
-ex:SharedControlDeploymentMode a health:DeploymentMode ; core:hasName "Shared-control deployment" .
-ex:AutonomousMedicationChangeOutOfScope a health:OutOfScopeUse ; core:hasName "Autonomous medication changes" .
-ex:UnsupervisedMedicationChangeContraindicated a health:ContraindicatedUse ; core:hasName "Unsupervised medication changes" .
-ex:MedicationFHIRExchangeStandard a health:ExchangeStandard ; core:hasName "FHIR R4" .
-
-ex:AgentIdentityScopeSection a report:AgentIdentityScopeSection .
-ex:RuntimeArchitectureSection a report:RuntimeArchitectureSection .
-ex:ModelComponentsSection a report:ModelComponentsSection .
-ex:ModelSpecificationSection a report:ModelSpecificationSection .
-ex:ToolUseSection a report:ToolUseSection .
-ex:WorkflowSection a report:WorkflowSection .
-ex:PlanningReasoningSection a report:PlanningReasoningSection .
-ex:InputOutputDataSection a report:InputOutputDataSection .
-ex:ClinicalContextSection a report:ClinicalContextSection .
-ex:IntendedUseSection a report:IntendedUseSection .
-ex:EvaluationReportingSection a report:EvaluationReportingSection .
-ex:DatasetsMetricsSection a report:DatasetsMetricsSection .
-ex:SubgroupEquityEvaluationSection a report:SubgroupEquityEvaluationSection .
-ex:GovernanceReportingSection a report:GovernanceReportingSection .
-ex:HumanReviewSection a report:HumanReviewSection .
-ex:RiskUncertaintySection a report:RiskUncertaintySection .
-ex:PrivacySecurityComplianceSection a report:PrivacySecurityComplianceSection .
-ex:DeploymentMonitoringSection a report:DeploymentMonitoringSection .
-ex:FailureFallbackSection a report:FailureFallbackSection .
-ex:ReproducibilitySection a report:ReproducibilitySection .
-
-ex:MedicationSafetyIntendedUseStatement
-  a report:IntendedUseStatement ;
-  report:isAbout ex:MedicationSafetyClinicalUseCase .
-
-ex:AgentArenaBenchmarkDescription
-  a eval:BenchmarkFramework ;
-  core:hasName "AgentArena benchmark-alignment paper description" .
-
-ex:AgentArenaPOCReport
-  a report:BenchmarkReport ;
-  core:hasName "AgentArena ontology-guided reporting-assessment POC report" ;
-  report:documentsEvaluatedEntity ex:AgentArenaBenchmarkDescription ;
-  report:hasReportingSection
-    ex:AgentArenaRuntimeSection,
-    ex:AgentArenaEvaluationSection,
-    ex:AgentArenaGovernanceSection,
-    ex:AgentArenaHumanReviewSection,
-    ex:AgentArenaRiskUncertaintySection,
-    ex:AgentArenaReproducibilitySection .
-
-ex:AgentArenaRuntimeSection a report:RuntimeArchitectureSection .
-ex:AgentArenaEvaluationSection a report:EvaluationReportingSection .
-ex:AgentArenaGovernanceSection a report:GovernanceReportingSection .
-ex:AgentArenaHumanReviewSection a report:HumanReviewSection .
-ex:AgentArenaRiskUncertaintySection a report:RiskUncertaintySection .
 ex:AgentArenaReproducibilitySection a report:ReproducibilitySection .
 
-ex:AgentArenaAssessmentActivity
-  a report:ReportingAssessmentActivity ;
-  report:usedReport ex:AgentArenaPOCReport ;
-  report:usedReportingProfile exprof:ReportingCompletenessProfile ;
-  report:associatedWithAssessor ex:AgentOLLMReportingAssessor ;
-  report:generatedAssessment
-    ex:AgentArenaRuntimeAssessment,
-    ex:AgentArenaEvaluationAssessment,
-    ex:AgentArenaGovernanceAssessment,
-    ex:AgentArenaHumanReviewAssessment,
-    ex:AgentArenaPrivacyComplianceAssessment ;
-  report:assessmentTimestamp "2026-08-19T13:00:00Z"^^xsd:dateTime ;
-  report:rubricVersion "agento-reporting-completeness-2.1" ;
-  report:promptVersion "section-aware-evidence-2.1" .
+ex:AgentArenaRiskUncertaintySection a report:RiskUncertaintySection .
 
-ex:AgentOLLMReportingAssessor
-  a report:LLMAssessor ;
-  core:hasName "AGENT-O LLM-assisted reporting assessor" ;
-  report:usesAssessorModelDeployment ex:AssessmentLLMDeployment .
+ex:AgentArenaRuntimeAssessment a report:ReportingCompletenessAssessment ;
+    report:assessesDimension ex:RuntimeArchitectureDimension ;
+    report:assessesReport ex:AgentArenaPOCReport ;
+    report:assessesSection ex:AgentArenaRuntimeSection ;
+    report:assessmentConfidence 0.92 ;
+    report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
+    report:hasCompletenessLabel report:Present ;
+    report:hasEvidenceQuote "The benchmark separates an agent running framework from an evaluation framework." ;
+    report:hasHumanVerificationStatus report:HumanVerified ;
+    report:hasSourceSection "AgentArena method overview" ;
+    report:hasSupportingEvidence ex:AgentArenaRuntimeEvidence .
 
-ex:AssessmentLLMModel
-  a core:LanguageModel ;
-  core:hasName "Reporting assessment language model" ;
-  core:modelIdentifier "assessment-llm" ;
-  core:modelVersion "documented-deployment-snapshot" ;
-  core:modelArchitectureType "large language model" ;
-  core:modelReleaseDate "2026-08-19"^^xsd:date ;
-  core:hasModelInputSpecification ex:AssessmentPromptInput ;
-  core:hasModelOutputSpecification ex:AssessmentJSONOutput ;
-  core:supportsInputModality ex:AssessmentTextModality ;
-  core:hasModelCapability ex:EvidenceClassificationCapability ;
-  core:hasModelIntendedUse ex:AssessmentModelIntendedUse ;
-  core:hasModelLimitation ex:AssessmentModelLimitation ;
-  core:hasDeveloper ex:AssessmentLLMDeveloper ;
-  doc:hasLicense ex:AssessmentLLMLicense .
+ex:AgentArenaRuntimeEvidence a report:EvidenceStatement ;
+    report:evidenceLocator "AgentArena method overview" ;
+    report:evidenceQuote "The benchmark separates an agent running framework from an evaluation framework." ;
+    report:evidenceSourceSection "Method overview" .
 
-ex:AssessmentPromptInput a core:ModelInputSpecification ; core:hasDescription "Section-aware evidence packet and versioned reporting rubric." .
-ex:AssessmentJSONOutput a core:ModelOutputSpecification ; core:hasDescription "Structured completeness labels, evidence, gaps, fixes, and confidence values." .
-ex:AssessmentTextModality a core:InputModality ; core:hasName "paper text" .
-ex:EvidenceClassificationCapability a core:ModelCapability ; core:hasName "Section-aware reporting evidence classification" .
-ex:AssessmentModelIntendedUse a core:ModelIntendedUse ; core:hasDescription "Assist with ontology-guided assessment of reporting completeness." .
-ex:AssessmentModelLimitation a core:ModelLimitation ; core:hasDescription "Automated labels may be imperfect and require calibrated human review." .
-ex:AssessmentLLMDeveloper a core:OrganizationAgent ; core:hasName "Assessment model developer" .
-ex:AssessmentLLMLicense a doc:License ; core:hasName "Institutional service access terms" .
-ex:AssessmentLLMProvider a core:OrganizationAgent ; core:hasName "Institutional LLM service provider" .
-ex:AssessmentLLMDeployment
-  a core:ModelDeployment ;
-  core:deploysModelSpecification ex:AssessmentLLMModel ;
-  core:hasProvider ex:AssessmentLLMProvider ;
-  core:deploymentVersion "documented-deployment-snapshot" ;
-  core:deploymentAccessedAt "2026-08-19T13:00:00Z"^^xsd:dateTime .
+ex:AgentOLLMReportingAssessor a report:LLMAssessor ;
+    core:hasName "AGENT-O LLM-assisted reporting assessor" ;
+    report:usesAssessorModelDeployment ex:AssessmentLLMDeployment .
 
-ex:RuntimeArchitectureDimension a report:CompletenessDimension ; core:hasName "Runtime and architecture" .
-ex:EvaluationDimension a report:CompletenessDimension ; core:hasName "Evaluation" .
-ex:GovernanceSafetyDimension a report:CompletenessDimension ; core:hasName "Governance and safety" .
-ex:HumanReviewDimension a report:CompletenessDimension ; core:hasName "Human review" .
-ex:PrivacyComplianceDimension a report:CompletenessDimension ; core:hasName "Privacy, security, and compliance" .
+ex:AssessmentJSONOutput a core:ModelOutputSpecification ;
+    core:hasDescription "Structured completeness labels, evidence, gaps, fixes, and confidence values." .
 
-ex:AgentArenaRuntimeAssessment
-  a report:ReportingCompletenessAssessment ;
-  report:assessesReport ex:AgentArenaPOCReport ;
-  report:assessesSection ex:AgentArenaRuntimeSection ;
-  report:assessesDimension ex:RuntimeArchitectureDimension ;
-  report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
-  report:hasSupportingEvidence ex:AgentArenaRuntimeEvidence ;
-  report:hasCompletenessLabel report:Present ;
-  report:hasEvidenceQuote "The benchmark separates an agent running framework from an evaluation framework." ;
-  report:hasSourceSection "AgentArena method overview" ;
-  report:assessmentConfidence "0.92"^^xsd:decimal ;
-  report:hasHumanVerificationStatus report:HumanVerified .
+ex:AssessmentLLMDeployment a core:ModelDeployment ;
+    core:deploymentAccessedAt "2026-08-19T13:00:00+00:00"^^xsd:dateTime ;
+    core:deploymentVersion "documented-deployment-snapshot" ;
+    core:deploysModelResource ex:AssessmentLLMModel ;
+    core:hasProvider ex:AssessmentLLMProvider .
 
-ex:AgentArenaEvaluationAssessment
-  a report:ReportingCompletenessAssessment ;
-  report:assessesReport ex:AgentArenaPOCReport ;
-  report:assessesSection ex:AgentArenaEvaluationSection ;
-  report:assessesDimension ex:EvaluationDimension ;
-  report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
-  report:hasSupportingEvidence ex:AgentArenaEvaluationEvidence ;
-  report:hasCompletenessLabel report:Present ;
-  report:hasEvidenceQuote "Tasks, scoring, and benchmark-style comparisons are treated as evaluation artifacts." ;
-  report:hasSourceSection "AgentArena evaluation framework" ;
-  report:assessmentConfidence "0.90"^^xsd:decimal ;
-  report:hasHumanVerificationStatus report:HumanVerified .
+ex:AssessmentLLMDeveloper a core:OrganizationAgent ;
+    core:hasName "Assessment model developer" .
 
-ex:AgentArenaGovernanceAssessment
-  a report:ReportingCompletenessAssessment ;
-  report:assessesReport ex:AgentArenaPOCReport ;
-  report:assessesSection ex:AgentArenaGovernanceSection ;
-  report:assessesDimension ex:GovernanceSafetyDimension ;
-  report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
-  report:hasSupportingEvidence ex:AgentArenaGovernanceEvidence ;
-  report:hasCompletenessLabel report:Missing ;
-  report:hasEvidenceQuote "The benchmark description is not primarily a governance reporting guideline." ;
-  report:hasGapExplanation "Human accountability, escalation, privacy, and compliance expectations need to be annotated separately when AgentArena is used as an ontology benchmark." ;
-  report:hasRecommendedFix "Add governance profile fields for accountability role, automation level, review requirement, fallback, monitoring, and compliance." ;
-  report:assessmentConfidence "0.88"^^xsd:decimal ;
-  report:hasHumanVerificationStatus report:HumanVerified .
+ex:AssessmentLLMLicense a doc:License ;
+    core:hasName "Institutional service access terms" .
 
-ex:AgentArenaHumanReviewAssessment
-  a report:ReportingCompletenessAssessment ;
-  report:assessesReport ex:AgentArenaPOCReport ;
-  report:assessesSection ex:AgentArenaHumanReviewSection ;
-  report:assessesDimension ex:HumanReviewDimension ;
-  report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
-  report:hasSupportingEvidence ex:AgentArenaHumanReviewEvidence ;
-  report:hasCompletenessLabel report:Partial ;
-  report:hasEvidenceQuote "Validity and failure cases are discussed, but human review escalation is not fully specified as an agent governance object." ;
-  report:hasGapExplanation "Review authority and escalation triggers remain under-specified for health AI governance use." ;
-  report:hasRecommendedFix "Represent review requirements as gov:HumanReviewRequirement and escalation conditions as gov:TriggerCondition." ;
-  report:assessmentConfidence "0.84"^^xsd:decimal ;
-  report:hasHumanVerificationStatus report:HumanVerified .
+ex:AssessmentLLMModel a core:LanguageModel ;
+    core:hasDeveloper ex:AssessmentLLMDeveloper ;
+    core:hasModelCapability ex:EvidenceClassificationCapability ;
+    core:hasModelInputSpecification ex:AssessmentPromptInput ;
+    core:hasModelIntendedUse ex:AssessmentModelIntendedUse ;
+    core:hasModelLimitation ex:AssessmentModelLimitation ;
+    core:hasModelOutputSpecification ex:AssessmentJSONOutput ;
+    core:hasName "Reporting assessment language model" ;
+    core:modelArchitectureType "large language model" ;
+    core:modelIdentifier "assessment-llm" ;
+    core:modelReleaseDate "2026-08-19"^^xsd:date ;
+    core:modelVersion "documented-deployment-snapshot" ;
+    core:supportsInputModality ex:AssessmentTextModality ;
+    doc:hasLicense ex:AssessmentLLMLicense .
 
-ex:AgentArenaPrivacyComplianceAssessment
-  a report:ReportingCompletenessAssessment ;
-  report:assessesReport ex:AgentArenaPOCReport ;
-  report:assessesSection ex:PrivacySecurityComplianceSection ;
-  report:assessesDimension ex:PrivacyComplianceDimension ;
-  report:generatedByAssessmentActivity ex:AgentArenaAssessmentActivity ;
-  report:hasSupportingEvidence ex:AgentArenaPrivacyEvidence ;
-  report:hasCompletenessLabel report:Missing ;
-  report:hasEvidenceQuote "The benchmark alignment case does not by itself specify PHI, consent, privacy, or regulatory compliance constraints." ;
-  report:hasGapExplanation "Biomedical deployment contexts require DUO/FHIR/privacy/compliance annotations beyond benchmark task design." ;
-  report:hasRecommendedFix "Attach data-use permissions, privacy constraints, and compliance requirements when the evaluated agent uses sensitive health data." ;
-  report:assessmentConfidence "0.91"^^xsd:decimal ;
-  report:hasHumanVerificationStatus report:HumanVerified .
+ex:AssessmentLLMProvider a core:OrganizationAgent ;
+    core:hasName "Institutional LLM service provider" .
 
-ex:AgentArenaRuntimeEvidence
-  a report:EvidenceStatement ;
-  report:evidenceQuote "The benchmark separates an agent running framework from an evaluation framework." ;
-  report:evidenceSourceSection "Method overview" ;
-  report:evidenceLocator "AgentArena method overview" .
+ex:AssessmentModelIntendedUse a core:ModelIntendedUse ;
+    core:hasDescription "Assist with ontology-guided assessment of reporting completeness." .
 
-ex:AgentArenaEvaluationEvidence
-  a report:EvidenceStatement ;
-  report:evidenceQuote "Tasks, scoring, and benchmark-style comparisons are treated as evaluation artifacts." ;
-  report:evidenceSourceSection "Evaluation framework" ;
-  report:evidenceLocator "AgentArena evaluation framework" .
+ex:AssessmentModelLimitation a core:ModelLimitation ;
+    core:hasDescription "Automated labels may be imperfect and require calibrated human review." .
 
-ex:AgentArenaGovernanceEvidence
-  a report:EvidenceStatement ;
-  report:evidenceQuote "The benchmark description is not primarily a governance reporting guideline." ;
-  report:evidenceSourceSection "Benchmark scope" ;
-  report:evidenceLocator "Governance evidence review" .
+ex:AssessmentPromptInput a core:ModelInputSpecification ;
+    core:hasDescription "Section-aware evidence packet and versioned reporting rubric." .
 
-ex:AgentArenaHumanReviewEvidence
-  a report:EvidenceStatement ;
-  report:evidenceQuote "Validity and failure cases are discussed, but human review escalation is not fully specified." ;
-  report:evidenceSourceSection "Failure handling" ;
-  report:evidenceLocator "Human-review evidence review" .
+ex:AssessmentTextModality a core:InputModality ;
+    core:hasName "paper text" .
 
-ex:AgentArenaPrivacyEvidence
-  a report:EvidenceStatement ;
-  report:evidenceQuote "The benchmark does not itself specify privacy or regulatory compliance constraints." ;
-  report:evidenceSourceSection "Benchmark scope" ;
-  report:evidenceLocator "Privacy evidence review" .
+ex:AutonomousMedicationChangeOutOfScope a health:OutOfScopeUse ;
+    core:hasName "Autonomous medication changes" .
+
+ex:ClinicalSafetyOwner a gov:AccountabilityRole ;
+    core:hasName "Clinical safety owner" .
+
+ex:ClinicianOverride a gov:OverrideCapability ;
+    core:hasName "Clinician override" ;
+    gov:canOverrideAction ex:PatientMedicationAdvice .
+
+ex:ClinicianReviewRequirement a gov:HumanReviewRequirement ;
+    core:hasName "Clinician review before patient release" .
+
+ex:ClinicianUserRole a health:IntendedUserRole ;
+    core:hasName "Clinician user" .
+
+ex:DraftAdviceStep a core:WorkflowStep ;
+    core:hasName "Draft patient-facing advice" .
+
+ex:EquityOperationalRequirement a gov:EquityRequirement ;
+    gov:basedOnPrinciple ex:EquityPrinciple .
+
+ex:EvaluationDimension a report:CompletenessDimension ;
+    core:hasName "Evaluation" .
+
+ex:EvidenceClassificationCapability a core:ModelCapability ;
+    core:hasName "Section-aware reporting evidence classification" .
+
+ex:ExtractFHIRStep a core:WorkflowStep ;
+    core:hasName "Extract FHIR patient context" .
+
+ex:FHIRRiskScreeningTool a core:Tool ;
+    core:hasName "FHIR risk screening tool" ;
+    core:hasVersion "R4-poc" .
+
+ex:GovernanceSafetyDimension a report:CompletenessDimension ;
+    core:hasName "Governance and safety" .
+
+ex:HIPAAComplianceRequirement a gov:ComplianceRequirement ;
+    gov:complianceFramework "HIPAA" .
+
+ex:HumanAutonomyOperationalRequirement a gov:HumanAutonomyRequirement ;
+    gov:basedOnPrinciple ex:HumanAutonomyPrinciple .
+
+ex:HumanReviewDimension a report:CompletenessDimension ;
+    core:hasName "Human review" .
+
+ex:HumanReviewStep a core:WorkflowStep ;
+    core:hasName "Route recommendation to clinician review" .
+
+ex:LowConfidenceTrigger a gov:TriggerCondition ;
+    gov:conditionExpression "confidence < 0.70 or high-alert medication detected" .
+
+ex:ManualReviewFallback a gov:FallbackStrategy ;
+    core:hasName "Manual review fallback" ;
+    gov:mitigatesRisk ex:HighRiskMedicationAdviceRisk .
+
+ex:MedicationAdviceLineage a doc:LineageTrace ;
+    doc:traceText "The advice is derived from FHIR patient context, medication risk screening, model output, and clinician review status." .
+
+ex:MedicationFHIRExchangeStandard a health:ExchangeStandard ;
+    core:hasName "FHIR R4" .
+
+ex:MedicationPHIPrivacyConstraint a gov:PrivacyConstraint ;
+    core:hasDescription "FHIR-derived patient context contains protected health information." ;
+    gov:containsPHI true .
+
+ex:MedicationReviewWorkflowStage a health:ClinicalWorkflowStage ;
+    core:hasName "Medication review" .
+
+ex:MedicationSafetyAccuracyMetric a eval:Metric ;
+    core:hasName "Accuracy" .
+
+ex:MedicationSafetyAccuracyResult a eval:MetricResult ;
+    eval:appliesToDataset ex:MedicationSafetyDataset ;
+    eval:forMetric ex:MedicationSafetyAccuracyMetric ;
+    eval:hasValue 0.92 .
+
+ex:MedicationSafetyAgentCard a report:AgentCard ;
+    report:containsStatement ex:MedicationSafetyIntendedUseStatement ;
+    report:documentsAgentSystem ex:MedicationSafetyAgent ;
+    report:hasReportingSection ex:AgentIdentityScopeSection,
+        ex:ClinicalContextSection,
+        ex:DatasetsMetricsSection,
+        ex:DeploymentMonitoringSection,
+        ex:EvaluationReportingSection,
+        ex:FailureFallbackSection,
+        ex:GovernanceReportingSection,
+        ex:HumanReviewSection,
+        ex:InputOutputDataSection,
+        ex:IntendedUseSection,
+        ex:ModelComponentsSection,
+        ex:ModelSpecificationSection,
+        ex:PlanningReasoningSection,
+        ex:PrivacySecurityComplianceSection,
+        ex:ReproducibilitySection,
+        ex:RiskUncertaintySection,
+        ex:RuntimeArchitectureSection,
+        ex:SubgroupEquityEvaluationSection,
+        ex:ToolUseSection,
+        ex:WorkflowSection ;
+    report:referencesModelCard ex:MedicationSafetyModelCard .
+
+ex:MedicationSafetyClinicalSetting a health:ClinicalSetting ;
+    core:hasName "Ambulatory medication management" .
+
+ex:MedicationSafetyClinicalTask a health:ClinicalTask ;
+    core:hasName "Medication safety review" .
+
+ex:MedicationSafetyDeployment a core:ModelDeployment ;
+    core:deploymentAccessedAt "2026-08-19T12:00:00+00:00"^^xsd:dateTime ;
+    core:deploymentVersion "deployment-2026-08" ;
+    core:deploysModelResource ex:MedicationSafetyModel ;
+    core:hasName "Medication safety model deployment" ;
+    core:hasProvider ex:MedicationSafetyModelProvider ;
+    core:runtimeConfiguration "temperature=0" .
+
+ex:MedicationSafetyFairnessResult a eval:MetricResult ;
+    eval:appliesToDataset ex:MedicationSafetyDataset ;
+    eval:forMetric ex:SubgroupAlertParityMetric ;
+    eval:hasValue 0.04 .
+
+ex:MedicationSafetyModelDeveloper a core:OrganizationAgent ;
+    core:hasName "Example medication model developer" .
+
+ex:MedicationSafetyModelInput a core:ModelInputSpecification ;
+    core:hasDescription "Serialized medication and patient context." .
+
+ex:MedicationSafetyModelIntendedUse a core:ModelIntendedUse ;
+    core:hasDescription "Generate medication-safety rationales for a shared-control agent workflow." .
+
+ex:MedicationSafetyModelLicense a doc:License ;
+    core:hasName "Demonstration model license" .
+
+ex:MedicationSafetyModelLimitation a core:ModelLimitation ;
+    core:hasDescription "The model output requires clinical review before patient-facing release." .
+
+ex:MedicationSafetyModelOutput a core:ModelOutputSpecification ;
+    core:hasDescription "Generated medication-risk rationale before agent action selection." .
+
+ex:MedicationSafetyModelProvider a core:OrganizationAgent ;
+    core:hasName "Example medication model provider" .
+
+ex:MedicationSafetyMonitoringRule a gov:MonitoringRule ;
+    core:hasDescription "Monitor subgroup performance, override frequency, escalation rate, and unresolved safety incidents after deployment." .
+
+ex:MedicationSafetyPatientPopulation a health:PatientPopulation ;
+    core:hasName "Patients receiving medication advice" .
+
+ex:MedicationSafetyReasonerRole a core:ReasonerModelRole ;
+    core:hasName "Medication safety reasoning role" .
+
+ex:MedicationSafetyReasoningCapability a core:ModelCapability ;
+    core:hasName "Medication safety reasoning" .
+
+ex:MedicationSafetyRun a core:ExecutionRun ;
+    core:usesModelDeployment ex:MedicationSafetyDeployment .
+
+ex:MedicationSafetySpecialty a health:ClinicalSpecialty ;
+    core:hasName "Clinical pharmacy" .
+
+ex:MedicationSafetyTargetCondition a health:TargetCondition ;
+    core:hasName "Medication-related risk" .
+
+ex:MedicationSafetyWorkflow a core:Workflow ;
+    core:hasName "Medication safety workflow" ;
+    core:hasStep ex:DraftAdviceStep,
+        ex:ExtractFHIRStep,
+        ex:HumanReviewStep,
+        ex:ScreenRiskStep .
+
+ex:MedicationStructuredInputModality a core:InputModality ;
+    core:hasName "structured medication data" .
+
+ex:MedicationSupportDecisionRole a health:ClinicalDecisionRole ;
+    core:hasName "Shared medication decision support" .
+
+ex:PatientCaregiverUserRole a health:IntendedUserRole ;
+    core:hasName "Patient and caregiver audience" .
+
+ex:PharmacistEscalation a gov:EscalationPlan ;
+    core:hasName "Escalate to pharmacist reviewer" ;
+    gov:plannedRecipient ex:PharmacistReviewer ;
+    gov:hasTriggerCondition ex:LowConfidenceTrigger .
+
+ex:PharmacistReviewer a core:HumanAgent ;
+    core:hasName "Pharmacist reviewer" .
+
+ex:PrivacyComplianceDimension a report:CompletenessDimension ;
+    core:hasName "Privacy, security, and compliance" .
+
+ex:PrivacyOperationalRequirement a gov:PrivacyRequirement ;
+    gov:basedOnPrinciple ex:PrivacyPrinciple .
+
+ex:ReviewedMedicationGuidanceAction a health:IntendedClinicalAction ;
+    core:hasName "Release clinician-reviewed medication guidance" .
+
+ex:RuntimeArchitectureDimension a report:CompletenessDimension ;
+    core:hasName "Runtime and architecture" .
+
+ex:SafetyOperationalRequirement a gov:SafetyRequirement ;
+    gov:basedOnPrinciple ex:SafetyPrinciple .
+
+ex:ScreenRiskStep a core:WorkflowStep ;
+    core:hasName "Screen medication risk" .
+
+ex:SharedControlDeploymentMode a health:DeploymentMode ;
+    core:hasName "Shared-control deployment" .
+
+ex:SubgroupAlertParityMetric a eval:FairnessMetric ;
+    core:hasName "Subgroup alert parity gap" .
+
+ex:TransparencyOperationalRequirement a gov:TransparencyRequirement ;
+    gov:basedOnPrinciple ex:TransparencyPrinciple .
+
+ex:UnsupervisedMedicationChangeContraindicated a health:ContraindicatedUse ;
+    core:hasName "Unsupervised medication changes" .
+
+ex:AgentArenaEvaluationSection a report:EvaluationReportingSection .
+
+ex:AgentArenaGovernanceSection a report:GovernanceReportingSection .
+
+ex:AgentArenaHumanReviewSection a report:HumanReviewSection .
+
+ex:AgentArenaRuntimeSection a report:RuntimeArchitectureSection .
+
+ex:AgentIdentityScopeSection a report:AgentIdentityScopeSection .
+
+ex:ClinicalContextSection a report:ClinicalContextSection .
+
+ex:DatasetsMetricsSection a report:DatasetsMetricsSection .
+
+ex:DeploymentMonitoringSection a report:DeploymentMonitoringSection .
+
+ex:EquityPrinciple a gov:EthicalPrinciple ;
+    core:hasName "Subgroup equity monitoring" .
+
+ex:EvaluationReportingSection a report:EvaluationReportingSection .
+
+ex:FailureFallbackSection a report:FailureFallbackSection .
+
+ex:GovernanceReportingSection a report:GovernanceReportingSection .
+
+ex:HumanAutonomyPrinciple a gov:EthicalPrinciple ;
+    core:hasName "Human autonomy and meaningful control" .
+
+ex:HumanReviewSection a report:HumanReviewSection .
+
+ex:InputOutputDataSection a report:InputOutputDataSection .
+
+ex:IntendedUseSection a report:IntendedUseSection .
+
+ex:MedicationSafetyClinicalUseCase a health:ClinicalUseCase ;
+    core:hasName "Patient-facing medication safety decision support" ;
+    health:hasCareSetting ex:MedicationSafetyClinicalSetting ;
+    health:hasClinicalSpecialty ex:MedicationSafetySpecialty ;
+    health:hasClinicalTask ex:MedicationSafetyClinicalTask ;
+    health:hasDecisionRole ex:MedicationSupportDecisionRole ;
+    health:hasDeploymentMode ex:SharedControlDeploymentMode ;
+    health:hasIntendedAction ex:ReviewedMedicationGuidanceAction ;
+    health:hasIntendedUser ex:ClinicianUserRole,
+        ex:PatientCaregiverUserRole ;
+    health:hasOutOfScopeUse ex:AutonomousMedicationChangeOutOfScope ;
+    health:hasProhibitedUse ex:UnsupervisedMedicationChangeContraindicated ;
+    health:hasTargetCondition ex:MedicationSafetyTargetCondition ;
+    health:hasTargetPopulation ex:MedicationSafetyPatientPopulation ;
+    health:hasWorkflowStage ex:MedicationReviewWorkflowStage .
+
+ex:MedicationSafetyIntendedUseStatement a report:IntendedUseStatement ;
+    report:isAbout ex:MedicationSafetyClinicalUseCase .
+
+ex:ModelComponentsSection a report:ModelComponentsSection .
+
+ex:ModelSpecificationSection a report:ModelSpecificationSection .
+
+ex:PatientMedicationAdvice a health:PatientFacingOutput,
+        health:TreatmentRecommendation ;
+    core:hasName "Patient medication advice" ;
+    doc:hasLineageTrace ex:MedicationAdviceLineage ;
+    gov:requiresReview ex:ClinicianReviewRequirement ;
+    health:hasOutputCategory "recommendation" .
+
+ex:PlanningReasoningSection a report:PlanningReasoningSection .
+
+ex:PrivacyPrinciple a gov:EthicalPrinciple ;
+    core:hasName "Privacy and confidential data handling" .
+
+ex:ReproducibilitySection a report:ReproducibilitySection .
+
+ex:RiskUncertaintySection a report:RiskUncertaintySection .
+
+ex:RuntimeArchitectureSection a report:RuntimeArchitectureSection .
+
+ex:SafetyPrinciple a gov:EthicalPrinciple ;
+    core:hasName "Clinical safety and harm prevention" .
+
+ex:SharedControlAutomation a gov:SharedControl ;
+    core:hasName "Shared-control clinical operation" .
+
+ex:SubgroupEquityEvaluationSection a report:SubgroupEquityEvaluationSection .
+
+ex:ToolUseSection a report:ToolUseSection .
+
+ex:TransparencyPrinciple a gov:EthicalPrinciple ;
+    core:hasName "Transparent patient-facing communication" .
+
+ex:WorkflowSection a report:WorkflowSection .
+
+ex:HighRiskMedicationAdviceRisk a gov:Risk ;
+    core:hasName "High-risk medication advice" ;
+    gov:hasMitigationStrategy "Require clinician review, fallback to manual review, and escalate low-confidence high-alert medication cases." ;
+    gov:hasSeverity "high" .
+
+ex:MedicationSafetyDataset a health:EHRDataSource ;
+    core:hasName "Medication safety EHR benchmark dataset" .
+
+ex:MedicationSafetyModel a core:LanguageModel ;
+    core:hasDeveloper ex:MedicationSafetyModelDeveloper ;
+    core:hasModelCapability ex:MedicationSafetyReasoningCapability ;
+    core:hasModelInputSpecification ex:MedicationSafetyModelInput ;
+    core:hasModelIntendedUse ex:MedicationSafetyModelIntendedUse ;
+    core:hasModelLimitation ex:MedicationSafetyModelLimitation ;
+    core:hasModelOutputSpecification ex:MedicationSafetyModelOutput ;
+    core:hasName "Medication safety language model" ;
+    core:modelArchitectureType "transformer language model" ;
+    core:modelIdentifier "medication-safety-language-model" ;
+    core:modelReleaseDate "2026-08-01"^^xsd:date ;
+    core:modelVersion "poc-2026-08" ;
+    core:supportsInputModality ex:MedicationStructuredInputModality ;
+    doc:hasLicense ex:MedicationSafetyModelLicense ;
+    report:hasModelCardReference ex:MedicationSafetyModelCard .
+
+ex:MedicationSafetyModelCard a report:ModelCardReport ;
+    core:hasName "Medication safety model card" ;
+    doc:sourceURI "https://example.org/model-cards/medication-safety"^^xsd:anyURI ;
+    report:describesModelResource ex:MedicationSafetyModel .
+
+ex:MedicationSafetyModelComponent a core:ModelComponent ;
+    core:hasModelComponentRole ex:MedicationSafetyReasonerRole ;
+    core:hasName "Medication safety reasoning component" ;
+    core:usesModelResource ex:MedicationSafetyModel .
+
+ex:PrivacySecurityComplianceSection a report:PrivacySecurityComplianceSection .
+
+ex:MedicationSafetyAgent a core:AgentSystem,
+        health:ClinicalDecisionSupportAgentSystem,
+        health:PatientFacingAgentSystem ;
+    core:generates ex:PatientMedicationAdvice ;
+    core:hasComponent ex:MedicationSafetyModelComponent ;
+    core:hasName "Governed medication safety agent" ;
+    core:hasSystemExecution ex:MedicationSafetyRun ;
+    core:hasWorkflow ex:MedicationSafetyWorkflow ;
+    core:usesModel ex:MedicationSafetyModelComponent ;
+    core:usesTool ex:FHIRRiskScreeningTool ;
+    gov:hasAccountabilityRole ex:ClinicalSafetyOwner ;
+    gov:hasAutomationLevel ex:SharedControlAutomation ;
+    gov:hasEthicalPrinciple ex:EquityPrinciple,
+        ex:HumanAutonomyPrinciple,
+        ex:PrivacyPrinciple,
+        ex:SafetyPrinciple,
+        ex:TransparencyPrinciple ;
+    gov:hasGovernanceRequirement ex:EquityOperationalRequirement,
+        ex:HumanAutonomyOperationalRequirement,
+        ex:PrivacyOperationalRequirement,
+        ex:SafetyOperationalRequirement,
+        ex:TransparencyOperationalRequirement ;
+    gov:hasPrivacyConstraint ex:MedicationPHIPrivacyConstraint ;
+    gov:hasRisk ex:HighRiskMedicationAdviceRisk ;
+    gov:monitoredBy ex:MedicationSafetyMonitoringRule ;
+    gov:requiresCompliance ex:HIPAAComplianceRequirement ;
+    health:hasIntendedClinicalUse ex:MedicationSafetyClinicalUseCase ;
+    health:usesExchangeStandard ex:MedicationFHIRExchangeStandard ;
+    report:hasAgentCard ex:MedicationSafetyAgentCard .
+
+ex:AgentArenaAssessmentActivity a report:ReportingAssessmentActivity ;
+    report:assessmentTimestamp "2026-08-19T13:00:00+00:00"^^xsd:dateTime ;
+    report:associatedWithAssessor ex:AgentOLLMReportingAssessor ;
+    report:generatedAssessment ex:AgentArenaEvaluationAssessment,
+        ex:AgentArenaGovernanceAssessment,
+        ex:AgentArenaHumanReviewAssessment,
+        ex:AgentArenaPrivacyComplianceAssessment,
+        ex:AgentArenaRuntimeAssessment ;
+    report:promptVersion "section-aware-evidence-2.1" ;
+    report:rubricVersion "agento-reporting-completeness-2.1" ;
+    report:usedReport ex:AgentArenaPOCReport ;
+    report:usedReportingProfile exprof:ReportingCompletenessProfile .
+
+ex:AgentArenaPOCReport a report:BenchmarkReport ;
+    core:hasName "AgentArena ontology-guided reporting-assessment POC report" ;
+    report:documentsEvaluatedEntity ex:AgentArenaBenchmarkDescription ;
+    report:hasReportingSection ex:AgentArenaEvaluationSection,
+        ex:AgentArenaGovernanceSection,
+        ex:AgentArenaHumanReviewSection,
+        ex:AgentArenaReproducibilitySection,
+        ex:AgentArenaRiskUncertaintySection,
+        ex:AgentArenaRuntimeSection .

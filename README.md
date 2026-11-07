@@ -2,6 +2,17 @@
 
 AGENT-O is a modular OWL/RDF ontology framework for health-oriented AI agent reporting and ontology-guided reporting-completeness assessment.
 
+**Explore the ontology:** [AGENT-O ontology website](https://tao-ai-group.github.io/agent-o-health/).
+Browse the overview, six modules, searchable term definitions, interactive
+relationships and competency questions. See [website build and deployment](site/README.md).
+
+The current ontology includes the October 2026 semantic revisions. It separates
+systems from acting agents, model resources from specification documents, and
+prospective controls from actual events. See the
+[canonical modeling pattern](docs/design/canonical_agent_modeling.md) and
+[semantic revision notes](docs/design/semantic_revision_2026-10-28.md).
+The 279-paper assessment below retains its earlier frozen scientific baseline.
+
 This public package contains the ontology, SHACL shapes, SPARQL competency queries, validation scripts, example RDF graphs, a sanitized corpus manifest, and evaluation outputs used to support the AGENT-O manuscript. The current corpus outputs correspond to the completed v2.2.3 assessment of 279 papers (mean, 63.7/100; median, 67.5/100).
 
 ## Repository Contents

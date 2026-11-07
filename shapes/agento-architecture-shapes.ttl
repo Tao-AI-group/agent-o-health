@@ -1,208 +1,194 @@
 @prefix core: <https://w3id.org/agent-o/core#> .
 @prefix doc: <https://w3id.org/agent-o/doc#> .
 @prefix health: <https://w3id.org/agent-o/health#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-core:AgentSystemArchitectureShape
-  a sh:NodeShape ;
-  sh:targetClass core:AgentSystem ;
-  sh:property [
-    sh:path core:hasComponent ;
-    sh:class core:AgentComponent ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "Agent systems must identify at least one functional component."@en
-  ] ;
-  sh:property [
-    sh:path core:hasSystemExecution ;
-    sh:class core:ExecutionRun ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "Agent systems must identify at least one execution run."@en
-  ] .
+core:ModelSpecificationDocumentShape a sh:NodeShape ;
+    sh:targetClass core:AIModelSpecification ;
+    sh:property [
+        sh:path core:specifiesModel ;
+        sh:class core:AIModelResource ;
+        sh:minCount 1 ;
+        sh:message "A model specification document must identify the model resource it specifies."@en
+    ] .
 
-core:ModelComponentArchitectureShape
-  a sh:NodeShape ;
-  sh:targetClass core:ModelComponent ;
-  sh:property [
-    sh:path core:realizesModelSpecification ;
-    sh:class core:AIModelSpecification ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "Model components must identify the AI model specification they realize."@en
-  ] ;
-  sh:property [
-    sh:path core:hasModelComponentRole ;
-    sh:class core:ModelComponentRole ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "Model components must identify their function in the agent workflow."@en
-  ] .
+core:WorkflowStepOccurrenceShape a sh:NodeShape ;
+    sh:targetClass core:WorkflowStep ;
+    sh:property [
+        sh:path core:executedInRun ;
+        sh:class core:ExecutionRun ;
+        sh:maxCount 1 ;
+        sh:message "A step occurrence belongs to at most one execution run; reuse a workflow pattern across runs."@en
+    ] .
 
-core:AIModelSpecificationArchitectureShape
-  a sh:NodeShape ;
-  sh:targetClass core:AIModelSpecification ;
-  sh:property [
-    sh:path core:hasName ;
-    sh:datatype xsd:string ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must provide a model name."@en
-  ] ;
-  sh:property [
-    sh:path core:modelIdentifier ;
-    sh:datatype xsd:string ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must provide a model identifier."@en
-  ] ;
-  sh:property [
-    sh:path core:modelVersion ;
-    sh:datatype xsd:string ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must provide a checkpoint, snapshot, or version."@en
-  ] ;
-  sh:property [
-    sh:path core:modelArchitectureType ;
-    sh:datatype xsd:string ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must identify their architecture or model type."@en
-  ] ;
-  sh:property [
-    sh:path core:modelReleaseDate ;
-    sh:datatype xsd:date ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must provide a release or snapshot date."@en
-  ] ;
-  sh:property [
-    sh:path core:hasDeveloper ;
-    sh:class core:Agent ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must identify their developer."@en
-  ] ;
-  sh:property [
-    sh:path core:hasModelInputSpecification ;
-    sh:class core:ModelInputSpecification ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must distinguish their model-level input representation."@en
-  ] ;
-  sh:property [
-    sh:path core:hasModelOutputSpecification ;
-    sh:class core:ModelOutputSpecification ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must distinguish model output from downstream agent output."@en
-  ] ;
-  sh:property [
-    sh:path core:supportsInputModality ;
-    sh:class core:InputModality ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must identify supported input modalities."@en
-  ] ;
-  sh:property [
-    sh:path core:hasModelCapability ;
-    sh:class core:ModelCapability ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must identify relevant model capabilities."@en
-  ] ;
-  sh:property [
-    sh:path core:hasModelIntendedUse ;
-    sh:class core:ModelIntendedUse ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must state model-level intended use."@en
-  ] ;
-  sh:property [
-    sh:path core:hasModelLimitation ;
-    sh:class core:ModelLimitation ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must state model-level limitations."@en
-  ] ;
-  sh:property [
-    sh:path doc:hasLicense ;
-    sh:class doc:License ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "AI model specifications must identify their license or access terms."@en
-  ] .
+core:AIModelResourceArchitectureShape a sh:NodeShape ;
+    sh:property [ sh:class core:Agent ;
+            sh:message "AI model resources must identify their developer."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasDeveloper ;
+            sh:severity sh:Violation ],
+        [ sh:class core:ModelInputSpecification ;
+            sh:message "AI model resources must distinguish their model-level input representation."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasModelInputSpecification ;
+            sh:severity sh:Violation ],
+        [ sh:class core:ModelOutputSpecification ;
+            sh:message "AI model resources must distinguish model output from downstream agent output."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasModelOutputSpecification ;
+            sh:severity sh:Violation ],
+        [ sh:class core:InputModality ;
+            sh:message "AI model resources must identify supported input modalities."@en ;
+            sh:minCount 1 ;
+            sh:path core:supportsInputModality ;
+            sh:severity sh:Violation ],
+        [ sh:class core:ModelCapability ;
+            sh:message "AI model resources must identify relevant model capabilities."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasModelCapability ;
+            sh:severity sh:Violation ],
+        [ sh:class core:ModelIntendedUse ;
+            sh:message "AI model resources must state model-level intended use."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasModelIntendedUse ;
+            sh:severity sh:Violation ],
+        [ sh:class core:ModelLimitation ;
+            sh:message "AI model resources must state model-level limitations."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasModelLimitation ;
+            sh:severity sh:Violation ],
+        [ sh:class doc:License ;
+            sh:message "AI model resources must identify their license or access terms."@en ;
+            sh:minCount 1 ;
+            sh:path doc:hasLicense ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:string ;
+            sh:message "AI model resources must provide a model name."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasName ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:string ;
+            sh:message "AI model resources must provide a model identifier."@en ;
+            sh:minCount 1 ;
+            sh:path core:modelIdentifier ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:string ;
+            sh:message "AI model resources must provide a checkpoint, snapshot, or version."@en ;
+            sh:minCount 1 ;
+            sh:path core:modelVersion ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:string ;
+            sh:message "AI model resources must identify their architecture or model type."@en ;
+            sh:minCount 1 ;
+            sh:path core:modelArchitectureType ;
+            sh:severity sh:Violation ],
+        [ sh:datatype xsd:date ;
+            sh:message "AI model resources must provide a release or snapshot date."@en ;
+            sh:minCount 1 ;
+            sh:path core:modelReleaseDate ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass core:AIModelResource .
 
-core:ModelDeploymentArchitectureShape
-  a sh:NodeShape ;
-  sh:targetClass core:ModelDeployment ;
-  sh:property [
-    sh:path core:deploysModelSpecification ;
-    sh:class core:AIModelSpecification ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "Model deployments must identify the model specification they deploy."@en
-  ] ;
-  sh:property [
-    sh:path core:hasProvider ;
-    sh:class core:Agent ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "Model deployments must identify their provider or operator."@en
-  ] ;
-  sh:or (
-    [ sh:path core:deploymentVersion ; sh:minCount 1 ]
-    [ sh:path core:deploymentAccessedAt ; sh:minCount 1 ]
-  ) ;
-  sh:severity sh:Violation ;
-  sh:message "Model deployments must provide a deployment version or access timestamp."@en .
+core:AgentSystemArchitectureShape a sh:NodeShape ;
+    sh:property [ sh:class core:AgentComponent ;
+            sh:message "Agent systems must identify at least one functional component."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasComponent ;
+            sh:severity sh:Violation ],
+        [ sh:class core:ExecutionRun ;
+            sh:message "When an execution is reported, it must identify an execution run; a configured system need not have been executed yet."@en ;
+            sh:path core:hasSystemExecution ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass core:AgentSystem .
 
-health:HealthAgentIntendedUseShape
-  a sh:NodeShape ;
-  sh:targetClass health:HealthAgent ;
-  sh:property [
-    sh:path health:hasIntendedClinicalUse ;
-    sh:class health:ClinicalUseCase ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "Health-oriented agent systems must identify an intended clinical use context."@en
-  ] .
+core:ModelComponentArchitectureShape a sh:NodeShape ;
+    sh:not [ sh:class core:ModelComponentRole ] ;
+    sh:property [ sh:class core:AIModelResource ;
+            sh:message "Model components must identify the AI model resource they use."@en ;
+            sh:minCount 1 ;
+            sh:path core:usesModelResource ;
+            sh:severity sh:Violation ],
+        [ sh:class core:ModelComponentRole ;
+            sh:message "Model components must identify their function in the agent workflow."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasModelComponentRole ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass core:ModelComponent .
 
-health:ClinicalUseCaseArchitectureShape
-  a sh:NodeShape ;
-  sh:targetClass health:ClinicalUseCase ;
-  sh:property [ sh:path health:hasIntendedUser ; sh:class health:IntendedUserRole ; sh:minCount 1 ; sh:severity sh:Violation ] ;
-  sh:property [ sh:path health:hasTargetPopulation ; sh:class health:PatientPopulation ; sh:minCount 1 ; sh:severity sh:Violation ] ;
-  sh:property [ sh:path health:hasCareSetting ; sh:class health:ClinicalSetting ; sh:minCount 1 ; sh:severity sh:Violation ] ;
-  sh:property [ sh:path health:hasClinicalTask ; sh:class health:ClinicalTask ; sh:minCount 1 ; sh:severity sh:Violation ] ;
-  sh:property [ sh:path health:hasDecisionRole ; sh:class health:ClinicalDecisionRole ; sh:minCount 1 ; sh:severity sh:Violation ] ;
-  sh:property [ sh:path health:hasIntendedAction ; sh:class health:IntendedClinicalAction ; sh:minCount 1 ; sh:severity sh:Violation ] ;
-  sh:property [ sh:path health:hasDeploymentMode ; sh:class health:DeploymentMode ; sh:minCount 1 ; sh:severity sh:Violation ] ;
-  sh:message "Clinical use cases must identify intended users, target population, care setting, clinical task, decision role, intended clinical action, and deployment mode."@en .
+core:ModelDeploymentArchitectureShape a sh:NodeShape ;
+    sh:message "Model deployments must provide a deployment version or access timestamp."@en ;
+    sh:or ( [ sh:minCount 1 ;
+                sh:path core:deploymentVersion ] [ sh:minCount 1 ;
+                sh:path core:deploymentAccessedAt ] ) ;
+    sh:property [ sh:class core:AIModelResource ;
+            sh:message "Model deployments must identify the model resource they deploy."@en ;
+            sh:minCount 1 ;
+            sh:path core:deploysModelResource ;
+            sh:severity sh:Violation ],
+        [ sh:class core:Agent ;
+            sh:message "Model deployments must identify their provider or operator."@en ;
+            sh:minCount 1 ;
+            sh:path core:hasProvider ;
+            sh:severity sh:Violation ] ;
+    sh:severity sh:Violation ;
+    sh:targetClass core:ModelDeployment .
 
-health:FHIRResourceInputArchitectureShape
-  a sh:NodeShape ;
-  sh:targetClass health:FHIRResourceInput ;
-  sh:property [
-    sh:path health:usesFHIRProfile ;
-    sh:class health:FHIRProfile ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "FHIR-aligned inputs must identify the FHIR profile or StructureDefinition used."@en
-  ] ;
-  sh:property [
-    sh:path health:hasDataFormat ;
-    sh:class health:DataFormat ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "FHIR-aligned inputs must identify their serialization format."@en
-  ] ;
-  sh:property [
-    sh:path health:usesTerminologySystem ;
-    sh:class health:TerminologySystem ;
-    sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "FHIR-aligned inputs must identify terminology systems used to encode clinical content."@en
-  ] .
+health:ClinicalUseCaseArchitectureShape a sh:NodeShape ;
+    sh:message "Clinical use cases must identify intended users, target population, care setting, clinical task, decision role, intended clinical action, and deployment mode."@en ;
+    sh:property [ sh:class health:IntendedUserRole ;
+            sh:minCount 1 ;
+            sh:path health:hasIntendedUser ;
+            sh:severity sh:Violation ],
+        [ sh:class health:PatientPopulation ;
+            sh:minCount 1 ;
+            sh:path health:hasTargetPopulation ;
+            sh:severity sh:Violation ],
+        [ sh:class health:ClinicalSetting ;
+            sh:minCount 1 ;
+            sh:path health:hasCareSetting ;
+            sh:severity sh:Violation ],
+        [ sh:class health:ClinicalTask ;
+            sh:minCount 1 ;
+            sh:path health:hasClinicalTask ;
+            sh:severity sh:Violation ],
+        [ sh:class health:ClinicalDecisionRole ;
+            sh:minCount 1 ;
+            sh:path health:hasDecisionRole ;
+            sh:severity sh:Violation ],
+        [ sh:class health:IntendedClinicalAction ;
+            sh:minCount 1 ;
+            sh:path health:hasIntendedAction ;
+            sh:severity sh:Violation ],
+        [ sh:class health:DeploymentMode ;
+            sh:minCount 1 ;
+            sh:path health:hasDeploymentMode ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass health:ClinicalUseCase .
+
+health:FHIRResourceInputArchitectureShape a sh:NodeShape ;
+    sh:property [ sh:class health:FHIRProfile ;
+            sh:message "FHIR-aligned inputs must identify the FHIR profile or StructureDefinition used."@en ;
+            sh:minCount 1 ;
+            sh:path health:usesFHIRProfile ;
+            sh:severity sh:Violation ],
+        [ sh:class health:DataFormat ;
+            sh:message "FHIR-aligned inputs must identify their serialization format."@en ;
+            sh:minCount 1 ;
+            sh:path health:hasDataFormat ;
+            sh:severity sh:Violation ],
+        [ sh:class health:TerminologySystem ;
+            sh:message "FHIR-aligned inputs must identify terminology systems used to encode clinical content."@en ;
+            sh:minCount 1 ;
+            sh:path health:usesTerminologySystem ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass health:FHIRResourceInput .
+
+health:HealthAgentIntendedUseShape a sh:NodeShape ;
+    sh:property [ sh:class health:ClinicalUseCase ;
+            sh:message "Clinical agent systems must identify an intended clinical use context; non-clinical biomedical systems are outside this shape's scope."@en ;
+            sh:minCount 1 ;
+            sh:path health:hasIntendedClinicalUse ;
+            sh:severity sh:Violation ] ;
+    sh:targetClass health:ClinicalAgentSystem .

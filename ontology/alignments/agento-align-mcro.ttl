@@ -3,66 +3,56 @@
 @prefix eval: <https://w3id.org/agent-o/eval#> .
 @prefix gov: <https://w3id.org/agent-o/gov#> .
 @prefix health: <https://w3id.org/agent-o/health#> .
-@prefix report: <https://w3id.org/agent-o/reporting#> .
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix report: <https://w3id.org/agent-o/reporting#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-<https://w3id.org/agent-o/alignments/mcro>
-  a owl:Ontology ;
-  rdfs:label "AGENT-O to MCRO alignment"@en ;
-  rdfs:comment "Safe mappings from AGENT-O agent-system reporting concepts to MCRO model-card reporting concepts. AGENT-O report concepts are broader than MCRO model card concepts and therefore use SKOS mappings rather than OWL equivalence."@en .
+<https://w3id.org/agent-o/alignments/mcro> a owl:Ontology ;
+    rdfs:label "AGENT-O to MCRO alignment"@en ;
+    rdfs:comment "Safe mappings from AGENT-O agent-system reporting concepts to MCRO model-card reporting concepts. AGENT-O report concepts are broader than MCRO model card concepts and therefore use SKOS mappings rather than OWL equivalence."@en .
 
-report:AgentSystemReport
-  skos:relatedMatch obo:MCRO_0000001 ;
-  rdfs:comment "An AGENT-O AgentSystemReport is broader than an MCRO Model Card Report because it covers agent runtime, tools, workflows, memory, reasoning, provenance, evaluation, human oversight, and governance."@en .
+core:AIModelResource skos:relatedMatch obo:MCRO_0000019,
+        obo:MCRO_0000021 .
 
-report:AgentCard
-  skos:relatedMatch obo:MCRO_0000001 .
+core:ModelComponent rdfs:comment "AGENT-O ModelComponent is a system-relative component binding that bears a separate ModelComponentRole and uses a model resource, whereas MCRO represents model details as document sections."@en ;
+    skos:relatedMatch obo:MCRO_0000021 .
 
-report:ModelCardReference
-  skos:closeMatch obo:MCRO_0000001 .
+core:ModelInputSpecification skos:closeMatch obo:MCRO_0000015 .
 
-report:ModelCardReport
-  skos:closeMatch obo:MCRO_0000001 .
+core:ModelIntendedUse skos:closeMatch obo:MCRO_0000029,
+        obo:MCRO_0000038 .
 
-core:AIModelSpecification
-  skos:relatedMatch obo:MCRO_0000021, obo:MCRO_0000019 .
+core:ModelOutputSpecification skos:closeMatch obo:MCRO_0000024 .
 
-core:ModelComponent
-  skos:relatedMatch obo:MCRO_0000021 ;
-  rdfs:comment "AGENT-O ModelComponent represents the role of a model within an agent system, whereas MCRO represents model details as document sections."@en .
+doc:License skos:closeMatch obo:MCRO_0000016 .
 
-core:ModelInputSpecification
-  skos:closeMatch obo:MCRO_0000015 .
+eval:Dataset skos:relatedMatch obo:MCRO_0000006,
+        obo:MCRO_0000008,
+        obo:MCRO_0000037 .
 
-core:ModelOutputSpecification
-  skos:closeMatch obo:MCRO_0000024 .
+gov:PrivacyConstraint skos:relatedMatch obo:MCRO_0000028,
+        obo:MCRO_0000034 .
 
-report:EvaluationReportingSection
-  skos:closeMatch obo:MCRO_0000027 .
+gov:Risk skos:closeMatch obo:MCRO_0000033 .
 
-eval:Dataset
-  skos:relatedMatch obo:MCRO_0000006, obo:MCRO_0000008, obo:MCRO_0000037 .
+health:ClinicalUseCase skos:relatedMatch obo:MCRO_0000029,
+        obo:MCRO_0000038 .
 
-doc:License
-  skos:closeMatch obo:MCRO_0000016 .
+health:IntendedUserRole skos:closeMatch obo:MCRO_0000030,
+        obo:MCRO_0000039 .
 
-gov:Risk
-  skos:closeMatch obo:MCRO_0000033 .
+report:AgentCard skos:relatedMatch obo:MCRO_0000001 .
 
-gov:PrivacyConstraint
-  skos:relatedMatch obo:MCRO_0000028, obo:MCRO_0000034 .
+report:AgentSystemReport rdfs:comment "An AGENT-O AgentSystemReport is broader than an MCRO Model Card Report because it covers agent runtime, tools, workflows, memory, reasoning, provenance, evaluation, human oversight, and governance."@en ;
+    skos:relatedMatch obo:MCRO_0000001 .
 
-core:ModelIntendedUse
-  skos:closeMatch obo:MCRO_0000029, obo:MCRO_0000038 .
+report:EvaluationReportingSection skos:closeMatch obo:MCRO_0000027 .
 
-health:ClinicalUseCase
-  skos:relatedMatch obo:MCRO_0000029, obo:MCRO_0000038 .
+report:IntendedUseStatement skos:closeMatch obo:MCRO_0000029,
+        obo:MCRO_0000038 .
 
-report:IntendedUseStatement
-  skos:closeMatch obo:MCRO_0000029, obo:MCRO_0000038 .
+report:ModelCardReference skos:closeMatch obo:MCRO_0000001 .
 
-health:IntendedUserRole
-  skos:closeMatch obo:MCRO_0000030, obo:MCRO_0000039 .
+report:ModelCardReport skos:closeMatch obo:MCRO_0000001 .

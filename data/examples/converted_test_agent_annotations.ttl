@@ -99,7 +99,7 @@
 
 <https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixPaper> a doc:Reference ;
     core:hasName "Multi-Agent Medical Decision Consensus Matrix System: An Intelligent Collaborative Framework for Oncology MDT Consultations" ;
-    doc:sourceURI "paper_extraction_parsing/paper_list/extracted_content/Multi-Agent Medical Decision Consensus Matrix System An Intelligent Collaborative Framework for/vlm/Multi-Agent Medical Decision Consensus Matrix System An Intelligent Collaborative Framework for.md"^^xsd:anyURI .
+    doc:sourceURI "paper_extraction_parsing/paper_list/extracted_content/Multi-Agent%20Medical%20Decision%20Consensus%20Matrix%20System%20An%20Intelligent%20Collaborative%20Framework%20for/vlm/Multi-Agent%20Medical%20Decision%20Consensus%20Matrix%20System%20An%20Intelligent%20Collaborative%20Framework%20for.md"^^xsd:anyURI .
 
 <https://w3id.org/agent-o/examples/eval-demo#ConsensusMatrixTrace> a doc:LineageTrace ;
     core:hasDescription "Seven role-specialized agents retrieve role-conditioned evidence, generate preference vectors, update a consensus matrix, compute Kendall's W, identify discordant agents, and refine recommendations over at most three rounds." .
@@ -448,7 +448,7 @@
 
 <https://w3id.org/agent-o/examples/eval-demo#MedAgentProPaper> a doc:Reference ;
     core:hasName "MedAgent-Pro: Towards Evidence-based Multi-modal Medical Diagnosis via Reasoning Agenic Workflow" ;
-    doc:sourceURI "paper_extraction_parsing/paper_list/extracted_content/MedAgent-Pro Towards Evidence-based Multi-modal Medical Diagnosis via Reasoning Agenic Workflow/vlm/MedAgent-Pro Towards Evidence-based Multi-modal Medical Diagnosis via Reasoning Agenic Workflow.md"^^xsd:anyURI .
+    doc:sourceURI "paper_extraction_parsing/paper_list/extracted_content/MedAgent-Pro%20Towards%20Evidence-based%20Multi-modal%20Medical%20Diagnosis%20via%20Reasoning%20Agenic%20Workflow/vlm/MedAgent-Pro%20Towards%20Evidence-based%20Multi-modal%20Medical%20Diagnosis%20via%20Reasoning%20Agenic%20Workflow.md"^^xsd:anyURI .
 
 <https://w3id.org/agent-o/examples/eval-demo#NEJMDataset> a eval:Dataset ;
     core:hasName "NEJM diagnostic cases" .
@@ -540,4 +540,3 @@
     doc:hasProvenanceRecord <https://w3id.org/agent-o/examples/eval-demo#TrialAgentProvenance> ;
     doc:hasReference <https://w3id.org/agent-o/examples/eval-demo#TrialAgentDoc> ;
     gov:hasAutomationLevel <https://w3id.org/agent-o/examples/eval-demo#HumanInTheLoopOperation> .
-

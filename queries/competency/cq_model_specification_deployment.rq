@@ -14,7 +14,7 @@ WHERE {
          core:hasSystemExecution ?run .
   ?component a core:ModelComponent ;
              core:hasModelComponentRole ?role ;
-             core:realizesModelSpecification ?model .
+             core:usesModelResource ?model .
   ?model core:modelIdentifier ?identifier ;
          core:modelVersion ?version .
   OPTIONAL { ?model core:hasName ?modelName . }
@@ -29,7 +29,7 @@ WHERE {
   OPTIONAL { ?model core:hasModelIntendedUse ?modelIntendedUse . }
   OPTIONAL { ?model core:hasModelLimitation ?limitation . }
   ?run core:usesModelDeployment ?deployment .
-  ?deployment core:deploysModelSpecification ?model ;
+  ?deployment core:deploysModelResource ?model ;
               core:hasProvider ?provider .
   OPTIONAL { ?deployment core:deploymentEndpoint ?endpoint . }
   OPTIONAL { ?deployment core:deploymentVersion ?deploymentVersion . }

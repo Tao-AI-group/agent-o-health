@@ -8,78 +8,98 @@
     rdfs:label "AGENT-O Documentation Ontology"@en ;
     rdfs:comment "Documentation/meta-data layer: citations, owners, licenses, versions, references, templates, provenance records, and lineage traces."@en .
 
+doc:Document a owl:Class ;
+    rdfs:label "Document"@en ;
+    rdfs:comment "An information artifact containing document content, distinct from a bibliographic reference record."@en ;
+    rdfs:subClassOf core:Artifact .
+
 doc:citationText a owl:DatatypeProperty ;
     rdfs:label "citationText"@en ;
+    rdfs:comment "Records the formatted bibliographic text of a citation record."@en ;
     rdfs:domain doc:Citation ;
     rdfs:range xsd:string .
 
 doc:contact a owl:DatatypeProperty ;
     rdfs:label "contact"@en ;
+    rdfs:comment "Records contact details in an ownership contact record."@en ;
     rdfs:domain doc:Owner ;
     rdfs:range xsd:string .
 
 doc:derivedFrom a owl:ObjectProperty ;
     rdfs:label "derivedFrom"@en ;
+    rdfs:comment "Records the derivation of an entity from a source entity; the PROV-O mapping gives both endpoints entity identity."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range owl:Thing .
 
 doc:hasAsset a owl:ObjectProperty ;
     rdfs:label "hasAsset"@en ;
+    rdfs:comment "Identifies a reusable code, data or configuration resource supporting a described skill."@en ;
     rdfs:domain core:Skill ;
     rdfs:range doc:Asset .
 
 doc:hasCitation a owl:ObjectProperty ;
     rdfs:label "hasCitation"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to a bibliographic citation record identifying a source."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:Citation .
 
 doc:hasLicense a owl:ObjectProperty ;
     rdfs:label "hasLicense"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to its license or access terms; use of this metadata does not imply agency."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:License .
 
 doc:hasLineageTrace a owl:ObjectProperty ;
     rdfs:label "hasLineageTrace"@en ;
+    rdfs:comment "Links a documented entity to an information record describing its derivation history."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range doc:LineageTrace .
 
 doc:hasOwner a owl:ObjectProperty ;
     rdfs:label "hasOwner"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to an ownership contact record; the record is distinct from the responsible person or organization."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:Owner .
 
 doc:hasProvenanceRecord a owl:ObjectProperty ;
     rdfs:label "hasProvenanceRecord"@en ;
+    rdfs:comment "Links a documented entity to a record of its origin, production or use."@en ;
     rdfs:domain owl:Thing ;
     rdfs:range doc:ProvenanceRecord .
 
 doc:hasReference a owl:ObjectProperty ;
     rdfs:label "hasReference"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to a record identifying or locating an external source."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:Reference .
 
 doc:hasTemplate a owl:ObjectProperty ;
     rdfs:label "hasTemplate"@en ;
+    rdfs:comment "Identifies a reusable information pattern used when preparing a skill implementation or its documentation."@en ;
     rdfs:domain core:Skill ;
     rdfs:range doc:Template .
 
 doc:hasVersionInfo a owl:ObjectProperty ;
     rdfs:label "hasVersionInfo"@en ;
-    rdfs:domain core:Agent ;
+    rdfs:comment "Links a documented entity to a record identifying a particular version or release."@en ;
+    rdfs:domain owl:Thing ;
     rdfs:range doc:VersionInfo .
 
 doc:identifier a owl:DatatypeProperty ;
     rdfs:label "identifier"@en ;
+    rdfs:comment "Records the identifier of a license or access-terms statement."@en ;
     rdfs:domain doc:License ;
     rdfs:range xsd:string .
 
 doc:recordedAt a owl:DatatypeProperty ;
     rdfs:label "recordedAt"@en ;
+    rdfs:comment "Records the time at which a provenance record was created or recorded."@en ;
     rdfs:domain doc:ProvenanceRecord ;
     rdfs:range xsd:dateTime .
 
 doc:releaseDate a owl:DatatypeProperty ;
     rdfs:label "releaseDate"@en ;
+    rdfs:comment "Records the calendar release date in a version-information record."@en ;
     rdfs:domain doc:VersionInfo ;
     rdfs:range xsd:date .
 
@@ -91,32 +111,48 @@ doc:sourceURI a owl:DatatypeProperty ;
 
 doc:versionString a owl:DatatypeProperty ;
     rdfs:label "versionString"@en ;
+    rdfs:comment "Records the textual version identifier held in a version-information record."@en ;
     rdfs:domain doc:VersionInfo ;
     rdfs:range xsd:string .
 
+doc:traceText a owl:DatatypeProperty ;
+    rdfs:label "traceText"@en ;
+    rdfs:comment "Records the textual account of an information product's derivation in a lineage trace, not the derivation activity itself."@en ;
+    rdfs:domain doc:LineageTrace ;
+    rdfs:range xsd:string .
+
 doc:Asset a owl:Class ;
-    rdfs:label "Asset"@en .
+    rdfs:label "Asset"@en ;
+    rdfs:comment "A reusable supporting resource such as code, data or a configuration supplied to implement a skill."@en .
 
 doc:LineageTrace a owl:Class ;
-    rdfs:label "LineageTrace"@en .
+    rdfs:label "LineageTrace"@en ;
+    rdfs:comment "An information record describing the derivation history of an artifact or decision."@en .
 
 doc:Reference a owl:Class ;
-    rdfs:label "Reference"@en .
+    rdfs:label "Reference"@en ;
+    rdfs:comment "A reference record identifying or locating an external source, distinct from the source document it identifies."@en .
 
 doc:Template a owl:Class ;
-    rdfs:label "Template"@en .
+    rdfs:label "Template"@en ;
+    rdfs:comment "A reusable information pattern for preparing an implementation or document."@en .
 
 doc:Citation a owl:Class ;
-    rdfs:label "Citation"@en .
+    rdfs:label "Citation"@en ;
+    rdfs:comment "A bibliographic citation record identifying a source, not the cited document itself."@en .
 
 doc:License a owl:Class ;
-    rdfs:label "License"@en .
+    rdfs:label "License"@en ;
+    rdfs:comment "A statement of permissions and conditions governing use of a resource."@en .
 
 doc:Owner a owl:Class ;
-    rdfs:label "Owner"@en .
+    rdfs:label "Owner"@en ;
+    rdfs:comment "A contact record identifying a person or organization responsible for ownership, distinct from that acting participant."@en .
 
 doc:ProvenanceRecord a owl:Class ;
-    rdfs:label "ProvenanceRecord"@en .
+    rdfs:label "ProvenanceRecord"@en ;
+    rdfs:comment "An information record documenting the origin, production or use of an entity."@en .
 
 doc:VersionInfo a owl:Class ;
-    rdfs:label "VersionInfo"@en .
+    rdfs:label "VersionInfo"@en ;
+    rdfs:comment "An information record identifying a particular release or version of a resource, not the resource itself."@en .

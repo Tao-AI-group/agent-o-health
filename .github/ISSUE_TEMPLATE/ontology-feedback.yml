@@ -1,0 +1,43 @@
+name: Ontology design feedback
+description: Review a definition, missing concept, modeling relationship or competency question.
+title: '[Ontology] '
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Feedback type
+      options:
+        - Unclear or incorrect definition
+        - Missing concept or new term
+        - Incorrect relationship or modeling pattern
+        - Overlap or external ontology alignment
+        - Competency question
+        - Website documentation
+    validations:
+      required: true
+  - type: input
+    id: term
+    attributes:
+      label: Term IRI, module or CQ identifier
+      description: Paste the term page or IRI, or identify the relevant review question.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Concrete example and problem
+      description: What are you trying to describe or answer? Which current definition or relationship gets in the way?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: For new terms, suggest a preferred label, definition, synonyms and parent concept. For relations, describe the expected source and target.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Supporting references or expected answer
+      description: Include a relevant standard, publication, external ontology IRI or expected CQ answer. Use synthetic or deidentified examples.

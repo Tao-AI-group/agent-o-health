@@ -1,6 +1,6 @@
 {
-  "input_triples": 3644,
-  "inferred_triples": 6364,
+  "input_triples": 4352,
+  "inferred_triples": 10120,
   "queries": {
     "cq_clinical_intended_use": {
       "query": "queries/competency/cq_clinical_intended_use.rq",
@@ -75,13 +75,29 @@
     },
     "cq_data_use_permissions": {
       "query": "queries/competency/cq_data_use_permissions.rq",
-      "row_count": 1,
+      "row_count": 3,
       "status": "answered",
       "rows": [
         {
           "dataset": "https://w3id.org/agent-o/examples/health-interoperability#RestrictedEHRDataset",
           "datasetName": "Restricted EHR medication review dataset",
           "condition": "https://w3id.org/agent-o/examples/health-interoperability#InstitutionalDataUseCondition",
+          "permission": "https://w3id.org/agent-o/examples/health-interoperability#ClinicalResearchUsePermission",
+          "restriction": "https://w3id.org/agent-o/examples/health-interoperability#ProjectSpecificRestriction",
+          "policy": "https://w3id.org/agent-o/examples/health-interoperability#EHRDataUsePolicy"
+        },
+        {
+          "dataset": "https://w3id.org/agent-o/examples/health-interoperability#RestrictedEHRDataset",
+          "datasetName": "Restricted EHR medication review dataset",
+          "condition": "https://w3id.org/agent-o/examples/health-interoperability#ClinicalResearchUsePermission",
+          "permission": "https://w3id.org/agent-o/examples/health-interoperability#ClinicalResearchUsePermission",
+          "restriction": "https://w3id.org/agent-o/examples/health-interoperability#ProjectSpecificRestriction",
+          "policy": "https://w3id.org/agent-o/examples/health-interoperability#EHRDataUsePolicy"
+        },
+        {
+          "dataset": "https://w3id.org/agent-o/examples/health-interoperability#RestrictedEHRDataset",
+          "datasetName": "Restricted EHR medication review dataset",
+          "condition": "https://w3id.org/agent-o/examples/health-interoperability#ProjectSpecificRestriction",
           "permission": "https://w3id.org/agent-o/examples/health-interoperability#ClinicalResearchUsePermission",
           "restriction": "https://w3id.org/agent-o/examples/health-interoperability#ProjectSpecificRestriction",
           "policy": "https://w3id.org/agent-o/examples/health-interoperability#EHRDataUsePolicy"
@@ -145,7 +161,9 @@
           "risk": "https://w3id.org/agent-o/examples/governance-reporting-profile#HighRiskMedicationAdviceRisk",
           "reviewRequirement": "https://w3id.org/agent-o/examples/governance-reporting-profile#ClinicianReviewRequirement",
           "fallbackStrategy": "https://w3id.org/agent-o/examples/governance-reporting-profile#ManualReviewFallback",
-          "escalationEvent": "https://w3id.org/agent-o/examples/governance-reporting-profile#PharmacistEscalation",
+          "escalationPlan": "https://w3id.org/agent-o/examples/governance-reporting-profile#PharmacistEscalation",
+          "overrideCapability": "https://w3id.org/agent-o/examples/governance-reporting-profile#ClinicianOverride",
+          "escalationEvent": null,
           "monitoringRule": "https://w3id.org/agent-o/examples/governance-reporting-profile#MedicationSafetyMonitoringRule",
           "complianceRequirement": "https://w3id.org/agent-o/examples/governance-reporting-profile#HIPAAComplianceRequirement"
         },
@@ -158,6 +176,8 @@
           "risk": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewPatientSafetyRisk",
           "reviewRequirement": "https://w3id.org/agent-o/examples/health-interoperability#ClinicalReviewRequirement",
           "fallbackStrategy": null,
+          "escalationPlan": null,
+          "overrideCapability": null,
           "escalationEvent": null,
           "monitoringRule": "https://w3id.org/agent-o/examples/health-interoperability#MedicationReviewMonitoringRule",
           "complianceRequirement": "https://w3id.org/agent-o/examples/health-interoperability#HIPAAComplianceRequirement"
@@ -171,6 +191,8 @@
           "risk": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticPatientSafetyRisk",
           "reviewRequirement": "https://w3id.org/agent-o/examples/prov-demo#ClinicalReviewRequirement",
           "fallbackStrategy": null,
+          "escalationPlan": null,
+          "overrideCapability": null,
           "escalationEvent": null,
           "monitoringRule": "https://w3id.org/agent-o/examples/prov-demo#DiagnosticMonitoringRule",
           "complianceRequirement": null
@@ -505,6 +527,7 @@
           "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
           "reportName": "AgentArena ontology-guided reporting-assessment POC report",
           "agent": null,
+          "dimension": "https://w3id.org/agent-o/examples/governance-reporting-profile#GovernanceSafetyDimension",
           "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaGovernanceSection",
           "label": "https://w3id.org/agent-o/reporting#Missing",
           "evidenceQuote": "The benchmark description is not primarily a governance reporting guideline.",
@@ -515,6 +538,7 @@
           "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
           "reportName": "AgentArena ontology-guided reporting-assessment POC report",
           "agent": null,
+          "dimension": "https://w3id.org/agent-o/examples/governance-reporting-profile#HumanReviewDimension",
           "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaHumanReviewSection",
           "label": "https://w3id.org/agent-o/reporting#Partial",
           "evidenceQuote": "Validity and failure cases are discussed, but human review escalation is not fully specified as an agent governance object.",
@@ -525,7 +549,8 @@
           "report": "https://w3id.org/agent-o/examples/governance-reporting-profile#AgentArenaPOCReport",
           "reportName": "AgentArena ontology-guided reporting-assessment POC report",
           "agent": null,
-          "section": "https://w3id.org/agent-o/examples/governance-reporting-profile#PrivacySecurityComplianceSection",
+          "dimension": "https://w3id.org/agent-o/examples/governance-reporting-profile#PrivacyComplianceDimension",
+          "section": null,
           "label": "https://w3id.org/agent-o/reporting#Missing",
           "evidenceQuote": "The benchmark alignment case does not by itself specify PHI, consent, privacy, or regulatory compliance constraints.",
           "gapExplanation": "Biomedical deployment contexts require DUO/FHIR/privacy/compliance annotations beyond benchmark task design.",
