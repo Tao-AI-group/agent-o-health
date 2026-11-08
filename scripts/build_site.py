@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Generate the public ontology reference from the six authoritative modules."""
-from collections import Counter
+from collections import Counter, defaultdict
 from hashlib import sha256
 from html import escape as esc
 import json
+import math
 from pathlib import Path
 import re
 import shutil
@@ -16,17 +17,21 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / '_site'
 REPO = 'https://github.com/Tao-AI-group/agent-o-health'
 MODULES = {
-    'core': ('System & runtime', 'Agents, model resources, components, workflows and execution.'),
-    'doc': ('Documentation & provenance', 'Documents, versions, licenses, lineage and traceability.'),
-    'eval': ('Evaluation', 'Studies, targets, datasets, metrics, results and failures.'),
-    'gov': ('Governance', 'Policies, risks, human review and prospective controls.'),
-    'health': ('Clinical context', 'Intended use, patient populations, health data and interoperability.'),
-    'report': ('Reporting assessment', 'Publications, requirements, evidence and completeness assessments.'),
+    'core': ('System & runtime', 'Agents, models, components, workflows and execution.'),
+    'doc': ('Documentation & provenance', 'Documents, versions, licenses and lineage.'),
+    'eval': ('Evaluation', 'Studies, datasets, metrics, results and failures.'),
+    'gov': ('Governance', 'Policies, risks, human review and controls.'),
+    'health': ('Clinical context', 'Intended use, populations, health data and interoperability.'),
+    'report': ('Reporting assessment', 'Publications, requirements, evidence and completeness.'),
 }
 NS = {m: f'https://w3id.org/agent-o/{"reporting" if m == "report" else m}#' for m in MODULES}
 TYPES = {OWL.Class: 'Class', OWL.ObjectProperty: 'Object property',
          OWL.DatatypeProperty: 'Datatype property', OWL.AnnotationProperty: 'Annotation property',
          OWL.NamedIndividual: 'Individual'}
+CHARACTERISTICS = {OWL.FunctionalProperty: 'Functional', OWL.InverseFunctionalProperty: 'Inverse functional',
+                   OWL.TransitiveProperty: 'Transitive', OWL.SymmetricProperty: 'Symmetric',
+                   OWL.AsymmetricProperty: 'Asymmetric', OWL.ReflexiveProperty: 'Reflexive',
+                   OWL.IrreflexiveProperty: 'Irreflexive'}
 G = Graph()
 sources = {}
 for module in MODULES:
@@ -54,67 +59,405 @@ def module_of(term):
     return next(m for m, ns in NS.items() if str(term).startswith(ns))
 
 
+def local(term):
+    return compact(term).split(':', 1)[1]
+
+
 def term_path(term):
     return 'terms/' + compact(term).replace(':', '-') + '.html'
 
 
-def link(term, prefix=''):
-    if term in TERMS:
-        return f'<a class="term-link {module_of(term)}" href="{prefix}{term_path(term)}">{esc(compact(term))}</a>'
-    return f'<a href="{esc(str(term), quote=True)}">{esc(compact(term))}</a>'
-
-
-def expression(term, prefix=''):
-    if isinstance(term, URIRef):
-        return link(term, prefix)
-    if isinstance(term, Literal):
-        suffix = f' @{term.language}' if term.language else (f' ({compact(term.datatype)})' if term.datatype else '')
-        return esc(str(term) + suffix)
-    for predicate, word in [(OWL.unionOf, 'or'), (OWL.intersectionOf, 'and'), (OWL.oneOf, 'one of')]:
-        head = G.value(term, predicate)
-        if head is not None:
-            return '(' + f' <strong>{word}</strong> '.join(expression(v, prefix) for v in Collection(G, head)) + ')'
-    if G.value(term, OWL.onProperty) is not None:
-        items = [f'{expression(p, prefix)} {expression(v, prefix)}' for p, v in sorted(G.predicate_objects(term), key=lambda x: str(x)) if p != RDF.type]
-        return '<span class="expression">Restriction: ' + '; '.join(items) + '</span>'
-    if G.value(term, RDF.first) is not None:
-        return '(' + ', '.join(expression(v, prefix) for v in Collection(G, term)) + ')'
-    return '[' + '; '.join(f'{expression(p, prefix)} {expression(v, prefix)}' for p, v in sorted(G.predicate_objects(term), key=lambda x: str(x))) + ']'
+def deprecated(term):
+    return bool(G.value(term, OWL.deprecated))
 
 
 def definition(term):
     return str(G.value(term, SKOS.definition) or G.value(term, RDFS.comment) or 'No definition is recorded in this module.')
 
 
+def first_sentence(text):
+    match = re.match(r'(.+?[.;])(\s|$)', text)
+    return match.group(1).rstrip(';') + ('' if match.group(1).endswith('.') else '.') if match else text
+
+
+def link(term, prefix='', short=False):
+    if term in TERMS:
+        text = local(term) if short else compact(term)
+        extra = ' deprecated' if deprecated(term) else ''
+        return (f'<a class="t {module_of(term)}{extra}" href="{prefix}{term_path(term)}" '
+                f'title="{esc(first_sentence(definition(term)), quote=True)}">{esc(text)}</a>')
+    return f'<a class="ext" href="{esc(str(term), quote=True)}">{esc(compact(term))}</a>'
+
+
+def chip(m, prefix=''):
+    return f'<a class="chip {m}" href="{prefix}modules/{m}.html">{m}</a>'
+
+
+# ---------------------------------------------------------------- OWL expressions
+
+def expression(term, prefix=''):
+    """Generic expansion of any RDF node (used for the raw statement tables)."""
+    if isinstance(term, URIRef):
+        return link(term, prefix)
+    if isinstance(term, Literal):
+        suffix = f' @{term.language}' if term.language else (f' ({compact(term.datatype)})' if term.datatype else '')
+        return esc(str(term) + suffix)
+    readable = manchester(term, prefix)
+    if readable is not None:
+        return readable
+    if G.value(term, RDF.first) is not None:
+        return '(' + ', '.join(expression(v, prefix) for v in Collection(G, term)) + ')'
+    return '[' + '; '.join(f'{expression(p, prefix)} {expression(v, prefix)}' for p, v in sorted(G.predicate_objects(term), key=lambda x: str(x))) + ']'
+
+
+def kw(word):
+    return f' <span class="kw">{word}</span> '
+
+
+def manchester(term, prefix='', nested=False):
+    """Render a class expression in Manchester-like syntax, as Protégé does. Returns None if unknown."""
+    if isinstance(term, URIRef):
+        return link(term, prefix)
+    if isinstance(term, Literal):
+        return esc(str(term))
+    wrap = (lambda s: f'({s})') if nested else (lambda s: s)
+    for predicate, word in [(OWL.unionOf, 'or'), (OWL.intersectionOf, 'and')]:
+        head = G.value(term, predicate)
+        if head is not None:
+            return wrap(kw(word).join(manchester(v, prefix, True) or expression(v, prefix) for v in Collection(G, head)))
+    head = G.value(term, OWL.oneOf)
+    if head is not None:
+        return '{' + ', '.join(expression(v, prefix) for v in Collection(G, head)) + '}'
+    if G.value(term, OWL.complementOf) is not None:
+        return kw('not').strip() + ' ' + manchester(G.value(term, OWL.complementOf), prefix, True)
+    prop = G.value(term, OWL.onProperty)
+    if prop is not None:
+        p = expression(prop, prefix)
+        for predicate, word in [(OWL.someValuesFrom, 'some'), (OWL.allValuesFrom, 'only'), (OWL.hasValue, 'value')]:
+            value = G.value(term, predicate)
+            if value is not None:
+                return wrap(p + kw(word) + (manchester(value, prefix, True) or expression(value, prefix)))
+        for word, plain, qualified in [('min', OWL.minCardinality, OWL.minQualifiedCardinality),
+                                       ('max', OWL.maxCardinality, OWL.maxQualifiedCardinality),
+                                       ('exactly', OWL.cardinality, OWL.qualifiedCardinality)]:
+            value = G.value(term, qualified) or G.value(term, plain)
+            if value is not None:
+                filler = G.value(term, OWL.onClass) or G.value(term, OWL.onDataRange)
+                return wrap(p + kw(word) + esc(str(value)) + (' ' + manchester(filler, prefix, True) if filler is not None else ''))
+    return None
+
+
+def members(expr):
+    """Named classes covered by a domain/range expression (the class itself, or members of a union)."""
+    if isinstance(expr, URIRef):
+        return [expr]
+    head = G.value(expr, OWL.unionOf)
+    if head is not None:
+        return [c for v in Collection(G, head) for c in members(v)]
+    return []
+
+
+def joined(values, prefix=''):
+    values = sorted(values, key=str)
+    if not values:
+        return '<span class="none">—</span>'
+    return kw('and').join(manchester(v, prefix) or expression(v, prefix) for v in values)
+
+
+# ---------------------------------------------------------------- schema indexes
+
+CLASSES = sorted((t for t, k in TERMS.items() if k == 'Class'), key=lambda t: compact(t).lower())
+PROPERTIES = sorted((t for t, k in TERMS.items() if k in {'Object property', 'Datatype property'}), key=lambda t: compact(t).lower())
+PARENTS = {c: sorted((o for o in G.objects(c, RDFS.subClassOf) if o in TERMS), key=str) for c in CLASSES}
+CHILDREN = defaultdict(list)
+for c, ps in PARENTS.items():
+    for p in ps:
+        CHILDREN[p].append(c)
+BY_DOMAIN, BY_RANGE = defaultdict(list), defaultdict(list)
+for p in PROPERTIES:
+    for d in G.objects(p, RDFS.domain):
+        for c in members(d):
+            BY_DOMAIN[c].append(p)
+    for r in G.objects(p, RDFS.range):
+        for c in members(r):
+            BY_RANGE[c].append(p)
+
+
+def ancestors(c):
+    seen, queue = [], list(PARENTS.get(c, []))
+    while queue:
+        a = queue.pop(0)
+        if a not in seen and a != c:
+            seen.append(a)
+            queue.extend(PARENTS.get(a, []))
+    return seen
+
+
+def breadcrumb(c, prefix):
+    chain, current = [], c
+    while PARENTS.get(current) and len(chain) < 12:
+        current = PARENTS[current][0]
+        if current in chain:
+            break
+        chain.append(current)
+    if not chain:
+        return ''
+    return '<nav class="crumbs" aria-label="Superclasses">' + ' <span>›</span> '.join(link(a, prefix) for a in reversed(chain)) + f' <span>›</span> <b>{esc(local(c))}</b></nav>'
+
+
+def property_rows(props, prefix, column):
+    rows = []
+    for p in sorted(set(props), key=lambda t: compact(t).lower()):
+        other = G.objects(p, RDFS.range if column == 'range' else RDFS.domain)
+        rows.append(f'<tr><td>{link(p, prefix)}</td><td>{joined(other, prefix)}</td></tr>')
+    return ''.join(rows)
+
+
+def prop_table(head, body):
+    return f'<table class="props"><thead><tr><th>{head[0]}</th><th>{head[1]}</th></tr></thead><tbody>{body}</tbody></table>'
+
+
+def raw_statements(term, prefix):
+    predicates = sorted(G.predicate_objects(term), key=lambda pv: (str(pv[0]), str(pv[1])))
+    rows = ''.join(f'<tr><th>{expression(p, prefix)}</th><td>{expression(v, prefix)}</td></tr>' for p, v in predicates)
+    incoming = sorted([(s, p) for s, p in G.subject_predicates(term) if s in TERMS], key=lambda sp: (str(sp[0]), str(sp[1])))
+    refs = ''.join(f'<tr><th>{link(s, prefix)}</th><td>{expression(p, prefix)} this term</td></tr>' for s, p in incoming)
+    body = f'<table class="raw"><tbody>{rows}</tbody></table>'
+    if refs:
+        body += f'<h4>Statements in other terms that mention it</h4><table class="raw"><tbody>{refs}</tbody></table>'
+    return f'<details class="raw-block"><summary>All asserted statements</summary><p class="note">Direct assertions from the Turtle source. Nothing inferred.</p>{body}</details>'
+
+
+# ---------------------------------------------------------------- page shell
+
 def page(path, title, body, active=''):
     prefix = '../' * path.count('/')
-    nav = [('index.html', 'Overview'), ('modules.html', 'Modules'), ('explore.html', 'Explore'),
-           ('terms.html', 'Term index'), ('questions.html', 'Review questions')]
+    nav = [('index.html', 'Overview'), ('modules.html', 'Modules'), ('explore.html', 'Graph'),
+           ('terms.html', 'Terms'), ('example.html', 'Example'), ('questions.html', 'Questions')]
     navigation = ''.join('<a ' + ('aria-current="page"' if name == active else '') + f' href="{prefix}{href}">{name}</a>' for href, name in nav)
     html = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{esc(title)} · AGENT-O</title><meta name="description" content="Explore the AGENT-O ontology for health-oriented AI agent systems: definitions, relationships and review questions.">
+<title>{esc(title)} · AGENT-O</title><meta name="description" content="AGENT-O: an ontology for health AI agent systems. Classes, properties, hierarchy and examples.">
 <link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{prefix}assets/style.css">
 <script src="{prefix}assets/site.js" defer></script></head><body>
-<a class="skip" href="#main">Skip to content</a><header><a class="brand" href="{prefix}index.html"><span class="brand-mark">A<span>O</span></span>AGENT-O<span class="brand-sub">Ontology explorer</span></a>
-<nav aria-label="Main navigation">{navigation}<a href="{REPO}">GitHub ↗</a></nav></header>
-<main id="main">{body}</main><footer><div><strong>AGENT-O</strong> · Tao AI Group</div><div>Ontology & documentation: CC BY 4.0 · Code: MIT</div><a href="{prefix}downloads/source-manifest.json">Source manifest</a><a href="{REPO}/issues/new/choose">Suggest a change ↗</a></footer></body></html>'''
+<a class="skip" href="#main">Skip to content</a><header><div class="bar"><a class="brand" href="{prefix}index.html">AGENT-O</a>
+<nav aria-label="Main navigation">{navigation}<a class="gh" href="{REPO}">GitHub</a></nav></div></header>
+<main id="main">{body}</main><footer><span>AGENT-O · Tao AI Group · Ontology CC BY 4.0 · Code MIT</span><span><a href="{prefix}downloads/source-manifest.json">Source manifest</a> · <a href="{REPO}/issues/new/choose">Suggest a change</a></span></footer></body></html>'''
     destination = OUT / path
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(html, encoding='utf-8')
 
 
-def eyebrow(text):
-    return f'<p class="eyebrow">{text}</p>'
-
-
 def term_table(terms, prefix=''):
     rows = []
     for term in sorted(terms, key=lambda t: compact(t).lower()):
-        deprecated = bool(G.value(term, OWL.deprecated))
-        badge = ' <span class="badge">Deprecated</span>' if deprecated else ''
-        rows.append(f'<tr data-search="{esc((compact(term) + " " + definition(term)).lower(), quote=True)}" data-module="{module_of(term)}" data-kind="{TERMS[term]}"><td>{link(term, prefix)}{badge}</td><td>{TERMS[term]}</td><td>{esc(definition(term))}</td></tr>')
-    return '<div class="table-wrap"><table><thead><tr><th>Term</th><th>Kind</th><th>Definition</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>'
+        badge = ' <span class="badge">deprecated</span>' if deprecated(term) else ''
+        text = definition(term)
+        rows.append(f'<tr data-search="{esc((compact(term) + " " + text).lower(), quote=True)}" data-module="{module_of(term)}" data-kind="{TERMS[term]}">'
+                    f'<td>{link(term, prefix)}{badge}</td><td class="kind">{TERMS[term]}</td><td class="def" title="{esc(text, quote=True)}">{esc(first_sentence(text))}</td></tr>')
+    return '<div class="table-wrap"><table class="index"><thead><tr><th>Term</th><th class="kind">Kind</th><th>Definition</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>'
+
+
+# ---------------------------------------------------------------- module map (home page)
+
+def graph_edges():
+    edges = []
+    for s, o in G.subject_objects(RDFS.subClassOf):
+        if s in TERMS and o in TERMS:
+            edges.append({'source': compact(s), 'target': compact(o), 'label': 'is-a', 'kind': 'subclass', 'url': term_path(s)})
+    # Preserve domain/range expressions as expressions; do not turn union members into asserted edges.
+    for p in G.subjects(RDF.type, OWL.ObjectProperty):
+        for domain in G.objects(p, RDFS.domain):
+            for range_ in G.objects(p, RDFS.range):
+                if domain in TERMS and range_ in TERMS:
+                    edges.append({'source': compact(domain), 'target': compact(range_), 'label': compact(p), 'kind': 'property', 'url': term_path(p)})
+    return edges
+
+
+def module_map(active):
+    """Six modules as nodes; lines count direct cross-module links (subclass + named domain/range)."""
+    pairs = Counter()
+    for e in graph_edges():
+        a, b = e['source'].split(':')[0], e['target'].split(':')[0]
+        if a != b:
+            pairs[tuple(sorted((a, b)))] += 1
+    width, height, cx, cy, radius = 880, 470, 440, 235, 185
+    others = [m for m in MODULES if m != 'core']
+    pos = {'core': (cx, cy)}
+    for i, m in enumerate(others):
+        angle = -math.pi / 2 + i * 2 * math.pi / len(others)
+        pos[m] = (cx + radius * 1.75 * math.cos(angle), cy + radius * math.sin(angle))
+    top = max(pairs.values()) if pairs else 1
+    lines, labels = [], []
+    for (a, b), n in sorted(pairs.items(), key=lambda x: x[1]):
+        (x1, y1), (x2, y2) = pos[a], pos[b]
+        lines.append(f'<line x1="{x1:.0f}" y1="{y1:.0f}" x2="{x2:.0f}" y2="{y2:.0f}" stroke-width="{1 + 7 * n / top:.1f}"/>')
+        t = 0.5 if 'core' not in (a, b) else 0.58
+        lx, ly = (x1 + (x2 - x1) * t, y1 + (y2 - y1) * t) if a == 'core' else (x2 + (x1 - x2) * t, y2 + (y1 - y2) * t)
+        labels.append(f'<g class="count"><rect x="{lx - 15:.0f}" y="{ly - 10:.0f}" width="30" height="20" rx="10"/><text x="{lx:.0f}" y="{ly + 4:.0f}">{n}</text></g>')
+    nodes = []
+    for m, (x, y) in pos.items():
+        classes = sum(1 for t in active if module_of(t) == m and TERMS[t] == 'Class')
+        w = 196
+        nodes.append(f'<a href="modules/{m}.html" class="{m}"><rect x="{x - w / 2:.0f}" y="{y - 38:.0f}" width="{w}" height="76" rx="10"/>'
+                     f'<text class="p" x="{x:.0f}" y="{y - 10:.0f}">{m}:</text><text class="n" x="{x:.0f}" y="{y + 10:.0f}">{esc(MODULES[m][0])}</text>'
+                     f'<text class="c" x="{x:.0f}" y="{y + 27:.0f}">{classes} classes</text></a>')
+    return (f'<svg class="module-map" viewBox="0 0 {width} {height}" role="img" aria-label="The six AGENT-O modules and the number of direct links between them">'
+            f'<g class="links">{"".join(lines)}</g>{"".join(labels)}{"".join(nodes)}</svg>')
+
+
+def key_classes(m, active, n=5):
+    degree = Counter()
+    for e in graph_edges():
+        degree[e['source']] += 1
+        degree[e['target']] += 1
+    ranked = sorted((t for t in active if module_of(t) == m and TERMS[t] == 'Class'), key=lambda t: (-degree[compact(t)], compact(t)))
+    return ranked[:n]
+
+
+# ---------------------------------------------------------------- pages
+
+def build_home(active, counts):
+    cards = []
+    for m, (title, desc) in MODULES.items():
+        n_cls = sum(1 for t in active if module_of(t) == m and TERMS[t] == 'Class')
+        n_prop = sum(1 for t in active if module_of(t) == m and TERMS[t] != 'Class')
+        keys = ' '.join(link(t, short=True) for t in key_classes(m, active))
+        cards.append(f'<article class="mod {m}"><h3><a href="modules/{m}.html">{title}</a> <code>{m}:</code></h3><p>{desc}</p>'
+                     f'<p class="keys">{keys}</p><p class="meta">{n_cls} classes · {n_prop} properties</p></article>')
+    page('index.html', 'Ontology for health AI agent systems', f'''
+<section class="intro"><h1>AGENT-O</h1>
+<p class="lead">An OWL ontology for describing health AI agent systems: what they are made of, how they are evaluated and governed, and how they are reported.</p>
+<p class="meta">{counts['Class']} classes · {counts['Object property']} object properties · {counts['Datatype property']} datatype properties · 6 modules</p>
+<p class="actions"><a class="button" href="modules.html">Browse the modules</a><a class="button ghost" href="explore.html">Open the graph</a><a class="button ghost" href="{REPO}">Source on GitHub</a></p></section>
+<section><h2>Six modules</h2><p class="note">Numbers on the lines count direct links between modules (subclass axioms and object properties with a named domain and range). Click a module to see its class tree.</p>
+{module_map(active)}
+<div class="mods">{''.join(cards)}</div></section>
+<section><h2>Core relationships</h2><p class="note">A hand-picked view of 23 classes. Solid arrow: object property. Dashed arrow: subclass. <a href="assets/overview-notes.md">How to read it</a> · <a href="assets/agent-o_engineer_overview.pdf">PDF</a></p>
+<a class="figure" href="assets/agent-o_engineer_overview.svg"><img src="assets/agent-o_engineer_overview.svg" alt="Selected AGENT-O class relationships grouped into system architecture, evaluation, governance, reporting assessment and intended clinical use." width="1600" height="1280" loading="lazy"></a></section>
+<section class="next"><a href="example.html"><b>Worked example</b><span>A medication-safety agent described with AGENT-O.</span></a><a href="questions.html"><b>Competency questions</b><span>12 questions the ontology must answer, with SPARQL.</span></a><a href="terms.html"><b>All terms</b><span>Search every class and property.</span></a></section>''', 'Overview')
+
+
+def build_modules(active):
+    rows = []
+    for m, (title, desc) in MODULES.items():
+        c = Counter(TERMS[t] for t in active if module_of(t) == m)
+        rows.append(f'<tr><td>{chip(m)}</td><td><a href="modules/{m}.html">{title}</a><div class="note">{desc}</div></td>'
+                    f'<td class="num">{c["Class"]}</td><td class="num">{c["Object property"]}</td><td class="num">{c["Datatype property"]}</td></tr>')
+    page('modules.html', 'Modules', '<h1>Modules</h1><p class="lead">Each module has its own namespace. Classes and properties link across modules freely.</p>'
+         '<div class="table-wrap"><table class="modtable"><thead><tr><th>Prefix</th><th>Module</th><th class="num">Classes</th><th class="num">Object props</th><th class="num">Datatype props</th></tr></thead><tbody>'
+         + ''.join(rows) + '</tbody></table></div>'
+         f'<p class="note">Not counted here: <a href="{REPO}/tree/main/ontology/profiles">application profiles</a>, <a href="{REPO}/tree/main/ontology/alignments">external alignments</a> and <a href="{REPO}/tree/main/shapes">SHACL shapes</a>.</p>', 'Modules')
+    for m, (title, desc) in MODULES.items():
+        build_module_page(m, title, desc, active)
+
+
+def tree_item(c, m, prefix, path=()):
+    badge = ' <span class="badge">deprecated</span>' if deprecated(c) else ''
+    outside = [p for p in PARENTS[c] if module_of(p) != m] if not path else []
+    tag = ''.join(f' <span class="from">⊂ {link(p, prefix)}</span>' for p in outside)
+    kids = sorted((k for k in CHILDREN[c] if module_of(k) == m and k not in path), key=lambda t: compact(t).lower())
+    sub = '<ul>' + ''.join(tree_item(k, m, prefix, path + (c,)) for k in kids) + '</ul>' if kids else ''
+    return f'<li>{link(c, prefix, short=True)}{badge}{tag}{sub}</li>'
+
+
+def build_module_page(m, title, desc, active):
+    prefix = '../'
+    mine = [t for t in TERMS if module_of(t) == m]
+    classes = [t for t in CLASSES if module_of(t) == m]
+    roots = [c for c in classes if not any(module_of(p) == m for p in PARENTS[c])]
+    # Roots with children first, so the real hierarchy is visible before flat lists.
+    roots.sort(key=lambda c: (not CHILDREN[c], compact(c).lower()))
+    tree = '<ul class="tree">' + ''.join(tree_item(c, m, prefix) for c in roots) + '</ul>'
+    obj = [p for p in PROPERTIES if module_of(p) == m and TERMS[p] == 'Object property']
+    dat = [p for p in PROPERTIES if module_of(p) == m and TERMS[p] == 'Datatype property']
+
+    def ptable(props, last):
+        rows = ''.join(f'<tr><td>{joined(G.objects(p, RDFS.domain), prefix)}</td><td>{link(p, prefix)}{" <span class=badge>deprecated</span>" if deprecated(p) else ""}</td><td>{joined(G.objects(p, RDFS.range), prefix)}</td></tr>' for p in props)
+        return f'<div class="table-wrap"><table class="triples"><thead><tr><th>Domain</th><th>Property</th><th>{last}</th></tr></thead><tbody>{rows}</tbody></table></div>'
+
+    other = [t for t in mine if TERMS[t] in {'Annotation property', 'Individual'}]
+    extra = ('<section><h2>Other terms</h2><p class="inline-list">' + ' '.join(f'{link(t, prefix)} <span class="kind">{TERMS[t]}</span>' for t in sorted(other, key=str)) + '</p></section>') if other else ''
+    counts = Counter(TERMS[t] for t in mine if t in active)
+    body = (f'<p class="crumbs"><a href="../modules.html">Modules</a> <span>›</span> {m}</p>'
+            f'<h1 class="mod-title {m}">{title} <code>{m}:</code></h1><p class="lead">{desc}</p>'
+            f'<p class="meta">{counts["Class"]} classes · {counts["Object property"]} object properties · {counts["Datatype property"]} datatype properties · <code>{NS[m]}</code></p>'
+            f'<p class="actions"><a class="button ghost" href="../explore.html?module={m}">Open in graph</a><a class="button ghost" href="../downloads/ontology/modules/agento-{m}.ttl" download>Download Turtle</a></p>'
+            f'<section><h2>Class hierarchy</h2><p class="note">Indented classes are subclasses. <span class="from">⊂ X</span> marks a parent defined in another module. Hover a name for its definition.</p>{tree}</section>'
+            f'<section><h2>Object properties</h2><p class="note">Read each row as a sentence: <em>Domain</em> → <em>property</em> → <em>Range</em>.</p>{ptable(obj, "Range")}</section>'
+            + (f'<section><h2>Datatype properties</h2>{ptable(dat, "Value type")}</section>' if dat else '') + extra)
+    page(f'modules/{m}.html', title, body, 'Modules')
+
+
+def build_term(term, kind):
+    prefix = '../'
+    m = module_of(term)
+    feedback = REPO + '/issues/new?template=ontology-feedback.yml&title=' + compact(term).replace(':', '%3A')
+    badge = ' <span class="badge">deprecated</span>' if deprecated(term) else ''
+    head = (f'<p class="crumbs"><a href="../modules/{m}.html">{MODULES[m][0]}</a> <span>·</span> {kind}{badge}</p>'
+            f'<h1 class="term-title {m}">{esc(local(term))}</h1>')
+    side = [f'<div class="iri"><span>IRI</span><a href="{term}">{term}</a></div>',
+            '<ul class="links">',
+            f'<li><a href="../explore.html?term={compact(term)}">View in graph</a></li>' if kind == 'Class' else '',
+            f'<li><a href="{REPO}/blob/main/ontology/modules/agento-{m}.ttl">Turtle source</a></li>',
+            f'<li><a href="{feedback}">Comment on this term</a></li></ul>']
+    main = [breadcrumb(term, prefix) if kind == 'Class' else '', f'<p class="lead def">{esc(definition(term))}</p>']
+    if kind == 'Class':
+        own = BY_DOMAIN.get(term, [])
+        groups = [f'<tr class="group"><th colspan="2">Defined on {esc(local(term))}</th></tr>' + property_rows(own, prefix, 'range')] if own else []
+        shown = set(own)
+        for a in ancestors(term):
+            props = [p for p in BY_DOMAIN.get(a, []) if p not in shown]
+            shown.update(props)
+            if props:
+                groups.append(f'<tr class="group"><th colspan="2">Inherited from {link(a, prefix)}</th></tr>' + property_rows(props, prefix, 'range'))
+        if groups:
+            main.append('<section><h2>Properties</h2>' + prop_table(('Property', 'Expected value'), ''.join(groups)) + '</section>')
+        incoming = BY_RANGE.get(term, [])
+        if incoming:
+            main.append('<section><h2>Used as a value of</h2>' + prop_table(('Property', 'On class'), property_rows(incoming, prefix, 'domain')) + '</section>')
+        axioms = []
+        for sup in G.objects(term, RDFS.subClassOf):
+            if isinstance(sup, BNode):
+                axioms.append(('SubClassOf', manchester(sup, prefix) or expression(sup, prefix)))
+        for eq in set(G.objects(term, OWL.equivalentClass)) | set(G.subjects(OWL.equivalentClass, term)):
+            axioms.append(('EquivalentTo', manchester(eq, prefix) or expression(eq, prefix)))
+        for d in sorted(set(G.objects(term, OWL.disjointWith)) | set(G.subjects(OWL.disjointWith, term)), key=str):
+            axioms.append(('DisjointWith', expression(d, prefix)))
+        if axioms:
+            main.append('<section><h2>Logical axioms</h2><table class="axioms"><tbody>' + ''.join(f'<tr><th>{a}</th><td>{v}</td></tr>' for a, v in axioms) + '</tbody></table></section>')
+        parents, kids = PARENTS[term], sorted(CHILDREN[term], key=lambda t: compact(t).lower())
+        if len(parents) > 1:
+            side.insert(0, '<div class="box"><h3>Subclass of</h3><ul>' + ''.join(f'<li>{link(p, prefix)}</li>' for p in parents) + '</ul></div>')
+        side.insert(0, '<div class="box"><h3>Subclasses</h3>' + ('<ul>' + ''.join(f'<li>{link(k, prefix)}</li>' for k in kids) + '</ul>' if kids else '<p class="none">None</p>') + '</div>')
+    elif kind in {'Object property', 'Datatype property'}:
+        name = esc(local(term))
+        main.append(f'<div class="signature"><div class="end">{joined(G.objects(term, RDFS.domain), prefix)}<span>domain</span></div>'
+                    f'<div class="arrow">{name}</div><div class="end">{joined(G.objects(term, RDFS.range), prefix)}<span>range</span></div></div>')
+        facts = []
+        sup = list(G.objects(term, RDFS.subPropertyOf))
+        if sup:
+            facts.append(('Subproperty of', ', '.join(expression(s, prefix) for s in sup)))
+        sub = sorted((s for s in G.subjects(RDFS.subPropertyOf, term) if s in TERMS), key=str)
+        if sub:
+            facts.append(('Subproperties', ', '.join(link(s, prefix) for s in sub)))
+        inv = set(G.objects(term, OWL.inverseOf)) | set(G.subjects(OWL.inverseOf, term))
+        if inv:
+            facts.append(('Inverse of', ', '.join(expression(i, prefix) for i in inv)))
+        eq = set(G.objects(term, OWL.equivalentProperty)) | set(G.subjects(OWL.equivalentProperty, term))
+        if eq:
+            facts.append(('Equivalent to', ', '.join(expression(e, prefix) for e in eq)))
+        chars = [CHARACTERISTICS[t] for t in G.objects(term, RDF.type) if t in CHARACTERISTICS]
+        if chars:
+            facts.append(('Characteristics', ', '.join(chars)))
+        if facts:
+            main.append('<table class="axioms"><tbody>' + ''.join(f'<tr><th>{a}</th><td>{v}</td></tr>' for a, v in facts) + '</tbody></table>')
+    see = list(G.objects(term, RDFS.seeAlso))
+    if see:
+        main.append('<p class="note">See also: ' + ', '.join(expression(s, prefix) for s in see) + '</p>')
+    main.append(raw_statements(term, prefix))
+    body = head + f'<div class="term-grid"><div>{"".join(main)}</div><aside>{"".join(side)}</aside></div>'
+    page(term_path(term), compact(term), body, 'Terms')
 
 
 def main():
@@ -128,31 +471,16 @@ def main():
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(path, target)
     (OUT / 'downloads/source-manifest.json').write_text(json.dumps({'authoritative_modules_sha256': sources}, indent=2) + '\n')
-    active = [t for t in TERMS if not G.value(t, OWL.deprecated)]
+    active = [t for t in TERMS if not deprecated(t)]
     counts = Counter(TERMS[t] for t in active)
-    module_cards = ''.join(f'<a class="module-card {m}" href="modules/{m}.html"><span class="module-tag">{m}:</span><h3>{title}</h3><p>{desc}</p><span class="module-count">{sum(module_of(t) == m for t in active)} active terms <span aria-hidden="true">↗</span></span></a>' for m, (title, desc) in MODULES.items())
-    page('index.html', 'An open map of health AI agents', f'''
-<section class="hero"><div>{eyebrow('A SHARED LANGUAGE FOR HEALTH AI')}<h1>Understand the system.<br><em>Trace the decisions.</em></h1><p class="hero-copy">Explore how AGENT-O connects agent architecture, model resources, evaluation, governance and clinical context in one modular ontology.</p><div class="actions"><a class="button" href="explore.html">Explore the ontology <span>↗</span></a><a class="button secondary" href="questions.html">Review the design</a></div><p class="small">Built from the six authoritative ontology modules. Browse every declared term, follow its relationships, and share specific feedback.</p></div><div class="hero-map"><span class="map-caption">SIX CONNECTED PERSPECTIVES</span><div class="map-center">AGENT-O<span>Health AI agent systems</span></div><div class="map-grid">{''.join(f'<a class="{m}" href="modules/{m}.html"><i></i><b>{m}:</b><span>{v[0]}</span></a>' for m,v in MODULES.items())}</div><p>Explanatory module map · colors identify namespaces</p></div></section>
-<div class="stats"><div><b>6</b><span>Semantic modules</span></div><div><b>{counts['Class']}</b><span>Active classes</span></div><div><b>{counts['Object property']}</b><span>Active object properties</span></div><div><b>{counts['Datatype property']}</b><span>Active datatype properties</span></div></div>
-<section><div class="section-heading"><div>{eyebrow('01 / THE DESIGN')}<h2>One system. Six perspectives.</h2></div><p>Start with a module, then follow the definitions and cross-module links.</p></div><div class="module-grid">{module_cards}</div></section>
-<section class="overview"><div class="section-heading"><div>{eyebrow('02 / THE STARTING POINT')}<h2>The relationships that matter first.</h2></div><a class="text-link" href="assets/agent-o_engineer_overview.pdf">Download vector PDF ↗</a></div><a class="figure-link" href="assets/agent-o_engineer_overview.svg"><img src="assets/agent-o_engineer_overview.svg" alt="Selected AGENT-O class relationships grouped into system architecture, evaluation, governance, reporting assessment and intended clinical use." width="1600" height="1280" loading="lazy"></a><p class="small">Selected schema view: 23 distinct classes out of {counts['Class']} active classes, with 20 checked relationships. Solid arrows summarize object-property links between instances; dashed hollow arrows denote subclasses. Panels are explanatory groups. <a href="assets/overview-notes.md">Full caption and interpretation</a>. The complete reference is in the <a href="terms.html">term index</a>.</p></section>
-<section class="reading-path"><div>{eyebrow('03 / FROM SCHEMA TO EXAMPLE')}<h2>Follow a medication-safety system.</h2><p>A published synthetic example connects a configured system, its model components, clinical use, governance controls and reporting evidence. Inspect the actual RDF statements in context.</p><a class="button secondary" href="example.html">Walk through the example ↗</a></div><div class="callout"><h3>Bring your questions.</h3><p>Can the model describe a system you know? Which distinction is unclear? What concept is missing? Use the competency questions to guide a focused review.</p><a class="text-link" href="questions.html">Open review questions →</a></div></section>''', 'Overview')
-    page('modules.html', 'Six semantic modules', eyebrow('THE DESIGN / MODULES') + '<h1>Six semantic modules.</h1><p class="lead">Each namespace covers a distinct part of the representation. Relationships connect terms across these boundaries.</p><div class="module-grid">' + module_cards + '</div><section><h2>Beyond the six modules</h2><p>Application profiles, external alignments and SHACL shapes complement the semantic modules. They are separate artifacts and are not included in the module term counts.</p><div class="actions"><a class="button secondary" href="' + REPO + '/tree/main/ontology/profiles">Profiles ↗</a><a class="button secondary" href="' + REPO + '/tree/main/ontology/alignments">External alignments ↗</a><a class="button secondary" href="' + REPO + '/tree/main/shapes">SHACL shapes ↗</a></div></section>', 'Modules')
-    for m, (title, desc) in MODULES.items():
-        selected = [t for t in TERMS if module_of(t) == m]
-        page(f'modules/{m}.html', title, f'{eyebrow("MODULE / " + m.upper())}<h1>{title}</h1><p class="lead">{desc}</p><p><code>{NS[m]}</code></p><div class="actions"><a class="button secondary" href="../downloads/ontology/modules/agento-{m}.ttl" download>Download Turtle ↓</a><a class="button secondary" href="../explore.html?module={m}">Explore relationships ↗</a></div><section><h2>Declared terms</h2><label class="search-label">Filter this module<input id="term-search" type="search" placeholder="Search names and definitions…"></label><p id="result-count" aria-live="polite"></p>{term_table(selected, "../")}</section>', 'Modules')
+    build_home(active, counts)
+    build_modules(active)
     for term, kind in sorted(TERMS.items()):
-        m = module_of(term)
-        predicates = sorted(G.predicate_objects(term), key=lambda pv: (str(pv[0]), str(pv[1])))
-        axioms = ''.join(f'<tr><th>{expression(p, "../")}</th><td>{expression(v, "../")}</td></tr>' for p,v in predicates)
-        incoming = sorted([(s,p) for s,p in G.subject_predicates(term) if s in TERMS], key=lambda sp: (str(sp[0]), str(sp[1])))
-        uses = ''.join(f'<tr><td>{link(s,"../")}</td><td>{expression(p,"../")}</td></tr>' for s,p in incoming)
-        feedback = REPO + '/issues/new?template=ontology-feedback.yml&title=' + compact(term).replace(':', '%3A')
-        heading = eyebrow(f'<a href="../modules/{m}.html">{m.upper()} MODULE</a> / {kind.upper()}')
-        references = '<div class="table-wrap"><table><thead><tr><th>Term</th><th>Relationship to this term</th></tr></thead><tbody>' + uses + '</tbody></table></div>' if uses else '<p>No direct named-term references in these six modules. Anonymous expressions may also reference this term.</p>'
-        page(term_path(term), compact(term), f'{heading}<h1 class="term-title">{esc(compact(term))}</h1><p class="lead">{esc(definition(term))}</p><p class="iri"><strong>IRI</strong> <a href="{term}">{term}</a></p><div class="actions"><a class="button secondary" href="../explore.html?term={compact(term)}">Explore neighborhood ↗</a><a class="button secondary" href="{feedback}">Comment on this term ↗</a><a class="text-link" href="{REPO}/blob/main/ontology/modules/agento-{m}.ttl">View source</a></div><section><h2>Declared annotations & axioms</h2><p>Direct assertions from the module. Anonymous OWL expressions are expanded below. No inferred axioms are added.</p><div class="table-wrap"><table class="axioms"><tbody>{axioms}</tbody></table></div></section><section><h2>Referenced by</h2>{references}</section>', 'Term index')
-    filters = '<div class="filters"><label>Namespace<select id="module-filter"><option value="">All six modules</option>' + ''.join(f'<option value="{m}">{m}:</option>' for m in MODULES) + '</select></label><label>Term kind<select id="kind-filter"><option value="">All kinds</option>' + ''.join(f'<option>{k}</option>' for k in TYPES.values()) + '</select></label></div>'
-    page('terms.html', 'Complete term index', eyebrow('THE REFERENCE / ALL TERMS') + '<h1>Every term, connected.</h1><p class="lead">Search the names and source definitions of all declared classes, properties and named individuals. Deprecated terms are labeled explicitly.</p><label class="search-label">Search the ontology<input id="term-search" type="search" placeholder="Try model, escalation, population…"></label>' + filters + '<p id="result-count" aria-live="polite"></p>' + term_table(TERMS), 'Term index')
+        build_term(term, kind)
+    filters = ('<div class="filters"><input id="term-search" type="search" aria-label="Search terms" placeholder="Search names and definitions…">'
+               '<select id="module-filter" aria-label="Module"><option value="">All modules</option>' + ''.join(f'<option value="{m}">{m}: {MODULES[m][0]}</option>' for m in MODULES) + '</select>'
+               '<select id="kind-filter" aria-label="Kind"><option value="">All kinds</option>' + ''.join(f'<option>{k}</option>' for k in TYPES.values()) + '</select></div>')
+    page('terms.html', 'All terms', '<h1>All terms</h1>' + filters + '<p id="result-count" class="note" aria-live="polite"></p>' + term_table(TERMS), 'Terms')
     build_graph()
     build_questions()
     build_example()
@@ -160,31 +488,35 @@ def main():
 
 
 def build_graph():
-    nodes = [{'id': compact(t), 'module': module_of(t), 'kind': kind, 'definition': definition(t), 'url': term_path(t)} for t,kind in sorted(TERMS.items())]
-    edges = []
-    for s,o in G.subject_objects(RDFS.subClassOf):
-        if s in TERMS and o in TERMS:
-            edges.append({'source': compact(s), 'target': compact(o), 'label': 'is-a', 'kind': 'subclass', 'url': term_path(s)})
-    # Preserve domain/range expressions as expressions; do not turn union members into asserted edges.
-    for p in G.subjects(RDF.type, OWL.ObjectProperty):
-        for domain in G.objects(p, RDFS.domain):
-            for range_ in G.objects(p, RDFS.range):
-                if domain in TERMS and range_ in TERMS:
-                    edges.append({'source': compact(domain), 'target': compact(range_), 'label': compact(p), 'kind': 'property', 'url': term_path(p)})
-    data = {'nodes': nodes, 'edges': edges}
+    nodes = [{'id': compact(t), 'module': module_of(t), 'kind': kind, 'definition': definition(t), 'url': term_path(t)} for t, kind in sorted(TERMS.items())]
+    data = {'nodes': nodes, 'edges': graph_edges()}
     (OUT / 'assets/graph.json').write_text(json.dumps(data, indent=2))
     options = ''.join(f'<option value="{esc(n["id"])}">{esc(n["id"])}</option>' for n in nodes if n['kind'] == 'Class')
-    page('explore.html', 'Explore relationships', eyebrow('THE EXPLORER / FOLLOW A CONNECTION') + '<h1>See how the concepts connect.</h1><p class="lead">Choose a class to explore its direct neighborhood across namespaces. Select a neighboring node to move through the ontology.</p><div class="graph-controls"><label>Module<select id="graph-module"><option value="">All modules</option>' + ''.join(f'<option value="{m}">{m}:</option>' for m in MODULES) + '</select></label><label>Focus class<select id="graph-focus">' + options + '</select></label><button id="zoom-out" aria-label="Zoom out">−</button><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-reset">Reset zoom</button></div><p id="graph-status" aria-live="polite">Loading relationships…</p><div class="graph-scroll"><svg id="graph" role="img" aria-label="Interactive class neighborhood"></svg></div><div class="legend">' + ''.join(f'<span class="{m}"><i></i>{m}:</span>' for m in MODULES) + '<span>→ Object-property domain / range</span><span>⇢ Direct subclass → parent</span></div><p class="small">This browser shows direct named-class subclass axioms and object properties with named domain and range. Union domains/ranges, restrictions, inherited links and external alignments remain available on each term page. A property arrow summarizes a possible link between instances; it does not assert existence or cardinality.</p><section><h2 id="focus-title">Focus details</h2><p id="focus-definition"></p><a id="focus-link" class="text-link" href="terms.html">Open full term definition →</a><div id="graph-relations"></div></section><noscript><p>The interactive view needs JavaScript. All definitions and axioms are available in the <a href="terms.html">complete term index</a>.</p></noscript>', 'Explore')
+    legend = ''.join(f'<span class="{m}"><i></i>{m}</span>' for m in MODULES)
+    page('explore.html', 'Graph', '<h1>Graph</h1>'
+         '<div class="graph-controls"><select id="graph-module" aria-label="Module"><option value="">All modules</option>' + ''.join(f'<option value="{m}">{m}: {MODULES[m][0]}</option>' for m in MODULES) + '</select>'
+         '<select id="graph-focus" aria-label="Focus class">' + options + '</select>'
+         '<span class="zoom"><button id="zoom-out" aria-label="Zoom out">−</button><button id="zoom-reset">100%</button><button id="zoom-in" aria-label="Zoom in">+</button></span></div>'
+         '<div class="graph-layout"><div><div class="legend">' + legend + '<span class="line">── property</span><span class="line">- - ▷ subclass of</span></div>'
+         '<p id="graph-status" class="note" aria-live="polite">Loading…</p><div class="graph-scroll"><svg id="graph" role="img" aria-label="Class neighborhood"></svg></div>'
+         '<p class="note">Left: classes pointing to the focus. Right: classes the focus points to. Click a box to move there. Only direct subclass links and properties with a single named domain and range are drawn; unions and restrictions are on the term pages.</p></div>'
+         '<aside class="box"><h3 id="focus-title">Focus</h3><p id="focus-definition"></p><p><a id="focus-link" href="terms.html">Open term page</a></p><details><summary>List view</summary><div id="graph-relations"></div></details></aside></div>'
+         '<noscript><p>The graph needs JavaScript. All terms are listed in the <a href="terms.html">term index</a>.</p></noscript>', 'Graph')
 
 
 def build_questions():
     rows = []
-    text = (ROOT / 'queries/competency/README.md').read_text()
+    text = (ROOT / 'queries/competency/README.md').read_text(encoding='utf-8')
     for number, filename, question in re.findall(r'\| (CQ\d+) \| `([^`]+)` \| (.*?) \|', text):
-        path = ROOT / 'queries/competency' / filename
-        query = path.read_text()
-        rows.append(f'<article class="cq"><span class="eyebrow">{number}</span><h3>{esc(question)}</h3><details><summary>Inspect the SPARQL query</summary><pre><code>{esc(query)}</code></pre></details><div class="actions"><a href="downloads/queries/competency/{filename}" download>Download query ↓</a><a href="{REPO}/issues/new?template=ontology-feedback.yml&title={number}%20feedback">Discuss this question ↗</a></div></article>')
-    page('questions.html', 'Review with competency questions', eyebrow('CONTRIBUTE / REVIEW THE DESIGN') + '<h1>Start with a question.</h1><p class="lead">A useful ontology should answer useful questions. Review these existing competency questions against a system or clinical workflow you know.</p><div class="callout"><h2>Three prompts for reviewers</h2><ol><li>Is the question meaningful in your domain? What is missing?</li><li>Can the ontology express a concrete example and the answer you expect?</li><li>Which definition or relationship should change? Include the term IRI and an example.</li></ol><a class="button" href="' + REPO + '/issues/new/choose">Share structured feedback ↗</a><p>GitHub feedback requires a GitHub account. You can also give these questions and term links to the project team through your usual communication channel.</p></div><section><h2>The competency questions</h2><p>Queries can be run locally against the ontology and supplied synthetic examples using <code>python scripts/run_sparql_cqs.py</code>. The website is a static reference, not a live SPARQL endpoint.</p>' + ''.join(rows) + '</section><section><h2>Interpretation matters</h2><p>Reporting completeness concerns publication coverage. It does not establish clinical safety, performance, fairness, compliance or deployment readiness. SHACL conformance applies to the tested graph and declared shapes.</p></section>', 'Review questions')
+        query = (ROOT / 'queries/competency' / filename).read_text(encoding='utf-8')
+        rows.append(f'<details class="cq"><summary><span class="cq-id">{number}</span>{esc(question)}</summary>'
+                    f'<pre><code>{esc(query)}</code></pre><p class="note"><a href="downloads/queries/competency/{filename}" download>Download .rq</a> · '
+                    f'<a href="{REPO}/issues/new?template=ontology-feedback.yml&title={number}%20feedback">Discuss</a></p></details>')
+    page('questions.html', 'Competency questions', '<h1>Competency questions</h1>'
+         '<p class="lead">Questions the ontology should be able to answer. Each has a SPARQL query that runs against the example data.</p>'
+         '<p class="note">Run locally with <code>python scripts/run_sparql_cqs.py</code>. Reporting completeness describes what a publication covers, not clinical safety or performance. '
+         f'Missing a question? <a href="{REPO}/issues/new/choose">Open an issue</a>.</p>'
+         + ''.join(rows), 'Questions')
 
 
 def build_example():
@@ -192,17 +524,54 @@ def build_example():
     ns = 'https://w3id.org/agent-o/examples/governance-reporting-profile#'
     focus = URIRef(ns + 'MedicationSafetyAgent')
     assert (focus, RDF.type, None) in graph
+
+    def short(x):
+        return esc(str(x).replace(ns, 'ex:'))
+
+    def typed(x):
+        types = [t for t in graph.objects(x, RDF.type) if t in TERMS]
+        return ' '.join(link(t) for t in sorted(types, key=str))
+
+    def entity(x):
+        return f'<span class="ent"><a href="#{short(x)[3:]}">{short(x)[3:]}</a><span class="types">{typed(x)}</span></span>'
+
+    groups = defaultdict(lambda: defaultdict(list))
+    literals = []
+    for p, o in sorted(graph.predicate_objects(focus), key=lambda x: (str(x[0]), str(x[1]))):
+        if p == RDF.type:
+            continue
+        if isinstance(o, URIRef) and str(o).startswith(ns):
+            groups[module_of(p) if p in TERMS else 'other'][p].append(o)
+        else:
+            literals.append((p, o))
+    panels = []
+    for m in MODULES:
+        if m not in groups:
+            continue
+        rows = ''.join(f'<li><span class="pred">{link(p, short=True)}</span><span class="vals">{"".join(entity(o) for o in objs)}</span></li>' for p, objs in sorted(groups[m].items(), key=lambda x: str(x[0])))
+        panels.append(f'<div class="panel {m}"><h3>{MODULES[m][0]}</h3><ul>{rows}</ul></div>')
+    incoming = sorted((s, p) for s, p in graph.subject_predicates(focus) if isinstance(s, URIRef) and str(s).startswith(ns))
+    inc = ''.join(f'<li>{entity(s)}<span class="pred">{link(p, short=True)} → this system</span></li>' for s, p in incoming)
+    name = ''.join(f'<div class="lit">{link(p, short=True)}: “{esc(str(o))}”</div>' for p, o in literals)
+    hub = (f'<div class="hub"><div class="center"><b>MedicationSafetyAgent</b><span class="types">{typed(focus)}</span>{name}</div>'
+           f'<div class="panel incoming"><h3>Points to this system</h3><ul>{inc}</ul></div></div>')
+
     selected = {focus}
     selected.update(o for o in graph.objects(focus) if isinstance(o, URIRef) and str(o).startswith(ns))
     selected.update(s for s in graph.subjects(None, focus) if isinstance(s, URIRef) and str(s).startswith(ns))
-    sections = []
+    records = []
     for subject in sorted(selected):
         rows = []
-        for p,o in sorted(graph.predicate_objects(subject), key=lambda x: str(x)):
-            obj = link(o) if o in TERMS else esc(str(o).replace(ns, 'example:'))
+        for p, o in sorted(graph.predicate_objects(subject), key=lambda x: str(x)):
+            obj = link(o) if o in TERMS else (f'<a href="#{short(o)[3:]}">{short(o)}</a>' if isinstance(o, URIRef) and str(o).startswith(ns) and o in selected else short(o))
             rows.append(f'<tr><th>{expression(p)}</th><td>{obj}</td></tr>')
-        sections.append(f'<article class="example-record"><h3>{esc(str(subject).replace(ns,"example:"))}</h3><div class="table-wrap"><table><tbody>{"".join(rows)}</tbody></table></div></article>')
-    page('example.html', 'A medication-safety example', eyebrow('A WORKED EXAMPLE / ACTUAL RDF') + '<h1>From a system to its evidence.</h1><p class="lead">Follow the medication-safety example distributed with AGENT-O. These are illustrative, synthetic records, not evidence of a deployed or clinically validated system.</p><p>Start at <code>example:MedicationSafetyAgent</code>. The records below show this entity and its directly connected example entities. Colored links open schema definitions.</p><a class="button secondary" href="downloads/data/examples/governance_reporting_profile_example.ttl" download>Download the complete example ↓</a><section>' + ''.join(sections) + '</section>')
+        records.append(f'<details class="record" id="{short(subject)[3:]}"><summary>{short(subject)} <span class="types">{typed(subject)}</span></summary><table class="raw"><tbody>{"".join(rows)}</tbody></table></details>')
+    page('example.html', 'Worked example', '<h1>Worked example</h1>'
+         '<p class="lead">One synthetic medication-safety agent, described with AGENT-O. Links are grouped by the module of the property used.</p>'
+         '<p class="note">Synthetic data for illustration only; not a real or validated system. '
+         '<a href="downloads/data/examples/governance_reporting_profile_example.ttl" download>Download the Turtle</a>.</p>'
+         + hub + '<div class="panels">' + ''.join(panels) + '</div>'
+         '<section><h2>The records</h2><p class="note">Every statement about the system and its direct neighbours. Click to expand.</p>' + ''.join(records) + '</section>', 'Example')
 
 
 if __name__ == '__main__':
